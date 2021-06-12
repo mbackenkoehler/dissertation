@@ -1,0 +1,117 @@
+\chapter{Background}
+
+\section{Continuous-time Markov Chains}
+\begin{itemize}
+   \item Basic definitions
+   \item Properties (non-explosivity, ergodicity, reversibility, irreducibility etc.)
+\end{itemize}
+
+\section{Markovian Population Models}
+A Markov population model (MPM)
+describes the stochastic interactions
+among agents of distinct types in a well-stirred system.
+This assumes that all agents are equally distributed in space, which
+allows us to keep track only of the overall copy number of agents for each type.
+Therefore the state-space is $\mathcal{S}\subseteq\mathbb{N}^{n_S}$ where
+$n_S$ denotes the number of agent types or populations.
+Interactions between agents are expressed as \emph{reactions}.
+These reactions have associated
+gains and losses of agents, given by non-negative integer vectors   
+${v}_j^{-}$ and ${v}_j^{+}$ for reaction $j$, respectively. The overall change by a reaction is given by the vector $v_j = v_j^+ - v_j^-$.
+A reaction between agents of types $S_1,\dots, S_{n_S}$ is specified in the following form:
+\begin{equation}\label{eq:reaction}
+    \sum_{\ell=1}^{n_S} v_{j\ell}^{-} S_\ell
+    \xrightarrow{\alpha_j( x)}
+    \sum_{\ell=1}^{n_S} v_{j\ell}^{+} S_\ell\,.
+\end{equation}
+The propensity function $\alpha_j$ gives the rate of the exponentially distributed firing
+time of the reaction as a function of the current system state $x\in \mathcal{S}$.
+In population models, \emph{mass-action} propensities are most common.
+In this case the firing rate is given by the product of the number
+of reactant combinations in $x$ and a
+\emph{rate constant} $c_j$, i.e.
+\begin{equation}\label{eq:stoch_mass_action}
+    \alpha_j({x})\coloneqq c_j\prod_{\ell=1}^{n_S}\binom{x_\ell}{v_{j\ell}^{-}}\,.
+\end{equation}
+In this case, we give the rate constant in \eqref{eq:reaction} instead of the function $\alpha_j$.
+For a given set of $n_R$ reactions, we define a stochastic
+process $\{{{X}}_t\}_{t\geq 0}$ describing the evolution of the population
+sizes over time $t$.
+Due to the assumption of exponentially distributed firing times\marginpar{Note that in addition mild regularity assumptions
+are   necessary for the existence of a unique CTMC $X$, such as non-explosiveness \cite{anderson2012continuous}.
+These assumptions  are  typically
+valid for realistic reaction networks.},  $ X$ is
+a continuous-time
+Markov chain (CTMC) on $\mathcal{S}$ with infinitesimal  generator matrix $Q$, where
+the entries of $Q$ are
+\begin{equation}\label{eq:cme_generator}
+    Q_{ x,  y} = \begin{cases}
+        \sum_{j: x+ v_j = y}\alpha_j( x)\,,&\text{if}\; x\neq
+         y,\\[1ex]
+        -\sum_{j=1}^{n_R} \alpha_j( x)\,, &\text{otherwise.}
+    \end{cases}
+\end{equation}
+The probability distribution over time is given by an
+initial value problem.
+Given an initial state $x_0$, the distribution\marginpar{We assume an enumeration of all states in  $\mathcal{S}$. We simply write $x_i$ for the state with index $i$ and drop this notation for entries of a state $x$.  }
+\begin{equation}\label{eq:forw_prob}
+\pi(x_i, t)=\Pr(X_t=x_i\mid X_0=x_0),\quad t\geq 0
+\end{equation}
+evolves according to the Kolmogorov forward equation
+\begin{equation}\label{eq:forward}
+\frac{d}{dt}\pi(t) = \pi(t) Q\,,
+\end{equation}
+where $\pi(t)$ is an arbitrary vectorization $(\pi(x_1,t), \pi(x_2,t),\dots,\pi(x_{|\mathcal{S}|},t))$ of the states.
+\eqref{eq:forw_prob} given for a single state, in the context of quantitative biology, it is commonly referred to
+as the \emph{chemical master equation} (CME)
+\begin{equation}\label{eq:cme}
+    \frac{d\pi}{d t} ( x,t) =
+    \sum_{j=1}^{n_R}\left(
+        \alpha_j( x- v_j)\pi( x- v_j,t) - \alpha_j( x)\pi( x,t)
+    \right)\,.
+\end{equation}
+A direct solution of \eqref{eq:cme} is usually not possible.
+If the state-space with non-negligible probability is suitably small, a state space
+truncation could be performed. That is, \eqref{eq:cme} is integrated on a possibly time-dependent subset
+$\hat{\mathcal{S}}_t\subseteq\mathcal{S}$ \cite{henzinger2009sliding,munsky2006finite,spieler2014numerical}.
+Instead of directly analyzing \eqref{eq:cme}, one often resorts to simulating trajectories.
+A trajectory $\tau=x_0t_1x_1t_1\dots t_n x_n$ over the interval $[0,T]$ is a sequence of states $x_i$
+% \vw{warum s nicht x fuer states? Eigentlich i=0 }
+and corresponding
+jump times $t_i$, $i=1,\dots,n$ and $t_n=T$.
+We can sample trajectories of $X$ by using stochastic simulation~\cite{gillespie1977exact}.
+
+\paragraph{Example} Consider a birth-death process as a simple example. This model is used to describe a wide variety of phenomena and often constitutes a sub-module of larger models.
+For example, it represents an M/M/1 queue with service rates being linearly dependent on the queue length.
+Note that even for this simple model, the state-space is countably infinite.
+% \MB{could remove model environment for space}
+\begin{model}[Birth-Death Process]\label{model:bd}
+The model consists of exponentially distributed arrivals and service times proportional to queue length. It can be expressed using two mass-action reactions:
+$$ \varnothing \xrightarrow{\mu} S \qquad\text{and}\qquad S \xrightarrow{\gamma} \varnothing\,.$$
+The initial condition $X_0=0$ holds with probability one.
+\end{model}
+
+For \autoref{model:bd} the change of probability mass in a single state $x>0$ is described by expanding
+\eqref{eq:cme} and
+$$\frac{d}{dt}\pi_t(x)=\gamma \pi_t(x-1) + \delta \pi_t(x+1) - (\gamma + \delta)\pi_t(x)\,.$$
+
+\section{Stochastic Simulations}
+We can generate trajectories of this model by choosing either reaction, with a probability that is
+proportional to its rate given the current state $x_i$ \cite{gillespie1977exact}.
+The jump time $t_i- t_{i+1}$ is determined by sampling from an exponential distribution with rate $\gamma+x_i\delta$.
+The simulation algorithm consists of repeatedly evaluating the race condition and jump times induced by~\eqref{eq:cme_generator}.
+\begin{algorithm}
+    $\tau \leftarrow$ empty list, $s\leftarrow$ sample from $\pi_0$, $t\leftarrow 0$\;
+    \While{$t<T$}{
+        $r_i\leftarrow\alpha_i(s),\;i=1,\dots,n_R$\;
+	$k\leftarrow$ sample reaction $i$ with probability $r_i/\sum_ir_i$\;
+	$dt\sim \text{Exp}\left(\sum_i r_i\right)$\;
+        $s\leftarrow s + v_k$\;
+	$t \leftarrow t + dt$\;
+    }
+    \textbf{return} $\tau$\;
+    \caption{\label{alg:ssa}Sample a trajectory}
+\end{algorithm}
+
+
+\section{Moment Dynamics}
