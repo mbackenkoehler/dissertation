@@ -48,16 +48,16 @@ Beyond their use for establishing ergodicity \cite{meyn1993stability,gupta2014sc
 these functions can be used to obtain truncations, guaranteed to contain a certain amount of stationary probability mass \cite{dayar2011bounding}.
 Using Lyapunov functions for the construction of truncations often leads to very conservative sets \cite{milias2014optimization}.
 Different approaches have been employed to find truncations:
-In \cite{gupta2017finite} SSA estimates are used to set up an increasing family of truncations.
+In \citet{gupta2017finite} \ac{SSA} estimates are used to set up an increasing family of truncations.
 
 Apart from approaches based on state-space truncations, moment-based approaches have been particularly popular recently~\cite{ghusinga2017exact,dowdy2018bounds,kuntz2017rigorous,sakurai2017convex}.
 Such approaches are based on the fact that particular matrices of distributional moments such as mean and variance are positive semi-definite.
 Along with linear constraints stemming from the Kolmogorov equations \cite{backenkohler2016generalized}, a semi-definite program can be formulated and solved using existing tools.
 While this method is suited to compute bounds on both moments and subsets of the state-space, its application is limited, due to numerical issues inherent in the formulation \cite{dowdy2018bounds}.
 
-An approach where quantities are only described in terms of their magnitude has been proposed in \cite{ceska2019semi}. This allows for an efficient qualitative analysis of both dynamic and transient behavior.
+An approach where quantities are only described in terms of their magnitude has been proposed in \citet{ceska2019semi}. This allows for an efficient qualitative analysis of both dynamic and transient behavior.
 
-An aggregation scheme similar to the one used here has been previously proposed in \cite{backenkohler2020analysis} to analyze the bridging problem on Markov population models.
+An aggregation scheme similar to the one used here has been previously proposed in \citet{backenkohler2020analysis} to analyze the bridging problem on Markov population models.
 This is the problem of analyzing process dynamics under both initial and terminal constraints.
 
 Aggregation-based numerical methods for computing the stationary distribution 
@@ -83,7 +83,7 @@ Let $\pi_{\infty}$ be the vector description of a stationary distribution. It th
 0=\pi_{\infty}Q\quad\text{and}\quad 1=\sum_{x\in\mathcal{S}}\pi_{\infty}(x)
 \end{equation}
 as a fixed point of the Kolmogorov equation \eqref{eq:forward}.
-Stationary distributions are connected to the \emph{long-run} behavior of an MPM \cite{dayar2011bounding}, as the system's distribution will converge to the (unique)
+Stationary distributions are connected to the \emph{long-run} behavior of an \ac{MPM}~\cite{dayar2011bounding}, as the system's distribution will converge to the (unique)
 stationary distribution.
 The connection of the stationary distribution to the long-run behavior becomes clear when considering the ergodic theorem. 
 For some $A\subseteq\mathcal{S}$,
@@ -152,12 +152,12 @@ Alternatively, one can monitor the product of the probability-ouflow rate and th
     \begin{minipage}{0.35\textwidth}
     \includegraphics[width=\textwidth]{gfx/parbd_lya_v_truth.pdf}
     \end{minipage}
-    \caption{(left) A countably infinite state-space. (center) Outgoing transitions are re-directed (according to the reentry distribution) to states that have incoming transitions from outside the truncation. (right) A comparison of the area prescribed by a Lyapunov analysis using Geobound and threshold 0.1 and the minimal area containing 0.9 stationary probability mass. The model is a parallel birth death process (\autoref{model:par_bd}).}
+	\caption[\ac{FSP} for stationary distribution approximation]{(left) A countably infinite state-space. (center) Outgoing transitions are re-directed (according to the reentry distribution) to states that have incoming transitions from outside the truncation. (right) A comparison of the area prescribed by a Lyapunov analysis using Geobound and threshold 0.1 and the minimal area containing 0.9 stationary probability mass. The model is a parallel birth death process (\autoref{model:par_bd}).}
     \label{fig:truncation}
 \end{figure}
 
 \subsection{Lyapunov Bounds}\label{sec:statagg:lyapunov}
-It is well-known that for a CTMC $X$, ergodicity can be proven by a Lyapunov function $g:\mathcal{S}\to\mathbb{R}_+$ \cite{meyn1993stability,dayar2011bounding}.
+It is well-known that for a \ac{CTMC} $X$, ergodicity can be proven by a Lyapunov function $g:\mathcal{S}\to\mathbb{R}_+$ \cite{meyn1993stability,dayar2011bounding}.
 Given the $g$, we define its \emph{drift} $d$ as its average infinitesimal change, which is obtained applying the generator $Q$ to $g$. 
 \begin{equation}
     d(x) = \sum_{j=1}^{n_R} \alpha_j(x) (g(x+v_j) -  g(x))
@@ -187,7 +187,7 @@ We employ this approach to both identify initial truncations and estimate errors
 Specifically, we employ the tool Geobound\marginpar{\url{https://mosi.uni-saarland.de/tools/geobound}} with L2-norm as function $g$ implementing techniques presented in \cite{dayar2011bounding}.
 
 \section{Method}\label{sec:statagg:method}
-In this work, we propose a  method to identify a truncation that optimizes the trade-off between the size of the considered state-space and the approximation error due to the finite state-space projection.
+In this work, we propose a  method to identify a truncation that optimizes the trade-off between the size of the considered state-space and the approximation error due to the \ac{FSP}.
 To this end, we start with a very coarse-grained model abstraction that we refine iteratively. 
 The coarse-grained model is based on an grid-shaped aggregation (i.e., lumping) scheme that identifies a set of macro-states.
 These macro-states can be used to compute an interim model solution that guides the refinement in the next step.
@@ -213,7 +213,7 @@ As an initial aggregation, we build an aggregation on a subset $[0..n]^{n_S}\sub
 \begin{figure}[t]
     \centering
     \includegraphics[width=\textwidth]{gfx/bd_truncs.pdf}
-    \caption{The state-space refinement algorithm on a birth-death process. From left to right the state size is halved and states with low probability are removed from the truncation. The final truncation is a typical truncation with states of size 1 and the initial states are of size $2^4$.}
+	\caption[State-space refinement algorithm for the stationary distribution]{The state-space refinement algorithm on a birth-death process. From left to right the state size is halved and states with low probability are removed from the truncation. The final truncation is a typical truncation with states of size 1 and the initial states are of size $2^4$.}
     \label{fig:refinement_alg}
 \end{figure}
 
@@ -258,7 +258,7 @@ Entries of truncated states are removed from the updated transition matrix.
 Transitions leading to them are
 re-directed according to the re-entry matrix (\autoref{sec:statagg:fsp}).
 After $m$ iterations (we started with states of side lengths $2^m$)
-we have a standard finite state projection scheme
+we have a standard \ac{FSP} scheme
 on the original model tailored to
 computing an approximation of the stationary distribution.
 
@@ -289,7 +289,7 @@ A prototype was implemented in Rust~1.50 and Python~3.8.
 The linear systems were solved either using Numpy~\cite{numpy} for up to 5000 states, or the sparse linear solver as available through Scipy~\cite{2020SciPy-NMeth}, or the iterative biconjugate gradient stabilized algorithm~\cite{van1992bi} (up to $10,\!000$ iterations and absolute tolerance $10^{-16}$).
 
 The examples that we consider in the sequel 
-are typical benchmarks for the analysis of MPMs. For most of them, appropriate Lyapunov functions
+are typical benchmarks for the analysis of \acp{MPM}. For most of them, appropriate Lyapunov functions
 have been determined using Geobound \cite{spieler2014numerical}.
 However, the corresponding Lyapunov sets containing at least $1-\epsilon_{\ell}$ of the stationary probability mass are very large for typical choices of $\epsilon_{\ell}$ (e.g. $\epsilon_{\ell}\in \{0.1,0.05,0.001\}$). Even
 for extremely large $\epsilon_{\ell}$, say $\epsilon_{\ell}=0.8$, the remaining state-space may still be huge (e.g, 15,198 states).
@@ -348,7 +348,7 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
 \begin{figure}
     \centering
     \includegraphics[scale=.8]{gfx/trunc_sizes.pdf}
-	\caption{The sizes of the final truncation vs.\ the threshold parameter $\epsilon$ (\autoref{model:bd} and \autoref{model:excl_switch}).}
+	\caption[The sizes of the final truncation v.\ the threshold parameter $\epsilon$]{The sizes of the final truncation vs.\ the threshold parameter $\epsilon$ (\autoref{model:bd} and \autoref{model:excl_switch}).}
     \label{fig:excl_switch:trunc_sizes}
 \end{figure}
 \begin{figure}
@@ -403,7 +403,7 @@ We observe a roughly linear increase in size with an exponential decrease of $\e
 \begin{figure}
     \centering
     \includegraphics[scale=.7]{gfx/excl_switch_dist.pdf}
-    \caption{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\text{1e-4}$.}
+	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\text{1e-4}$.}
     \label{fig:excl_switch:excl_switch_dist}
 \end{figure}
 \begin{table}
@@ -418,7 +418,7 @@ We observe a roughly linear increase in size with an exponential decrease of $\e
          outside mass $\leq$ & 1.52e-01 & 1.29e-03 & 2.02e-05 & 2.72e-07 \\
          \bottomrule
     \end{tabular}
-    \caption{Results for \autoref{model:excl_switch}: The characteristics of the lower-upper bound intervals on the conditional probability and the upper bound on mass not contained in the truncation are given.}
+	\caption[Characteristics of the lower-upper bound intervals]{Results for \autoref{model:excl_switch}: The characteristics of the lower-upper bound intervals on the conditional probability and the upper bound on mass not contained in the truncation are given.}
     \label{tab:intervals}
 \end{table}
 
@@ -519,7 +519,7 @@ This distribution leads to a non-trivial truncation (357,488 states) which is ta
 
 \begin{figure}
     \includegraphics[width=.9\textwidth]{gfx/p53_dist.pdf}
-	\caption{The approximate marginal distributions of the stationary distribution based on the truncation derived with $\epsilon=0.1$.}
+	\caption[approximate marginal distributions of the p53 stationary distribution]{The approximate marginal distributions of the stationary distribution based on the truncation derived with $\epsilon=0.1$.}
 \label{fig:p53:dist}
 \end{figure}
 

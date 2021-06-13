@@ -1,5 +1,5 @@
 \chapter{Analysis under Terminal Constraints}
-% Observations of the MPM are typically based on noisy measurements.
+% Observations of the \ac{MPM} are typically based on noisy measurements.
 % In most applications, they give only partial information about the system state and are sparse in time. 
 % For example, snapshots of the spread of an epidemic are typically not accurate due to false negative/positive results and limited testing. 
 Many tasks, such as the analysis of rare events or the inference of agent counts under partial observations naturally introduce terminal constraints on the system.
@@ -20,7 +20,7 @@ In such a scenario our method can be used to identify a good truncation to analy
 % A similar problem
 % \todo{finish sentence}
 
-% In hidden Markov models  the backward-forward algorithm 
+% In \acp{HMM}  the backward-forward algorithm 
 % decomposes the bridging problem into a forward and a backward
 % analysis to calculate the marginal likelihood and calibrate the model according to noisy observations. \vw{haben wir da ein Zitat mit population structure und contin.-time? Hier das ist eigentlich eine HMM \cite{andreychenko2012approximate} }\todo{Luca: nicely written, but what is the link with our framework?}
 
@@ -33,10 +33,10 @@ Typically researchers have to resort to Monte-carlo simulations in combination w
 
 Efficient  numerical approaches  that are not based on sampling or ad-hoc approximations have rarely been developed.
 
-Here, we combine state-of-the-art truncation strategies based on a forward analysis~\cite{lapin2011shave,andreychenko2011parameter} with a refinement approach that starts from an abstract MPM
+Here, we combine state-of-the-art truncation strategies based on a forward analysis~\cite{lapin2011shave,andreychenko2011parameter} with a refinement approach that starts from an abstract \ac{MPM}
 with lumped states.
 We base this lumping on a grid-like partitioning of the state-space.
-Throughout a lumped state, we assume a uniform distribution that gives an efficient and convenient abstraction of the original MPM.
+Throughout a lumped state, we assume a uniform distribution that gives an efficient and convenient abstraction of the original \ac{MPM}.
 Note that the lumping does not follow the classical paradigm of Markov chain lumpability~\cite{buchholz1994exact}
 or its variants \cite{dayar1997quasi}.
 Instead of an approximate block structure of the transition-matrix used in that context, we base our partitioning on a segmentation of the molecule counts.
@@ -52,7 +52,7 @@ This truncation provides guaranteed lower bounds because it is at the granularit
 
 \section{Related Work}\label{sec:bridging:related}
 The problem of endpoint constrained analysis occurs in the context of Bayesian estimation~\cite{sarkka2013bayesian}. 
-For MPMs, this problem has been addressed by \citet{huang2016reconstructing} using moment closure approximations and by \citet{wildner2019moment} further employing variational inference.
+For \acp{MPM}, this problem has been addressed by \citet{huang2016reconstructing} using moment closure approximations and by \citet{wildner2019moment} further employing variational inference.
 Golightly and Sherlock modified stochastic simulation algorithms to approximatively  
 augment generated trajectories  \cite{golightly2019efficient}.
 % The idea is to  sample trajectories that are consistent with measurements, which requires sampling   appropriate values for latent state variables and sampling appropriate events between two observation times. 
@@ -74,12 +74,16 @@ Sophisticated state-space truncations for the (unconditioned) forward analysis h
 Reachability analysis, which is relevant in the context of probabilistic verification \cite{bortolussi2014stochastic,neupane2019stamina}, is a bridging problem where the endpoint constraint is the visit of a set of goal states.
 Backward probabilities are commonly used to compute reachability likelihoods \cite{amparore2013backward,zapreev2006safe}.
 Approximate techniques for reachability, based on moment closure and stochastic approximation, have also been developed in \cite{bortolussi2014stochastic,Bortolussi18infcomp}, but lack error guarantees. 
-There is also a conceptual similarity between computing bridging probabilities and the forward-backward algorithm for computing state-wise posterior marginals in hidden Markov models (HMMs) \cite{rabiner1986introduction}. Like MPMs, HMMs are a generative model that can be conditioned on observations. We only consider two observations (initial and terminal state) that are not necessarily noisy but the forward and backward probabilities admit the same meaning.
+There is also a conceptual similarity between computing bridging probabilities and the forward-backward algorithm for computing state-wise posterior marginals in \acfp{HMM}~\cite{rabiner1986introduction}. Like \acp{MPM}, \acp{HMM} are a generative model that can be conditioned on observations. We only consider two observations (initial and terminal state) that are not necessarily noisy but the forward and backward probabilities admit the same meaning.
 
 
 \section{Backwards Probabilities}
 Let $x_g\in \mathcal{S}$ be a fixed goal state.
-Given the terminal constraint $\Pr(X_T=x_g)$ for some $T\geq 0$,  we are interested in the so-called backward probabilities
+Given the terminal constraint 
+\begin{equation}
+	\Pr(X_T=x_g)=1 \text{ for some }T\geq 0\,,
+\end{equation}
+we are interested in the so-called backward probabilities
 \begin{equation}\label{eq:back_probs}
 \beta(x_i, t) = \Pr(X_T=x_g\mid X_t = x_i),\quad t\leq T\,.
 \end{equation}
@@ -102,7 +106,7 @@ probability for each state $x_i$ and time $t<T$ of ending up in $x_g$ at time $T
 %     \right)\alpha_j({x})\,.
 % \end{equation}
 
-The state-space of many MPMs, even simple ones, is countably infinite.
+The state-space of many \acp{MPM}, even simple ones, is countably infinite.
 In this case, we have to truncate the state-space to a \emph{reasonable}
 finite subset.
 The choice of this truncation heavily depends on the goal of the
@@ -152,7 +156,7 @@ Finally, the approximate bridging distribution $\hat\gamma$ can be recognized to
 \begin{figure}[tb]
     \centering
     \includegraphics[width=\textwidth]{gfx/bridging_bd.pdf}
-    \caption{Forward, backward, and bridging probabilities for \autoref{model:bd} with initial constraint $X_0=0$ and terminal constraint $X_{10}=40$ on a truncated state-space. Probabilities over $0.1$ in $\hat\pi$ and $\hat\beta$ are given full intensity for visual clarity. %$\hat\gamma$ is normalized using the reaching probability.
+	\caption[Forward, backward, and bridging probabilities for \autoref{model:bd}]{Forward, backward, and bridging probabilities for \autoref{model:bd} with initial constraint $X_0=0$ and terminal constraint $X_{10}=40$ on a truncated state-space. Probabilities over $0.1$ in $\hat\pi$ and $\hat\beta$ are given full intensity for visual clarity. %$\hat\gamma$ is normalized using the reaching probability.
     The lightly shaded area ($\geq 60$) indicates a region being more relevant for the forward than for the bridging probabilities.}
     \label{fig:bd_bridge}
 \end{figure}
@@ -220,7 +224,7 @@ The result forms the next lumped state-space $\mathcal{S}^{(i+1)}$.
  Entries of truncated states are removed from the transition matrix. Transitions leading to them are
 re-directed to a sink state (\autoref{sec:bridging:fsp}).
 After $m$ iterations (we started with states of side lengths $2^m$)
-we have a standard finite state projection scheme
+we have a standard \ac{FSP} scheme
 on the original model tailored to
 computing an approximation of the bridging distribution.
 \begin{algorithm}[htb]
@@ -257,7 +261,7 @@ probabilities over the times $[0,T]$.
 \begin{figure}[tb]
     \centering
     \includegraphics[width=\textwidth]{gfx/refinement.png}
-    \caption{The state-space refinement algorithm on two parallel unit-rate arrival processes. The bridging problem from $(0,0)$ to $(64, 64)$ and $T=10$ and truncation threshold $\delta=\e{5}{-3}$. States with a bridging probability below $\delta$ are light grey. The macro-state containing the goal state is marked in black. The initial macro-states are of size $16\times 16$.}
+	\caption[State-space refinement algorithm on two parallel unit-rate arrival processes]{The state-space refinement algorithm on two parallel unit-rate arrival processes. The bridging problem from $(0,0)$ to $(64, 64)$ and $T=10$ and truncation threshold $\delta=\e{5}{-3}$. States with a bridging probability below $\delta$ are light grey. The macro-state containing the goal state is marked in black. The initial macro-states are of size $16\times 16$.}
     \label{fig:refinement}
 \end{figure}
 
@@ -281,7 +285,7 @@ states contributing significantly to $\hat\gamma_t^{(i)}$ will be kept and refin
 % 
 We present four examples in this section to evaluate our proposed method. 
 A prototype was implemented in Python~3.8. For numerical integration we used the Scipy implementation \cite{2020SciPy-NMeth} of the implicit method based on backward-differentiation formulas \cite{byrne1975polyalgorithm}.
-The analysis as a Jupyter notebook is made available online\footnote{\url{https://www.github.com/mbackenkoehler/mjp_bridging}}.
+The analysis as a Jupyter notebook is made available online\marginpar{\url{https://www.github.com/mbackenkoehler/mjp_bridging}}.
 
 \subsection{Bounding Rare Event Probabilities}
 
@@ -310,7 +314,8 @@ logarithmic in $\delta$, which, in this example, indicates robustness of the met
 \begin{figure}[!t]
     \centering
     \includegraphics[width=\textwidth]{gfx/truncs.png}
-    \caption{State-space truncation for varying values of the
+	\caption[State-space truncation for varying values of the
+	threshold parameter $\delta$]{State-space truncation for varying values of the
     threshold parameter $\delta$: Two parallel Poisson processes under terminal constraints $X_{20}^{(A)} \geq 64$ and $X_{20}^{(B)}\geq 64$.
     The initial macro-states are $16\times 16$ such that the final
     states are regular micro states.}
@@ -376,8 +381,8 @@ behavior without resorting to Monte-Carlo methods such as   importance sampling.
 
 \subsubsection{Exclusive Switch}
 The exclusive switch~\cite{barzel2008calculation}  has three different modes of operation, depending on the
-DNA state, i.e.\ on whether a protein of type one or two is bound to
-the DNA.
+\ac{DNA} state, i.e.\ on whether a protein of type one or two is bound to
+the \ac{DNA}.
 
 \begin{model}[Exclusive Switch] The exclusive switch model consists of a promoter region
 that can express both proteins $P_1$ and $P_2$. Both can bind to the region, suppressing
@@ -390,8 +395,8 @@ The parameter values are $\rho=\e{1}{-1}$, $\lambda=\e{1}{-3}$, $\beta=\e{1}{-2}
 \end{model}
 Since we know a priori of the three distinct operating modes, we adjust
 the method slightly:
-The state-space for the DNA states is not lumped. Instead we ``stack''
-lumped approximations of the $P_1$-$P_2$ phase space upon each other. Special treatment of DNA states is common for such models \cite{lapin2011shave}. 
+The state-space for the \ac{DNA} states is not lumped. Instead we ``stack''
+lumped approximations of the $P_1$-$P_2$ phase space upon each other. Special treatment of \ac{DNA} states is common for such models \cite{lapin2011shave}. 
 
 %We assess the switching dynamics from one mode to another.
 To analyze the switching, we choose the transition from (variable order: $P_1$, $P_2$, $D$, $D.P_1$, $D.P_2$)
@@ -418,12 +423,12 @@ These dynamics are already qualitatively captured by the first lumped approximat
 \begin{figure}
     \centering
     \includegraphics[scale=.6]{gfx/excl_switch_modeprobs.pdf}
-	\caption{(left) Mode probabilities of the exclusive switch bridging problem over time for the first lumped approximation (dashed lines) and the final approximation (solid lines) with constraints $X_0=(32, 0, 0, 1, 0)$ and $X_{10}=(0,32,0,0,1)$. \label{fig:switching_dynamics:modes}}
+	\caption[Mode probabilities of the exclusive switch bridging problem]{Mode probabilities of the exclusive switch bridging problem over time for the first lumped approximation (dashed lines) and the final approximation (solid lines) with constraints $X_0=(32, 0, 0, 1, 0)$ and $X_{10}=(0,32,0,0,1)$. \label{fig:switching_dynamics:modes}}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[scale=.6]{gfx/toggle_exp_occ.pdf}
-	\caption{The expected occupation time (excluding initial and terminal states) for the switching problem of the toggle switch using Hill-type functions. The bridging problem is from initial $(0,120)$ to a first passage of $(120, 0)$ in
+	\caption[The expected occupation time (Toggle Switch)]{The expected occupation time (excluding initial and terminal states) for the switching problem of the toggle switch using Hill-type functions. The bridging problem is from initial $(0,120)$ to a first passage of $(120, 0)$ in
     $t\in [0,10]$.}
     \label{fig:switching_dynamics:occ}
 \end{figure}
@@ -433,7 +438,7 @@ These dynamics are already qualitatively captured by the first lumped approximat
 Next, we apply our method to  a toggle switch model exhibiting non-polynomial rate functions.
 This well-known  model considers two proteins $A$ and $B$
 inhibiting the production of the respective other protein~\cite{lipshtat2006genetic}.
-\begin{model}{Toggle Switch (Hill functions)}
+\begin{model}[Toggle Switch (Hill functions)]
 We have population types $A$ and $B$ with the following reactions and reaction rates.
 $$ \varnothing \xrightarrow{\alpha_1(\cdot)} A\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + x_B},
 \qquad A \xrightarrow\lambda \varnothing $$
@@ -464,7 +469,7 @@ The main mass seems to pass through an area where initially a small number of $A
 We now turn to the method's application in recursive Bayesian estimation.
 This is the problem of estimating the system's
 past, present, and future behavior under given observations.
-Thus, the MPM becomes a hidden Markov model (HMM).
+Thus, the \ac{MPM} becomes a \acf{HMM}.
 The observations in such models are usually noisy, meaning that we cannot infer the system state with certainty.
 
 This estimation problem entails more general distributional constraints on terminal $\beta(\cdot,T)$ and initial $\pi(\cdot, 0)$ distributions than the point mass distributions considered up until now.
@@ -479,7 +484,7 @@ and similarly the backward probabilities are given by
 \begin{equation}
     \beta(x_i, t) = \sum_j\Pr(X_T=x_j\mid X_t = x_i) \beta_T(x_j)\,.
 \end{equation}
-We apply our method to an SEIR (susceptible-exposed-infected-remov\-ed) model.
+We apply our method to an \acf{SEIR} model.
 This is widely used to describe the spreading of an epidemic such as the current COVID-19 outbreak~\cite{he2020seir,grossmann2020importance}.
 Temporal snapshots of the epidemic spread  are mostly only available for a subset of the population and suffer from   inaccuracies of diagnostic tests.
 Bayesian estimation can then be used to infer the spreading dynamics given uncertain temporal snapshots.
@@ -525,14 +530,14 @@ Moreover, can we infer a distribution over the unknown number of susceptible and
 	\subfloat[Beliefs and likelihood at $t=0.3$]
 	{\label{fig:seir:t}
 	\includegraphics[width=0.48\linewidth]{gfx/posterior.pdf}}
-    \caption{
+	\caption[Bayesian estimation on the \ac{SEIR} model]{
 	    (a) A comparison of the prior dynamics and the posterior smoothing (bridging) dynamics.
 	    (b) The prior, likelihood, and posterior of the number of infected individuals $n_I$ at time $t=0.3$ given the measurement $\hat{n}_I=30$.}
 \end{figure}
 \begin{figure}
 	\centering
     \includegraphics[width=.5\linewidth]{gfx/prior_posterior.pdf}
-	\caption{\label{fig:latent}
+	\caption[Prior and posterior latent distribution (\ac{SEIR})]{\label{fig:latent}
 	    The prior and posterior distribution over the latent types $E$ and $S$ at time $t=0.3$.}
 \end{figure}
 
@@ -552,7 +557,7 @@ probabilities of interest.
 In the final step of the iteration, we operate at the granularity of the original model and compute lower bounds for these bridging probabilities that are rigorous up to the error of the numerical integration scheme.
 %To achieve accurate bounds, appropriate error tolerances for the numerical integration have to be chosen.
 
-Our method exploits the population structure of the model, which is present in many important application fields of MPMs.
+Our method exploits the population structure of the model, which is present in many important application fields of \acp{MPM}.
 % As with any direct method based on truncations, our approach is limited to models where population sizes remain relatively small.
 Based on experience with other work based on truncation, the approach can be expected to scale up to at least a few million states~\cite{mikeev2011efficient}.
 Compared to previous work, our method neither relies on approximations of unknown accuracy nor additional information such as a suitable change of measure in the case of importance sampling.

@@ -8,7 +8,7 @@
 
 %\title{Bounding Mean First Passage Times in\\   Population Continuous-Time
 %Markov Chains}
-%\titlerunning{Bounding Mean First Passage Times in MPMs}
+%\titlerunning{Bounding Mean First Passage Times in \acp{MPM}}
 %\author{Michael Backenk\"ohler${}^{1,2}$, Luca Bortolussi${}^{3,1}$, Verena Wolf${}^{1}$}
 %\authorrunning{M.\ Backenk\"ohler et al.}
 %\institute{${}^{1}$Saarland University, Germany,\\ ${}^{2}$ Saarbr\"ucken Graduate School of Computer Science,\\
@@ -28,10 +28,10 @@
 %\end{abstract}
 
 %\section{Introduction}
-For the quantitative analysis of CTMCs, many   approaches have been
+For the quantitative analysis of \acp{CTMC}, many   approaches have been
 developed, where properties of interest are often expressed in terms of temporal logics such as
-CSL~\cite{aziz1996verifying,baier2000model,baier2003model},
-MTL~\cite{chen2011time}, and timed-automata
+\acs{CSL}~\cite{aziz1996verifying,baier2000model,baier2003model},
+\acs{MTL}~\cite{chen2011time}, and timed-automata
 specifications~\cite{chen2009quantitative,mikeev2013fly}.
 In addition, there exist
 efficient software
@@ -39,16 +39,15 @@ tools~\cite{hinton2006prism,kwiatkowska2011prism,dehnert2017storm}
 that can be used to analyze and verify system properties.
 The computation of reachability probabilities is a central problem in this context.
 
-Popular exact methods for CMTCs rely on numerical approaches that explicitly consider each system state individually.
+Popular exact methods for \acp{CTMC} rely on numerical approaches that explicitly consider each system state individually.
 A major problem is that these methods cannot scale in the context of population
 models with large copy numbers of agents.
 A popular alternative to tackle this problem is statistical model checking,
 which is based on stochastic simulation~\cite{david2015statistical}.
-For MPMs   arising in the context of chemical reaction networks, trajectories of the process are
-usually generated using the Stochastic Simulation Algorithm
-(SSA)~\cite{gillespie1977exact}.
+For \acp{MPM}   arising in the context of chemical reaction networks, trajectories of the process are
+usually generated using the \ac{SSA}~\cite{gillespie1977exact}.
 However, since the number of possible interactions grows with the number of
-agents, stochastic simulations of MPMs are  time-consuming. Moreover, they are
+agents, stochastic simulations of \acp{MPM} are  time-consuming. Moreover, they are
 subject to inherent statistical uncertainty and give only statistically estimated bounds.
 
 As an alternative, recent work concentrates on numerical methods that
@@ -73,37 +72,36 @@ it is not possible to control the effects of the introduced approximations, whic
 cases can lead to large errors~\cite{schnoerr2015}.
 This issue reverberates
 on the application of these methods to  compute reachability
-probabilities and mean first passage
-times~\cite{hayden2012fluid,bortolussi2013model,bortolussi2014stochastic}.
+probabilities and \aclp{MFPT}~\cite{hayden2012fluid,bortolussi2013model,bortolussi2014stochastic}.
 Moreover, they can suffer from numerical instabilities, in particular, when the
 maximum order of the considered moments has to be increased to more
 appropriately describe the underlying distribution. %, a fact impacting their
 %scalability.
 
-Here, we put forward a method based solely on moments that gives \emph{exact bounds}  for Mean First Passage Times (MFPTs) and reachability probabilities in MPMs. For a set of states, the MFPT within a fixed
+Here, we put forward a method based solely on moments that gives \emph{exact bounds}  for \acfp{MFPT} and reachability probabilities in \acp{MPM}. For a set of states, the MFPT within a fixed
 time-horizon $T$  directly characterizes the probability of reaching that set
-within $T$ time units. Thus, safe upper and lower bounds on MFPTs can constitute a core component for the verification of properties in MPMs.
+within $T$ time units. Thus, safe upper and lower bounds on \acp{MFPT} can constitute a core component for the verification of properties in \acp{MPM}.
 Our approach extends recent work on moment
 bounds~\cite{sakurai2017convex,dowdy2018dynamic} and it is based on a martingale formulation of the stopped process that we
 derive from the exact moment equations. From this formalization, we deduce a set
 of linear moment constraints from which we derive
-upper and lower moment bounds using semi-definite programming (SDP). Monotone
+upper and lower moment bounds using \acf{SDP}. Monotone
 sequences of both upper and lower bounds
 can be obtained by increasing the order of the relaxation. Crucially, no
 closure approximations are introduced.
-Therefore the bounds are exact up to the numerical accuracy of the SDP solver.
+Therefore the bounds are exact up to the numerical accuracy of the \ac{SDP} solver.
 
 
-To experimentally validate our method in terms of accuracy and feasibility, we run some tests on examples from biology, leveraging an existing SDP solver and obtaining encouraging results. 
+To experimentally validate our method in terms of accuracy and feasibility, we run some tests on examples from biology, leveraging an existing \ac{SDP} solver and obtaining encouraging results. 
 Comparing with other moment-based methods, our approach is not based on approximations due to closure schemes, thus providing guarantees on the bounds   up to the numerical accuracy of the computations. However, similarly to other moment-based methods, we also found the insurgence of numerical instabilities because moments of higher order tend to span over many orders of magnitude. We ameliorate this problem by considering scaling strategies that reduce such variability. 
-We also extend our approach to deal with MPMs exhibiting strong multimodal behavior, due to the presence of populations having low copy numbers. This extension exploits some ideas from hybrid moment closures~\cite{kazeroonian2014modeling}. 
+We also extend our approach to deal with \acp{MPM} exhibiting strong multimodal behavior, due to the presence of populations having low copy numbers. This extension exploits some ideas from hybrid moment closures~\cite{kazeroonian2014modeling}. 
 
 
 % For our numerical investigations, we concentrate  and find encouraging
 % results already for a small number of moments.
-% For instance, in one of our case studies  $100,\!000$ SSA runs are necessary to
-% achieve a relative   width of 0.9\% for the MFPT confidence interval.
-% The SDP solver, however, returns a guaranteed interval with 
+% For instance, in one of our case studies  $100,\!000$ \ac{SSA} runs are necessary to
+% achieve a relative   width of 0.9\% for the \ac{MFPT} confidence interval.
+% The \ac{SDP} solver, however, returns a guaranteed interval with 
 % a relative width of 0.3\%.\\
 
 
@@ -111,7 +109,7 @@ We also extend our approach to deal with MPMs exhibiting strong multimodal behav
 \noindent
 In summary, this chapter presents the following novel contributions:
 \begin{itemize}
-    \item the derivation of moment constraints, based on a martingale formulation, for bounding first passage times
+	\item the derivation of moment constraints, based on a martingale formulation, for bounding \aclp{MFPT}
       and reachability probabilities using a convex programming scheme;
       %using a martingale formulation;
     \item the extension of this scheme using hybrid moment conditions to systems
@@ -120,8 +118,8 @@ In summary, this chapter presents the following novel contributions:
 \end{itemize}
 
 \section{Related Work}\label{sec:mfpt:related}
-Considerable effort has been directed at the analysis of first passage time
-distributions in MPMs. Most works can either focus on an explicit state-space
+Considerable effort has been directed at the analysis of \acl{FPT}
+distributions in \acp{MPM}. Most works can either focus on an explicit state-space
 analysis~\cite{barzel2008calculation,munsky2009specificity,kuntz2019exit,kuntz2018approximation}
 or employ approximation techniques for which, in general, no error bounds can be
 given~\cite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}.
@@ -134,12 +132,12 @@ state to the target state.
 \citet{kuntz2018approximation} propose to employ moment bounds in a
 linear programming approach to compute exit time distribution using state-space
 truncation schemes. In \citet{kuntz2019exit} the authors propose a finite state-space
-projection scheme to bound first passage time distributions
+projection scheme to bound \acl{FPT} distributions
 
 \citet{hayden2012fluid} use moment closure approximations and
-Chebychev's inequality to gain an understanding of first passage time dynamics.
+Chebychev's inequality to gain an understanding of \acl{FPT} dynamics.
 \citet{schnoerr2017efficient} also employ a moment closure approximation
-and further approximate threshold functions to derive an approximate first passage time
+and further approximate threshold functions to derive an approximate \acl{FPT}
 distribution.
 \citet{bortolussi2014stochastic} use a mean-field approximation
 which is required to reach the target region.
@@ -154,7 +152,7 @@ that can be solved efficiently.
 
 This approach has been extended to the transient
 case~\cite{dowdy2018dynamic,sakurai2019bounding}.
-The approach is similar in both works and is a cornerstone of the MFPT analysis
+The approach is similar in both works and is a cornerstone of the \ac{MFPT} analysis
 presented here.
 They differ mainly by the fact that \citet{sakurai2019bounding} apply a polynomial
 time-weighting, while \citet{dowdy2018dynamic} use an
@@ -171,26 +169,26 @@ the reader to \citet{parrilo2003semidefinite} and, more recently,
 \citet{lasserre2010moments}.
 
 Particularly relevant for this work is the application of convex optimization to
-first passage times.
+\ac{FPT}.
 \citet{helmes2001computing} formulated a linear program using the
 %basic adjoint equation and
 Hausdorff moment conditions to bound moments of the
-first passage time distribution in Markovian processes.
+\ac{FPT} distribution in Markovian processes.
 Semi-definite optimization has been successfully applied in financial
 mathematics by \citet{kashima2009polynomial}, as well as
 \citet{lasserre2006pricing} to bound prices of exotic options.
-%Here, the approach by Lasserre is adapted to MPMs.
+%Here, the approach by Lasserre is adapted to \acp{MPM}.
 
 \section{Preliminaries}\label{sec:mfpt:bg}
 
 
-Consider the following simple MPM with non-linear propensities as an example.
+Consider the following simple \ac{MPM} with non-linear propensities as an example.
 \begin{model}[Dimerization]\label{model:dim}
   We first examine a simple dimerization model on an unbounded state-space with
   reactions
   $$\varnothing\xrightarrow{\lambda}M,\quad 2M\xrightarrow{\delta}D$$
   and initial condition $X_0^{(M)}=X_0^{(D)}=0$. The semantics is given by a
-  CTMC
+	\ac{CTMC}
   $\vec{X}_t=(X_t^{(M)}, X_t^{(D)})^{\T}$, where $(S_1, S_2)=(M,D)$. The reaction
   propensities according to~\eqref{eq:stoch_mass_action}
   are $\alpha_1(\vec{x})=\lambda$ and $\alpha_2(\vec{x})=\delta\, x^{(M)} (x^{(M)} -
@@ -200,7 +198,7 @@ Consider the following simple MPM with non-linear propensities as an example.
 \end{model}
 \iffalse
 For a state $(x^{(M)}, x^{(D)})\in\mathbb{N}^2$, where $x^{(M)}\geq 2$,
-the CME \eqref{eq:cme} becomes
+the \ac{CME} \eqref{eq:cme} becomes
 \begin{align*}
 \frac{d}{dt}\pi((x^{(M)}, x^{(D)}), t)
 =&\lambda \pi((x^{(M)}-1, x^{(D)}), t)\\ &+ \frac{\delta}{2} \, (x^{(M)}+2) (x^{(M)} +
@@ -213,12 +211,12 @@ there are infinitely many states. Usually the state-space is truncated to contai
 relevant states~\cite{andreychenko2011parameter} or one switches to
 an approximation such as the mean-field~\cite{bortolussi2013}.
 
-In this work, we are interested in \emph{first passage times} of such processes.
+In this work, we are interested in \acfp{FPT} of such processes.
 That is the time, the process first enters a set of target states
-$B\subseteq \mathcal{S}$. Naturally, the analysis of first passage times is
+$B\subseteq \mathcal{S}$. Naturally, the analysis of \acp{FPT} is
 equivalent
 to the analysis of times at which the process exits the complement $\mathcal{S}\setminus B$.
-More formally, the first passage time $\tau$ for
+More formally, the \acl{FPT} $\tau$ for
 some target set $B$ is defined as the random variable
 \begin{equation}\label{eq:fpt_def}
     \tau = \inf\{t\geq 0\mid \vec X_t \in B\}\,.
@@ -245,7 +243,7 @@ This extended description results in a process with the martingale property.
 This property can be used to formulate linear constraints on the temporal moments
 and, as a special case, the mean first-passage time.
 In combination with semi-definite properties of moment matrices, we can formulate
-mathematical programs that yield upper and lower bounds on mean first passage times.
+mathematical programs that yield upper and lower bounds on \aclp{MFPT}.
 
 We start with the description of the \emph{raw moments} dynamics.
 In particular, a raw moment is
@@ -265,9 +263,9 @@ In \citet{gupta2014scalable} the authors propose a framework to verify
 this property for a given model.
 
 Let $f$ be a polynomial function, $t\ge0$.
-Using the CME \eqref{eq:cme}, we can derive ordinary differential equations (ODEs)
+Using the \ac{CME} \eqref{eq:cme}, we can derive \acp{ODE}
 describing the dynamics of $\E{f(\vec{X}_t)}$~\cite{engblom2006computing}.
-Specifically,
+Specifically,\marginpar{More details on the derivation of the moment \acp{ODE} is given in \autoref{sec:moments_bg}.}
 \begin{equation}\label{eq:mom_ode}
     \frac{d}{dt}\E{f(\vec X_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
     \vec{v_j}}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}\,.
@@ -288,8 +286,8 @@ $\E{X_t}$ and $\E{X_t^2}$, respectively.
     2\E{{X}_t^2} + \E{{X}_t}\right)\,.
 	\end{split}
 \end{equation}
-Fixing initial moments, the ODE system describes the moments over time exactly.
-However, these ODEs cannot be integrated because the system is not closed.
+Fixing initial moments, the \ac{ODE} system describes the moments over time exactly.
+However, these \acp{ODE} cannot be integrated because the system is not closed.
 The right-hand side for moment $\E{X_t^m}$ always contains $\E{X_t^{m+1}}$.
 To solve the initial value problem,
 one typically resorts to ad-hoc approximations of the highest order moments
@@ -388,7 +386,7 @@ of $f$ and $w$.
 characterize the behavior in time and state-space as moments, because
 the expected value of \eqref{eq:basic_poly_martingale} then becomes a linear form
 of moments.
-We will use these as constraints in the semi-definite program used to bound MFPTs.
+We will use these as constraints in the semi-definite program used to bound \acp{MFPT}.
 
 % \todo{re-state the above example here again?}\luca{good idea}
 If we apply this to our previous example (cf.\ \eqref{eq:dim_exp_ode}), letting $m=1$ %\vw{same example has $\vec m=(1,0)$ above }
@@ -459,7 +457,8 @@ In the following we will define the interplay between these measures more formal
 \begin{figure}[t]
     \centering
     \includegraphics[scale=.8]{gfx/decomp1.pdf}
-    \caption{The relationship between the occupation measure $\xi$ and the
+	\caption[Occupation measure $\xi$ and
+	exit location probability measures $\nu_1$ and $\nu_2$]{The relationship between the occupation measure $\xi$ and the
     exit location probability measures $\nu_1$ and $\nu_2$. The shaded area indicates
     the structure of the occupation measure. Three example trajectories are
     additionally plotted with
@@ -527,10 +526,10 @@ Given the above measures and their corresponding moments, we can
 now identify the moments we are particularly interested in.
 We formulate an optimization problem with variables corresponding 
 to the moments defined above.
-The MFPT is exactly the zeroth moment of $\xi$,
+The \ac{MFPT} is exactly the zeroth moment of $\xi$,
 $$z_{00}=\E{\int_0^{\tau}1_{\leq H}(X_t)\,dt} = \E{\tau}\,.$$
 Therefore $z_{00}$ corresponds to the objective of the optimization problem
-that gives bounds for the MFPT.
+that gives bounds for the \ac{MFPT}.
 Furthermore, we can easily change the objective to the  
 zeroth moment of $\nu_1$,
 $$y_{10} = \E{\tau^0;\tau<T}=\Pr(\tau < T)\,.$$
@@ -617,7 +616,7 @@ This gives us the following restrictions on the moment matrices.
 \section{Multi-Dimensional Generalization}
 \label{subsec:mfpt:multidim}
 For a general multi-dimensional moment sequence
-$\vec{y}={(\E{\vec X^{\vec{m}}})}_{\vec{m}\in\mathbb{N}^{n_s}}$, the moment
+$$\vec{y}={\left(\E{\vec X^{\vec{m}}}\right)}_{\vec{m}\in\mathbb{N}^{n_s}}\,,$$ the moment
 matrix is~\cite{lasserre2010moments}
 % \todo{explain the order $r$ in some detail (max order is $2r$), define
 % $\mathbb{N}_r^n$}
@@ -634,7 +633,7 @@ Equivalently, $M_r(\vec{y})=\E{\vec{v}_r (\vec x)\vec{v}_r(\vec x)^T}$.
 For a moment sequence the semi-definite restriction $M_r(\vec{y})\succeq 0$ must hold.
 
 Measures can be restricted to semi-algebraic sets
-$\{\vec x\in\mathbb{R}^n \mid u_j(\vec x)\geq 0, j=1,\dots,m\}$,
+$$\{\vec x\in\mathbb{R}^n \mid u_j(\vec x)\geq 0, j=1,\dots,m\}\,,$$
 where $u_j$, $j=1,\dots,m$ are polynomials~\cite{lasserre2010moments}.
 This is done by placing restrictions on the {localizing matrices}.
 For each polynomial $u_i\in\mathbb{R}[x]$ with coefficient vector
@@ -658,8 +657,8 @@ $M_1(\vec{u},\vec{y})\succeq 0$ for $i=1,\dots,n_S$ gives us this restriction.
 With the linear constraints given in \eqref{eq:constraint}
 and the semi-definite constraints \eqref{eq:sd_constraints} and \eqref{eq:localizing_sd_constraints} 
 discussed in the previous sections, we can now formulate a
-semi-definite program (SDP) for any relaxation order $0<r<\infty$.
-An SDP is a convex optimization problem over the set of positive semi-definite $n \times n$-matrices
+\acf{SDP} for any relaxation order $0<r<\infty$.
+An \ac{SDP} is a convex optimization problem over the set of positive semi-definite $n \times n$-matrices
 $\mathcal{X}$ under linear constraints:
 \begin{equation}
     \label{eq:sdp_canonical}
@@ -686,13 +685,13 @@ used in the optimization problem.
         & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m +\sum_i c_i  z_{k_i m_i}', \quad\forall m, k
     \end{split}
 \end{equation}
-This SDP can be compiled to the canonical form.
+This \ac{SDP} can be compiled to the canonical form.
 To this end, the moment matrices can be arranged in a block-diagonal form and the
 localizing constraints \eqref{eq:localizing_sd_constraints} can be encoded
 by the introduction of new variables and appropriate equality constraints.
 This transformation can be done automatically using modeling frameworks
-such as CVXPY~\cite{cvxpy}. We therefore only give the SDP in the more intuitive format.
-This problem can be solved using off-the-shelf SDP solvers such as MOSEK~\cite{mosek},
+such as CVXPY~\cite{cvxpy}. We therefore only give the \ac{SDP} in the more intuitive format.
+This problem can be solved using off-the-shelf \ac{SDP} solvers such as MOSEK~\cite{mosek},
 CVXOPT~\cite{vandenberghe2010cvxopt}, or SCS~\cite{scs}.
 
 In principle, we can choose an arbitrarily large order $r$ for the moment matrices
@@ -706,9 +705,9 @@ higher-order moments.
 
 
 \section{Implementation and Evaluation}\label{sec:mfpt:evaluation}
-The implementation of the SDP \eqref{eq:sdp_for_fpt} is straightforward using
+The implementation of the \ac{SDP} \eqref{eq:sdp_for_fpt} is straightforward using
 modeling frameworks and off-the-shelf solvers.
-However, as noted in previous work~\cite{dowdy2018dynamic,sakurai2017convex,dowdy2018bounds,sakurai2019bounding} on moment-based SDPs
+However, as noted in previous work~\cite{dowdy2018dynamic,sakurai2017convex,dowdy2018bounds,sakurai2019bounding} on moment-based \acp{SDP}
 the direct implementation of the problem may lead to difficulties for the solver.
 A source of these is that moments of various orders by nature
 may differ by many orders of magnitude.
@@ -718,7 +717,7 @@ may alleviate this problem.
 In other scenarios such as the bounding of general transient or steady-state moments,
 the scaling can be particularly difficult,
 because the magnitude of moments is generally not known
-a priori. In the context of MFPTs with a finite time-horizon
+a priori. In the context of \acp{MFPT} with a finite time-horizon
 moments are trivially bounded.
 
 \subsection{Moment Scaling}\label{sec:mfpt:scaling}
@@ -752,7 +751,7 @@ of the problem.
 \begin{figure}[htb]
     \centering
     \includegraphics[scale=0.65]{gfx/magnitudes.pdf}
-    \caption{The unscaled and scaled value the moment matrix proxy variable
+	\caption[Unscaled and scaled value of the moment matrix]{The unscaled and scaled value of the moment matrix proxy variable
     $M(\vec{z'})$ after optimization using MOSEK. The indices are given along the
     logarithmic (base 10) values. The unscaled version (left) shows large
     differences in magnitudes, while on the scaling suppresses
@@ -764,7 +763,7 @@ of the problem.
 
 
 \subsection{Case Studies}
-We implemented and solved the SDP programs described above using optimization suite MOSEK~\cite{mosek} (version 9.1.2) via the CVXPY
+We implemented and solved the \ac{SDP} programs described above using optimization suite MOSEK~\cite{mosek} (version 9.1.2) via the CVXPY
 interface~\cite{cvxpy} (version 1.0.24).
 
 \subsubsection{Dimerization}
@@ -778,21 +777,20 @@ of measure $\nu_2$ in the linear constraints~\eqref{eq:sdp_for_fpt}.
 This can be done because the threshold on $M$ makes the state-space finite
 and therefore the first passage time distribution is a phase-type distribution
 which possesses finite moments \cite[Chapter 7.6]{stewart2009probability}.
-The empirical FPT distribution based on 100,000 SSA simulations is given in \autoref{fig:dim_fpt:fpt}
+The empirical \ac{FPT} distribution based on 100,000 \ac{SSA} simulations is given in \autoref{fig:dim_fpt:fpt}
 and the bounds, given different moment orders, are given in \autoref{fig:dim_fpt:mfpt}.
-As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the MFPT precisely for orders 5, 6.
+As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the \ac{MFPT} precisely for orders 5, 6.
 The difference between upper and lower bound decreases roughly exponentially with increasing relaxation order $r$.
 We found that this trend was consistent among the case studies presented here (cf.\ \autoref{fig:convergence}).
 \begin{figure}
-    \myfloatalign
-    \subfloat[FPT distribution.]
+	\myfloatalign
     {\label{fig:dim_fpt:fpt}
-	\includegraphics[scale=.8]{gfx/fpt_dist_dim.pdf}} \quad
-    \subfloat[MFPT bounds.]
+	\includegraphics[width=.48\textwidth]{gfx/fpt_dist_dim.pdf}}
+	\subfloat[\ac{MFPT} bounds.]
     {\label{fig:dim_fpt:mfpt}%
-        \includegraphics[scale=.8]{gfx/fpt_bounds_dim.pdf}} \\
-    \caption[FPT and MFPT distribution and bounds]{First passage time characterisitics for \autoref{model:dim} with $\tau=\inf\{t\geq 0\mid X_t \geq 10\}\land \infty$.
-	The dashed red line denotes the sampled MFPT based on 100,000 SSA samples. Bounds are based on the SDP \eqref{eq:sdp_for_fpt} with different moment orders}
+        \includegraphics[width=.48\textwidth]{gfx/fpt_bounds_dim.pdf}} \\
+	\caption[\ac{FPT} and \ac{MFPT} distribution and bounds]{First-passage time characterisitics for \autoref{model:dim} with $\tau=\inf\{t\geq 0\mid X_t \geq 10\}\land \infty$.
+	The dashed red line denotes the sampled \ac{MFPT} based on 100,000 \ac{SSA} samples. Bounds are based on the \ac{SDP} \eqref{eq:sdp_for_fpt} with different moment orders}
 \end{figure}
 % \begin{figure}[t]
 %     \centering
@@ -804,13 +802,13 @@ We found that this trend was consistent among the case studies presented here (c
 %     \centering
 %     \includegraphics[scale=.6]{gfx/fpt_bounds_dim.pdf}\\(b)
 %     \end{minipage}
-% 	\caption{    (a) The distribution of $\tau$ estimated based on 100,000 SSA samples.
-%     (b) The bounds based on the SDP in~\eqref{eq:sdp_for_fpt} with different moment
+% 	\caption{    (a) The distribution of $\tau$ estimated based on 100,000 \ac{SSA} samples.
+%     (b) The bounds based on the \ac{SDP} in~\eqref{eq:sdp_for_fpt} with different moment
 %     orders.\label{fig:dim_fpt}}
 % \end{figure}
 
 Next, we look at first passage times within a finite time-horizon $T$.
-In \autoref{fig:dim_fpt_fin:mfpt} we summarize the bounds obtained for the MFPT over $T$.
+In \autoref{fig:dim_fpt_fin:mfpt} we summarize the bounds obtained for the \ac{MFPT} over $T$.
 While low-order relaxations (light) give rather loose bounds, the bounds are already fairly tight
 when using $r=4$.
 In many cases, hitting probabilities, that is, the probability of reaching the
@@ -824,15 +822,15 @@ By varying the time-horizon, we are able to recover bounds on the cumulative den
 the first passage time (\autoref{fig:dim_fpt_fin:rp}).
 \begin{figure}
     \myfloatalign
-    \subfloat[MFPT bounds over $T$.]
+	\subfloat[\ac{MFPT} bounds over $T$.]
     {\label{fig:dim_fpt_fin:mfpt}
-	\includegraphics[scale=.8]{gfx/mfpt_bounds.pdf}} \quad
+	\includegraphics[width=.48\textwidth]{gfx/mfpt_bounds.pdf}}
     \subfloat[Reaching probabilities up to $T$.]
     {\label{fig:dim_fpt_fin:rp}
-        \includegraphics[scale=.8]{gfx/reachability_probs.pdf}}
-    \caption[FPT and MFPT up to a varying time-horizon $T$]{First passage times for the dimerization model with
+        \includegraphics[width=.48\textwidth]{gfx/reachability_probs.pdf}}
+	\caption[\acp{MFPT} up to a varying time-horizon]{\Acp{MFPT} and reaching probability bounds for the dimerization model with
     $\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T$ and varying $T$.
-    The results for SDP relaxations of orders 1 (light) to 6 (dark) are shown.\label{fig:dim_fpt_fin}}
+    The results for \ac{SDP} relaxations of orders 1 (light) to 6 (dark) are shown.\label{fig:dim_fpt_fin}}
 \end{figure}
 % \begin{figure}[t]
 %     \centering
@@ -849,8 +847,8 @@ the first passage time (\autoref{fig:dim_fpt_fin:rp}).
 %     % \end{minipage}
 %     \caption{First passage times for the dimerization model with
 %     $\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T$.
-%     The results for SDP relaxations of orders 1 (light) to 6 (dark) are shown.
-%     (a) The bounds on the MFPT for differing time-horizons $T$.
+%     The results for \ac{SDP} relaxations of orders 1 (light) to 6 (dark) are shown.
+%     (a) The bounds on the \ac{MFPT} for differing time-horizons $T$.
 %     (b) Bounds on the probability to reach the threshold before time $T$.\label{fig:dim_fpt_fin}}
 % \end{figure}
 
@@ -868,26 +866,26 @@ independent dimerizations.
 \begin{model}[Parallel independent dimerizations]\label{model:double_dim}
 $$\varnothing\xrightarrow{10^4}M_1,\quad 2M_1\xrightarrow{0.1}D_1,\quad \varnothing\xrightarrow{10^4}M_2,\quad 2M_2\xrightarrow{0.1}D_2$$
 \end{model}
-As a FPT we consider the time at which either $M_1$ or $M_2$ surpasses a threshold of 200 or a time-horizon of $T=10$
+As a \ac{FPT} we consider the time at which either $M_1$ or $M_2$ surpasses a threshold of 200 or a time-horizon of $T=10$
 is reached, i.e.
 $$ \tau=\inf\{t\geq 0\mid X_t^{(M_1)} \geq 200\}\land \inf\{t\geq 0\mid X_t^{(M_2)} \geq 200\}\land 10\,.$$
 As before, we ignore the product species $D_1$ and $D_2$ since they do not influence $\tau$.
 % Still, the possible state-space reaches a size of $200^2=40,\!000$.
 % \luca{40000 is very small... I would not emphasize it}\todo{yes, but the only reason for this case study ist that we have a ``larger'' relevant state-space}
-The SSA   (using $n=10,\!000$ runs) gives the estimate $\E{\tau}\approx 0.028378$ %\pm 1.3025e-04$ (99\%-CI)
-which is captured tightly by the SDP bounds (cf.\ \autoref{tab:bounds}).
+The \ac{SSA}   (using $n=10,\!000$ runs) gives the estimate $\E{\tau}\approx 0.028378$ %\pm 1.3025e-04$ (99\%-CI)
+which is captured tightly by the \ac{SDP} bounds (cf.\ \autoref{tab:bounds}).
 For higher relaxation orders $r \geq 5$  numerical issues prevented the solution of the
-corresponding SDPs.
+corresponding \acp{SDP}.
 
 \subsection{Hybrid Models and Multi-Modal Behavior}
-The analysis of switching times is a particularly interesting case of FPTs that
+The analysis of switching times is a particularly interesting case of \acp{FPT} that
 arises in many   contexts.
 Often mode switching in such systems can be described a modulating Markov process
 whose switching rates may depend on the system state (e.g.\ the population sizes).
 In biological applications, mode switching often describes a change of the
-DNA state~\cite{hasenauer2014method,stekel2008strong} and the analysis of
+\acs{DNA} state~\cite{hasenauer2014method,stekel2008strong} and the analysis of
 switching time distribution is of particular interest~\cite{spieler2011model,barzel2008calculation}.
-In the context of MPMs, typically the state-space $\mathcal{S}=
+In the context of \acp{MPM}, typically the state-space $\mathcal{S}=
 \mathbb{N}^{\tilde{n}_S}\times {\{0,1\}}^{\hat{n}_S}$.
 This state is modeled by  $\hat{n}_S$ population variables with
 binary domains. Therefore, at each time point, the state of these modulator variables
@@ -955,7 +953,7 @@ The moment constraint over the partial moments has a linear structure:
 
 \begin{table}[t]
 \centering
-	\caption{MFPT bounds on \autoref{model:dim}, \autoref{model:double_dim}, \autoref{model:gexpr}.\label{tab:bounds}}
+	\caption{\ac{MFPT} bounds on \autoref{model:dim}, \autoref{model:double_dim}, \autoref{model:gexpr}.\label{tab:bounds}}
 \begin{tabular}{l@{\hspace{2em}}l@{\hspace{2em}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r}
     \toprule
     & & \multicolumn{5}{c}{Relaxation Order $r$}\\
@@ -998,21 +996,21 @@ As a first passage time we consider $$\tau=\inf\{t\geq 0\mid X_t^{(P)} \geq
 
 
 The results are summarized in \autoref{tab:bounds}.
-The estimated MFPT based on $100,\!000$
-SSA samples is $\E{\tau}\approx 6.37795\pm0.02847$ at $99\%$ confidence level.
-Note that our SDP solution for $r=5$ yields tighter moment bounds than
+The estimated \ac{MFPT} based on $100,\!000$
+\ac{SSA} samples is $\E{\tau}\approx 6.37795\pm0.02847$ at $99\%$ confidence level.
+Note that our \ac{SDP} solution for $r=5$ yields tighter moment bounds than
 the statistical estimation.% based on $100,\!000$ trajectories.
 
 
 In \autoref{fig:convergence} we summarize our results about the decrease of the interval widths for increasing relaxation order $r$ by plotting them on a log-scale.
 We see an approximately exponential decrease with increasing $r$.
-The semi-definite programs above were all solved within at most a few seconds.
+The \acp{SDP} above were all solved within at most a few seconds.
 \begin{figure}[t]
     \centering
     \includegraphics[scale=0.65]{gfx/convergence.pdf}
-    \caption{The interval width, i.e.\ the difference between upper and lower bound,
+	\caption[\ac{MFPT} bound convergence]{The interval width, i.e.\ the difference between upper and lower bound,
     for different case studies and targeted first passage times against the order $r$
-    of the SDP relaxation.\label{fig:convergence}}
+    of the \ac{SDP} relaxation.\label{fig:convergence}}
 \end{figure}
 
 
@@ -1022,14 +1020,14 @@ Numerical methods to compute reachability probabilities and first passage times
 for continuous-time Markov chains that are based on an exhaustive exploration of the state-space
 are exact up to numerical precision. Such methods, however, do not scale and cannot be efficiently applied to models with large or infinite state-spaces,
 an issue exacerbated in population models. Moment-based methods offer an alternative analysis approach
-for MPMs, which scales with the number of different populations in the system
+for \acp{MPM}, which scales with the number of different populations in the system
 but are approximations with little or no control of the error.
 In this work,
 we bridge this gap by proposing a rigorous approach to derive bounds on first passage
 times and reachability probabilities, leveraging a semi-definite programming formulation
 based on appropriate moment constraints. 
 
-The method we propose is shown to be accurate in several examples. It does, however, suffer, like all moment-based methods, from numerical instabilities in the SDP solver, caused by the fact that moments typically span several orders of magnitude. We proposed a scaling of moments to mitigate this effect. 
+The method we propose is shown to be accurate in several examples. It does, however, suffer, like all moment-based methods, from numerical instabilities in the \ac{SDP} solver, caused by the fact that moments typically span several orders of magnitude. We proposed a scaling of moments to mitigate this effect. 
 However, the scaling only addresses the moment matrices but not the linear constraints
 which still contain values with varying orders of magnitudes.
 Therefore, we plan as future work to investigate an appropriate scaling for the linear constraints

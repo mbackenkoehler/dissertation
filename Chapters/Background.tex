@@ -7,7 +7,7 @@
 \end{itemize}
 
 \section{Markovian Population Models}
-A Markov population model (MPM)
+An \acf{MPM}
 describes the stochastic interactions
 among agents of distinct types in a well-stirred system.
 This assumes that all agents are equally distributed in space, which
@@ -37,12 +37,8 @@ In this case, we give the rate constant in \eqref{eq:reaction} instead of the fu
 For a given set of $n_R$ reactions, we define a stochastic
 process $\{{{X}}_t\}_{t\geq 0}$ describing the evolution of the population
 sizes over time $t$.
-Due to the assumption of exponentially distributed firing times\marginpar{Note that in addition mild regularity assumptions
-are   necessary for the existence of a unique CTMC $X$, such as non-explosiveness \cite{anderson2012continuous}.
-These assumptions  are  typically
-valid for realistic reaction networks.},  $ X$ is
-a continuous-time
-Markov chain (CTMC) on $\mathcal{S}$ with infinitesimal  generator matrix $Q$, where
+Due to the assumption of exponentially distributed firing times,  $ X$ is
+a \ac{CTMC} on $\mathcal{S}$ with infinitesimal  generator matrix $Q$, where
 the entries of $Q$ are
 \begin{equation}\label{eq:cme_generator}
     Q_{ x,  y} = \begin{cases}
@@ -51,6 +47,10 @@ the entries of $Q$ are
         -\sum_{j=1}^{n_R} \alpha_j( x)\,, &\text{otherwise.}
     \end{cases}
 \end{equation}
+Note that in addition mild regularity assumptions
+are   necessary for the existence of a unique \ac{CTMC} $X$, such as non-explosiveness \cite{anderson2012continuous}.
+These assumptions  are  typically
+valid for realistic reaction networks.
 The probability distribution over time is given by an
 initial value problem.
 Given an initial state $x_0$, the distribution\marginpar{We assume an enumeration of all states in  $\mathcal{S}$. We simply write $x_i$ for the state with index $i$ and drop this notation for entries of a state $x$.  }
@@ -114,4 +114,4 @@ The simulation algorithm consists of repeatedly evaluating the race condition an
 \end{algorithm}
 
 
-\section{Moment Dynamics}
+\section{Moment Dynamics}\label{sec:moments_bg}

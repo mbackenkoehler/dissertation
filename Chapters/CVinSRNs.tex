@@ -1,4 +1,4 @@
-\chapter{Control Variates for Stochastic Simulation}
+\chapter{Control Variates for Monte-Carlo Estimation}
 % \author{Michael Backenk\"ohler\inst{1}, Luca Bortolussi\inst{1,2}, Verena Wolf\inst{1}}
 % \authorrunning{M.\ Backenk\"ohler et al.}
 % \institute{\inst{1}Saarland University, Germany, \inst{2}University of Trieste, Italy}
@@ -25,7 +25,7 @@
 % %
 %\section{Introduction}
 
-Analysis approaches based on sampling, such as the Stochastic Simulation Algorithm (SSA) \cite{gillespie1977exact}, can  be applied
+Analysis approaches based on sampling, such as the \acf{SSA}~\cite{gillespie1977exact}, can  be applied
 independent of the size of the model's state-space. 
 However, statistical approaches are costly since a large number
 of simulation runs is necessary to reduce the statistical 
@@ -39,24 +39,24 @@ are typically only approximately fulfilled and therefore introduce  approximatio
 errors on top of the statistical uncertainty of the considered point estimators.
 
 Moment-based techniques offer a fast approximation of the statistical moments of the model. 
-The exact moment dynamics can be expressed as an infinite-dimensional system of ODEs, which cannot be directly  integrated for a transient analysis.
+The exact moment dynamics can be expressed as an infinite-dimensional system of \acp{ODE}, which cannot be directly  integrated for a transient analysis.
 Hence, ad-hoc approximations need to be introduced, expressing higher order moments as functions of lower-order ones \cite{ale2013general,engblom2006computing}.
 However, moment-based approaches rely on assumptions about the dynamics that are
 often not even approximately fulfilled and may lead to high approximation errors. 
 Recently, equations expressing the moment dynamics have also been used as constraints for parameter
 estimation \cite{backenkohler2018moment} and for computing moment bounds using semi-definite programming \cite{dowdy2018dynamic,ghusinga2017exact}.
 
-In this work, we propose a combination of such moment constraints with the SSA approach.
+In this work, we propose a combination of such moment constraints with the \ac{SSA} approach.
 Specifically, we   interpret these constraints as random variables 
 that are correlated with the estimators of interest usually given as functions of chemical population variables.
-These constraints can be used  as  (linear) control variates in order to improve the final estimate and reduce its variance \cite{lavenberg1982statistical,szechtman2003control}.
+These constraints can be used  as  (linear) \acfp{CV} in order to improve the final estimate and reduce its variance \cite{lavenberg1982statistical,szechtman2003control}.
 The method is easy on an intuitive level: If a control variate
 is positively correlated with the function to be estimated then 
 we can use the estimate of the variate to
 adjust the target estimate.
 %more details
 
-The incorporation of control variates into the SSA
+The incorporation of control variates into the \ac{SSA}
 introduces   additional simulation costs for the calculation of the constraint values.
 These values are integrals over time, which we accumulate  based on the
 piece-wise constant trajectories.
@@ -104,7 +104,7 @@ which model the mean densities faithfully in the system size limit~\cite{bortolu
 In between there are techniques such as moment closure \cite{singh2006lognormal}, that
 not only consider the mean, but also the variance and other higher order moments.
 These methods depend on ad-hoc approximations of higher order moments to
-close the ODE system given by the moment equations.
+close the \ac{ODE} system given by the moment equations.
 Yet another class of methods approximate molecular counts continuously and approximate the dynamics in such a continuous space, e.g. the system size expansion~\cite{van1992stochastic} and the
 chemical Langevin equation~\cite{gillespie2000chemical}.
 
@@ -132,7 +132,7 @@ Another approach is to find approximations that are specific to the problem at h
 such as approximations based on time-scale separations~\cite{cao2005slow,bortolussi2015efficient}.
 
 Recently, multilevel Monte Carlo methods have been applied in to time-inhomogenous
-MPM~\cite{anderson2018low}. In this techniques estimates are combined
+\ac{MPM}~\cite{anderson2018low}. In this techniques estimates are combined
 using estimates of different approximation levels.
 
 % \cite{goodman2009coupling}
@@ -164,8 +164,8 @@ i.e.\ the \emph{non-central moments} of the process.
 The \emph{order} $\lvert m\rvert$ of a moment $\E{X^m}$ is the sum over the exponents,
 i.e.\ $\lvert m\rvert =\sum_im_i$.
 The integration of \eqref{eq:mom_ode} with such functions $f$ is well-known in the context of
-moment approximations of MPM.
-For most models the arising ODE system is infinitely large, because the time-derivative of
+moment approximations of \ac{MPM}.
+For most models the arising \ac{ODE} system is infinitely large, because the time-derivative of
 low order moments usually depends on the values of higher order moments.
 To close this system, \emph{moment closures}, i.e.\ ad-hoc approximations of higher order moments
 are applied \cite{schnoerr2015comparison}.
@@ -283,8 +283,8 @@ By the central limit theorem
 \sqrt{n}\hat{V}_n\xrightarrow{d}N(\E{V},\sigma_V^2)\,.
 \]
 Now suppose, we know of a random variable $Z$ with $0=\E{Z}$.
-The variable $Z$ is called a \emph{control variate}.
-If a control variate $Z$ is correlated with $V$, we can
+The variable $Z$ is called a \emph{\acf{CV}}.
+If a \acl{CV} $Z$ is correlated with $V$, we can
 use it to
 reduce the variance of $\hat{V}_n$~\cite{glasserman2005large,nelson1990control,szechtman2003control,wilson1984variance}.
 For example, consider we are running a set of simulations and consider a single
@@ -352,7 +352,7 @@ an initial set of control variates
 and periodically removes potentially inefficient variates.
 The ``accumulator set'' $A$ represents the time-integral terms \eqref{eq:dis_int}.
 The size of $A$ has the most significant impact on the overall speed of the algorithm
-since it represents the only factor incurring a direct cost increase in the SSA itself (\autoref{line:run_ssa}).
+since it represents the only factor incurring a direct cost increase in the \ac{SSA} itself (\autoref{line:run_ssa}).
 
 The algorithm consists of a main loop which performs $n$ simulation runs (\autoref{line:main_loop}).
 Between each run the mean and covariance estimates of $[Z,\;  V]$ are updated (\autoref{line:updates}).
@@ -369,7 +369,7 @@ and \emph{redundancy} (lines \ref{line:cond_ck_begin}--\ref{line:cond_ck_end}).
     \begin{minipage}{.3\textwidth}
     \includegraphics[scale=.6]{gfx/legend_1.pdf} \vfill
     \end{minipage}
-    \caption{Different decision functions
+	\caption[\ac{CV} Redundancy heuristics]{Different decision functions
     used in the redundant control  variate removal. The weaker of any two control  variates is removed if
     the pair $(\bar\rho_{ij}, \rho_{ij})$ belongs to the shaded area of the considered function.
     The vertical dashed line indicates $\rho_{\min}$.\label{fig:decision}}
@@ -385,7 +385,7 @@ and \emph{redundancy} (lines \ref{line:cond_ck_begin}--\ref{line:cond_ck_end}).
     \centering
     \includegraphics[scale=0.6]{gfx/cs_pm.pdf}\\
     \end{minipage}
-	\caption{(a, b) The absolute correlation of different constraints {to $V$}
+	\caption[\ac{CV} correlation charactersitics]{(a, b) The absolute correlation of different constraints {to $V$}
     arising from different choices of $\lambda$. The blue dots represent constraints
     based on first order moments, while the orange refers to control  variates derived from second
     order moments. In both cases $10,\!000$ samples were used with
@@ -538,10 +538,10 @@ Let $\sigma_Y^2$ be the variance of $Y$.
 % If we let $c_0$ be the cost (i.e.\ CPU time) of a single simulation run, the overall cost to
 % achieve this variance is $nc_0$.
 % To achieve a variance $\tau^2$, $\sigma_Y^2/\tau^2$ samples are necessary at a cost of
-% $c_0\sigma_Y^2/\tau^2$. We can analogously argue for the CV estimate where the
+% $c_0\sigma_Y^2/\tau^2$. We can analogously argue for the \ac{cv} estimate where the
 % cost of a single iteration is $c_1$.
 The \emph{efficiency} of the method is the ratio of the necessary
-cost to achieve a similar reduction with the CV estimate $Y_{\text{CV}}$ compared to
+cost to achieve a similar reduction with the \ac{CV} estimate $Y_{\text{CV}}$ compared to
 the standard estimate $Y$~\cite{l1994efficiency}, i.e.
 \begin{equation}\label{eq:efficiency}
 E=\frac{c_0\sigma_Y^2}{c_1\sigma^2_{Y_{\text{CV}}}}\,.
@@ -562,12 +562,12 @@ Code is made available online \cite{cme-simulation-github}.
 We consider four non-trivial case studies. Three models exhibit complex multi-modal behaviour.
 We now describe the models and the estimated quantities in detail.
 
-The first model is a simple dimerization on a countably infinite state-space.
-\begin{model}[Dimerization]
+The first model\marginpar{This model appeared earlier as \autoref{model:dim} on page~\pageref{model:dim}.} is a simple dimerization on a countably infinite state-space.
+\begin{model*}[Dimerization]
 We first examine a simple dimerization model on an unbounded state-space
 $$\varnothing\xrightarrow{10}M,\quad 2M\xrightarrow{0.1}D$$
 with initial condition $X_0^M=0$.
-\end{model}
+\end{model*}
 Despite the models simplicity, the moment equations are not closed for this system
 due to the second reaction which is non-linear.
 Therefore a direct analysis of the expected value would require a closure.
@@ -658,8 +658,8 @@ Such an optimization would further increase the efficiency of the algorithm.
     \begin{minipage}{.69\textwidth}
     \centering(b)
     \end{minipage}
-    \caption{(a) The effect of including control variates (CV) on the mean estimates
-    $\hat{\mathbb{E}}(X^M_2)$ in the dimerization case study. Parameters
+	\caption[\ac{CV} illustration and the influence of algorithmic parameters]{(a) The effect of including \acp{CV} on the mean estimates
+    $\hat{E}(X^M_2)$ in the dimerization case study. Parameters
     were ${\pi}_{\lambda}=N(0,1)$, ${n}_{\lambda}=30$, ${k}_{\min}=4$, $\phi(\bar\rho)=1-{(1 - \bar\rho)}^2$.
     (b) The efficiencies for different valuations of ${n}_{\lambda}$ and ${k}_{\min} $
     and choices of ${\pi}_{\lambda}$. The sample size was $n=10,\!000$ in all cases
@@ -710,7 +710,8 @@ distribution for $\pi_{\lambda}$ seems superior.
     \centering
     \includegraphics[scale=.55]{gfx/legend_orders.pdf}
     \end{minipage}
-    \caption{The efficiency for different redundancy policies $\phi$ and maximal 
+	\caption[Influence of the redundancy heuristic
+	and moment orders]{The efficiency for different redundancy policies $\phi$ and maximal 
     moment orders $n_{\max}$. The sample size was $n=10,\!000$ in all cases
     with $d=100$. Furthermore, $k_{\min}=3$, $\pi_\lambda=N(0,1)$, and $n_{\max}=1$.
     The bars give the 
@@ -767,7 +768,7 @@ The quadratic versions $\phi_{q}$ and $\phi_{\mathit{sq}}$ can be found in the m
 	    \vfill
     \end{minipage}
     \hfill
-    \caption{A visualisation of the trade-off between variance reduction $\sigma_0^2/\sigma_1^2$
+	\caption[Overview of the cost v.\ variance reduction trade-off]{A visualisation of the trade-off between variance reduction $\sigma_0^2/\sigma_1^2$
     and cost ratio $c_0/c_1$. Isolines for efficiencies are given in grey. The break-even
     is marked by the dashed red line.
     Markers of the same kind differ in $n_{\lambda}$ and shift with increasing value
@@ -798,7 +799,7 @@ The $\lambda$ sampling distribution $\pi_{\lambda}$ is a standard normal.
     \begin{minipage}{0.09\textwidth}
     \includegraphics[scale=.55]{gfx/legend.pdf}
     \end{minipage}
-    \caption{The empirical efficiencies for different $n_\lambda$ and $k_{\min} $.
+	\caption[Influence of the redundancy heuristic and $k_{\min}$]{The empirical efficiencies for different $n_\lambda$ and $k_{\min}$.
     On the considered case studies. The sample size was $n=10,\!000$ in all cases
     with $d=100$.
     1000 estimations were performed for each case.
@@ -835,7 +836,7 @@ with $n\to \infty$.
 In this work we have shown that known constraints on the moment dynamics can be successfully
 leveraged in simulation-based estimation of expected values.
 The empirical results indicate that
-the supplementing a standard SSA estimation with moment information
+the supplementing a standard \ac{SSA} estimation with moment information
 can drastically reduce the estimators' variance.
 This reduction is paid for by accumulating information on the trajectory
 during simulation.
