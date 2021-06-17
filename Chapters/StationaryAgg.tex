@@ -1,4 +1,4 @@
-\chapter{Truncations for Stationary Distributions}
+\chapter{Truncations for Stationary Distributions}\label{ch:statagg}
 An important part of the analysis of such models concerns their long-run behavior.
 Given an ergodic underlying Markov chain, the chain's stationary distribution characterizes this behavior.
 For some special model classes, such as zero-deficiency networks~\cite{anderson2011continuous}, analytical solutions for the stationary distribution are known.
@@ -34,8 +34,10 @@ Finally, we demonstrate the method on the p53 oscillator model exhibiting a comp
 
 
 \section{Related Work}\label{sec:statagg:related}
+\paragraph{Analytical Solutions}
 For some specific models, analytical solutions for the stationary distribution have been found \cite{melykuti2014equilibrium,kurasov2018stochastic}. For the class of zero-deficiency networks, the stationary distribution is known to have a Poisson product form \cite{anderson2010product}. Monomolecular reaction networks can be solved explicitly, as well~\cite{jahnke2007solving}.
 
+\paragraph{Truncation-Based Analysis}
 The analysis of countably infinite-sized state-spaces is often handled by pre-defined truncations~\cite{kwiatkowska2011prism}.
 Sophisticated state-space truncations for the (uncon\-ditioned) forward analysis have been developed that give lower bounds.
 They typically provide a trade-off between computational load and tightness of the bound~\cite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
@@ -50,6 +52,7 @@ Using Lyapunov functions for the construction of truncations often leads to very
 Different approaches have been employed to find truncations:
 In \citet{gupta2017finite} \ac{SSA} estimates are used to set up an increasing family of truncations.
 
+\paragraph{Moment-Based Approximation}
 Apart from approaches based on state-space truncations, moment-based approaches have been particularly popular recently~\cite{ghusinga2017exact,dowdy2018bounds,kuntz2017rigorous,sakurai2017convex}.
 Such approaches are based on the fact that particular matrices of distributional moments such as mean and variance are positive semi-definite.
 Along with linear constraints stemming from the Kolmogorov equations \cite{backenkohler2016generalized}, a semi-definite program can be formulated and solved using existing tools.
@@ -57,6 +60,7 @@ While this method is suited to compute bounds on both moments and subsets of the
 
 An approach where quantities are only described in terms of their magnitude has been proposed in \citet{ceska2019semi}. This allows for an efficient qualitative analysis of both dynamic and transient behavior.
 
+\paragraph{Aggregation}
 An aggregation scheme similar to the one used here has been previously proposed in \citet{backenkohler2020analysis} to analyze the bridging problem on Markov population models.
 This is the problem of analyzing process dynamics under both initial and terminal constraints.
 
@@ -73,39 +77,9 @@ here our aggregation approach is used to determine the most relevant states
 under stationary conditions in large or infinite chains with population structure.
 
 
-\subsection{Stationary Distribution}\label{sec:statagg:stationary_dist}
-Assuming
-% irreducibility and 
-ergodicity  
-of the underlying chain, a stationary distribution $\pi_{\infty}$ is an invariant distribution, namely a fixed point of the Kolmogorov forward equation \eqref{eq:forward}.
-Let $\pi_{\infty}$ be the vector description of a stationary distribution. It then  satisfies
-\begin{equation}\label{eq:stationary}
-0=\pi_{\infty}Q\quad\text{and}\quad 1=\sum_{x\in\mathcal{S}}\pi_{\infty}(x)
-\end{equation}
-as a fixed point of the Kolmogorov equation \eqref{eq:forward}.
-Stationary distributions are connected to the \emph{long-run} behavior of an \ac{MPM}~\cite{dayar2011bounding}, as the system's distribution will converge to the (unique)
-stationary distribution.
-The connection of the stationary distribution to the long-run behavior becomes clear when considering the ergodic theorem. 
-For some $A\subseteq\mathcal{S}$,
-\begin{equation}\label{eq:ergodic}
-    \lim_{T\to\infty}\frac{1}{T}\int_0^T 1_A(X_t)\,dt
-    = \sum_{x\in A}\pi_{\infty}(x)\,.
-\end{equation}
-Thus, the mean occupation time for set $A$ over infinite trajectories is the stationary measure for $A$.
-Eq.~\eqref{eq:ergodic} shows that we can assess long-run behavior using the stationary distribution and vice-versa.
-
-\paragraph{Example.} Returning to the example of \autoref{model:bd} it is obvious that the state-space is irreducible.
-Further, we can easily show, that the stationary distribution is Poissonian with rate $\mu/\gamma$:
-$$ \pi_{\infty}(x)=\frac{{(\mu/\gamma)}^{x}\exp(-\mu/\gamma)}{x!}\,.$$
 
 
-For simplicity, we assume throughout that the state-space is composed of a single communicating class.
-Checking ergodicity given a countably infinite number of states is achieved by providing a suitable Foster-Lyapunov function \cite{meyn2012markov}.
-Some automated techniques have been proposed for this task \cite{dayar2011bounding,gupta2014scalable,milias2014optimization}.
-
-
-
-\subsection{Truncation-Based Approximation of $\pi_{\infty}$}\label{sec:statagg:fsp}
+\section{Truncation-Based Approximation of $\pi_{\infty}$}\label{sec:statagg:fsp}
 In many relevant cases, the state-space is huge or infinite and therefore the stationary solution cannot be computed directly.
 To make such a computation possible we have to restrict ourselves to a finite manageable subset of the state-space and assume the majority of the probability mass is concentrated within that finite subset.
 The main problem is to deal with the transitions leading to and from the truncated set (cf.\ \autoref{fig:truncation}).
@@ -152,39 +126,10 @@ Alternatively, one can monitor the product of the probability-ouflow rate and th
     \begin{minipage}{0.35\textwidth}
     \includegraphics[width=\textwidth]{gfx/parbd_lya_v_truth.pdf}
     \end{minipage}
-	\caption[\ac{FSP} for stationary distribution approximation]{(left) A countably infinite state-space. (center) Outgoing transitions are re-directed (according to the reentry distribution) to states that have incoming transitions from outside the truncation. (right) A comparison of the area prescribed by a Lyapunov analysis using Geobound and threshold 0.1 and the minimal area containing 0.9 stationary probability mass. The model is a parallel birth death process (\autoref{model:par_bd}).}
+	\caption[\ac{FSP} for stationary distribution approximation]{(left) A countably infinite state-space. (center) Outgoing transitions are re-directed (according to the reentry distribution) to states that have incoming transitions from outside the truncation. (right) A comparison of the area prescribed by a Lyapunov analysis using Geobound and threshold 0.1 and the minimal area containing 0.9 stationary probability mass. The model is a parallel birth-death process (\autoref{model:par_bd}).}
     \label{fig:truncation}
 \end{figure}
 
-\subsection{Lyapunov Bounds}\label{sec:statagg:lyapunov}
-It is well-known that for a \ac{CTMC} $X$, ergodicity can be proven by a Lyapunov function $g:\mathcal{S}\to\mathbb{R}_+$ \cite{meyn1993stability,dayar2011bounding}.
-Given the $g$, we define its \emph{drift} $d$ as its average infinitesimal change, which is obtained applying the generator $Q$ to $g$. 
-\begin{equation}
-    d(x) = \sum_{j=1}^{n_R} \alpha_j(x) (g(x+v_j) -  g(x))
-\end{equation}
-Usually, such a function $g$ grows in all directions on the positive orthant, while its drift $d(x)$ decreases in all directions.
-More formally, $g$ is characterized by having finite level sets $\{x\in\mathcal{S} \mid g(x) < l\}$ for all $l > 0$.
-At the same time,
-\begin{equation}\label{eq:lyapunov_set}
-    \mathcal{C}_{\epsilon_{\ell}} = \{ x\in\mathcal{S} \mid
-    \frac{\epsilon_{\ell}}{c}d(x) > \epsilon_{\ell} - 1\}
-\end{equation}
-should be finite, where $\infty> c\geq \sup_{x\in\mathcal{S}} d(x)$.
-In this case, $\mathcal{C}_{\epsilon_{\ell}}$ contains at least $1-\epsilon_{\ell}$ of stationary probability mass for any $\epsilon_{\ell}\in(0,1)$ \cite[Thm.~8]{spieler2014numerical}.
-Given that $\mathcal{C}_{\epsilon_{\ell}}$ is finite, the chain is ergodic and
-\begin{equation}
-    \sum_{x\in\mathcal{C}_{\epsilon_{\ell}}}\pi(x)> 1 - \epsilon_{\ell}
-\end{equation}
-bounding the stationary probability mass contained within $\mathcal{C}_{\epsilon_{\ell}}$.
-
-In many cases, simple choices of $g$ such as the L1- or L2- norm are sufficient.
-However, the sets resulting from such functions are often very conservative.
-Consider \autoref{fig:truncation} (right) as an example, where the Lyapunov truncation with $\epsilon_{\ell}=0.1$ %\vw{eps=0.1 sollte hier angegeben werden? }
-for two parallel birth death processes (\autoref{model:par_bd}) is compared to the smallest set containing 0.9 of stationary probability.
-Clearly, the area given by the Lyapunov function is magnitudes larger than necessary to capture probability mass consistent with $\epsilon_{\ell}$.
-
-We employ this approach to both identify initial truncations and estimate errors in the evaluation.
-Specifically, we employ the tool Geobound\marginpar{\url{https://mosi.uni-saarland.de/tools/geobound}} with L2-norm as function $g$ implementing techniques presented in \cite{dayar2011bounding}.
 
 \section{Method}\label{sec:statagg:method}
 In this work, we propose a  method to identify a truncation that optimizes the trade-off between the size of the considered state-space and the approximation error due to the \ac{FSP}.
@@ -207,6 +152,14 @@ The approach we use here is to identify such a  region by a Lyapunov analysis \c
 This way, we obtain a polynomial describing a semi-algebraic subset of the entire state-space containing $1-\epsilon_{\ell}$ of the mass, where $\epsilon_{\ell}>0$ can be fixed arbitrarily.
 These sets usually are far larger than a minimal set containing $1-\epsilon_{\ell}$ of stationary probability mass would be.
 As an initial aggregation, we build an aggregation on a subset $[0..n]^{n_S}\subset \mathcal{S}$ containing the set prescribed by the Lyapunov analysis.
+We also employ this approach to estimate errors in the evaluation.
+Specifically, we employ the tool Geobound~\cite{geobound} with L2-norm as function $g$ implementing techniques presented in \citet{dayar2011bounding}.
+
+In many cases, simple choices of $g$ such as the L1- or L2- norm are sufficient.
+However, the sets resulting from such functions are often very conservative.
+Consider \autoref{fig:truncation} (right) as an example, where the Lyapunov truncation with $\epsilon_{\ell}=0.1$ %\vw{eps=0.1 sollte hier angegeben werden? }
+for two parallel birth-death processes (\autoref{model:par_bd}) is compared to the smallest set containing 0.9 of stationary probability.
+Clearly, the area given by the Lyapunov function is magnitudes larger than necessary to capture probability mass consistent with $\epsilon_{\ell}$.
 
 
 \subsection{Iterative Refinement Algorithm}\label{sec:statagg:alg}
@@ -226,7 +179,7 @@ As an initial aggregation, we build an aggregation on a subset $[0..n]^{n_S}\sub
 \Output{approximate stationary distribution $\hat\pi_{\infty}$}
 \For{$i=1,\dots,m$}{
     ${\hat\pi}^{(i)}_{\infty}\leftarrow $ solve approximate stationary distribution on $\mathcal{S}^{(i)}$\label{line:stationary}\;
-    $\mathcal{R}\leftarrow$ choose smallest $\mathcal{R}'\subseteq\mathcal{S}^{(i)}$ such that $ \sum_{\bar{x}\in\mathcal{R}'}\hat{\pi}_{\infty}^{(i)}(\bar{x})\geq1-\epsilon$\label{line:filter}\;
+    $\mathcal{R}\leftarrow$ smallest $\mathcal{R}'\subseteq\mathcal{S}^{(i)}$ such that $ \sum_{\bar{x}\in\mathcal{R}'}\hat{\pi}_{\infty}^{(i)}(\bar{x})\geq1-\epsilon$\label{line:filter}\;
     $\mathcal{S}^{(i+1)}\leftarrow \bigcup_{\bar{x}\in\mathcal{R}} \text{split}(\bar{x})$\label{line:refine:stat}\;
     update $\hat{Q}$-matrix\label{line:update_q:stat}\;
 }
@@ -290,7 +243,7 @@ The linear systems were solved either using Numpy~\cite{numpy} for up to 5000 st
 
 The examples that we consider in the sequel 
 are typical benchmarks for the analysis of \acp{MPM}. For most of them, appropriate Lyapunov functions
-have been determined using Geobound \cite{spieler2014numerical}.
+have been determined using Geobound \cite{geobound,spieler2014numerical}.
 However, the corresponding Lyapunov sets containing at least $1-\epsilon_{\ell}$ of the stationary probability mass are very large for typical choices of $\epsilon_{\ell}$ (e.g. $\epsilon_{\ell}\in \{0.1,0.05,0.001\}$). Even
 for extremely large $\epsilon_{\ell}$, say $\epsilon_{\ell}=0.8$, the remaining state-space may still be huge (e.g, 15,198 states).
 \subsection{Parallel Birth-Death Process}
@@ -524,7 +477,7 @@ This distribution leads to a non-trivial truncation (357,488 states) which is ta
 \end{figure}
 
 \section{Conclusion}
-State-of-the-art methods for numerically calculating the stationary distribution of Markov Population Models rely on coarse truncations of irrelevant parts of large or infinite discrete state-spaces. 
+State-of-the-art methods for numerically calculating the stationary distribution of \aclp{MPM} rely on coarse truncations of irrelevant parts of large or infinite discrete state-spaces. 
 These truncations are either obtained from the stationary statistical moments of the process or from
 Lyapunov theory. They are limited in shape because these methods do not take into account the detailed 
 steady-state flow within the truncated state-space but only consider the average drift or stationary moments.

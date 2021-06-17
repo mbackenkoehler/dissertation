@@ -1,4 +1,4 @@
-\chapter{Analysis under Terminal Constraints}
+\chapter{Analysis under Terminal Constraints}\label{sec:bridging}
 % Observations of the \ac{MPM} are typically based on noisy measurements.
 % In most applications, they give only partial information about the system state and are sparse in time. 
 % For example, snapshots of the spread of an epidemic are typically not accurate due to false negative/positive results and limited testing. 
@@ -51,6 +51,7 @@ This way, the algorithm learns a truncation capturing most of the bridging proba
 This truncation provides guaranteed lower bounds because it is at the granularity of the original model.
 
 \section{Related Work}\label{sec:bridging:related}
+\paragraph{Terminal Constraints}
 The problem of endpoint constrained analysis occurs in the context of Bayesian estimation~\cite{sarkka2013bayesian}. 
 For \acp{MPM}, this problem has been addressed by \citet{huang2016reconstructing} using moment closure approximations and by \citet{wildner2019moment} further employing variational inference.
 Golightly and Sherlock modified stochastic simulation algorithms to approximatively  
@@ -60,6 +61,7 @@ Since a statistically exact augmentation is only possible for few simple cases, 
 Such approximations, however, do not give any guarantees on the approximation error
 and may suffer from numerical instabilities~\cite{schnoerr2014validity}.
 
+\paragraph{Rare Event Probabilities}
 The bridging problem also arises during the estimation of first passage times and rare event analysis.
 Approaches for first-passage times are often of heuristic nature ~\cite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}. Rigorous approaches yielding guaranteed bounds are currently limited by the performance of state-of-the-art optimization software~\cite{backenkohler2019bounding}.
 In biological applications, rare events of interest are typically related to the reachability of certain thresholds on molecule counts   or mode switching \cite{strasser2012stability}.
@@ -67,13 +69,16 @@ Most methods for the estimation of rare event probabilities  rely on  importance
 For other queries, alternative variance reduction techniques such as control variates are available~\cite{backenkohler2019control}.
 Apart from sampling-based approaches, dynamic finite-state projections have been employed by \citet{mikeev2013numerical}, but are lacking automated truncation schemes.
 
-
+\paragraph{State-Space Truncation}
 The analysis of countably infinite state-spaces is often handled by a pre-defined truncation~\cite{kwiatkowska2011prism}.
 Sophisticated state-space truncations for the (unconditioned) forward analysis have been developed to give lower bounds and rely on a trade-off between computational load and tightness of the bound~\cite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
 
+\paragraph{Reachibility in Verification}
 Reachability analysis, which is relevant in the context of probabilistic verification \cite{bortolussi2014stochastic,neupane2019stamina}, is a bridging problem where the endpoint constraint is the visit of a set of goal states.
 Backward probabilities are commonly used to compute reachability likelihoods \cite{amparore2013backward,zapreev2006safe}.
 Approximate techniques for reachability, based on moment closure and stochastic approximation, have also been developed in \cite{bortolussi2014stochastic,Bortolussi18infcomp}, but lack error guarantees. 
+
+\paragraph{Hidden Markov Models}
 There is also a conceptual similarity between computing bridging probabilities and the forward-backward algorithm for computing state-wise posterior marginals in \acfp{HMM}~\cite{rabiner1986introduction}. Like \acp{MPM}, \acp{HMM} are a generative model that can be conditioned on observations. We only consider two observations (initial and terminal state) that are not necessarily noisy but the forward and backward probabilities admit the same meaning.
 
 
@@ -285,7 +290,7 @@ states contributing significantly to $\hat\gamma_t^{(i)}$ will be kept and refin
 % 
 We present four examples in this section to evaluate our proposed method. 
 A prototype was implemented in Python~3.8. For numerical integration we used the Scipy implementation \cite{2020SciPy-NMeth} of the implicit method based on backward-differentiation formulas \cite{byrne1975polyalgorithm}.
-The analysis as a Jupyter notebook is made available online\marginpar{\url{https://www.github.com/mbackenkoehler/mjp_bridging}}.
+The analysis as a Jupyter notebook is made available online~\cite{mjp_bridging}.
 
 \subsection{Bounding Rare Event Probabilities}
 
@@ -357,7 +362,7 @@ Even using a conservative truncation threshold $\delta=\text{1e-5}$, our method 
 %Next, we turn to ``mode switching'' events.
 %These occur in models exhibiting a \emph{multi-modal} behavior, which are of great relevance in
 %many contexts~\cite{siegal2011emergence}. These models exhibit a multi-modal stationary distribution.
-Mode switching occurs in models exhibiting   \emph{multi-modal} behavior~\cite{siegal2011emergence} when a trajectory   traverses a potential barrier from one mode
+Mode switching occurs in models exhibiting   \emph{multi-modal} behavior (see \autoref{sec:multimodality} for details) when a trajectory   traverses a potential barrier from one mode
 to another.
 \marginpar{This can, in most cases, be considered an instance
 of rare-event analysis.}
@@ -399,10 +404,10 @@ The state-space for the \ac{DNA} states is not lumped. Instead we ``stack''
 lumped approximations of the $P_1$-$P_2$ phase space upon each other. Special treatment of \ac{DNA} states is common for such models \cite{lapin2011shave}. 
 
 %We assess the switching dynamics from one mode to another.
-To analyze the switching, we choose the transition from (variable order: $P_1$, $P_2$, $D$, $D.P_1$, $D.P_2$)
-$ x_{1} = (32, 0, 0, 0, 1) $
-to
-$ x_2 = (0, 32, 0, 1, 0) $
+To analyze the switching, we choose the transition from\marginpar{Variable order: $P_1$, $P_2$, $D$, $D.P_1$, $D.P_2$.}
+$$ x_{1} = (32, 0, 0, 0, 1) 
+\quad\text{to}\quad
+ x_2 = (0, 32, 0, 1, 0) $$
 over the time interval $t\in[0,10]$.
 The initial lumping scheme covers up to 80 molecules of $P_1$ and $P_2$ for each mode.
 Macro-states have size $8\times8$ and
@@ -438,7 +443,7 @@ These dynamics are already qualitatively captured by the first lumped approximat
 Next, we apply our method to  a toggle switch model exhibiting non-polynomial rate functions.
 This well-known  model considers two proteins $A$ and $B$
 inhibiting the production of the respective other protein~\cite{lipshtat2006genetic}.
-\begin{model}[Toggle Switch (Hill functions)]
+\begin{model}[Toggle Switch using Hill functions]
 We have population types $A$ and $B$ with the following reactions and reaction rates.
 $$ \varnothing \xrightarrow{\alpha_1(\cdot)} A\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + x_B},
 \qquad A \xrightarrow\lambda \varnothing $$
@@ -460,7 +465,7 @@ The truncation threshold is $\delta=\e{1}{-4}$.
 The resulting truncation is shown in \autoref{fig:switching_dynamics:occ}.
 It also illustrates the kind of insights that can be obtained from the bridging distributions.
 For an overview of the switching dynamics, we look at the expected occupation time under the terminal constraint of having entered state $(120,0)$. Letting the corresponding hitting time be $\tau=\inf\{t\geq 0\mid X_t=(120, 0)\}$, the expected occupation time for some state $x$ is
-$E\left(\int_0^{\tau}1_{=x}(X_t)\,dt\mid \tau\leq 10\right)$.
+$$E\left(\int_0^{\tau}1_{=x}(X_t)\,dt\mid \tau\leq 10\right)\,.$$
 We observe that in this example the switching  behavior seems to be asymmetrical.
 The main mass seems to pass through an area where initially a small number of $A$ molecules is produced followed by a total decay of $B$ molecules.
 

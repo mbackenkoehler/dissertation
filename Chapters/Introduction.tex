@@ -60,24 +60,95 @@ extremely challenging because of the enormous size of the underlying
 state-space. 
 
 \section{Organization}
-\begin{itemize}
-	\item Chapter dependencies graph
-\end{itemize}
+\begin{tikzpicture}
+	\begin{scope}
+  \path[mindmap,concept color=gray!25,text=black]
+	node[concept] {\autoref{ch:background}\\\aclp{MPM}}
+    [clockwise from=-20]
+    child[concept] {
+	    node[concept] {\autoref{ch:lumping}\\Aggregation}
+	    [clockwise from=-55]
+	    child[concept] {
+		    node[concept] {\autoref{ch:statagg}\\Stationary Distribution}
+	    }
+	    child[concept] {
+		    node[concept] {\autoref{sec:bridging}\\Bridging Problem}
+	    }
+    }
+    child[concept] {
+	    node[concept] (cv) {\autoref{sec:cvinsrns}\\Control Variates}
+    }
+    child[concept] {
+	    node[concept] (mfpt) {\autoref{ch:MFPT}\\Bounding {MFPTs}}
+    }
+    ;
+	\end{scope}
+ %    \begin{pgfonlayer}{background}
+ %  %\draw [draw=gray!25,fill=gray!25, decorate,decoration=circle connection bar]
+ %            \path (cv) to[draw=gray!25,color=gray!25,fill=gray!25, circle connection bar] (mfpt);
+%%     \draw[circle connection bar]
+%%%%% (cv) edge (mfpt);
+ %    \end{pgfonlayer}
+\end{tikzpicture}
 
 
 %*******************************************************
 % Publications
 %*******************************************************
-\section*{Previous Publications}%\graffito{This is just an early --~and currently ugly~-- test!}
-The ideas and much of the presented results have appeared previously in the following publications:
+\section{Previous Publications}%\graffito{This is just an early --~and currently ugly~-- test!}
+The ideas and much of the presented results have appeared previously in the following publications.
+As such, most chapters have been published in various conference proceedings.
+The publications and their respective sections are as indicated below.
+
+\begin{itemize}
+
+\item \autoref{ch:MFPT} has with minor differences been published as
+\begin{quote}
+	Michael Backenköhler, Luca Bortolussi, and Verena
+Wolf. ``Bounding Mean First Passage Times in
+	Population Con\-tin\-uo\-us-Time Markov Chains.'' In: \emph{17th
+International Conference on Quantitative Evaluation of
+	SysTems (QEST).} Vol. 12289. LNCS. Springer, 2020,
+pp. 155--174.
+\end{quote}
+
+\item \autoref{sec:cvinsrns} has with minor differences been published as
+\begin{quote}
+	Michael Backenköhler, Luca Bortolussi, and Verena
+Wolf. ``Control Variates for Stochastic Simulation of
+	Chemical Reaction Networks.'' In: \emph{17th International
+	Conference on Computational Methods in Systems Biology (CMSB).} Vol. 11773. LNCS. Springer, 2019,
+pp. 42--59.
+\end{quote}
+
+\item \autoref{ch:statagg} has with minor differences been published as
+\begin{quote}
+	Michael Backenköhler, Luca Bortolussi, Gerrit Großmann, and Verena Wolf. ``Abstraction-Guided Truncations
+for Stationary Distributions of Markovian
+	Population Models.'' In: \emph{18th
+International Conference on Quantitative Evaluation of
+	SysTems (QEST).} (2021).
+\end{quote}
+
+	\item \autoref{sec:bridging} has with minor differences been published as
+
+\begin{quote}
+	Michael Backenköhler, Luca Bortolussi, Gerrit Großmann, and Verena Wolf.
+	``Analysis of Markov Jump Processes under Terminal Constraints.''
+	In: \emph{27th International Conference on Tools and Algorithms for
+	the Construction and Analysis of Systems (TACAS).}  Vol. 1265. LNCS.
+	Springer, 2021, pp. 210--229.
+\end{quote}
+		\autoref{ch:lumping} is --~in large part~-- based on this and the preceeding publication.
+\end{itemize}
 
 %\noindent Put your publications from the thesis here. The packages \texttt{multibib} or \texttt{bibtopic} etc. can be used to handle multiple different bibliographies in your document.
 
-\begin{refsection}[ownpubs]
-    \small
-    \nocite{*} % is local to to the enclosing refsection
-
-    \printbibliography[heading=none]
-\end{refsection}
+% \begin{refsection}[ownpubs]
+%     \small
+%     \nocite{*} % is local to to the enclosing refsection
+% 
+%     \printbibliography[heading=none]
+% \end{refsection}
 
 

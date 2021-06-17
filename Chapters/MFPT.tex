@@ -118,7 +118,7 @@ In summary, this chapter presents the following novel contributions:
 \end{itemize}
 
 \section{Related Work}\label{sec:mfpt:related}
-Considerable effort has been directed at the analysis of \acl{FPT}
+\paragraph{Truncations and Analytic Solutions} Considerable effort has been directed at the analysis of \acl{FPT}
 distributions in \acp{MPM}. Most works can either focus on an explicit state-space
 analysis~\cite{barzel2008calculation,munsky2009specificity,kuntz2019exit,kuntz2018approximation}
 or employ approximation techniques for which, in general, no error bounds can be
@@ -134,7 +134,8 @@ linear programming approach to compute exit time distribution using state-space
 truncation schemes. In \citet{kuntz2019exit} the authors propose a finite state-space
 projection scheme to bound \acl{FPT} distributions
 
-\citet{hayden2012fluid} use moment closure approximations and
+\paragraph{Moments Approximations} In \citet{hayden2012fluid}, the authors
+use moment closure approximations and
 Chebychev's inequality to gain an understanding of \acl{FPT} dynamics.
 \citet{schnoerr2017efficient} also employ a moment closure approximation
 and further approximate threshold functions to derive an approximate \acl{FPT}
@@ -142,7 +143,7 @@ distribution.
 \citet{bortolussi2014stochastic} use a mean-field approximation
 which is required to reach the target region.
 
-Recently, several groups independently suggested the use of semi-definite
+\paragraph{Moment Bounds using Optimization} Recently, several groups independently suggested the use of semi-definite
 optimization for the computation of moment bounds for the limiting
 distribution~\cite{ghusinga2017exact,dowdy2018bounds,kuntz2017rigorous,sakurai2017convex}.
 In this approach, the differential equations describing the moment dynamics are
@@ -168,6 +169,7 @@ For good introductions and overviews of application areas, we refer
 the reader to \citet{parrilo2003semidefinite} and, more recently,
 \citet{lasserre2010moments}.
 
+\paragraph{First Passage Times using Optimization}
 Particularly relevant for this work is the application of convex optimization to
 \ac{FPT}.
 \citet{helmes2001computing} formulated a linear program using the
@@ -245,28 +247,12 @@ and, as a special case, the mean first-passage time.
 In combination with semi-definite properties of moment matrices, we can formulate
 mathematical programs that yield upper and lower bounds on \aclp{MFPT}.
 
-We start with the description of the \emph{raw moments} dynamics.
-In particular, a raw moment is
-$$\E{\vec X^{\vec m}}=\E{\prod_{i=1}^{n_S} X_i^{m_i}}\,,\quad \vec m\in {\mathbb{N}}^{n_S}$$
-with respect to some probability measure.
-%Note, that moments can also be defined for non-probability measures, i.e.\ for
-%measures with total measure $\neq 1$.
-The order of a moment $E({\vec X}^{\vec m})$ is given by the sum of its exponents,
-i.e.\ $\sum_i m_i$.
-Note that the notion of  expected value can be generalized
-to any measure $\mu$ on a Borel-measurable space
-$(E, \mathcal{B}(E))$, where
- the $\vec{m}$-th raw moment is $\int_E {\vec x}^{\vec m}\,d\mu(\vec x)$.
-Throughout we assume that moments of arbitrary order remain finite over time,
-i.e.\ $E(\lvert \vec{X}^{\vec{m}}_t\rvert)<\infty$, $t\geq 0$.
-In \citet{gupta2014scalable} the authors propose a framework to verify
-this property for a given model.
 
 Let $f$ be a polynomial function, $t\ge0$.
 Using the \ac{CME} \eqref{eq:cme}, we can derive \acp{ODE}
 describing the dynamics of $\E{f(\vec{X}_t)}$~\cite{engblom2006computing}.
 Specifically,\marginpar{More details on the derivation of the moment \acp{ODE} is given in \autoref{sec:moments_bg}.}
-\begin{equation}\label{eq:mom_ode}
+\begin{equation}\label{eq:mfpt:mom_ode}
     \frac{d}{dt}\E{f(\vec X_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
     \vec{v_j}}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}\,.
 \end{equation}
@@ -288,7 +274,7 @@ $\E{X_t}$ and $\E{X_t^2}$, respectively.
 \end{equation}
 Fixing initial moments, the \ac{ODE} system describes the moments over time exactly.
 However, these \acp{ODE} cannot be integrated because the system is not closed.
-The right-hand side for moment $\E{X_t^m}$ always contains $\E{X_t^{m+1}}$.
+The right-hand side for moment $\E{X_t^m}$ always contains $E(X_t^{m+1})$.
 To solve the initial value problem,
 one typically resorts to ad-hoc approximations of the highest order moments
 to close the system. Here we do \emph{not} need such approximations
@@ -297,7 +283,7 @@ Instead we adopt an approach \cite{dowdy2018dynamic,sakurai2019bounding} that ex
 the description of state-space moments to a temporal one.
 
 This is achieved by the introduction of a time-dependent polynomial $w(t)$ that is multiplied to
-\eqref{eq:mom_ode}.
+\eqref{eq:mfpt:mom_ode}.
 An integration by parts on $[0, T]$ yields~\cite{dowdy2018dynamic,sakurai2019bounding}
 \begin{equation}\label{eq:exp_constraint}
 \begin{split}
@@ -391,11 +377,11 @@ We will use these as constraints in the semi-definite program used to bound \acp
 % \todo{re-state the above example here again?}\luca{good idea}
 If we apply this to our previous example (cf.\ \eqref{eq:dim_exp_ode}), letting $m=1$ %\vw{same example has $\vec m=(1,0)$ above }
 and $k=1$ we obtain the following process for \autoref{model:dim}.
-\begin{align*}
+$$
     Z_T^{(1,1)} = TX_T - \int_0^T X_t\,dt - \lambda \int_0^T t\,dt - 2\delta
     \int_0^T t X_t\,dt +
     2{\delta}\int_0^TtX_t^2\,dt,
-\end{align*}
+    $$
 where the sequences above are $(m_i)_i=(1,0,1,2)$, $(k_i)_i=(0,1,1,1)$,
 and $(c_i)_i=(-1,-\lambda, -2\delta,2\delta)$.
 \section{Bounds for Mean First Passage Times}\label{sec:mfpt:mfpt_bounds}
@@ -739,7 +725,8 @@ Now we can formulate the optimization~\eqref{eq:sdp_for_fpt}
 over a scaled version $D^{-1}M(\vec{z'})$ instead of $M(\vec{z'})$.
 The moment matrices of the exit location probabilities are scaled in the same
 way.
-Alternatively, one can use approximations such as moment closures
+\marginpar{These scaling strategies have not been evluated so far.}
+Alternatively, one could use approximations such as moment closures
 or bounds obtained by lower-order relaxations or solve a sequence
 of problems, incrementally increasing
 the time-horizon, and adjust the scaling accordingly~\cite{dowdy2018dynamic}.
@@ -777,14 +764,15 @@ of measure $\nu_2$ in the linear constraints~\eqref{eq:sdp_for_fpt}.
 This can be done because the threshold on $M$ makes the state-space finite
 and therefore the first passage time distribution is a phase-type distribution
 which possesses finite moments \cite[Chapter 7.6]{stewart2009probability}.
-The empirical \ac{FPT} distribution based on 100,000 \ac{SSA} simulations is given in \autoref{fig:dim_fpt:fpt}
+The empirical \ac{FPT} distribution based on 100,000 \ac{SSA} simulations is given in \autoref{fig:dim_fpt_fpt}
 and the bounds, given different moment orders, are given in \autoref{fig:dim_fpt:mfpt}.
 As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the \ac{MFPT} precisely for orders 5, 6.
 The difference between upper and lower bound decreases roughly exponentially with increasing relaxation order $r$.
 We found that this trend was consistent among the case studies presented here (cf.\ \autoref{fig:convergence}).
 \begin{figure}
 	\myfloatalign
-    {\label{fig:dim_fpt:fpt}
+	\subfloat[\ac{FPT} distribution]
+    {\label{fig:dim_fpt_fpt}
 	\includegraphics[width=.48\textwidth]{gfx/fpt_dist_dim.pdf}}
 	\subfloat[\ac{MFPT} bounds.]
     {\label{fig:dim_fpt:mfpt}%
@@ -900,18 +888,18 @@ such a variable $X$, clearly $\E{X^m}=\E{X}=\Pr(X=1)$ for all $m\geq 1$.
 
 We apply a  split of variables $\vec X_t$  into the high count part ${\vec{\tilde{X}}}_t$ and the binary
 part ${\vec{\hat{X}}}_t$ to
-the expectations in~\eqref{eq:mom_ode}. Similarly, we split   $\vec v_j$ and
+the expectations in~\eqref{eq:mfpt:mom_ode}. Similarly, we split   $\vec v_j$ and
 with a case
 distinction over the mode variable,
 we arrive at a similar result as in~\cite{hasenauer2014method}:
 \begin{equation}\label{eq:mcm}
 \begin{split}
-    \frac{d}{dt}\E{\vec{\tilde{X}}^{{\vec m}}_t 1_{=\vec y}({\vec{\hat{X}}}_t)}
-   % =&\sum_{j=1}^{n_R}
-   % \E{\left(\left(\vec{\tilde{X}}_t+\vec{\tilde{v}}_j\right)^{\vec
-   % m}1_{=\vec y}({\vec{\hat{X}}}_t+\vec{\hat{v}}_j)
-   %     -{\vec{\tilde{X}}}_t^{\vec
-   %     m}1_{=\vec y}({\vec{\hat{X}}}_t)\right)\alpha(\vec X_t) }\\
+	& \frac{d}{dt}\E{\vec{\tilde{X}}^{{\vec m}}_t 1_{=\vec y}({\vec{\hat{X}}}_t)}\\
+   =&\sum_{j=1}^{n_R}
+   \E{\left(\left(\vec{\tilde{X}}_t+\vec{\tilde{v}}_j\right)^{\vec
+   m}1_{=\vec y}({\vec{\hat{X}}}_t+\vec{\hat{v}}_j)
+       -{\vec{\tilde{X}}}_t^{\vec
+       m}1_{=\vec y}({\vec{\hat{X}}}_t)\right)\alpha(\vec X_t) }\\
     =&\sum_{j=1}^{n_R}
         \E{{\left(
                 {\vec{\tilde{{X}}}}_t+\vec{\tilde{{v}}}_j
