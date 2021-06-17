@@ -62,12 +62,13 @@ state-space.
 \section{Organization}
 \begin{tikzpicture}
 	\begin{scope}
-  \path[mindmap,concept color=gray!25,text=black]
+  \path[mindmap,concept color=gray!25,text=black,level 1 concept/.append style =
+      {sibling angle=45}]
 	node[concept] {\autoref{ch:background}\\\aclp{MPM}}
     [clockwise from=-20]
     child[concept] {
 	    node[concept] {\autoref{ch:lumping}\\Aggregation}
-	    [clockwise from=-55]
+	    [clockwise from=-20]
 	    child[concept] {
 		    node[concept] {\autoref{ch:statagg}\\Stationary Distribution}
 	    }

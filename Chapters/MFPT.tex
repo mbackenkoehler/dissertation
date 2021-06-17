@@ -120,7 +120,7 @@ In summary, this chapter presents the following novel contributions:
 \section{Related Work}\label{sec:mfpt:related}
 \paragraph{Truncations and Analytic Solutions} Considerable effort has been directed at the analysis of \acl{FPT}
 distributions in \acp{MPM}. Most works can either focus on an explicit state-space
-analysis~\cite{barzel2008calculation,munsky2009specificity,kuntz2019exit,kuntz2018approximation}
+analysis~\cite{barzel2008calculation,munsky2009specificity,kuntz2019exit,kuntz2021approximations}
 or employ approximation techniques for which, in general, no error bounds can be
 given~\cite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}.
 For some model classes such as kinetic proofreading, analytic solutions are
@@ -129,7 +129,7 @@ possible~\cite{munsky2009specificity,bel2009simplicity,iyer2016first}.
 \citet{barzel2008calculation} propose a recursive scheme that consists of one equation for
 each state, expressing the average time the system needs to transition from that
 state to the target state.
-\citet{kuntz2018approximation} propose to employ moment bounds in a
+\citet{kuntz2021approximations} propose to employ moment bounds in a
 linear programming approach to compute exit time distribution using state-space
 truncation schemes. In \citet{kuntz2019exit} the authors propose a finite state-space
 projection scheme to bound \acl{FPT} distributions
@@ -250,7 +250,7 @@ mathematical programs that yield upper and lower bounds on \aclp{MFPT}.
 
 Let $f$ be a polynomial function, $t\ge0$.
 Using the \ac{CME} \eqref{eq:cme}, we can derive \acp{ODE}
-describing the dynamics of $\E{f(\vec{X}_t)}$~\cite{engblom2006computing}.
+describing the dynamics of $\expSym(f(\vec{X}_t))$~\cite{engblom2006computing}.
 Specifically,\marginpar{More details on the derivation of the moment \acp{ODE} is given in \autoref{sec:moments_bg}.}
 \begin{equation}\label{eq:mfpt:mom_ode}
     \frac{d}{dt}\E{f(\vec X_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
@@ -382,7 +382,7 @@ $$
     \int_0^T t X_t\,dt +
     2{\delta}\int_0^TtX_t^2\,dt,
     $$
-where the sequences above are $(m_i)_i=(1,0,1,2)$, $(k_i)_i=(0,1,1,1)$,
+where the sequences according to \eqref{eq:basic_poly_martingale} are $(m_i)_i=(1,0,1,2)$, $(k_i)_i=(0,1,1,1)$,
 and $(c_i)_i=(-1,-\lambda, -2\delta,2\delta)$.
 \section{Bounds for Mean First Passage Times}\label{sec:mfpt:mfpt_bounds}
 We now turn to the analysis of first passage times within some time-bound
@@ -737,7 +737,7 @@ between values, these differences become significantly smaller in the scaled ver
 of the problem.
 \begin{figure}[htb]
     \centering
-    \includegraphics[scale=0.65]{gfx/magnitudes.pdf}
+    \includegraphics[width=\textwidth]{gfx/magnitudes.pdf}
 	\caption[Unscaled and scaled value of the moment matrix]{The unscaled and scaled value of the moment matrix proxy variable
     $M(\vec{z'})$ after optimization using MOSEK. The indices are given along the
     logarithmic (base 10) values. The unscaled version (left) shows large

@@ -1,4 +1,10 @@
 \chapter{State-Space Aggregation}\label{ch:lumping}
+In this part, we propose a  method to identify a truncation that optimizes the trade-off between the size of the considered state-space and the approximation error due to the \acf{FSP}\turnto{sec:fsp}.
+To this end, we start with a very coarse-grained model abstraction that we refine iteratively. 
+The coarse-grained model is based on an grid-shaped aggregation (i.e., lumping) scheme that identifies a set of macro-states.
+These macro-states can be used to compute an interim model solution that guides the refinement in the next step.
+We perform refinements until the approximation arrives at the resolution of the original model (i.e., each macro-state has only one constituent) such that the aggregation introduces no approximation error.
+
 \section{Macro-States}
 A macro-state is a collection of micro-states (or simply states) treated as one state in the aggregated model, which can be seen as an abstraction of the original model.
 The aggregation scheme defines a partitioning of the state-space.
@@ -75,10 +81,12 @@ $ 2 X \xrightarrow{c} \varnothing\,. $
 For macro-state
 $\bar{x} = \{0, \dots, n\}$
 we can compute the corresponding lumped transition rate
-$$\bar{\alpha}(\bar{x})
-=\frac{c}{2}\sum_{i=1}^n i (i - 1)
-=\frac{c}{2}\sum_{i=1}^n (i^2 - i)
-=\frac{c}{2}\left(\frac{2n^3+3n^2+n}{6} - \frac{n^2 + n}{2}\right)$$
+\begin{align*}
+	\bar{\alpha}(\bar{x})
+	& =\frac{c}{2}\sum_{i=1}^n i (i - 1) 
+	=\frac{c}{2}\left(\sum_{i=1}^n i^2 - \sum_{i=1}^ni\right)\\
+	& =\frac{c}{2}\left(\frac{2n^3+3n^2+n}{6} - \frac{n^2 + n}{2}\right)
+\end{align*}
 eliminating the explicit summation in the lumped propensity function.
 
 Interestingly, the lumped distribution

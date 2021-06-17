@@ -7,7 +7,7 @@ In these cases, the system's initial state is known, as well as the system's (pa
 % Parameter inference and model analysis conditioned on such sparse and partial observations are notoriously difficult as it requires endpoint conditioned simulation of the system.
 % Essentially, a model must be  analyzed  with initial conditions consistent with the observations at one time-point and under the additional constraint that its subsequent evolution is consistent with observations at later times.
 The probabilities corresponding to this so-called \emph{bridging problem} are often referred to as \emph{bridging probabilities} \cite{golightly2019efficient,golightly2011bayesian}.
-For instance, if the exact, full state of the process $X_t$ has been observed at time $0$ and $T$, the bridging distribution is given by
+For instance, if the exact, full state of the process $X_t$ has been observed at time $t=0$ and $t=T$, the bridging distribution is given by
 $$\Pr(X_t=x\mid X_{0}=x_{0},X_{T}=x_g)$$
 for all states $x$ and times $t\in [0,T]$.
 Often, the condition is more complex, such that in addition to an initial distribution, a terminal distribution is present.
@@ -52,7 +52,7 @@ This truncation provides guaranteed lower bounds because it is at the granularit
 
 \section{Related Work}\label{sec:bridging:related}
 \paragraph{Terminal Constraints}
-The problem of endpoint constrained analysis occurs in the context of Bayesian estimation~\cite{sarkka2013bayesian}. 
+The problem of endpoint constrain\-ed analysis occurs in the context of Bayesian estimation~\cite{sarkka2013bayesian}. 
 For \acp{MPM}, this problem has been addressed by \citet{huang2016reconstructing} using moment closure approximations and by \citet{wildner2019moment} further employing variational inference.
 Golightly and Sherlock modified stochastic simulation algorithms to approximatively  
 augment generated trajectories  \cite{golightly2019efficient}.
@@ -73,7 +73,7 @@ Apart from sampling-based approaches, dynamic finite-state projections have been
 The analysis of countably infinite state-spaces is often handled by a pre-defined truncation~\cite{kwiatkowska2011prism}.
 Sophisticated state-space truncations for the (unconditioned) forward analysis have been developed to give lower bounds and rely on a trade-off between computational load and tightness of the bound~\cite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
 
-\paragraph{Reachibility in Verification}
+\paragraph{Reachability in Verification}
 Reachability analysis, which is relevant in the context of probabilistic verification \cite{bortolussi2014stochastic,neupane2019stamina}, is a bridging problem where the endpoint constraint is the visit of a set of goal states.
 Backward probabilities are commonly used to compute reachability likelihoods \cite{amparore2013backward,zapreev2006safe}.
 Approximate techniques for reachability, based on moment closure and stochastic approximation, have also been developed in \cite{bortolussi2014stochastic,Bortolussi18infcomp}, but lack error guarantees. 
@@ -202,7 +202,7 @@ Moreover, this choice ensures that all states have equal volume
 and we end up with states of volume $2^0=1$ which is
 equivalent to a truncation of the original non-lumped state-space.\\
 \indent An iteration of the state-space refinement starts by computing both the
-forward and backward probabilities (\autoref{line:forw} and \autoref{line:backw})  via integration of \eqref{eq:forward} and
+forward and backward probabilities (\autoref{line:forw} and \autoref{line:backw})  via integration of \eqref{eq:forward}\turnto{eq:forward} and
 \eqref{eq:backward}, respectively, using
  the lumped $\hat Q$-matrix.
 Based on the resulting approximate forward and backward probabilities, we
@@ -211,7 +211,8 @@ bridging distributions (\autoref{line:bridge}).
 This is done for each time-point in an equispaced grid on $[0,T]$.
 The time grid granularity is a hyper-parameter of the algorithm.
 If the grid is too fine, the memory overhead of storing backward $\hat\beta^{(i)}$
-and forward solutions $\hat\pi^{(i)}$ increases.\marginpar{We denote the approximations with a hat (e.g.\ $\hat{\pi}$) rather than a bar (e.g.\ $\bar{\pi}$) to indicate that not only the lumping approximation but also a truncation is applied and similarly for the $Q$-matrix.}
+and forward solutions $\hat\pi^{(i)}$ increases.
+{We denote the approximations with a hat (e.g.\ $\hat{\pi}$) rather than a bar (e.g.\ $\bar{\pi}$) to indicate that not only the lumping approximation but also a truncation is applied and similarly for the $Q$-matrix.}
 If, on the other hand, the granularity is too low, too much of
 the state-space might be truncated.
 Based on a threshold parameter $\delta>0$

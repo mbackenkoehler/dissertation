@@ -25,7 +25,7 @@
 % %
 %\section{Introduction}
 
-Analysis approaches based on sampling, such as the \acf{SSA}~\cite{gillespie1977exact}, can  be applied
+Analysis approaches based on sampling, such as the \acf{SSA}~\cite{gillespie1977exact}\turnto{sec:ssa}, can  be applied
 independent of the size of the model's state-space. 
 However, statistical approaches are costly since a large number
 of simulation runs is necessary to reduce the statistical 
@@ -150,19 +150,7 @@ using the likelihood-ratio between the original and the altered process.
 
 
 \section{Moment Constraints}\label{sec:cv:moments}
-The time-evolution of $\E{f(X_t)}$ for some function $f$ can be directly derived from \eqref{eq:cme} by 
-computing the sum
-% \vw{ hier steht erstmal kein Integral, sondern die Zeitableitung von pi} 
-$\sum_{x\in\mathcal{S}}f(x)\frac{d}{dt}\pi_t(x)$, which yields 
-\begin{equation}\label{eq:mom_ode}
-    \frac{d}{dt}\E{f(X_t)} = \sum_{j=1}^{n_R}\E{\left(f({X_t + v_j}) - f(X_t)\right)\alpha_j(X_t)}\,.
-\end{equation}
-While many choices of $f$ are possible, for this work we will restrict ourselves to
-monomial functions $f(x)=x^m$, $m\in\mathbb{N}^{n_S}$
-% \vw{ich dachte, m soll ein Vektor sein}
-i.e.\ the \emph{non-central moments} of the process.
-The \emph{order} $\lvert m\rvert$ of a moment $\E{X^m}$ is the sum over the exponents,
-i.e.\ $\lvert m\rvert =\sum_im_i$.
+The time-evolution of $\E{f(X_t)}$ for some function $f$ is given by \eqref{eq:mom_ode}\turnto{eq:mom_ode}.
 The integration of \eqref{eq:mom_ode} with such functions $f$ is well-known in the context of
 moment approximations of \ac{MPM}.
 For most models the arising \ac{ODE} system is infinitely large, because the time-derivative of
@@ -194,7 +182,7 @@ Multiplying with $w(t)$ and integrating on $[t_0, T]$ yields~\cite{dowdy2018dyna
 \end{equation}
 
 In the context of computing moment bounds via semi-definite programming
-the choices $w(t)=t^s$~\cite{sakurai2019bounding} and $w(t)=e^{\lambda(T - t)}$~\cite{dowdy2018dynamic}
+the polynomial $w(t)=t^s$~\cite{sakurai2019bounding} and the exponential $w(t)=e^{\lambda(T - t)}$~\cite{dowdy2018dynamic}
 have been proposed.
 While both choices proved to be effective in different case studies, relying solely on the latter choice,
 i.e.\ $$w(t)=e^{\lambda(T - t)}$$ was sufficient.
@@ -440,7 +428,7 @@ Naturally, there are many possible choices for the above decision boundary $\phi
 The simplest choice is to ignore $\bar\rho_{ij}$ and just fix a constant close to 1 as a threshold,
 e.g.\ $$ \phi_c(\bar\rho_{ij})=.99\,.$$ While this often leads to the strongest variance reduction
 and avoids numerical issues in the control variate computation, it turns out
-that the computational overhead is not as well-compensated as by other choices of $\phi$ (see \autoref{sec:cv:study}).
+that the computational overhead is not as well-com\-pen\-sa\-ted as by other choices of $\phi$ (see \autoref{sec:cv:study}).
 
 Another option is to fix a simple linear function, i.e.\ $$ \phi_{\ell}(\bar\rho_{ij})=\bar\rho_{ij}\,.$$
 For this choice the intuition is, that one of two constraints is removed if their mutual
@@ -684,7 +672,7 @@ alternative uniform distribution, except in case of the dimerization.
 The reason for this becomes apparent, when examining \autoref{fig:bdim}:
 In case of the dimerization model the most efficient constraints are found for
 $\lambda\approx -3$, while in case of the distributive modification they are located
- just above 0 (we observe a similar pattern for the exclusive switch case study).
+ just above $0$ (we observe a similar pattern for the exclusive switch case study).
 Therefore the sampling of efficient $\lambda$ values is more likely
 using a uniform distribution for the dimerization case study, than it is for the others.
 Given that larger absolute values for $\lambda$ seem unreasonable due 
@@ -812,10 +800,10 @@ with $n\to \infty$.
 	\myfloatalign
 	\subfloat[Efficiency v.\ sample size]
 	{\label{fig:sample_sizes:eff}
-	\includegraphics[scale=.4]{gfx/sample_size_efficiency.pdf}}\quad
+	\includegraphics[scale=.37]{gfx/sample_size_efficiency.pdf}}\quad
 	\subfloat[Slowdown v.\ sample size]
 	{\label{fig:sample_sizes:slowdown}
-	\includegraphics[scale=.4]{gfx/sample_size_slowdown.pdf}}
+	\includegraphics[scale=.37]{gfx/sample_size_slowdown.pdf}}
 	\caption[Effect of sample size on control variate performance]{
     The effect of sample size on the efficiency $E$ and slowdown in the different case studies.
     The break-even $E=1$ is marked by the dashed red line.

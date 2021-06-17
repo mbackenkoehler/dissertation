@@ -1,7 +1,7 @@
 \chapter{Background}\label{ch:background}
 
 \section{Continuous-time Markov Chains}
-A \emph{stochastic process} is a parameterized collection of random variables $\{X_t\}_{t\in T}$ defined on some probability space $(\Omega, \mathcal{F}, P)$.\marginpar{For more information on stochastic processes \citet{oksendal2013stochastic} is an excellent starting point.}
+A \emph{stochastic process} is a parameterized collection of random variables $\{X_t\}_{t\in T}$ defined on some probability space $(\Omega, \mathcal{F}, P)$.\marginpar{See \citet{oksendal2013stochastic} for more information on stoch.\ processes.}
 In most contexts the index set $T$ models \emph{time}.
 In a discrete setting $T=\mathbb{N}$, while $T=[0,\infty)$ in the continuous setting, which we consider in this thesis.
 More specifically, we are concerned with models having \acf{CTMC} semantics.
@@ -105,7 +105,7 @@ evolves according to the Kolmogorov forward equation
 \begin{equation}\label{eq:forward}
 \frac{d}{dt}\pi(t) = \pi(t) Q\,,
 \end{equation}
-where $\pi(t)$ is an arbitrary vectorization $(\pi(x_1,t), \pi(x_2,t),\dots,\pi(x_{|\mathcal{S}|},t))$ of the states.
+where $\pi(t)$ is an arbitrary vectorization $$(\pi(x_1,t), \pi(x_2,t),\dots,\pi(x_{|\mathcal{S}|},t))$$ of the states.
 \eqref{eq:forw_prob} given for a single state, in the context of quantitative biology, it is commonly referred to
 as the \emph{chemical master equation} (CME)
 \begin{equation}\label{eq:cme}
@@ -114,16 +114,6 @@ as the \emph{chemical master equation} (CME)
         \alpha_j( x- v_j)\pi( x- v_j,t) - \alpha_j( x)\pi( x,t)
     \right)\,.
 \end{equation}
-A direct solution of \eqref{eq:cme} is usually not possible.
-If the state-space with non-negligible probability is suitably small, a state space
-truncation could be performed. That is, \eqref{eq:cme} is integrated on a possibly time-dependent subset
-$\hat{\mathcal{S}}_t\subseteq\mathcal{S}$ \cite{henzinger2009sliding,munsky2006finite,spieler2014numerical}.
-Instead of directly analyzing \eqref{eq:cme}, one often resorts to simulating trajectories.
-A trajectory $\tau=x_0t_1x_1t_1\dots t_n x_n$ over the interval $[0,T]$ is a sequence of states $x_i$
-% \vw{warum s nicht x fuer states? Eigentlich i=0 }
-and corresponding
-jump times $t_i$, $i=1,\dots,n$ and $t_n=T$.
-We can sample trajectories of $X$ by using stochastic simulation~\cite{gillespie1977exact}.
 
 \paragraph{Example} Consider a birth-death process as a simple example. This model is used to describe a wide variety of phenomena and often constitutes a sub-module of larger models.
 For example, it represents an M/M/1 queue with service rates being linearly dependent on the queue length.
@@ -139,7 +129,21 @@ For \autoref{model:bd} the change of probability mass in a single state $x>0$ is
 \eqref{eq:cme} and
 $$\frac{d}{dt}\pi_t(x)=\gamma \pi_t(x-1) + \delta \pi_t(x+1) - (\gamma + \delta)\pi_t(x)\,.$$
 
-\section{Stochastic Simulations}
+
+\section{State-Space Truncation}\label{sec:fsp}
+A direct solution of \eqref{eq:cme} is usually not possible.
+If the state-space with non-negligible probability is suitably small, a state space
+truncation could be performed.
+That is, \eqref{eq:cme} is integrated on a possibly time-dependent subset
+$\hat{\mathcal{S}}_t\subseteq\mathcal{S}$ \cite{henzinger2009sliding,munsky2006finite,spieler2014numerical}.
+Transitions to states, that are not part of this subset are typically re-directed to a introduced sink-state.
+This state captures the mass ``lost'' by the approximation and gives the error up to the numerical integration scheme.\marginpar{Uniformization can give a lower bound on the error \cite{andreychenko2010fly}.}
+\citet{munsky2006finite} coined the term of \acf{FSP} for such a method.
+
+To analyze the stationary distribution (\autoref{sec:stationary_dist}) the redirection scheme needs to be altered \cite{kuntz2021stationary}:
+Instead of a re-redirection into a sink-state, transitions are redirected in \emph{some fashion} back into the truncation set.
+
+\section{Stochastic Simulations}\label{sec:ssa}
 We can generate trajectories of this model using the \acf{SSA} (\autoref{alg:ssa})  \cite{gillespie1977exact}.
 The simulation algorithm consists of repeatedly evaluating the race condition and jump times induced by~\eqref{eq:cme_generator} until some terminal criterion such as a maximum simulation time $T$ is reached (\autoref{line:loop}).
 In particular, the algorithm iteratively chooses a reaction, with a probability that is
@@ -194,7 +198,7 @@ As an example, let us express the dynamics of the first two uncentered moments f
 Setting initial moments these equations give as an \ac{IVP}, we can solve (see \autoref{fig:momsandprobs}).
 This, however, is more an exception than the norm:
 Unless all ractions have linear or constant rate functions $\alpha_i(\cdot)$, $\forall i$, we would not end up with a closed system of \acp{ODE} as in \eqref{eq:bd:mom1}.
-To illustrate, let us pretend the reaction ($S\xrightarrow{\gamma}\varnothing$) would become this non-linear reaction
+To illustrate, let us pretend the reaction ($S\xrightarrow{\gamma}\varnothing$) would become this non-linear reaction\marginpar{The model is then the same as \autoref{model:dim}.}
 $$
 2S\xrightarrow{\gamma}\varnothing\,.
 $$
@@ -210,7 +214,7 @@ Note, that now the derivative depends on the value of the second moment $\E{X_t^
 If we consider the general expression \eqref{eq:mom_ode} for the moment of order $k$ clearly a term of order $k+1$ occurs, that does not cancel out.
 Therefore, researches commonly rely on ad-hoc approximations to truncate this infinite system of \acp{ODE} \cite{hespanha2008moment,schnoerr2015comparison,schnoerr2014validity}.
 Unfortunately such schemes have typically no guarantees to converge --~or even improve~-- with increasing truncation order \cite{schnoerr2014validity} or increasing system size.
-The only scheme with a convergence guarantee in the system size limit is the mean-field approximation \cite{bortolussi2013continuous}.
+The only scheme with a convergence guarantee in the system size limit is the \emph{mean-field} approximation \cite{bortolussi2013continuous}.
 Therein zero-covariances are assumed, i.e.\ the system is truncated at the first oder equations using the approximation $\E{X_t^2}=\E{X_t}^2$.
 \begin{figure}[htb]
 	\centering
@@ -218,7 +222,7 @@ Therein zero-covariances are assumed, i.e.\ the system is truncated at the first
 	\caption[Moments and probability distribution $\pi(t)$]{\label{fig:momsandprobs}The expected value $\pm$ a standard deviation along with a sampled trajectory (left) and the probability distribution over time (right) of \autoref{model:bd} with $\mu=10$ and $\gamma=0.1$.}
 \end{figure}
 
-\section{Stationary Distribution}\label{sec:statagg:stationary_dist}
+\section{Stationary Distribution}\label{sec:stationary_dist}
 Assuming
 % irreducibility and 
 ergodicity  
@@ -251,7 +255,7 @@ Some automated techniques have been proposed for this task \cite{dayar2011boundi
 
 
 \subsection{Lyapunov Bounds}\label{sec:statagg:lyapunov}
-It is well-known that for a \ac{CTMC} $X$, ergodicity can be proven by a Lyapunov function $g:\mathcal{S}\to\mathbb{R}_+$ \cite{meyn1993stability,dayar2011bounding}.\marginpar{The positivity requirement can somewhat be relaxed. The function only needs to be bounded from below since it can be shifted to the positives. In practice this shift can be ignored since it cancels out in the drift \eqref{eq:drift}.}
+It is well-known that for a \ac{CTMC} $X$, ergodicity can be proven by a Lyapunov function $g:\mathcal{S}\to\mathbb{R}_+$ \cite{meyn1993stability,dayar2011bounding}.\footnote{The positivity requirement can somewhat be relaxed. The function only needs to be bounded from below since it can be shifted to the positives. In practice this shift can be ignored since it cancels out in the drift \eqref{eq:drift}.}
 Given the $g$, we define its \emph{drift} $d$ as its average infinitesimal change, which is obtained applying the generator $Q$ to $g$. 
 \begin{equation}\label{eq:drift}
 	d(x) = Qg(x) = \sum_{j=1}^{n_R} \alpha_j(x) (g(x+v_j) -  g(x))

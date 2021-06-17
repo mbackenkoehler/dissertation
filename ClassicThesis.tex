@@ -34,7 +34,7 @@
     \WarningFilter{titlesec}{Non standard sectioning command detected}
 \documentclass[ twoside,openright,titlepage,numbers=noenddot,%1headlines,
                 headinclude,footinclude,cleardoublepage=empty,abstract=on,
-                BCOR=5mm,paper=a4,fontsize=11pt,
+                BCOR=5mm,paper=b5,fontsize=11pt,
 		dvipsnames
                 ]{scrreprt}
 
@@ -52,7 +52,21 @@
 %********************************************************************
 % Hyphenation
 %*******************************************************
-%\hyphenation{put special hyphenation here}
+\hyphenation{Sprin-ger}
+\hyphenation{Mar-kov}
+\hyphenation{Mu-sta-fa}
+\hyphenation{IN-fi-ni-te}
+\hyphenation{tech-ni-ques}
+\hyphenation{Mom-ent}
+\hyphenation{Spie-ler}
+\hyphenation{Da-vid}
+\hyphenation{che-ck-er}
+\hyphenation{stea-dy}
+\hyphenation{Je-re-my}
+\hyphenation{con-tin-uo-ous}
+\hyphenation{sto-chas-tic}
+\hyphenation{con-strain-ed}
+\hyphenation{re-fers}
 
 % ********************************************************************
 % GO!GO!GO! MOVE IT!
@@ -132,6 +146,7 @@
 % ********************************************************************
 % Backmatter
 %*******************************************************
+\cleardoublepage\include{FrontBackmatter/Bibliography}
 \appendix
 %\renewcommand{\thechapter}{\alph{chapter}}
 \cleardoublepage
@@ -139,7 +154,6 @@
 \include{Chapters/cv_appendix}
 %********************************************************************
 % Other Stuff in the Back *******************************************
-\cleardoublepage\include{FrontBackmatter/Bibliography}
 \cleardoublepage\include{FrontBackmatter/ListOfFigures}
 \cleardoublepage\include{FrontBackmatter/Colophon}
 % ********************************************************************

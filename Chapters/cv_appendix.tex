@@ -34,7 +34,7 @@
 \end{table}
 \begin{table}
     \centering
-	\begin{adjustbox}{caption={asd sd sad},angle=90}
+	\begin{adjustbox}{angle=90}
     \begin{tabular}{L{8mm} l rrrrrrrr}
         \toprule
         \multicolumn{2}{c}{} & \multicolumn{8}{c}{iteration $i$} \\\cmidrule(lr){3-10}
@@ -65,8 +65,10 @@
     \caption{Detailed results for Model~\ref{model:excl_switch}. Upper bounds on the total absolute error and the maximum absolute error are given. The worst-case errors are computed wrt.\ the reference Geobound solution with $\epsilon_{\ell}=1e-2$.}
     \label{tab:excl_switch}
 \end{table}
+
 \begin{table}[]
     \centering
+	\resizebox{\textwidth}{!}{
 \begin{tabular}{l@{\hskip 12pt}l@{\hskip 12pt}l@{\hskip 12pt}r@{\hskip 12pt}r@{\hskip 12pt}r@{\hskip 12pt}r}
 \toprule
   Case study &   $n_{\lambda}$ & $\phi$ & $1-\frac{\sigma_1^2}{\sigma_0^2}$ &  slowdown &  efficiency& $\lvert P\rvert$ \\\midrule
@@ -107,13 +109,14 @@ Excl. switch & 10 &$\phi_{sq}$ &  0.807184 &  1.227471 &    4.239255 &   2.53647
             &    &$\phi_{q}$ &  0.876822 &  1.340409 &    6.079876 &   2.762449 \\
             &    & $\phi_{\ell}$ &  0.843288 &  1.288925 &    4.968796 &   1.983174 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
     \caption{$n_{\max}=1$, $n=10,\!000$, $d=100$, $k_{\min}=3$}
     \label{tab:eff1}
 \end{table}
 
 \begin{table}[]
     \centering
+	\resizebox{\textwidth}{!}{
 \begin{tabular}{l@{\hskip 12pt}l@{\hskip 12pt}l@{\hskip 12pt}r@{\hskip 12pt}r@{\hskip 12pt}r@{\hskip 12pt}r}
 \toprule
   Case study &   $n_{\lambda}$ & $\phi$ & $1-\frac{\sigma_1^2}{\sigma_0^2}$ &  slowdown &  efficiency &$\lvert P\rvert$ \\\midrule
@@ -154,8 +157,7 @@ Excl. switch & 10 &$\phi_{sq}$ &  0.811956 &  1.505521 &    3.544783 &   2.32399
             &    &$\phi_{q}$ &  0.878830 &  2.053317 &    4.034987 &   3.611746 \\
             &    & $\phi_{\ell}$ &  0.824936 &  1.838879 &    3.118728 &   1.978836 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
     \caption{$n_{\max}=2$, $n=10,\!000$, $d=100$, $k_{\min}=3$}
     \label{tab:eff2}
 \end{table}
-

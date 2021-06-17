@@ -43,7 +43,7 @@ Sophisticated state-space truncations for the (uncon\-ditioned) forward analysis
 They typically provide a trade-off between computational load and tightness of the bound~\cite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
 Such methods cannot be directly applied to the estimation of stationary distributions because the approximation usually introduces a sink-state.
 
-Truncations for stationary distributions often involve re-direction schemes for transitions leaving and entering the subset.
+Truncations for stationary distributions often involve re-direc\-tion schemes for transitions leaving and entering the subset.
 A comprehensive survey of such state-space truncation methods can be found in \cite{kuntz2021stationary}.
 A popular method of identifying truncations is the construction of a suitable Lyapunov function.
 Beyond their use for establishing ergodicity \cite{meyn1993stability,gupta2014scalable,dayar2011bounding},
@@ -130,16 +130,6 @@ Alternatively, one can monitor the product of the probability-ouflow rate and th
     \label{fig:truncation}
 \end{figure}
 
-
-\section{Method}\label{sec:statagg:method}
-In this work, we propose a  method to identify a truncation that optimizes the trade-off between the size of the considered state-space and the approximation error due to the \ac{FSP}.
-To this end, we start with a very coarse-grained model abstraction that we refine iteratively. 
-The coarse-grained model is based on an grid-shaped aggregation (i.e., lumping) scheme that identifies a set of macro-states.
-These macro-states can be used to compute an interim model solution that guides the refinement in the next step.
-We perform refinements until the approximation arrives at the resolution of the original model (i.e., each macro-state has only one constituent) such that the aggregation introduces no approximation error.
-
-We explain the construction of macro-states in \autoref{sec:statagg:aggregation} and their initialization in \autoref{sec:statagg:initagg}.
-We present the iterative refinement algorithm in \autoref{sec:statagg:alg}.
 
 
 
@@ -331,7 +321,7 @@ We choose parameter values $\rho_1 = 0.7$, $\rho_2 = 0.6$, $\lambda=0.02$, $\bet
 \end{model}
 Since the exclusive switch models mutually exclusive binding of proteins to a single genetic locus,
 we know a priori that there are exactly three distinct operating modes.
-In particular are $D$, $D.P_1$, and $D.P_2$ mutually exclusive such that $X_{D}(t) + X_{D.P_1}(t) + X_{D.P_2}(t) = 1$, $\forall t\geq 0$.
+In particular are $D$, $D.P_1$, and $D.P_2$ mutually exclusive such that $$X_{D}(t) + X_{D.P_1}(t) + X_{D.P_2}(t) = 1, \quad \forall t\geq 0\,.$$
 This model characteristic often leads to bi-modal stationary distributions, where one or the other protein is more abundant depending on the genetic state.
 
 Accordingly, we adjust
@@ -339,7 +329,7 @@ the initial truncation:
 The state-space for the DNA states is not lumped. Instead we ``stack''
 lumped approximations of the $P_1$-$P_2$ plane upon each other.
 Such special treatment of DNA states is common for such models \cite{lapin2011shave}.
-Using Lyapunov analysis for threshold $0.001$, we fix an initial state-space of $63\times 63$ macro-states with size $2^7$. Detailed results for different parameters $\epsilon$ are presented \autoref{tab:excl_switch}.
+Using Lyapunov analysis for threshold $0.001$, we fix an initial state-space of $63\times 63$ macro-states with size $2^7$. Detailed results for different parameters $\epsilon$ are presented \autoref{tab:excl_switch}\turnto{tab:excl_switch}.
 We compute error bounds using a worst-case analysis based on reference solutions provided by Geobound with $\epsilon_{\ell}=0.01$.
 We observe a strong decrease in both upper bounds on the total absolute and maximal absolute error in the final iteration.
 Interestingly, the errors between different thresholds are very close in earlier iterations.
@@ -350,16 +340,7 @@ Using Geobound we observe that our final truncation captures the stationary mass
 We use the Geobound's lower bounds with $\epsilon_{\ell}=1e-2$ and find that the uncovered mass by the aggregation-based truncation is magnitudes lower than $\epsilon$ or close to it (for $\epsilon=0.1$).
 While they capture the mass well, they are much smaller than the Geobound truncation ($\epsilon_{\ell}=0.1$) % \vw{?} 
 with 16,780 states, regardless of the threshold parameter $\epsilon$.
-
-In \autoref{fig:excl_switch:trunc_sizes}, we show the effect of the threshold parameter $\epsilon$ on the size of the final truncation.
-We observe a roughly linear increase in size with an exponential decrease of $\epsilon$.
-\begin{figure}
-    \centering
-    \includegraphics[scale=.7]{gfx/excl_switch_dist.pdf}
-	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\text{1e-4}$.}
-    \label{fig:excl_switch:excl_switch_dist}
-\end{figure}
-\begin{table}
+\begin{table}[htb]
     \centering
     \begin{tabular}{L{30mm} R{15mm} R{15mm} R{15mm} R{15mm}}
     \toprule
@@ -374,6 +355,15 @@ We observe a roughly linear increase in size with an exponential decrease of $\e
 	\caption[Characteristics of the lower-upper bound intervals]{Results for \autoref{model:excl_switch}: The characteristics of the lower-upper bound intervals on the conditional probability and the upper bound on mass not contained in the truncation are given.}
     \label{tab:intervals}
 \end{table}
+
+In \autoref{fig:excl_switch:trunc_sizes}, we show the effect of the threshold parameter $\epsilon$ on the size of the final truncation.
+We observe a roughly linear increase in size with an exponential decrease of $\epsilon$.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=.7]{gfx/excl_switch_dist.pdf}
+	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\text{1e-4}$.}
+    \label{fig:excl_switch:excl_switch_dist}
+\end{figure}
 
 \subsection{p53 Oscillator}
 We now consider a model of the interactions of the tumor suppressor p53~\cite{geva2006oscillations}. The system describes the negative feedback loop between  p53 and the oncogene Mdm2.
@@ -395,7 +385,7 @@ $$
 $$
 The parameterization based on \cite{ale2013general} is $k_1=90$, $k_2=0.002$, $k_3=1.7$, $k_4=1.1$, $k_5=0.93$, $k_6=0.96$, and $k_7 = 0.01$.
 \end{model}
-With the exception of propensity function $\alpha_4$, we can compute the transition rates $\bar{\alpha}_i$ using the Faulhaber formulae, as discussed in \autoref{sec:statagg:aggregation}.
+With the exception of propensity function $\alpha_4$, we can compute the transition rates $\bar{\alpha}_i$ using the Faulhaber formulae, as discussed in \autoref{ch:lumping}.
 We consider $\alpha_4$ separately, because it is non-polynomial and therefore, we have to make an approximation.
 The fraction occurring in the non-linear propensity function $\alpha_4$ can roughly be characterized as an activation function:
 Due to the low value of parameter $k_7=0.01$ we can approximate\marginpar{Note, that $\sum_{i=0}^n i / (i + k_7)$ can be solved analytically. However, the approximation presented above is much simpler to compute.}
