@@ -97,7 +97,7 @@ Instead $\beta(\cdot, t)$ gives the reaching probabilities for all states over t
 time span of $[t, T]$.
 To compute these probabilities, we can employ the Kolmogorov backward equation
 \begin{equation}\label{eq:backward}
-\frac{d}{dt}\beta(t) = Q\beta(t)^{\T}\,,
+\frac{d}{dt}\beta(t) = Q\beta(t)\,,
 \end{equation}
 where we use the same vectorization to construct $\beta(t)$ as we used
 for $\pi(t)$.
@@ -144,7 +144,7 @@ due to the Markov property.
 The normalization factor, given by the reachability probability $\pi(x_g, T)=\beta(x_0, 0)$, ensures that $\gamma(\cdot, t)$ is 
 a distribution for all time points $t\in[0,T]$.
 We call each $\gamma(\cdot, t)$ a   \emph{bridging distribution}.
-From the Kolmogorov equations \eqref{eq:forward} and \eqref{eq:backward}
+From the Kolmogorov equations \eqref{eq:forward}\turnto{eq:forward} and \eqref{eq:backward}
 we can obtain both the forward probabilities $\pi(\cdot, t)$ and the backward probabilities
 $\beta(\cdot, t)$ for $t< T$.
 
@@ -153,18 +153,20 @@ We can easily extend this procedure to deal with hitting times
 constrained by a finite time-horizon by making the goal state $x_g$ absorbing.
 
 
-In \autoref{fig:bd_bridge} we plot the forward, backward, and bridging probabilities for \autoref{model:bd}.
+\begin{example}
+In \autoref{fig:bd_bridge} we plot the forward, backward, and bridging probabilities for \autoref{model:bd}\turnto{model:bd}.
 The probabilities are computed on a $[0,100]$ state-space truncation.
 The approximate forward solution $\hat\pi$ shows how the probability mass drifts upwards towards the stationary distribution $\text{Poisson}(100)$. The backward probabilities are highest for states below the goal state $x_g=40$.
 This is expected because upwards drift makes reaching $x_g$ more probable for ``lower'' states.
 Finally, the approximate bridging distribution $\hat\gamma$ can be recognized to be proportional to the product of forward $\hat\pi$ and backward probabilities $\hat\beta$.
-\begin{figure}[tb]
+\begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{gfx/bridging_bd.pdf}
 	\caption[Forward, backward, and bridging probabilities for \autoref{model:bd}]{Forward, backward, and bridging probabilities for \autoref{model:bd} with initial constraint $X_0=0$ and terminal constraint $X_{10}=40$ on a truncated state-space. Probabilities over $0.1$ in $\hat\pi$ and $\hat\beta$ are given full intensity for visual clarity. %$\hat\gamma$ is normalized using the reaching probability.
     The lightly shaded area ($\geq 60$) indicates a region being more relevant for the forward than for the bridging probabilities.}
     \label{fig:bd_bridge}
 \end{figure}
+\end{example}
 
 \section{Bridge Truncation via Lumping Approximations}\label{sec:bridging:method}
 We first discuss the truncation of countably infinite state-spaces
@@ -176,7 +178,7 @@ yielding a suitable truncation for the bridging problem.
 \subsection{Finite State Projection}\label{sec:bridging:fsp}
 Even in simple models such as a birth-death Process (\autoref{model:bd}), the
 reachable state-space is countably infinite.
-Direct analyzes of backward \eqref{eq:back_probs} and forward equations \eqref{eq:forw_prob} are often infeasible.
+Direct analyzes of backward \eqref{eq:back_probs} and forward equations \eqref{eq:forw_prob}\turnto{eq:forw_prob} are often infeasible.
 Instead, the integration of these differential equations requires working
 with a finite subset of the infinite state-space \cite{munsky2006finite}.
 If states are truncated, their incoming transitions from states that are not truncated can be re-directed to a \emph{sink state}.
@@ -300,7 +302,7 @@ types of agents.
 The corresponding probability distribution
 has Poisson product form at all time points $t\geq 0$ and hence we can compare the accuracy of our  numerical results with the exact analytic solution.
 We use the proposed approach to compute lower bounds for rare event probabilities.
-\marginpar{These bounds are rigorous up to the approximation error of the numerical integration scheme. However, the forward solution could be replaced by an adaptive uniformization approach~\cite{andreychenko2010fly} for a more rigorous integration error control.}
+\footnote{These bounds are rigorous up to the approximation error of the numerical integration scheme. However, the forward solution could be replaced by an adaptive uniformization approach~\cite{andreychenko2010fly} for a more rigorous integration error control.}
 
 
 
@@ -354,7 +356,7 @@ It is possible to adapt our truncation approach to the dynamic scheme in \citet{
 % (\autoref{alg:refinement} \autoref{line:union}) to a union
 % over time intervals. \todo{L: I do not get this really? line 7 is the split. } % MB: this point is not important
 
-A finite state-space truncation covering the same area as the initial lumping approximation would contain $25,\!600$ states.\marginpar{The goal  is not treated as a single state. Otherwise, it consisted of $24,\!130$ states.}
+A finite state-space truncation covering the same area as the initial lumping approximation would contain $25,\!600$ states.\graffito{The goal  is not treated as a single state. Otherwise, it consisted of $24,\!130$ states.}
 The standard approach would be to build up the entire state-space for such a model \cite{kwiatkowska2011prism}.
 Even using a conservative truncation threshold $\delta=\text{1e-5}$, our method yields an accurate estimate using only about a fifth (5450) of this accumulated over all intermediate lumped approximations. 
 % Moreover the analysis yields intermediate distributions which we would not obtain using PRISM.
@@ -365,7 +367,7 @@ Even using a conservative truncation threshold $\delta=\text{1e-5}$, our method 
 %many contexts~\cite{siegal2011emergence}. These models exhibit a multi-modal stationary distribution.
 Mode switching occurs in models exhibiting   \emph{multi-modal} behavior (see \autoref{sec:multimodality} for details) when a trajectory   traverses a potential barrier from one mode
 to another.
-\marginpar{This can, in most cases, be considered an instance
+\graffito{This often is an instance
 of rare-event analysis.}
 Often, mode switching is a rare event and occurs in the context of gene regulatory networks where a mode is characterized by the set of genes being currently active~\cite{loinger2007stochastic}. 
 Similar dynamics also commonly occur in queuing models where a system may for example switch its operating  behavior stochastically if
@@ -405,7 +407,7 @@ The state-space for the \ac{DNA} states is not lumped. Instead we ``stack''
 lumped approximations of the $P_1$-$P_2$ phase space upon each other. Special treatment of \ac{DNA} states is common for such models \cite{lapin2011shave}. 
 
 %We assess the switching dynamics from one mode to another.
-To analyze the switching, we choose the transition from\marginpar{Variable order: $P_1$, $P_2$, $D$, $D.P_1$, $D.P_2$.}
+To analyze the switching, we choose the transition from\graffito{Variable order: $P_1$, $P_2$, $D$, $D.P_1$, $D.P_2$.}
 $$ x_{1} = (32, 0, 0, 0, 1) 
 \quad\text{to}\quad
  x_2 = (0, 32, 0, 1, 0) $$

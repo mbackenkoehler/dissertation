@@ -156,7 +156,7 @@ moment approximations of \ac{MPM}.
 For most models the arising \ac{ODE} system is infinitely large, because the time-derivative of
 low order moments usually depends on the values of higher order moments.
 To close this system, \emph{moment closures}, i.e.\ ad-hoc approximations of higher order moments
-are applied \cite{schnoerr2015comparison}.
+are applied \cite{schnoerr2015}.
 The main drawback of this kind of analysis is that it is not known whether the chosen closure gives
 an accurate approximation for the case at hand.
 Here, such approximations are not necessary, since we will apply the moment dynamics in the context
@@ -244,6 +244,7 @@ Still, the cost of a simulation run increases.
 For the method to be efficient, the variance reduction (\autoref{sec:cv:var_red}) needs
 to overcompensate for this increased cost of a simulation run.
 
+\begin{example}
 For \autoref{model:bd} the moment equation for $f(x)=x$ becomes
 % \vw{sollte -delta Ex sein}
 $$\frac{d}{dt}\E{X_t}=\gamma - \delta\E{X_t}\,.$$
@@ -259,6 +260,7 @@ when choosing $\lambda=-\delta$.
 % for the estimation of the mean at some time point, it has a correlation of $\pm1$.
 % Therefore the variance is reduced to zero. This illustrates the benefit of choosing 
 % control variates, that are highly correlated with the random variable of interest.
+\end{example}
 
 \section{Control Variates}\label{sec:cv:var_red}
 Now, we are interested in the estimation of some quantity $\E{V}$
@@ -329,10 +331,11 @@ since it describes the mean at that time precisely.
 Therefore the variance is reduced to zero.
 We thus aim to pick control  variates that are highly correlated with $V$.
 
-Consider, for example, the above case of the birth-death process.
+\begin{example} Consider, for example, the above case of the birth-death process.
 If we choose \eqref{eq:bd_constraint} as a constraint, it would always yield
 the exact difference of the exact mean to the sample mean and therefore have a 
 perfect correlation. Clearly, $\hat\beta$ reduces to 1 and $\hat Y_1 = \E{X_t}$.
+\end{example}
 
 \section{Moment-Based Variance Reduction}\label{sec:cv:algo}
 We propose an adaptive estimation algorithm (\autoref{alg:ssa:lcv}) that starts out with
@@ -366,14 +369,14 @@ and \emph{redundancy} (lines \ref{line:cond_ck_begin}--\ref{line:cond_ck_end}).
 \begin{figure}
     \begin{minipage}{.45\textwidth}
     \centering
-    \includegraphics[scale=0.6]{gfx/cs_bdim.pdf}\\
+    \includegraphics[scale=0.55]{gfx/cs_bdim.pdf}\\
     \end{minipage}
     \hspace{1em}
     \begin{minipage}{.45\textwidth}
     \centering
-    \includegraphics[scale=0.6]{gfx/cs_pm.pdf}\\
+    \includegraphics[scale=0.55]{gfx/cs_pm.pdf}\\
     \end{minipage}
-	\caption[\ac{CV} correlation charactersitics]{(a, b) The absolute correlation of different constraints {to $V$}
+	\caption[\ac{CV} correlation charactersitics]{The absolute correlation of different constraints {to $V$}
     arising from different choices of $\lambda$. The blue dots represent constraints
     based on first order moments, while the orange refers to control  variates derived from second
     order moments. In both cases $10,\!000$ samples were used with
@@ -550,7 +553,7 @@ Code is made available online \cite{cme-simulation-github}.
 We consider four non-trivial case studies. Three models exhibit complex multi-modal behaviour.
 We now describe the models and the estimated quantities in detail.
 
-The first model\marginpar{This model appeared earlier as \autoref{model:dim} on page~\pageref{model:dim}.} is a simple dimerization on a countably infinite state-space.
+The first model\graffito{This model appeared earlier as \autoref{model:dim} on page~\pageref{model:dim}.} is a simple dimerization on a countably infinite state-space.
 \begin{model*}[Dimerization]
 We first examine a simple dimerization model on an unbounded state-space
 $$\varnothing\xrightarrow{10}M,\quad 2M\xrightarrow{0.1}D$$
@@ -662,7 +665,7 @@ algorithm parameters of the minimum threshold $k_{\min}$ and
 the number of $\lambda$-samples $n_{\lambda}$.
 We used samples size $n=10,\!000$ and checked the control  variates every $d=100$ iterations
 for the defined criteria.
-For each valuation 1000 estimations were performed.
+For each valuation $1000$ estimations were performed.
 In \autoref{fig:efficiencies_prior}b, we summarize the efficiencies
 for the arising parameter combinations on the three case studies.
 Most strikingly, we can note that the efficiency was consistently larger than one in
@@ -681,34 +684,23 @@ a suitable interval for a uniform sampling scheme, the choice of a standard norm
 distribution for $\pi_{\lambda}$ seems superior.
 \begin{figure}[htb]
     \centering    
-    \begin{minipage}{.9\textwidth}
-    \centering
+    \includegraphics[scale=.55]{gfx/legend_orders.pdf}\\
     \includegraphics[scale=.4]{gfx/efficiency_ord1.pdf}
-    \end{minipage}\hspace{-1em}
-    \begin{minipage}{0.09\textwidth}
-    \centering
-    \includegraphics[scale=.55]{gfx/legend_orders.pdf}
-    \end{minipage}
 	\caption[Influence of the redundancy heuristic
 	and moment orders]{The efficiency for different redundancy policies $\phi$ and maximal 
     moment orders $n_{\max}$. The sample size was $n=10,\!000$ in all cases
     with $d=100$. Furthermore, $k_{\min}=3$, $\pi_\lambda=N(0,1)$, and $n_{\max}=1$.
     The bars give the 
-    bootstrapped (1000 iterations) standard deviations.\label{fig:efficiencies_order}}
+    bootstrapped ($1000$ iterations) standard deviations.\label{fig:efficiencies_order}}
 \end{figure}
 \begin{figure}[htb]
     \centering    
-    \begin{minipage}{.9\textwidth}
-    \centering
+    \includegraphics[scale=.55]{gfx/legend.pdf}\\
     \includegraphics[scale=.4]{gfx/efficiency_pminfrac.pdf}
-    \end{minipage}
-    \begin{minipage}{0.09\textwidth}
-    \includegraphics[scale=.55]{gfx/legend.pdf}
-    \end{minipage}
 	\caption[Influence of the redundancy heuristic and $k_{\min}$]{The empirical efficiencies for different $n_\lambda$ and $k_{\min}$.
     On the considered case studies. The sample size was $n=10,\!000$ in all cases
     with $d=100$.
-    1000 estimations were performed for each case.
+    $1000$ estimations were performed for each case.
     The bars give the 
     bootstrapped (1000 iterations) standard deviations.
     The break-even $E=1$ is marked by the dotted red line.\label{fig:efficiencies_alg_params}}
@@ -800,10 +792,10 @@ with $n\to \infty$.
 	\myfloatalign
 	\subfloat[Efficiency v.\ sample size]
 	{\label{fig:sample_sizes:eff}
-	\includegraphics[scale=.37]{gfx/sample_size_efficiency.pdf}}\quad
+	\includegraphics[scale=.35]{gfx/sample_size_efficiency.pdf}}\quad
 	\subfloat[Slowdown v.\ sample size]
 	{\label{fig:sample_sizes:slowdown}
-	\includegraphics[scale=.37]{gfx/sample_size_slowdown.pdf}}
+	\includegraphics[scale=.35]{gfx/sample_size_slowdown.pdf}}
 	\caption[Effect of sample size on control variate performance]{
     The effect of sample size on the efficiency $E$ and slowdown in the different case studies.
     The break-even $E=1$ is marked by the dashed red line.

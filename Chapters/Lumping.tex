@@ -1,9 +1,9 @@
 \chapter{State-Space Aggregation}\label{ch:lumping}
 In this part, we propose a  method to identify a truncation that optimizes the trade-off between the size of the considered state-space and the approximation error due to the \acf{FSP}\turnto{sec:fsp}.
 To this end, we start with a very coarse-grained model abstraction that we refine iteratively. 
-The coarse-grained model is based on an grid-shaped aggregation (i.e., lumping) scheme that identifies a set of macro-states.
+The coarse-grained model is based on an grid-shaped aggregation (i.e.\ lumping) scheme that identifies a set of macro-states.
 These macro-states can be used to compute an interim model solution that guides the refinement in the next step.
-We perform refinements until the approximation arrives at the resolution of the original model (i.e., each macro-state has only one constituent) such that the aggregation introduces no approximation error.
+We perform refinements until the approximation arrives at the resolution of the original model (i.e.\ each macro-state has only one constituent) such that the aggregation introduces no approximation error.
 
 \section{Macro-States}
 A macro-state is a collection of micro-states (or simply states) treated as one state in the aggregated model, which can be seen as an abstraction of the original model.
@@ -57,6 +57,11 @@ For ease of notation, we also define a general exit state
     \bar{x}_{i\xrightarrow{j}} = ((\bar{x}_i + v_j) \setminus \bar{x}_i) - v_j.
 \end{equation}
 This state captures all micro-states inside $\bar{x}_i$ that can leave the state via reaction $j$.
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=0.9\textwidth]{gfx/macro_states.pdf}
+	\caption[Macro-state transition]{\label{fig:macro_states}Two macro-states and a transition state from the left to the right.}
+\end{figure}
 
 This uniformity assumption gives rise to the following $Q$-matrix of the aggregated model:
 \begin{equation}\label{eq:lumped_q}

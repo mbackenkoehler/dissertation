@@ -174,7 +174,7 @@ Clearly, the area given by the Lyapunov function is magnitudes larger than neces
     update $\hat{Q}$-matrix\label{line:update_q:stat}\;
 }
 \Return ${\hat\pi}^{(m)}_{\infty}$\;
-    \caption{Lumping to approximate the stationary distribution }
+    \caption{Approximating the stationary distribution }
     \label{alg:refinement:stat}
 \end{algorithm}
 The refinement algorithm (\autoref{alg:refinement:stat}) starts with a set of large macro-states
@@ -388,7 +388,7 @@ The parameterization based on \cite{ale2013general} is $k_1=90$, $k_2=0.002$, $k
 With the exception of propensity function $\alpha_4$, we can compute the transition rates $\bar{\alpha}_i$ using the Faulhaber formulae, as discussed in \autoref{ch:lumping}.
 We consider $\alpha_4$ separately, because it is non-polynomial and therefore, we have to make an approximation.
 The fraction occurring in the non-linear propensity function $\alpha_4$ can roughly be characterized as an activation function:
-Due to the low value of parameter $k_7=0.01$ we can approximate\marginpar{Note, that $\sum_{i=0}^n i / (i + k_7)$ can be solved analytically. However, the approximation presented above is much simpler to compute.}
+Due to the low value of parameter $k_7=0.01$ we can approximate\graffito{Note, that $\sum_{i=0}^n i / (i + k_7)$ can be solved analytically. However, the approximation presented above is much simpler to compute.}
 
 $$\frac{x_{\mathrm{p53}}}{x_{\mathrm{p53}} + k_7}
 \approx

@@ -36,7 +36,7 @@
                 headinclude,footinclude,cleardoublepage=empty,abstract=on,
                 BCOR=5mm,paper=b5,fontsize=11pt,
 		dvipsnames
-                ]{scrreprt}
+                ]{scrbook}
 
 %********************************************************************
 % Note: Make all your adjustments in here
@@ -82,6 +82,7 @@
 %********************************************************************
 % Frontmatter
 %*******************************************************
+\frontmatter
 \include{FrontBackmatter/DirtyTitlepage}
 \include{FrontBackmatter/Titlepage}
 \include{FrontBackmatter/Titleback}
@@ -95,6 +96,7 @@
 %********************************************************************
 % Mainmatter
 %*******************************************************
+\mainmatter
 \cleardoublepage
 \pagestyle{scrheadings}
 \pagenumbering{arabic}
@@ -146,12 +148,13 @@
 % ********************************************************************
 % Backmatter
 %*******************************************************
+\backmatter
+\part{Appendix}
+\include{Chapters/cv_appendix}
 \cleardoublepage\include{FrontBackmatter/Bibliography}
 \appendix
 %\renewcommand{\thechapter}{\alph{chapter}}
 \cleardoublepage
-\part{Appendix}
-\include{Chapters/cv_appendix}
 %********************************************************************
 % Other Stuff in the Back *******************************************
 \cleardoublepage\include{FrontBackmatter/ListOfFigures}

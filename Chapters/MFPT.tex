@@ -59,7 +59,7 @@ for the evolution of the statistical population
 moments~\cite{bogomolov2015adaptive,schnoerr2017survey,bortolussi2013model,engblom2006computing,schnoerr2015,gast2019}.
 However, as the system of exact moment equations is infinite-dimensional, approximation
 schemes typically rely on certain assumptions about the
-underlying probability distribution to truncate it.
+underlying probability distribution to truncate it.\turnto{sec:fsp}
 For example, one might employ a ``low dispersion closure'' which assumes that
 higher-order moments are the same as those of a normal
 distribution~\cite{hespanha2008moment}. %\vw{Hespanha macht doch lognormal?}\todo{in dem papier macht er eine survey f\"ur sein tool}
@@ -78,8 +78,10 @@ maximum order of the considered moments has to be increased to more
 appropriately describe the underlying distribution. %, a fact impacting their
 %scalability.
 
-Here, we put forward a method based solely on moments that gives \emph{exact bounds}  for \acfp{MFPT} and reachability probabilities in \acp{MPM}. For a set of states, the MFPT within a fixed
-time-horizon $T$  directly characterizes the probability of reaching that set
+Here, we put forward a method based solely on moments that gives \emph{exact bounds}  for \acfp{MFPT} and reachability probabilities in \acp{MPM}.
+For a set of states $B$ and a time-horizon $T$, the \ac{FPT}
+$$\tau = \inf\{t\geq 0\mid \vec X_t \in B\} \land T\,.$$
+This mean of this stopping time $\E{\tau}$, i.e.\ the \acl{MFPT}, directly characterizes the probability of reaching set $B$
 within $T$ time units. Thus, safe upper and lower bounds on \acp{MFPT} can constitute a core component for the verification of properties in \acp{MPM}.
 Our approach extends recent work on moment
 bounds~\cite{sakurai2017convex,dowdy2018dynamic} and it is based on a martingale formulation of the stopped process that we
@@ -249,14 +251,15 @@ mathematical programs that yield upper and lower bounds on \aclp{MFPT}.
 
 
 Let $f$ be a polynomial function, $t\ge0$.
-Using the \ac{CME} \eqref{eq:cme}, we can derive \acp{ODE}
+Using the \ac{CME} \eqref{eq:cme}\turnto{eq:cme}, we can derive \acp{ODE}
 describing the dynamics of $\expSym(f(\vec{X}_t))$~\cite{engblom2006computing}.
-Specifically,\marginpar{More details on the derivation of the moment \acp{ODE} is given in \autoref{sec:moments_bg}.}
+Specifically,\graffito{More details on the derivation of the moment \acp{ODE} is given in \autoref{sec:moments_bg}.}
 \begin{equation}\label{eq:mfpt:mom_ode}
     \frac{d}{dt}\E{f(\vec X_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
     \vec{v_j}}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}\,.
 \end{equation}
 
+\begin{example}
 Let us consider \autoref{model:dim} and agent type $M$ as an example.
 Further, let $X_t=X_t^{(M)}$
 for ease of exposition.
@@ -275,9 +278,11 @@ $\E{X_t}$ and $\E{X_t^2}$, respectively.
 Fixing initial moments, the \ac{ODE} system describes the moments over time exactly.
 However, these \acp{ODE} cannot be integrated because the system is not closed.
 The right-hand side for moment $\E{X_t^m}$ always contains $E(X_t^{m+1})$.
-To solve the initial value problem,
+\end{example}
+To solve the \ac{IVP},
 one typically resorts to ad-hoc approximations of the highest order moments
-to close the system. Here we do \emph{not} need such approximations
+to close the system.
+Here we do \emph{not} need such approximations
 because we do not numerically integrate the moment equations.
 Instead we adopt an approach \cite{dowdy2018dynamic,sakurai2019bounding} that extends
 the description of state-space moments to a temporal one.
@@ -375,6 +380,7 @@ of moments.
 We will use these as constraints in the semi-definite program used to bound \acp{MFPT}.
 
 % \todo{re-state the above example here again?}\luca{good idea}
+\begin{example}
 If we apply this to our previous example (cf.\ \eqref{eq:dim_exp_ode}), letting $m=1$ %\vw{same example has $\vec m=(1,0)$ above }
 and $k=1$ we obtain the following process for \autoref{model:dim}.
 $$
@@ -384,6 +390,7 @@ $$
     $$
 where the sequences according to \eqref{eq:basic_poly_martingale} are $(m_i)_i=(1,0,1,2)$, $(k_i)_i=(0,1,1,1)$,
 and $(c_i)_i=(-1,-\lambda, -2\delta,2\delta)$.
+\end{example}
 \section{Bounds for Mean First Passage Times}\label{sec:mfpt:mfpt_bounds}
 We now turn to the analysis of first passage times within some time-bound
 $T>0$. Given some subset of the state-space
@@ -431,7 +438,7 @@ $T=4$. That is, we are interested in the stopping time $\tau=\inf\{t\geq 0\mid X
 Since the abundance of $D$ does not influence $M$, we can ignore
 species $D$ and treat the process as one-dimensional.
 \autoref{fig:decomposition} shows three example trajectories:
-Two reach an upper threshold $H=10$, while one reaches the final time-horizon $T=4$
+Two reach an upper threshold $H=10$, while one reaches the final time-horizon $T=4$.
 The figure also illustrates another aspect present in \eqref{eq:constraint}.
 It gives a connection between the terminal distribution, i.e. the distribution of $X_{\tau}$,
 and the dynamic behavior up to $\tau$.
@@ -532,6 +539,7 @@ We further leverage the fact that a necessary condition for a positive measure t
 are positive semi-definite.
 A matrix $M\in\mathbb{R}^{n\times n}$ is positive semi-definite, denoted by  $M\succeq 0$ if and only if
 $$ {\vec v}^T M{\vec v} \geq 0\quad \forall \vec v\in\mathbb{R}^n\,.$$
+\begin{example}
 As an example, let us consider a one-dimensional random variable $Z$
 with moment sequence $\vec z$.
 For  moment order $r$,
@@ -557,9 +565,12 @@ $$
 \geq 0\,.
 $$
 This restriction is natural since the variance is always non-negative.
+\end{example}
 % Even though the measures $\nu_1$, $\nu_2$, and $\xi$ are not probability measures
 % this restriction remains valid for them. Either they can be normalized to
 % form a probability measure, or if their mass is zero % we don't care...
+The restriction of the non-negative variance we saw in the example generalizes
+to moment matrices in form of a positive semi-definite constraint \cite{parrilo2003semidefinite}.\graffito{This constraint is valid for general positive measures --- even if they do not model probabilities.}
 This gives us the following restrictions on the moment matrices.
 \begin{equation}\label{eq:sd_constraints}
 M_r(\vec{z})\succeq 0, \quad M_r(\vec{y_1})\succeq 0,\quad\text{and}\quad M_r(\vec{y_2})\succeq 0
@@ -570,7 +581,8 @@ Furthermore, we need to enforce the restriction of the measures $\xi$, $\nu_1$, 
 to their supports.
 This can be done, by defining non-negative polynomials
 on the intended support of the measure.
-For example, $\nu_2$ has support $[0,H]$. We can now define
+\begin{example}
+The exit location probability $\nu_2$ has support $[0,H]$. We can now define
 $$
 u_H(t,x) = Hx - x^2, \quad x\in \mathbb R
 $$
@@ -598,6 +610,7 @@ This gives us the following restrictions on the moment matrices.
 &M_r(u_T,\vec{y_1})\succeq 0,\quad M_r(u_H,\vec{y_2})\succeq 0\,.
 \end{split}
 \end{equation}
+\end{example}
 
 \section{Multi-Dimensional Generalization}
 \label{subsec:mfpt:multidim}
@@ -725,11 +738,11 @@ Now we can formulate the optimization~\eqref{eq:sdp_for_fpt}
 over a scaled version $D^{-1}M(\vec{z'})$ instead of $M(\vec{z'})$.
 The moment matrices of the exit location probabilities are scaled in the same
 way.
-\marginpar{These scaling strategies have not been evluated so far.}
+\graffito{These scaling strategies have not been evluated so far.}
 Alternatively, one could use approximations such as moment closures
 or bounds obtained by lower-order relaxations or solve a sequence
 of problems, incrementally increasing
-the time-horizon, and adjust the scaling accordingly~\cite{dowdy2018dynamic}.
+the time-horizon, and adjust the scaling accordingly (suggested in \cite{dowdy2018dynamic}).
 
 In \autoref{fig:magnitudes} we illustrate the influence the scaling has on the
 optimization variables. While the unscaled version shows large differences
@@ -757,7 +770,7 @@ interface~\cite{cvxpy} (version 1.0.24).
 As a first case study, we use \autoref{model:dim} with parameters $\lambda=100$ and $\delta=0.2$.
 In this model, we are interested in the time at which the number of agents of type $M$
 surpasses a threshold of 25 before some time-horizon $T$,
-i.e.\ $\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T$.
+i.e.\ $$\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T\,.$$
 First, we set no finite time-horizon $T$, i.e.\ $T=\infty$.
 This is achieved by dropping the moments $\vec y_2$
 of measure $\nu_2$ in the linear constraints~\eqref{eq:sdp_for_fpt}.
@@ -806,7 +819,7 @@ expected occupation measure $\xi$ to the mass of $\nu_1$.
 In terms of moments, the objective changes from $z_{00}$ to $y_{10}$.
 The need for such a scenario often arises in the context of model checking, where one might be
 interested in the probability of a population exceeding a critical threshold.
-By varying the time-horizon, we are able to recover bounds on the cumulative density $F(t) = \Pr(X_s=H\mid s<t)$ of
+By varying the time-horizon, we are able to recover bounds on the cumulative density $$F(t) = \Pr(X_s=H\mid s<t)$$ of
 the first passage time (\autoref{fig:dim_fpt_fin:rp}).
 \begin{figure}
     \myfloatalign
@@ -906,7 +919,7 @@ we arrive at a similar result as in~\cite{hasenauer2014method}:
             \right)}^{\vec{m}}\alpha_j(\vec{\tilde{{X}}}_t, \vec{{y}} -
             \vec{\hat{v}}_j)
             1_{={\vec{y}- \vec{\hat{v}}_j}}({\vec{\hat{X}}}_t )}\\
-    &- \sum_{j=1}^{n_R}
+    &\quad- \sum_{j=1}^{n_R}
     \E{{\vec{\tilde{{X}}}}_t^{\vec{m}}\alpha_j(\vec{\tilde{{X}}}_t,
                 {\vec{y}})
             1_{=\vec y}({\vec{\hat{X}}}_t)}\,.
@@ -917,13 +930,11 @@ and integrating.
 
 For simplicity, here we assume $\tilde n_S=\hat n_S=1$.
 Fixing appropriate sequences ${(c_i)}_i$, ${(m_i)}_i$, ${(k_i)}_i$, and
-${(y_i)}_i$ the constraint has the following form.
+${(y_i)}_i$ the constraint has the following form.\graffito{We fix $0^0=1$.}
 \begin{equation}\label{eq:mcm_constraint}
     \begin{split}
-    &\sum_{y\in\{0,1\}}{H}^{m}\E{\tau^k;{{\hat{X}}}_{\tau}= y, \tau
-    < T}\\
-    &+
-    T^k\E{{{\tilde{X}}}_T^{m};{{\hat{X}}}_T= y,\tau=T}\\
+	    &\sum_{y\in\{0,1\}}{H}^{m}\E{\tau^k;{{\hat{X}}}_{\tau}= y, \tau
+    < T}\\ &\qquad\quad+ T^k\E{{{\tilde{X}}}_T^{m};{{\hat{X}}}_T= y,\tau=T}\\
       =\; &  0^k{{\tilde{x}}}_0^{m} 1_{=  y}({\hat{x}}_0) +
     \sum_i c_i %\sum_{y\in\{0,1\}}
         \E{\int_0^{\tau}t^{k_i}{{{\tilde{X}}}_t}^{{m}_i}\,dt;

@@ -1,10 +1,14 @@
 \chapter{Background}\label{ch:background}
 
 \section{Continuous-time Markov Chains}
-A \emph{stochastic process} is a parameterized collection of random variables $\{X_t\}_{t\in T}$ defined on some probability space $(\Omega, \mathcal{F}, P)$.\marginpar{See \citet{oksendal2013stochastic} for more information on stoch.\ processes.}
+A \emph{stochastic process} is a parameterized collection of random variables $\{X_t\}_{t\in T}$ defined on some probability space $(\Omega, \mathcal{F}, P)$ and takes values in complete metric space $(\mathcal{S}, r)$.\graffito{See \citet{oksendal2013stochastic} for stoch.\ processes in general.}
 In most contexts the index set $T$ models \emph{time}.
 In a discrete setting $T=\mathbb{N}$, while $T=[0,\infty)$ in the continuous setting, which we consider in this thesis.
-More specifically, we are concerned with models having \acf{CTMC} semantics.
+We observe the values $X(t, \omega)$ for some fixed, but unknown $\omega\in\Omega$.
+The information of the process up to time $t$ is given by the $\sigma$-algebra $\mathcal{F}_t\subset\mathcal{F}$.
+The increasing family of sigma algebras, i.e.\ $\mathcal{F}_s\subseteq\mathcal{F}_t$ for $s\leq t$ is called a \emph{filtration}.
+
+More specifically, we study with models having \acf{CTMC} semantics.
 A \ac{CTMC} is a stochastic processes, that takes discrete values $\mathcal{S}=\{s_0, s_1,\dots\}$ over continuous time $T=[0,\infty)$ and fulfills the \emph{Markov property}
 \begin{equation}\label{eq:markov_prop}
 	\begin{split}
@@ -20,44 +24,155 @@ If further
 \end{equation}
 for all $t,h\geq 0$ and $s_0, s_1\in\mathcal{S}$ the chain is \emph{time-homogenous}:
 The absolute time point is irrelevant, and the dynamics do not change if we shift in time.
+In this thesis we are only interested in tim-homogenous \acp{CTMC}, but most techniques 
+developed should carry over.
 We define \emph{transition probabilities}
 \begin{equation}
 	p_{ij}(h) = \Pr(X_h = s_j\mid X_0=s_i)\,.
 \end{equation}
 Accordingly, the \emph{transition matrix} is given by $P(h)_{ij} = p_{ij}(h)$ for all indices $i$ and $j$.
 The Chapman-Kolmogorov equation
-\begin{equation}
+\begin{equation}\label{eq:chapman_kolm}
 	P(s+t) = P(s)P(t)
 \end{equation}
-gives us a $C_0$-semigroup property \cite{ethier2009markov}.
-The $Q$-matrix characterizes the distributional change in the infinitesimal time interval:
+follows directly from the law of total probability and the Markov property \eqref{eq:markov_prop}.
+\eqref{eq:chapman_kolm} directly tells us that the transition probabilities
+from a semigroup.
+Studying Markov processes from this direction is a popular approach \cite{ethier2009markov}.
+
+A standard method of specifying a Markov process, and \acp{CTMC} in particular, is
+is the \emph{generator}.
+In general, this is an operator $A$ on some class of functions and
 \begin{equation}
-	Q = \lim_{h\downarrow 0}\frac{1}{h}\left(P(h) - I\right)
+	\E{f(X_{t+h} - f(X_t)\mid \mathcal{F}_t}
+	=
+	Af(X_t)h + o(h)\,,
 \end{equation}
-As such the change of the state probability distribution over time is fully characterized by the \ac{ODE}
+where $\mathcal{F}_t$ is the filtration up to time $t$.
+This equation can be interpreted as the requirement, that
+$$f(X_t) - f(X_0) - \int_0^t Af(x_s)\,ds$$ is a martingale \cite[p.~5]{kurtz1981approximation}.
+We will use this in \autoref{ch:MFPT} to derive bounds on \aclp{MFPT}.
+
+In \acp{CTMC} the generator is defined by giving the \emph{intensities} or \emph{rates}
+of transitions.
+Such a rate $q_{ij} > 0$ between state $s_i$ and $s_j$ implies
 \begin{equation}
-	\frac{d}{dt}\pi(t) = 
+	\Pr(X_{h} = s_j\mid X_0=s_i) = q_{ij}h + o(h)\,.
 \end{equation}
+%The $Q$-matrix characterizes the distributional change in the infinitesimal time interval:
+Due to the discrete nature, the generator is a matrix, usually called the $Q$-matrix,
 \begin{equation}
-	P(t)=\exp(Qt)=\sum_{k=0}^{\infty}\frac{h^k}{k!}Q^k
+	Q = \lim_{h\downarrow 0}\frac{1}{h}\left(P(h) - I\right)\,.
 \end{equation}
-\begin{itemize}
-	\item matrix exponential
-	\item transition matrices
-	\item generator matrix
-	\item Kolmogorov equations
-	\item Uniformization for lower bounds (instead of numerical ODE methods)
-   \item Properties (non-explosivity, ergodicity, reversibility, irreducibility etc.)
-\end{itemize}
+As such the change of the state probability distribution over time is fully characterized by the \emph{Kolmogorov forward equation}
+\begin{equation}\label{eq:kolm_forw}
+	\frac{d}{dt}P(t) = P(t)Q\,.
+\end{equation}
+Analogously, the \emph{Kolmogorov backward equation} is
+\begin{equation}\label{eq:kolm_back}
+	\frac{d}{dt}P(t) = QP(t)^{\T}\,.
+\end{equation}
+Distributions in the context of Markov chains are typically in row-vector form
+$$
+\pi(t)\coloneqq(\pi(x_1, t), \pi(x_2, t), \dots)\,,
+$$
+where we define
+$$
+\pi(x_i, t)\coloneqq \Pr(X_t=x_i), \quad\forall x_i\in\mathcal{S}, \forall{t\geq 0}\,.
+$$
+Often, \eqref{eq:kolm_forw} and \eqref{eq:kolm_back} are used in the context of an
+distributions.
+In this case it makes more sense to right-multiply $\vec{1}$ to these equations such
+that
+\begin{equation}\label{eq:kolm_forw_d}
+	\frac{d}{dt}\pi(t) = \pi(t)Q
+\end{equation}
+and
+\begin{equation}\label{eq:kolm_back_d}
+	\frac{d}{dt}\pi(t) = Q\pi(t)^{\T}\,.
+\end{equation}
+Given some initial distribution
+$$
+\pi_0 \coloneqq \pi(0)\,,
+$$
+the distribution $\pi(t)$ is given by give simple \acp{IVP} of \eqref{eq:kolm_forw_d}.
+
+\subsection{Computing Transient Distributions}
+\citet{stewart1994introduction} provides a comprehensive overview of solution methods.
+Here, we only provide a basic overview and intuition relevant for the rest of this thesis.
+\begin{description}
+	\item[Matrix exponential]
+		The transition probability matrix $P(t)$ is the solution of \eqref{eq:kolm_forw}
+		$$
+			P(t)=\exp(Qt)\,,
+			$$
+		where the matrix exponential for a square matrix $M$
+		$$
+		\exp({M})\coloneqq\sum_{k=0}^{\infty}\frac{1}{k!}M^k\,.
+		$$
+		Due to the factor ${h^k}/{k!}$, the sum of the matrix exponential
+		can be truncated to get an estimate
+		of high quality. In practice, this method is unsuited to many problems, because
+		the factor $Q^k$ becomes incurs a prohibitive cost, especially if the state space
+		is large.
+	\item[Numerical integration]
+		The Kolmogorov equations \eqref{eq:kolm_forw}, \eqref{eq:kolm_back}
+		provide us with an \ac{IVP} that can be solved
+		numerically.\graffito{The matrix exponential is the analytical solution.}
+		This method scales much better than the matrix exponential method,
+		especially if the whole time-series is of interest. If an initial distribution
+		$\pi_0$ is fixed, the \ac{ODE} simplify further, such that we only have one equation
+		per state.
+		The drawback to this method is the error inherent to numerical 
+		integration schemes.
+	\item[Uniformization]
+		Uniformization is an elegant algorithm to compute transient solutions.
+		Here, the \ac{CTMC} is transformed into a \ac{DTMC}.
+		Using a uniformization rate $$\lambda_0\geq\max_{i}\lvert q_{ii}\rvert$$
+		the transition probabilities of the \ac{DTMC} become
+		$$
+		P_{ij} =
+		\begin{cases}
+			Q_{ij} / \lambda_0\,, &\text{if } i\neq j\\
+			1 - \sum_k Q_{ik} / \lambda_0\,, &\text{otherwise}
+		\end{cases}\,.
+		$$
+		The transient distribution at $t$ can be obtained, by weighting the $k$-step
+		probabilities of the \ac{DTMC} by a Poisson distribution with rate
+		$\lambda_0 t$:
+		$$
+		\pi(t) =
+		\sum_{k=0}^{\infty}\pi_0P^k\frac{(\lambda_0 t)^k}{k!} \exp{(\lambda_0 t)}\,.
+		$$
+		Truncation of this series clearly gives an underapproximation.
+	\item[Monte Carlo simulation]
+		A simple way is estimation using Monte Carlo methods. This entails stochastic
+		simulation of many trajectories of the \ac{CTMC}. Generating a trajectory is
+		straightforward: Given that the process is in a particular state $s_i$
+		the a transition has to be sampled along with the residence time in state
+		$s_i$. The naive approach is to sample an exponential random variable for
+		each $q_{ij}$ and choose the one firing first.
+		This algorithm can be improved by sampling a reaction directly and
+		sampling the residence time separately. This algorithm will be shown later
+		in the context of \acp{MPM}.\turnto{alg:ssa}
+\end{description}
+% \begin{itemize}
+%    \item Properties (non-explosivity, ergodicity, reversibility, irreducibility etc.)
+% \end{itemize}
 
 \section{Markovian Population Models}
 An \acf{MPM}
 describes the stochastic interactions
-among agents of distinct types in a well-stirred system.
-This assumes that all agents are equally distributed in space, which
-allows us to keep track only of the overall copy number of agents for each type.
-Therefore the state-space is $\mathcal{S}\subseteq\mathbb{N}^{n_S}$ where
-$n_S$ denotes the number of agent types or populations.
+among agents of $n_S$ distinct types in a well-stirred system.
+The system is given by a continuous-time stochastic process $\{X_t\}_{t\geq 0}$.
+It models only the number of agents according to their type.
+Therefore the process takes $n_S$-dimensional vectors of natural numbers as values, i.e.\ the
+state-space is $\mathcal{S}\subseteq\mathbb{N}^{n_S}$.
+By only considering the number of agents, we are neglecting factors such as spatial variations
+in agent density or other factors influencing interactions.
+The assumption of all agents being equally distributed in space is called the \emph{well-stirredness}
+assumptions.
+
 Interactions between agents are expressed as \emph{reactions}.
 These reactions have associated
 gains and losses of agents, given by non-negative integer vectors   
@@ -70,20 +185,34 @@ A reaction between agents of types $S_1,\dots, S_{n_S}$ is specified in the foll
 \end{equation}
 The propensity function $\alpha_j$ gives the rate of the exponentially distributed firing
 time of the reaction as a function of the current system state $x\in \mathcal{S}$.
-In population models, \emph{mass-action} propensities are most common.
-In this case the firing rate is given by the product of the number
+Thus, for reaction $j$ we have the intensity
+\begin{equation}\label{eq:firing}
+	\Pr\left(X_{t+h}=x+v_j\mid X_{t}=x\right)
+	=
+	\alpha_j(x) + o(h t)\,.
+\end{equation}
+
+
+In most physical models, \emph{mass-action} propensities are most common.
+These model combinatorial nature of well-mixed molecules moving randombly through space:
+In a reaction
+$$ A + B \xrightarrow{c x^{(A)} x^{(B)}} C $$
+two molecules hit eachother with a probability, proportional to the product of their counts
+$$ c X^{(A)}_t X^{(B)}_t\,. $$
+In general such rates are given by the product of the number
 of reactant combinations in $x$ and a
 \emph{rate constant} $c_j$, i.e.
 \begin{equation}\label{eq:stoch_mass_action}
-    \alpha_j({x})\coloneqq c_j\prod_{\ell=1}^{n_S}\binom{x_\ell}{v_{j\ell}^{-}}\,.
+	\alpha_j({x})\coloneqq c_j\prod_{\ell=1}^{n_S}\binom{x^{(S_{\ell})}}{v_{j\ell}^{-}}\,.
 \end{equation}
 In this case, we give the rate constant in \eqref{eq:reaction} instead of the function $\alpha_j$.
-For a given set of $n_R$ reactions, we define a stochastic
+We use the superscript notation\marginpar{This notation avoids conflicts, when we use the subscript for time or as an index.} $x^{(A)}$ to denote the index corresponding to species $A$ 
+in some vector of length $n_S$.
+
+According to \eqref{eq:firing} the stochastic
 process $\{{{X}}_t\}_{t\geq 0}$ describing the evolution of the population
-sizes over time $t$.
-Due to the assumption of exponentially distributed firing times,  $ X$ is
-a \ac{CTMC} on $\mathcal{S}$ with infinitesimal  generator matrix $Q$, where
-the entries of $Q$ are
+sizes over time $t$ is a \acf{CTMC}.
+The infinitesimal  generator matrix $Q$ has the entries
 \begin{equation}\label{eq:cme_generator}
     Q_{ x,  y} = \begin{cases}
         \sum_{j: x+ v_j = y}\alpha_j( x)\,,&\text{if}\; x\neq
@@ -97,7 +226,7 @@ These assumptions  are  typically
 valid for realistic reaction networks.
 The probability distribution over time is given by an
 initial value problem.
-Given an initial state $x_0$, the distribution\marginpar{We assume an enumeration of all states in  $\mathcal{S}$. We simply write $x_i$ for the state with index $i$ and drop this notation for entries of a state $x$.  }
+Given an initial state $x_0$, the distribution\graffito{We assume an enumeration of all states in  $\mathcal{S}$ with a unique index for each state.}
 \begin{equation}\label{eq:forw_prob}
 \pi(x_i, t)=\Pr(X_t=x_i\mid X_0=x_0),\quad t\geq 0
 \end{equation}
@@ -115,7 +244,7 @@ as the \emph{chemical master equation} (CME)
     \right)\,.
 \end{equation}
 
-\paragraph{Example} Consider a birth-death process as a simple example. This model is used to describe a wide variety of phenomena and often constitutes a sub-module of larger models.
+\begin{example} Consider a birth-death process as a simple example. This model is used to describe a wide variety of phenomena and often constitutes a sub-module of larger models.
 For example, it represents an M/M/1 queue with service rates being linearly dependent on the queue length.
 Note that even for this simple model, the state-space is countably infinite.
 % \MB{could remove model environment for space}
@@ -128,6 +257,7 @@ The initial condition $X_0=0$ holds with probability one.
 For \autoref{model:bd} the change of probability mass in a single state $x>0$ is described by expanding
 \eqref{eq:cme} and
 $$\frac{d}{dt}\pi_t(x)=\gamma \pi_t(x-1) + \delta \pi_t(x+1) - (\gamma + \delta)\pi_t(x)\,.$$
+\end{example}
 
 
 \section{State-Space Truncation}\label{sec:fsp}
@@ -137,7 +267,7 @@ truncation could be performed.
 That is, \eqref{eq:cme} is integrated on a possibly time-dependent subset
 $\hat{\mathcal{S}}_t\subseteq\mathcal{S}$ \cite{henzinger2009sliding,munsky2006finite,spieler2014numerical}.
 Transitions to states, that are not part of this subset are typically re-directed to a introduced sink-state.
-This state captures the mass ``lost'' by the approximation and gives the error up to the numerical integration scheme.\marginpar{Uniformization can give a lower bound on the error \cite{andreychenko2010fly}.}
+This state captures the mass ``lost'' by the approximation and gives the error up to the numerical integration scheme.\graffito{Uniformization can give a lower bound on the error \cite{andreychenko2010fly}.}
 \citet{munsky2006finite} coined the term of \acf{FSP} for such a method.
 
 To analyze the stationary distribution (\autoref{sec:stationary_dist}) the redirection scheme needs to be altered \cite{kuntz2021stationary}:
@@ -173,7 +303,7 @@ Specifically,
     \vec{v_j}}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}\,.
 \end{equation}
 This equation is used to analyse (raw) \emph{moments} of the process.
-\marginpar{\emph{Centered} or \emph{factorial} moments (such as the variance) are equivalent via the binomial transform.}
+\graffito{\emph{Centered} or \emph{factorial} moments (such as the variance) are equivalent via the binomial transform.}
 A raw moment is
 $$\E{\vec X^{\vec m}}=\E{\prod_{i=1}^{n_S} X_i^{m_i}}\,,\quad \vec m\in {\mathbb{N}}^{n_S}$$
 with respect to some probability measure.
@@ -188,7 +318,7 @@ i.e.\ $E(\lvert \vec{X}^{\vec{m}}_t\rvert)<\infty$, $t\geq 0$.
 In \citet{gupta2014scalable} the authors propose a framework to verify
 this property for a given model.
 
-As an example, let us express the dynamics of the first two uncentered moments for \autoref{model:bd} using \eqref{eq:mom_ode}.
+\begin{example} Let us express the dynamics of the first two uncentered moments for \autoref{model:bd} using \eqref{eq:mom_ode}.
 \begin{equation}\label{eq:bd:mom1}
 	\begin{split}
 	\frac{d}{dt}\E{X_t} =\; &\mu - \gamma \E{X_t}\\
@@ -198,7 +328,7 @@ As an example, let us express the dynamics of the first two uncentered moments f
 Setting initial moments these equations give as an \ac{IVP}, we can solve (see \autoref{fig:momsandprobs}).
 This, however, is more an exception than the norm:
 Unless all ractions have linear or constant rate functions $\alpha_i(\cdot)$, $\forall i$, we would not end up with a closed system of \acp{ODE} as in \eqref{eq:bd:mom1}.
-To illustrate, let us pretend the reaction ($S\xrightarrow{\gamma}\varnothing$) would become this non-linear reaction\marginpar{The model is then the same as \autoref{model:dim}.}
+To illustrate, let us pretend the reaction ($S\xrightarrow{\gamma}\varnothing$) would become this non-linear reaction\graffito{The model is then the same as \autoref{model:dim}.}
 $$
 2S\xrightarrow{\gamma}\varnothing\,.
 $$
@@ -210,9 +340,11 @@ Therefore the first moment's derivative becomes
 $$
 \frac{d}{dt}\E{X_t} =\mu - \gamma \left(\E{X_t^2} - \E{X_t}\right)\,.
 $$
-Note, that now the derivative depends on the value of the second moment $\E{X_t^2}$.
-If we consider the general expression \eqref{eq:mom_ode} for the moment of order $k$ clearly a term of order $k+1$ occurs, that does not cancel out.
-Therefore, researches commonly rely on ad-hoc approximations to truncate this infinite system of \acp{ODE} \cite{hespanha2008moment,schnoerr2015comparison,schnoerr2014validity}.
+Note, that now the right-hand side of the derivative in the example depends on the value of the second moment $\E{X_t^2}$.
+\end{example}
+If we consider the general expression \eqref{eq:mom_ode} for the moment of order $k$ clearly a term of order $k+1$ occurs, that does (usually) not cancel out if a propensity function is at least
+quadratic.
+Therefore, researches commonly rely on ad-hoc approximations to truncate this infinite system of \acp{ODE} \cite{hespanha2008moment,schnoerr2015,schnoerr2014validity}.
 Unfortunately such schemes have typically no guarantees to converge --~or even improve~-- with increasing truncation order \cite{schnoerr2014validity} or increasing system size.
 The only scheme with a convergence guarantee in the system size limit is the \emph{mean-field} approximation \cite{bortolussi2013continuous}.
 Therein zero-covariances are assumed, i.e.\ the system is truncated at the first oder equations using the approximation $\E{X_t^2}=\E{X_t}^2$.
@@ -243,9 +375,11 @@ For some $A\subseteq\mathcal{S}$,
 Thus, the mean occupation time for set $A$ over infinite trajectories is the stationary measure for $A$.
 Eq.~\eqref{eq:ergodic} shows that we can assess long-run behavior using the stationary distribution and vice-versa.
 
-\paragraph{Example.} Returning to the example of \autoref{model:bd} it is obvious that the state-space is irreducible.
+\begin{example}
+	Returning to the example of \autoref{model:bd} it is obvious that the state-space is irreducible.
 Further, we can easily show, that the stationary distribution is Poissonian with rate $\mu/\gamma$:
 $$ \pi_{\infty}(x)=\frac{{(\mu/\gamma)}^{x}\exp(-\mu/\gamma)}{x!}\,.$$
+\end{example}
 
 
 For simplicity, we assume throughout that the state-space is composed of a single communicating class.
@@ -293,7 +427,7 @@ Specifically, it can be used to describe the following features.
 	\item[Operational Multimodality]
 		This kind of multimodality characterizes the model behavior directly.
 		Consider, for example, a gene
-		expression model\marginpar{\autoref{model:gexpr}
+		expression model\graffito{\autoref{model:gexpr}
 		on page~\pageref{model:gexpr} is an instance of this.}:
 		The gene state is digital, meaning it is either active or inactive.
 		Depending on this state a protein is either synthesized or not.
