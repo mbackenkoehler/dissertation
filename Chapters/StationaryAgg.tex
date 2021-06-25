@@ -168,8 +168,8 @@ Clearly, the area given by the Lyapunov function is magnitudes larger than neces
 \Input{Initial partitioning $\mathcal{S}^{(0)}$, truncation threshold $\epsilon$}
 \Output{approximate stationary distribution $\hat\pi_{\infty}$}
 \For{$i=1,\dots,m$}{
-    ${\hat\pi}^{(i)}_{\infty}\leftarrow $ solve approximate stationary distribution on $\mathcal{S}^{(i)}$\label{line:stationary}\;
-    $\mathcal{R}\leftarrow$ smallest $\mathcal{R}'\subseteq\mathcal{S}^{(i)}$ such that $ \sum_{\bar{x}\in\mathcal{R}'}\hat{\pi}_{\infty}^{(i)}(\bar{x})\geq1-\epsilon$\label{line:filter}\;
+    ${\hat\pi}^{(i)}_{\infty}\leftarrow $ approximate stationary distribution on $\mathcal{S}^{(i)}$\label{line:stationary}\;
+    $\mathcal{R}\leftarrow$ smallest $\mathcal{R}'\subseteq\mathcal{S}^{(i)}$ s.~t. $ \sum_{\bar{x}\in\mathcal{R}'}\hat{\pi}_{\infty}^{(i)}(\bar{x})\geq1-\epsilon$\label{line:filter}\;
     $\mathcal{S}^{(i+1)}\leftarrow \bigcup_{\bar{x}\in\mathcal{R}} \text{split}(\bar{x})$\label{line:refine:stat}\;
     update $\hat{Q}$-matrix\label{line:update_q:stat}\;
 }
@@ -321,7 +321,7 @@ We choose parameter values $\rho_1 = 0.7$, $\rho_2 = 0.6$, $\lambda=0.02$, $\bet
 \end{model}
 Since the exclusive switch models mutually exclusive binding of proteins to a single genetic locus,
 we know a priori that there are exactly three distinct operating modes.
-In particular are $D$, $D.P_1$, and $D.P_2$ mutually exclusive such that $$X_{D}(t) + X_{D.P_1}(t) + X_{D.P_2}(t) = 1, \quad \forall t\geq 0\,.$$
+In particular are $D$, $D.P_1$, and $D.P_2$ mutually exclusive such that \[X_{D}(t) + X_{D.P_1}(t) + X_{D.P_2}(t) = 1, \quad \forall t\geq 0\,.\]
 This model characteristic often leads to bi-modal stationary distributions, where one or the other protein is more abundant depending on the genetic state.
 
 Accordingly, we adjust
@@ -380,9 +380,9 @@ The model is ergodic with a unique stationary distribution~\cite{gupta2014scalab
 \mathrm{Mdm2} \xrightarrow{k_6} \varnothing
 \end{align*}
 The non-polynomial degradation reaction rate
-$$
+	\[
 \alpha_4(x) =k_3 x_{\mathrm{Mdm2}} \frac{x_{\mathrm{p53}}}{x_{\mathrm{p53}} + k_7}\,.
-$$
+\]
 The parameterization based on \cite{ale2013general} is $k_1=90$, $k_2=0.002$, $k_3=1.7$, $k_4=1.1$, $k_5=0.93$, $k_6=0.96$, and $k_7 = 0.01$.
 \end{model}
 With the exception of propensity function $\alpha_4$, we can compute the transition rates $\bar{\alpha}_i$ using the Faulhaber formulae, as discussed in \autoref{ch:lumping}.
@@ -390,13 +390,13 @@ We consider $\alpha_4$ separately, because it is non-polynomial and therefore, w
 The fraction occurring in the non-linear propensity function $\alpha_4$ can roughly be characterized as an activation function:
 Due to the low value of parameter $k_7=0.01$ we can approximate\graffito{Note, that $\sum_{i=0}^n i / (i + k_7)$ can be solved analytically. However, the approximation presented above is much simpler to compute.}
 
-$$\frac{x_{\mathrm{p53}}}{x_{\mathrm{p53}} + k_7}
+\[\frac{x_{\mathrm{p53}}}{x_{\mathrm{p53}} + k_7}
 \approx
 \begin{cases}
 0 & \text{if } x_{\mathrm{p53}} = 0\\
 1 & \text{otherwise}
 \end{cases}
-$$
+\]
 We use this approximation at the coarser levels of aggregation to efficiently compute the approximate transition rate $\bar{\alpha}_4$.
 At the fines granularity we switch back to exact propensity function $\alpha_4$.
 
@@ -405,35 +405,37 @@ We now derive Lyapunov-sets for the p53 oscillator case study (Model~\ref{model:
     g(x) = 120 x_{\mathrm{p53}} + 0.2 x_{\mathrm{pMdm2}} + 0.1 x_{\mathrm{Mdm2}}\,.
 \end{equation}
 Then the drift
-\begin{align}
+\begin{equation}\label{eq:p53_drift}
+\begin{split}
     d(x) = & - \frac{k_3 x_{\mathrm{Mdm2}} x_{\mathrm{p53}}}{x_{\mathrm{p53}} + k_7}
             - 0.1 k_6 x_{\mathrm{Mdm2}}
-            + 120 k_1 \nonumber\\
+            + 120 k_1 \\
           & - 120 k_2 x_{\mathrm{p53}}
             + 0.2 k_4 x_{\mathrm{p53}}
-            - 0.1 k_5 x_{\mathrm{pMdm2}} \nonumber \\
+            - 0.1 k_5 x_{\mathrm{pMdm2}}  \\
         = & - \frac{204 x_{\mathrm{Mdm2}} x_{\mathrm{p53}}}{x_{\mathrm{p53}} + 0.01}
             - 0.096 x_{\mathrm{Mdm2}}
-            - 0.02 x_{\mathrm{p53}} \nonumber\\
+            - 0.02 x_{\mathrm{p53}} \\
             &- 0.0093 x_{\mathrm{pMdm2}}
-            + 10800\,. \label{eq:p53_drift}
-\end{align}
+            + 10800\,. 
+\end{split}
+\end{equation}
 Clearly, $c = \sup_{x\in{S}} d(x) = 10800$.
 In particular, the supremum $c$ is at the origin since all non-constant terms are negative.
 The slowest rate of decrease for \eqref{eq:p53_drift} is $x_{\mathrm{p53}}$ with $x_{\mathrm{Mdm2}} = x_{\mathrm{pMdm2}} = 0$.
 We are content with a superset of a Lyapunov set \eqref{eq:lyapunov_set} for some threshold $\epsilon_{\ell}$.
 Therefore taking \eqref{eq:lyapunov_set}, we can solve the inequality
-$$
+\[
 \frac{\epsilon_{\ell}}{c}(c - 0.02 x_{\mathrm{p53}}) > \epsilon_{\ell} - 1
-$$
+\]
 for $x_{\mathrm{p53}}$ and 
-\begin{equation}
+\begin{equation*}
     \frac{c}{0.02 \epsilon_{\ell}} < x_{\mathrm{p53}}\,.
-\end{equation}
+\end{equation*}
 Therefore
-\begin{equation}
+\begin{equation*}
 \pi_{\infty}\left(\left\{x\in\mathcal{S} \mid \frac{c}{0.2\epsilon_{\ell}} < \lVert x \rVert \right\}\right) > 1 - \epsilon_{\ell}\,.
-\end{equation}
+\end{equation*}
 
 Due to the exponential increase stemming from the three-dimension\-al nature of this model, we only evaluated with parameter $\epsilon=0.1$.
 According to the Lyapunov analysis shown above, the area covered by an $6\times 6\times 6$ macro-states with size $2^{20}$, covers 0.9 of stationary mass.

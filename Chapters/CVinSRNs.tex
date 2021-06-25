@@ -1,4 +1,4 @@
-\chapter{Control Variates for Monte-Carlo Estimation}\label{sec:cvinsrns}
+\chapter{Control Variates for Monte-Carlo Estimation}\label{ch:cvinsrns}
 % \author{Michael Backenk\"ohler\inst{1}, Luca Bortolussi\inst{1,2}, Verena Wolf\inst{1}}
 % \authorrunning{M.\ Backenk\"ohler et al.}
 % \institute{\inst{1}Saarland University, Germany, \inst{2}University of Trieste, Italy}
@@ -170,22 +170,21 @@ to a transient setting~\cite{dowdy2018dynamic,sakurai2019bounding}.
 These two transient constraint variants are analogously derived by multiplying \eqref{eq:mom_ode}
 by a time-dependent, differentiable weighting function $w(t)$ and integrating:
 
-Multiplying with $w(t)$ and integrating on $[t_0, T]$ yields~\cite{dowdy2018dynamic,sakurai2019bounding}
-\begin{equation}\label{eq:poly_con}
-\begin{split}
-        & w(T)\E{f(X_{T})}
+As in the previous chapter,\turnto{eq:exp_constraint} multiplication with $w(t)$ and integration on $[t_0, T]$ yields~\cite{dowdy2018dynamic,sakurai2019bounding}
+\begin{multline}\label{eq:poly_con}
+        w(T)\E{f(X_{T})}
         - w(t_0)\E{f(X_{t_0})}
-        - \int_{t_0}^{T}\frac{dw(t)}{dt}\E{f(X_t)}\,dt\\
-        =&\sum_{j=1}^{n_R}\int_{t_0}^{T}w(t)
+	- \int_{t_0}^{T}\frac{dw(t)}{dt}\E{f(X_t)}\,dt\\
+        =\sum_{j=1}^{n_R}\int_{t_0}^{T}w(t)
         \E{\left(f{(X_t + v_j)} - f(X_t)\right)\alpha_j(X_t)}\,dt
-        \end{split}
-\end{equation}
+\end{multline}
 
 In the context of computing moment bounds via semi-definite programming
 the polynomial $w(t)=t^s$~\cite{sakurai2019bounding} and the exponential $w(t)=e^{\lambda(T - t)}$~\cite{dowdy2018dynamic}
 have been proposed.
 While both choices proved to be effective in different case studies, relying solely on the latter choice,
-i.e.\ $$w(t)=e^{\lambda(T - t)}$$ was sufficient.
+i.e.\ \[
+	w(t)=e^{\lambda(T - t)} \] was sufficient.
 
 % Let $$
 % % \hat m^{(s)}_f = \int_{t_0}^{T}t^s\E{f(X_t)}\,dt
@@ -211,12 +210,12 @@ i.e.\ $$w(t)=e^{\lambda(T - t)}$$ was sufficient.
 % \end{equation}
 By expanding the rate functions and $f$ in \eqref{eq:poly_con} and substituting the
 exponential weight function we can re-write \eqref{eq:poly_con} as
-\begin{equation}\label{eq:simpl_exp}
+\begin{multline}\label{eq:simpl_exp}
         0 =\,
          \E{f(X_{T})}
-        - e^{\lambda T}\E{f(X_{t_0})}
+        - e^{\lambda T}\E{f(X_{t_0})}\\
         + \sum_{k}c_k\int_{t_0}^{T}e^{\lambda(T-t)}\E{X_t^{m_k}}\,dt
-\end{equation}
+\end{multline}
 with coefficients $c_k$ and vectors $m_k$ defined accordingly.
 Assuming the moments remain finite on $[0,T]$, we can define the random variable
 \begin{equation}\label{eq:z}
@@ -236,7 +235,7 @@ in \eqref{eq:z} we have to compute sums
     % \frac{1}{k+1}\sum_{i=1}^n\left(t_{i+1}^{k+1} - t_i^{k+1}\right)s_i^m
     % \quad\text{and}\quad
     \frac{1}{\lambda}\sum_{i=1}^n\left(e^{\lambda(T - t_{i+1})}
-    - e^{\lambda(T-t_i)}\right)x_i^{m_k}\,,
+    - e^{\lambda(T-t_i)}\right)x_i^{m_k}
 \end{equation}
 over a given trajectory.
 This accumulation is best done during the simulation to avoid storing the whole trajectory.
@@ -247,9 +246,13 @@ to overcompensate for this increased cost of a simulation run.
 \begin{example}
 For \autoref{model:bd} the moment equation for $f(x)=x$ becomes
 % \vw{sollte -delta Ex sein}
-$$\frac{d}{dt}\E{X_t}=\gamma - \delta\E{X_t}\,.$$
+	\[
+		\frac{d}{dt}\E{X_t}=\gamma - \delta\E{X_t}\,.
+	\]
 The corresponding constraint \eqref{eq:simpl_exp} with $\lambda=0$ gives
-$$0=\E{X_T} - \E{X_0} - \gamma T + \delta \int_0^{T} \E{X_t}\,dt\,.$$
+	\[
+		0=\E{X_T} - \E{X_0} - \gamma T + \delta \int_0^{T} \E{X_t}\,dt\,.
+	\]
 In this instance the constraint  leads to an explicit function of
 the moment over time. If  $X_0=0$ w.p.\ 1, then \eqref{eq:simpl_exp} becomes
 \begin{equation}\label{eq:bd_constraint}
@@ -266,9 +269,11 @@ when choosing $\lambda=-\delta$.
 Now, we are interested in the estimation of some quantity $\E{V}$
 by stochastic simulation.
 Let $V_1,\dots,V_n$ be independent samples of $V$.
-Then the sample mean $\hat{V}_n
-=\frac{1}{n}\sum_{i=1}^n V_k$ is an estimate of $\E{V}$.
-By the central limit theorem
+Then the sample mean 
+\[
+	\hat{V}_n =\frac{1}{n}\sum_{i=1}^n V_k
+\]
+is an estimate of $\E{V}$.  By the central limit theorem
 \[
 \sqrt{n}\hat{V}_n\xrightarrow{d}N(\E{V},\sigma_V^2)\,.
 \]
@@ -282,37 +287,54 @@ constraint.
 If the estimated value of this constraint is larger than zero and we estimate a positive correlation
 between the constraint $Z$ and $V$, we would, intuitively, like to {decrease} our
 estimate $\hat{V}_n$ accordingly.
-This results in an estimation of the mean of the random variable $$Y_{\beta}= V-\beta Z$$ instead of $V$.
+This results in an estimation of the mean of the random variable
+\[
+	Y_{\beta}= V-\beta Z
+\]
+instead of $V$.
 The variance%\vw{wo kommt das alpha her?Sollte beta sein}
-$$\sigma_{Y_{\beta}}^2 = \sigma_V^2-2\beta \Cov{V}{Z} + \beta^2\sigma_Z^2\,.$$
+\[
+	\sigma_{Y_{\beta}}^2 = \sigma_V^2-2\beta \Cov{V}{Z} + \beta^2\sigma_Z^2\,.
+\]
 The optimal choice $\beta$ can be computed by  considering the minimum of $\sigma_{Y_\beta}^2$. Then
-$$\beta^{*}={\Cov{V}{Z}}/{\sigma_Z^2}\,.$$
-Therefore $\sigma_{Y_{\beta^{*}}}=\sigma_Z^2(1 - \rho_{VZ}^2)$,
+\[
+	\beta^{*}={\Cov{V}{Z}}/{\sigma_Z^2}\,.
+\]
+Therefore 
+\[
+	\sigma_{Y_{\beta^{*}}}=\sigma_Z^2(1 - \rho_{VZ}^2)\,,
+\]
 where $\rho_{VZ}$ is the correlation of $Z$ and $V$.
 
 If we have multiple control variates, we can proceed in a similar fashion.
 Now, let ${Z}$ denote a vector of $d$ control variates and let
-$$
+\[
 \Sigma=
 \begin{bmatrix}
 \Sigma_{ Z} & \Sigma_{V Z}\\
 \Sigma_{ Z V} & \sigma_V^2
 \end{bmatrix}
-$$
+\]
 be the covariance matrix of $({Z},V)$.
 As above, we estimate the mean of
-$
+\[
     {Y}_{\beta}=V -{\beta}^{\T}{Z}\,.
-$
+    \]
 The ideal choice of $\beta$ is the result of an ordinary least squares regression between $V$
 and $Z_i$, $i=1,\dots,n$.
-Specifically, $$\beta^{*}={\Sigma_{ Z}}^{-1}{\Sigma}_{ Z V}\,.$$
+Specifically,
+\[
+	\beta^{*}={\Sigma_{ Z}}^{-1}{\Sigma}_{ Z V}\,.
+\]
 Then, asymptotically
 the variance of this estimator is~\cite{szechtman2003control},
 \begin{equation}\label{eq:lcv_asym}
-    {\sigma_{\hat Y_{\beta^*}}^2} = (1 - R_{ Z V}^2){\sigma_{\hat V}^2}\,, \quad
-    R_{ Z V}^2=\Sigma_{ Z V}\Sigma_{ Z}^{-1}\Sigma_{ Z V} / \sigma_V^2\,.
+    {\sigma_{\hat Y_{\beta^*}}^2} = (1 - R_{ Z V}^2){\sigma_{\hat V}^2}\,,
 \end{equation}
+where
+\begin{equation*}
+    R_{ Z V}^2=\Sigma_{ Z V}\Sigma_{ Z}^{-1}\Sigma_{ Z V} / \sigma_V^2\,.
+\end{equation*}
 In practice, however, $\beta^*$ is unknown and needs to be replaced by
 an estimate $\hat{\beta}$.
 This leads to an increase in the estimator's variance.
@@ -405,7 +427,9 @@ This condition aims to remove those variates  from the control  variate set that
 The rationale is that, if variate $i$ has a low correlation with the variable of interest $V$,
 its computation may not be worth the costs.
 Here, we propose to set $\rho_{\min}$ heuristically as
-$$\rho_{\min} = \min\left(0.1, \frac{\max_{i}\rho_{iv}}{k_{\min}}\right)\,,$$
+\[
+	\rho_{\min} = \min\left(0.1, \frac{\max_{i}\rho_{iv}}{k_{\min}}\right)\,,
+\]
 where $k_{\min}>1$ is an algorithm parameter.
 
 The second condition aims to remove redundant conditions.
@@ -419,53 +443,40 @@ if the two control  variates are considered redundant (\autoref{line:redundant_c
 
 There are many ways to define such a redundancy criterion.
 Here, we focus on criteria that are defined in terms of the
-average correlation $$\bar\rho_{ij}=(\rho_{iv} + \rho_{jv})/2\,.$$
+average correlation \[ \bar\rho_{ij}=(\rho_{iv} + \rho_{jv})/2\,.\]
 For two variates $i$ and $j$ we then check if their mutual correlation
 $\rho_{ij}$ exceeds a some function $\phi$ of ${\bar{\rho}}_{ij}$,
 i.e.\ we check the inequality
-$$\phi(\bar\rho_{ij}) \leq \rho_{ij}\,.$$
+\[
+	\phi(\bar\rho_{ij}) \leq \rho_{ij}\,.
+\]
 If this inequality holds, constraint $\argmin_{k\in\{i,j\}}\rho_{kv}$ is removed.
 Naturally, there are many possible choices for the above decision boundary $\phi$ (cf.\ \autoref{fig:decision}).
 
 
 The simplest choice is to ignore $\bar\rho_{ij}$ and just fix a constant close to 1 as a threshold,
-e.g.\ $$ \phi_c(\bar\rho_{ij})=.99\,.$$ While this often leads to the strongest variance reduction
+e.g.\ \[ \phi_c(\bar\rho_{ij})=.99\,.\] While this often leads to the strongest variance reduction
 and avoids numerical issues in the control variate computation, it turns out
 that the computational overhead is not as well-com\-pen\-sa\-ted as by other choices of $\phi$ (see \autoref{sec:cv:study}).
 
-Another option is to fix a simple linear function, i.e.\ $$ \phi_{\ell}(\bar\rho_{ij})=\bar\rho_{ij}\,.$$
+Another option is to fix a simple linear function, i.e.\ \[ \phi_{\ell}(\bar\rho_{ij})=\bar\rho_{ij}\,.\]
 For this choice the intuition is, that one of two constraints is removed if their mutual
 correlation exceeds their average correlation with $V$.
 
 
 Here, we also assess two quadratic choices for $\phi$. The first choice of
-$$
+\[
 	\phi_{q}(\bar\rho)=1 - (1-\bar\rho)^2
-	$$
+\]
 is more tolerant than the linear function and more strict than a threshold function, except for
 highly correlated control  variates.
 Another variant of $\phi$ is given by including the lower bound $\rho_{\min}$ and scaling
 the quadratic function accordingly:
-$$ \phi_{\mathit{sq}}(\bar\rho)=1-((1-\bar\rho)/(1-\rho_{\min}))^2\,.$$
+\[ \phi_{\mathit{sq}}(\bar\rho)=1-((1-\bar\rho)/(1-\rho_{\min}))^2\,.\]
 The different choices of $\phi$ considered here are plotted in \autoref{fig:decision}.
 
 
 \begin{algorithm}[t]
-        % \Procedure{SSA}{$\pi_0, T, A$}
-        % \State $\tau \leftarrow$ empty list, $s\leftarrow$ sample from $\pi_0$, $t\leftarrow 0$
-        % \While{$t<T$}
-        %     \State $r_i\leftarrow\alpha_i(s),\;i=1,\dots,n_R$
-        %     \State $U_1\sim \text{Uniform}([0,1])$, $dt\sim \text{Exp}\left(\sum_i r_i\right)$
-        %     \State $i\leftarrow$ choose a reaction based on $U_1$ proportional to $r_i$
-        %     \For{$a\in A$}
-        %         \State update integral accumulator $a$
-        %     \EndFor
-        %     \State $s\leftarrow s + v_i,\; t \leftarrow t + dt$
-        % \EndWhile
-        % \State \textbf{return} $\tau$
-        % \EndProcedure
-        % \Statex
-
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
 \Input{$n, d, n_{\max}, n_{\lambda}, k_{\min}$}
@@ -474,15 +485,15 @@ The different choices of $\phi$ considered here are plotted in \autoref{fig:deci
   $P \leftarrow \{ ({m}, \lambda) | 1\leq\lvert {m} \rvert \leq n_{\max}, \lambda\in L\}$\label{line:init_covs}\;
   \For{$i=1,\dots,n$\label{line:main_loop}}{
      $\tau \leftarrow$ \textsc{SSA}($\pi_0,T,A$)\label{line:run_ssa}\;
-     compute constraint values using $A$ and update $\hat\Sigma$ and $\hat{V}_i$\label{line:updates}\;
+     compute constraints using $A$ and update $\hat\Sigma$ and $\hat{V}_i$\label{line:updates}\;
   	    \If{$i \mod d =0$\label{line:cond_ck_begin}}{
   		$\rho_{\min}\leftarrow \min\left(0.1,{\max_i \rho_{iv}}/{k_{\min}}\right)$\;
   		$P\leftarrow P\setminus\{({m}_k, \lambda_k)\mid \rho_{kv} < \rho_{\min}\}$\label{line:weak_covs}\;
   		$P\leftarrow P\setminus\{({m}_k, \lambda_k)\mid \exists i,j.i\neq j,
-  		\phi(\bar\rho_{ij}) < \rho_{ij},
-  		k=\argmin_{k\in\{i,j\}}\rho_{kv}\}$\label{line:redundant_covs}\;
+  		\phi(\bar\rho_{ij}) < \rho_{ij},$ \label{line:redundant_covs}\\
+		\hspace{10em}$k=\argmin_{k\in\{i,j\}}\rho_{kv}\}$\;
   		}
-  	    remove unneeded accumulators from $A$\label{line:cond_ck_end}\;
+  	    remove unnecessary accumulators from $A$\label{line:cond_ck_end}\;
   	}
 % % \State $\hat{\beta}\leftarrow\hat\Sigma_{{Z}}^{-1}\hat\Sigma_{{Z}V}$
 \Return $\hat{V}_n - {(\hat{\Sigma}_{{Z}}^{-1}\hat\Sigma_{{Z}V})}^{\top}\hat{{Z}}_n$\label{line:compute_lcv}\;
@@ -555,8 +566,8 @@ We now describe the models and the estimated quantities in detail.
 
 The first model\graffito{This model appeared earlier as \autoref{model:dim} on page~\pageref{model:dim}.} is a simple dimerization on a countably infinite state-space.
 \begin{model*}[Dimerization]
-We first examine a simple dimerization model on an unbounded state-space
-$$\varnothing\xrightarrow{10}M,\quad 2M\xrightarrow{0.1}D$$
+We first examine a simple dimerization model on an unbounded state-space.
+	\[\varnothing\xrightarrow{10}M\qquad 2M\xrightarrow{0.1}D\]
 with initial condition $X_0^M=0$.
 \end{model*}
 Despite the models simplicity, the moment equations are not closed for this system
@@ -573,10 +584,10 @@ will move towards either attracting region with equal probability.
 The distributive modification model was introduced in \citet{cardelli2012cell}.
 It consists of the reactions
 \begin{align*}
-    X + Y \xrightarrow{.001} B + Y\,,\quad
-    &B + Y \xrightarrow{.001} 2 Y\,,\\
-   Y + X \xrightarrow{.001} B + X\,,\quad
-   &B + X \xrightarrow{.001} 2 X
+	X + Y &\xrightarrow{.001} B + Y &
+    B + Y &\xrightarrow{.001} 2 Y\\
+	Y + X &\xrightarrow{.001} B + X &
+   B + X &\xrightarrow{.001} 2 X
 \end{align*}
 with initial conditions $X^X_0=X^Y_0=X^B_0=100$.
 \end{model}
@@ -601,10 +612,19 @@ with initial conditions $X^X_0=X^Y_0=X^B_0=100$.
 
 \begin{model}[Exclusive Switch]\label{model:es}
 The exclusive switch model consists of 5 species, 3 of which are typically binary (activity states of the genes) \cite{loinger2007stochastic}.
-$$ D \xrightarrow{} D + P_1 \qquad D \xrightarrow{} D + P_2 \qquad P_1 \xrightarrow{}\varnothing \qquad P_2 \xrightarrow{} \varnothing $$
-$$ D + P_1 \xrightarrow{} D.P_1 \qquad D.P1 \xrightarrow{} D + P_1 \qquad D.P_1 \xrightarrow{} D.P_1 + P_1 $$
-$$ D + P_2 \xrightarrow{} D.P_2 \qquad D.P2 \xrightarrow{} D + P_2 \qquad D.P_2 \xrightarrow D.P_2 + P_2 $$
-with initial conditions $X^D_0=1$ and $X^{D.P1}_0=X^{D.{P_2}}_0=X^{P_1}_0=X^{P_2}_0=0$.
+\begin{align*}
+	D + P_1 &\xrightarrow{} D.P_1 &
+	D.P1 &\xrightarrow{} D + P_1  &
+	D.P_1 &\xrightarrow{} D.P_1 + P_1 \\
+	D + P_2 &\xrightarrow{} D.P_2& 
+	D.P2 &\xrightarrow{} D + P_2 &
+	D.P_2 &\xrightarrow{} D.P_2 + P_2\\
+	D &\xrightarrow{} D + P_1&
+	D &\xrightarrow{} D + P_2& & &\\
+	P_1 &\xrightarrow{}\varnothing & P_2 & \xrightarrow{} \varnothing
+\end{align*}
+with initial conditions 
+	\[X^D_0=1 \text{ and } X^{D.P1}_0=X^{D.{P_2}}_0=X^{P_1}_0=X^{P_2}_0=0\,.\]
 \end{model}
 
 We evaluate the influence of algorithm parameters, choices of distributions

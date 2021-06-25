@@ -63,12 +63,22 @@ extremely challenging because of the enormous size of the underlying
 state-space. 
 
 \section{Organization}
+All contributions presented in this thesis are related to \aclp{MPM}.
+Therefore the background chapter, i.e.\ \autoref{ch:background} is relevant
+to all later parts of the thesis.
+The prerequisite for \autoref{ch:statagg} and \autoref{ch:bridging} is the aggregation
+technique presented in \autoref{ch:lumping}.
+Note that \autoref{ch:MFPT} and \autoref{ch:cvinsrns} share the temporal moment approach presented
+in both chapters.
+\autoref{fig:chap_deps} provides an overview of the dependencies between chapters.
+\begin{figure}[htb]
+	\centering
 \begin{tikzpicture}
 	\begin{scope}
   \path[mindmap,concept color=gray!25,text=black,level 1 concept/.append style =
-      {sibling angle=45}]
+      {sibling angle=40}]
 	node[concept] {\autoref{ch:background}\\\aclp{MPM}}
-    [clockwise from=-20]
+    [clockwise from=-30]
     child[concept] {
 	    node[concept] {\autoref{ch:lumping}\\Aggregation}
 	    [clockwise from=-20]
@@ -76,11 +86,11 @@ state-space.
 		    node[concept] {\autoref{ch:statagg}\\Stationary Distribution}
 	    }
 	    child[concept] {
-		    node[concept] {\autoref{sec:bridging}\\Bridging Problem}
+		    node[concept] {\autoref{ch:bridging}\\Bridging Problem}
 	    }
     }
     child[concept] {
-	    node[concept] (cv) {\autoref{sec:cvinsrns}\\Control Variates}
+	    node[concept] (cv) {\autoref{ch:cvinsrns}\\Control Variates}
     }
     child[concept] {
 	    node[concept] (mfpt) {\autoref{ch:MFPT}\\Bounding {MFPTs}}
@@ -94,6 +104,8 @@ state-space.
 %%%%% (cv) edge (mfpt);
  %    \end{pgfonlayer}
 \end{tikzpicture}
+	\caption{\label{fig:chap_deps}Chapter dependencies.}
+\end{figure}
 
 
 %*******************************************************
@@ -116,7 +128,7 @@ International Conference on Quantitative Evaluation of
 pp. 155--174.
 \end{quote}
 
-\item \autoref{sec:cvinsrns} has with minor differences been published as
+\item \autoref{ch:cvinsrns} has with minor differences been published as
 \begin{quote}
 	Michael Backenköhler, Luca Bortolussi, and Verena
 Wolf. ``Control Variates for Stochastic Simulation of
@@ -134,7 +146,7 @@ International Conference on Quantitative Evaluation of
 	SysTems (QEST).} (2021).
 \end{quote}
 
-	\item \autoref{sec:bridging} has with minor differences been published as
+	\item \autoref{ch:bridging} has with minor differences been published as
 
 \begin{quote}
 	Michael Backenköhler, Luca Bortolussi, Gerrit Großmann, and Verena Wolf.
@@ -143,8 +155,9 @@ International Conference on Quantitative Evaluation of
 	the Construction and Analysis of Systems (TACAS).}  Vol. 1265. LNCS.
 	Springer, 2021, pp. 210--229.
 \end{quote}
-		\autoref{ch:lumping} is --~in large part~-- based on this and the preceeding publication.
 \end{itemize}
+\autoref{ch:lumping} is in large part based on this and the preceeding publication.
+\autoref{ch:background} contains introductory material and examples from all of the above publications.
 
 %\noindent Put your publications from the thesis here. The packages \texttt{multibib} or \texttt{bibtopic} etc. can be used to handle multiple different bibliographies in your document.
 

@@ -50,7 +50,7 @@ In general, this is an operator $A$ on some class of functions and
 \end{equation}
 where $\mathcal{F}_t$ is the filtration up to time $t$.
 This equation can be interpreted as the requirement, that
-$$f(X_t) - f(X_0) - \int_0^t Af(x_s)\,ds$$ is a martingale \cite[p.~5]{kurtz1981approximation}.
+\[f(X_t) - f(X_0) - \int_0^t Af(x_s)\,ds\] is a martingale \cite[p.~5]{kurtz1981approximation}.
 We will use this in \autoref{ch:MFPT} to derive bounds on \aclp{MFPT}.
 
 In \acp{CTMC} the generator is defined by giving the \emph{intensities} or \emph{rates}
@@ -73,13 +73,13 @@ Analogously, the \emph{Kolmogorov backward equation} is
 	\frac{d}{dt}P(t) = QP(t)^{\T}\,.
 \end{equation}
 Distributions in the context of Markov chains are typically in row-vector form
-$$
+\[
 \pi(t)\coloneqq(\pi(x_1, t), \pi(x_2, t), \dots)\,,
-$$
+\]
 where we define
-$$
+\[
 \pi(x_i, t)\coloneqq \Pr(X_t=x_i), \quad\forall x_i\in\mathcal{S}, \forall{t\geq 0}\,.
-$$
+\]
 Often, \eqref{eq:kolm_forw} and \eqref{eq:kolm_back} are used in the context of an
 distributions.
 In this case it makes more sense to right-multiply $\vec{1}$ to these equations such
@@ -92,9 +92,9 @@ and
 	\frac{d}{dt}\pi(t) = Q\pi(t)^{\T}\,.
 \end{equation}
 Given some initial distribution
-$$
+\[
 \pi_0 \coloneqq \pi(0)\,,
-$$
+\]
 the distribution $\pi(t)$ is given by give simple \acp{IVP} of \eqref{eq:kolm_forw_d}.
 
 \subsection{Computing Transient Distributions}
@@ -103,13 +103,13 @@ Here, we only provide a basic overview and intuition relevant for the rest of th
 \begin{description}
 	\item[Matrix exponential]
 		The transition probability matrix $P(t)$ is the solution of \eqref{eq:kolm_forw}
-		$$
+		\[
 			P(t)=\exp(Qt)\,,
-			$$
+		\]
 		where the matrix exponential for a square matrix $M$
-		$$
+		\[
 		\exp({M})\coloneqq\sum_{k=0}^{\infty}\frac{1}{k!}M^k\,.
-		$$
+	\]
 		Due to the factor ${h^k}/{k!}$, the sum of the matrix exponential
 		can be truncated to get an estimate
 		of high quality. In practice, this method is unsuited to many problems, because
@@ -128,22 +128,22 @@ Here, we only provide a basic overview and intuition relevant for the rest of th
 	\item[Uniformization]
 		Uniformization is an elegant algorithm to compute transient solutions.
 		Here, the \ac{CTMC} is transformed into a \ac{DTMC}.
-		Using a uniformization rate $$\lambda_0\geq\max_{i}\lvert q_{ii}\rvert$$
+		Using a uniformization rate \[\lambda_0\geq\max_{i}\lvert q_{ii}\rvert\]
 		the transition probabilities of the \ac{DTMC} become
-		$$
+		\[
 		P_{ij} =
 		\begin{cases}
 			Q_{ij} / \lambda_0\,, &\text{if } i\neq j\\
 			1 - \sum_k Q_{ik} / \lambda_0\,, &\text{otherwise}
 		\end{cases}\,.
-		$$
+	\]
 		The transient distribution at $t$ can be obtained, by weighting the $k$-step
 		probabilities of the \ac{DTMC} by a Poisson distribution with rate
 		$\lambda_0 t$:
-		$$
+		\[
 		\pi(t) =
 		\sum_{k=0}^{\infty}\pi_0P^k\frac{(\lambda_0 t)^k}{k!} \exp{(\lambda_0 t)}\,.
-		$$
+	\]
 		Truncation of this series clearly gives an underapproximation.
 	\item[Monte Carlo simulation]
 		A simple way is estimation using Monte Carlo methods. This entails stochastic
@@ -196,9 +196,9 @@ Thus, for reaction $j$ we have the intensity
 In most physical models, \emph{mass-action} propensities are most common.
 These model combinatorial nature of well-mixed molecules moving randombly through space:
 In a reaction
-$$ A + B \xrightarrow{c x^{(A)} x^{(B)}} C $$
+\[ A + B \xrightarrow{c x^{(A)} x^{(B)}} C \]
 two molecules hit eachother with a probability, proportional to the product of their counts
-$$ c X^{(A)}_t X^{(B)}_t\,. $$
+\[ c X^{(A)}_t X^{(B)}_t\,. \]
 In general such rates are given by the product of the number
 of reactant combinations in $x$ and a
 \emph{rate constant} $c_j$, i.e.
@@ -234,7 +234,7 @@ evolves according to the Kolmogorov forward equation
 \begin{equation}\label{eq:forward}
 \frac{d}{dt}\pi(t) = \pi(t) Q\,,
 \end{equation}
-where $\pi(t)$ is an arbitrary vectorization $$(\pi(x_1,t), \pi(x_2,t),\dots,\pi(x_{|\mathcal{S}|},t))$$ of the states.
+where $\pi(t)$ is an arbitrary vectorization \[(\pi(x_1,t), \pi(x_2,t),\dots,\pi(x_{|\mathcal{S}|},t))\] of the states.
 \eqref{eq:forw_prob} given for a single state, in the context of quantitative biology, it is commonly referred to
 as the \emph{chemical master equation} (CME)
 \begin{equation}\label{eq:cme}
@@ -244,20 +244,51 @@ as the \emph{chemical master equation} (CME)
     \right)\,.
 \end{equation}
 
-\begin{example} Consider a birth-death process as a simple example. This model is used to describe a wide variety of phenomena and often constitutes a sub-module of larger models.
-For example, it represents an M/M/1 queue with service rates being linearly dependent on the queue length.
-Note that even for this simple model, the state-space is countably infinite.
-% \MB{could remove model environment for space}
-\begin{model}[Birth-Death Process]\label{model:bd}
-The model consists of exponentially distributed arrivals and service times proportional to queue length. It can be expressed using two mass-action reactions:
-$$ \varnothing \xrightarrow{\mu} S \qquad\text{and}\qquad S \xrightarrow{\gamma} \varnothing\,.$$
-The initial condition $X_0=0$ holds with probability one.
-\end{model}
 
-For \autoref{model:bd} the change of probability mass in a single state $x>0$ is described by expanding
-\eqref{eq:cme} and
-$$\frac{d}{dt}\pi_t(x)=\gamma \pi_t(x-1) + \delta \pi_t(x+1) - (\gamma + \delta)\pi_t(x)\,.$$
+
+\begin{example}
+Consider the following simple \ac{MPM} with non-linear propensities as an example.
+\begin{model}[Dimerization]\label{model:dim}
+  We first examine a simple dimerization model on an unbounded state-space with
+  reactions
+\[
+    \varnothing\xrightarrow{\lambda}M,\quad 2M\xrightarrow{\delta}D
+\]
+  and initial condition $X_0^{(M)}=X_0^{(D)}=0$.
+\end{model}
+The semantics is given by a \ac{CTMC} $\vec{X}_t=(X_t^{(M)}, X_t^{(D)})^{\T}$, where $(S_1, S_2)=(M,D)$. 
+The reaction propensities according to~\eqref{eq:stoch_mass_action} are 
+\[
+	\alpha_1(\vec{x})=\lambda
+	\quad
+	\text{and}
+\quad
+	\alpha_2(\vec{x})=\delta\, x^{(M)} (x^{(M)} - 1)/2\,.
+\]
+The change vectors for the first reaction are
+\[
+	v_1^-={(0,0)}^{\T}\quad\text{and}\quad v_1^+={(1,0)}^{\T}\,.
+\]
+For the second reaction the change vectors are
+\[
+	v_2^-={(2,0)}^{\T}\quad \text{and}\quad v_2^{+}={(0,1)}^{\T}\,.
+\]
+Consequently, $v_1={(1,0)}^{\T}$ and $v_2={(-2, 1)}^{\T}$.
+
+For a state $(x^{(M)}, x^{(D)})\in\mathbb{N}^2$, where $x^{(M)}\geq 2$,
+the \ac{CME} \eqref{eq:cme} becomes
+\begin{align*}
+	& \frac{d}{dt}\pi((x^{(M)}, x^{(D)}), t)\\
+	= \;\,&  \frac{\delta}{2} \, (x^{(M)}+2) (x^{(M)} + 1) \pi((x^{(M)}+2, x^{(D)}-1), t)\\
+	& - (\lambda + \frac{\delta}{2} \, x^{(M)} (x^{(M)} - 1))\pi((x^{(M)}, x^{(D)}), t)\\
+	& + \lambda \pi((x^{(M)}-1, x^{(D)}), t)
+\end{align*}
+This explicit representation of state probabilities is often not possible, because
+there are infinitely many states. Usually the state-space is truncated to contain all
+relevant states~\cite{andreychenko2011parameter} or one switches to
+an approximation such as the mean-field~\cite{bortolussi2013}.
 \end{example}
+
 
 
 \section{State-Space Truncation}\label{sec:fsp}
@@ -272,6 +303,31 @@ This state captures the mass ``lost'' by the approximation and gives the error u
 
 To analyze the stationary distribution (\autoref{sec:stationary_dist}) the redirection scheme needs to be altered \cite{kuntz2021stationary}:
 Instead of a re-redirection into a sink-state, transitions are redirected in \emph{some fashion} back into the truncation set.
+
+\begin{example} Consider a birth-death process as a simple example. This model is used to describe a wide variety of phenomena and often constitutes a sub-module of larger models.
+For example, it represents an M/M/1 queue with service rates being linearly dependent on the queue length.
+Note that even for this simple model, the state-space is countably infinite.
+% \MB{could remove model environment for space}
+\begin{model}[Birth-Death Process]\label{model:bd}
+The model consists of exponentially distributed arrivals and service times proportional to queue length. It can be expressed using two mass-action reactions:
+	\[ \varnothing \xrightarrow{\mu} S \qquad\text{and}\qquad S \xrightarrow{\gamma} \varnothing\,.\]
+The initial condition $X_0=0$ holds with probability one.
+\end{model}
+
+For \autoref{model:bd} the change of probability mass in a single state $x>0$ is described by expanding
+\eqref{eq:cme} and
+\begin{multline}\label{eq:cme_bd}
+	\frac{d}{dt}\pi_t(x)=\mu \pi(x-1, t) + \gamma (x+1) \pi(x+1, t)\\
+	- (\mu + \gamma x)\pi(x, t)\,.
+\end{multline}
+A typical truncation scheme to $[0, N]$ would use \eqref{eq:cme_bd} for $x\in[0,\dotsc,N - 1]$
+and for $x=N$ the transition to $N+1$ via the first reaction is re-directed back to state $N$.
+In effect, this is equivalent to cutting the transition, because the truncation has only this border state.
+Thus, the approximation here reads
+\[
+	\frac{d}{dt}\pi_t(N)=\mu \pi(N-1, t) - \gamma N\pi(N, t)\,.
+\]
+\end{example}
 
 \section{Stochastic Simulations}\label{sec:ssa}
 We can generate trajectories of this model using the \acf{SSA} (\autoref{alg:ssa})  \cite{gillespie1977exact}.
@@ -305,7 +361,7 @@ Specifically,
 This equation is used to analyse (raw) \emph{moments} of the process.
 \graffito{\emph{Centered} or \emph{factorial} moments (such as the variance) are equivalent via the binomial transform.}
 A raw moment is
-$$\E{\vec X^{\vec m}}=\E{\prod_{i=1}^{n_S} X_i^{m_i}}\,,\quad \vec m\in {\mathbb{N}}^{n_S}$$
+\[\E{\vec X^{\vec m}}=\E{\prod_{i=1}^{n_S} X_i^{m_i}}\,,\quad \vec m\in {\mathbb{N}}^{n_S}\]
 with respect to some probability measure.
 The \emph{order} of a moment $E({\vec X}^{\vec m})$ is given by the sum of its exponents,
 i.e.\ $\sum_i m_i$.
@@ -329,17 +385,17 @@ Setting initial moments these equations give as an \ac{IVP}, we can solve (see \
 This, however, is more an exception than the norm:
 Unless all ractions have linear or constant rate functions $\alpha_i(\cdot)$, $\forall i$, we would not end up with a closed system of \acp{ODE} as in \eqref{eq:bd:mom1}.
 To illustrate, let us pretend the reaction ($S\xrightarrow{\gamma}\varnothing$) would become this non-linear reaction\graffito{The model is then the same as \autoref{model:dim}.}
-$$
+	\[
 2S\xrightarrow{\gamma}\varnothing\,.
-$$
+\]
 Accordingly, due to mass-action \eqref{eq:stoch_mass_action}
-$$
+	\[
 \alpha_2(x)=\gamma (x^2 - x)\,.
-$$
+\]
 Therefore the first moment's derivative becomes
-$$
+	\[
 \frac{d}{dt}\E{X_t} =\mu - \gamma \left(\E{X_t^2} - \E{X_t}\right)\,.
-$$
+\]
 Note, that now the right-hand side of the derivative in the example depends on the value of the second moment $\E{X_t^2}$.
 \end{example}
 If we consider the general expression \eqref{eq:mom_ode} for the moment of order $k$ clearly a term of order $k+1$ occurs, that does (usually) not cancel out if a propensity function is at least
@@ -378,7 +434,7 @@ Eq.~\eqref{eq:ergodic} shows that we can assess long-run behavior using the stat
 \begin{example}
 	Returning to the example of \autoref{model:bd} it is obvious that the state-space is irreducible.
 Further, we can easily show, that the stationary distribution is Poissonian with rate $\mu/\gamma$:
-$$ \pi_{\infty}(x)=\frac{{(\mu/\gamma)}^{x}\exp(-\mu/\gamma)}{x!}\,.$$
+	\[ \pi_{\infty}(x)=\frac{{(\mu/\gamma)}^{x}\exp(-\mu/\gamma)}{x!}\,.\]
 \end{example}
 
 
@@ -388,8 +444,8 @@ Some automated techniques have been proposed for this task \cite{dayar2011boundi
 
 
 
-\subsection{Lyapunov Bounds}\label{sec:statagg:lyapunov}
-It is well-known that for a \ac{CTMC} $X$, ergodicity can be proven by a Lyapunov function $g:\mathcal{S}\to\mathbb{R}_+$ \cite{meyn1993stability,dayar2011bounding}.\footnote{The positivity requirement can somewhat be relaxed. The function only needs to be bounded from below since it can be shifted to the positives. In practice this shift can be ignored since it cancels out in the drift \eqref{eq:drift}.}
+\subsection{Foster-Lyapunov Bounds}\label{sec:statagg:lyapunov}
+It is well-known that for a \ac{CTMC} $X$, ergodicity can be proven by a Foster-Lyapunov\marginpar{This is the stochastic analogue of the Lyapunov function for \acp{ODE}.} function $g:\mathcal{S}\to\mathbb{R}_+$ \cite{meyn1993stability,dayar2011bounding}.\footnote{The positivity requirement can somewhat be relaxed. The function only needs to be bounded from below since it can be shifted to the positives. In practice this shift can be ignored since it cancels out in the drift \eqref{eq:drift}.}
 Given the $g$, we define its \emph{drift} $d$ as its average infinitesimal change, which is obtained applying the generator $Q$ to $g$. 
 \begin{equation}\label{eq:drift}
 	d(x) = Qg(x) = \sum_{j=1}^{n_R} \alpha_j(x) (g(x+v_j) -  g(x))
@@ -397,7 +453,7 @@ Given the $g$, we define its \emph{drift} $d$ as its average infinitesimal chang
 A Lyapunov function can be used to prove ergodicity of a \ac{CTMC}: If there is a finite subset $C\subset\mathcal{S}$ such that
 \begin{align}
 	&Qg(x)\leq -1,\; \forall x\in\mathcal{S}\setminus C\,,\\
-	&Qg(x)< \infty,\; \forall x\in C\,, and\\
+	&Qg(x)< \infty,\; \forall x\in C\,, \text{ and}\\
 	&\lVert x\rVert\to\infty \Rightarrow g(x)\to\infty\,,\;\text{ where }\;\lVert x\rVert=\sum_i x_i\,,
 \end{align}
 then the chain is non-explosive and ergodic~\cite{milias2014optimization,tweedie_1975}.

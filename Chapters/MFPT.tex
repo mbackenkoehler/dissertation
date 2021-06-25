@@ -80,7 +80,9 @@ appropriately describe the underlying distribution. %, a fact impacting their
 
 Here, we put forward a method based solely on moments that gives \emph{exact bounds}  for \acfp{MFPT} and reachability probabilities in \acp{MPM}.
 For a set of states $B$ and a time-horizon $T$, the \ac{FPT}
-$$\tau = \inf\{t\geq 0\mid \vec X_t \in B\} \land T\,.$$
+\[
+	\tau = \inf\{t\geq 0\mid \vec X_t \in B\} \land T\,.
+\]
 This mean of this stopping time $\E{\tau}$, i.e.\ the \acl{MFPT}, directly characterizes the probability of reaching set $B$
 within $T$ time units. Thus, safe upper and lower bounds on \acp{MFPT} can constitute a core component for the verification of properties in \acp{MPM}.
 Our approach extends recent work on moment
@@ -186,34 +188,6 @@ mathematics by \citet{kashima2009polynomial}, as well as
 \section{Preliminaries}\label{sec:mfpt:bg}
 
 
-Consider the following simple \ac{MPM} with non-linear propensities as an example.
-\begin{model}[Dimerization]\label{model:dim}
-  We first examine a simple dimerization model on an unbounded state-space with
-  reactions
-  $$\varnothing\xrightarrow{\lambda}M,\quad 2M\xrightarrow{\delta}D$$
-  and initial condition $X_0^{(M)}=X_0^{(D)}=0$. The semantics is given by a
-	\ac{CTMC}
-  $\vec{X}_t=(X_t^{(M)}, X_t^{(D)})^{\T}$, where $(S_1, S_2)=(M,D)$. The reaction
-  propensities according to~\eqref{eq:stoch_mass_action}
-  are $\alpha_1(\vec{x})=\lambda$ and $\alpha_2(\vec{x})=\delta\, x^{(M)} (x^{(M)} -
-  1)/2$. The change vectors $v_1^-={(0,0)}^{\T}$, $v_1^+={(1,0)}^{\T}$,
-  $v_2^-={(2,0)}^{\T}$, and $v_2^{+}={(0,1)}^{\T}$.
-  Consequently, $v_1={(1,0)}^{\T}$ and $v_2={(-2, 1)}^{\T}$.
-\end{model}
-\iffalse
-For a state $(x^{(M)}, x^{(D)})\in\mathbb{N}^2$, where $x^{(M)}\geq 2$,
-the \ac{CME} \eqref{eq:cme} becomes
-\begin{align*}
-\frac{d}{dt}\pi((x^{(M)}, x^{(D)}), t)
-=&\lambda \pi((x^{(M)}-1, x^{(D)}), t)\\ &+ \frac{\delta}{2} \, (x^{(M)}+2) (x^{(M)} +
-  1) \pi((x^{(M)}+2, x^{(D)}-1), t)\\ &- (\lambda + \frac{\delta}{2} \, x^{(M)} (x^{(M)} -
-  1))\pi((x^{(M)}, x^{(D)}), t)\,.
-\end{align*}
-\fi
-This explicit representation of state probabilities is often not possible, because
-there are infinitely many states. Usually the state-space is truncated to contain all
-relevant states~\cite{andreychenko2011parameter} or one switches to
-an approximation such as the mean-field~\cite{bortolussi2013}.
 
 In this work, we are interested in \acfp{FPT} of such processes.
 That is the time, the process first enters a set of target states
@@ -271,7 +245,8 @@ $\E{X_t}$ and $\E{X_t^2}$, respectively.
 	\begin{split}
     \frac{d}{dt}\E{{X}_t} &= \lambda\E{{X}_t^0} -
     2{\delta}\left(\E{{X}_t^2}-\E{{X}_t}\right)\\
-    \frac{d}{dt}\E{{X}_t^2} &= \lambda(2\E{{X}_t} + 1) - 4\delta\left(\E{{X}_t^3} -
+    \frac{d}{dt}\E{{X}_t^2} &= \lambda(2\E{{X}_t} + 1)\\
+		&\quad- 4\delta\left(\E{{X}_t^3} -
     2\E{{X}_t^2} + \E{{X}_t}\right)\,.
 	\end{split}
 \end{equation}
@@ -290,15 +265,13 @@ the description of state-space moments to a temporal one.
 This is achieved by the introduction of a time-dependent polynomial $w(t)$ that is multiplied to
 \eqref{eq:mfpt:mom_ode}.
 An integration by parts on $[0, T]$ yields~\cite{dowdy2018dynamic,sakurai2019bounding}
-\begin{equation}\label{eq:exp_constraint}
-\begin{split}
-        & w(T)\,\E{f(\vec X_T)}
-        - w(0)\,\E{f(\vec X_{0})}
-        - \int_{0}^{T}\frac{dw(t)}{dt}\E{f(\vec X_t)}\,dt\\
-        =&\sum_{j=1}^{n_R}\int_{0}^{T}w(t)\,
-        \E{\left(f{(\vec X_t + \vec v_j)} - f(\vec X_t)\right)\alpha_j(\vec X_t)}\,dt\,.
-        \end{split}
-\end{equation}
+\begin{multline}\label{eq:exp_constraint}
+        w(T)\E{f(X_{T})}
+        - w(t_0)\E{f(X_{t_0})}
+	- \int_{t_0}^{T}\frac{dw(t)}{dt}\E{f(X_t)}\,dt\\
+        =\sum_{j=1}^{n_R}\int_{t_0}^{T}w(t)
+        \E{\left(f{(X_t + v_j)} - f(X_t)\right)\alpha_j(X_t)}\,dt
+\end{multline}
 
 Starting from this equation, it is possible to derive a martingale process,
 i.e.\ a process that has an expected value of 0, regardless of time.
@@ -310,15 +283,13 @@ On finite time intervals $[0,T]$ this holds because $w$
 is polynomial and we assumed finite moments for all $t\geq 0$.
 Interchanging the  summation  and integral of a monomial
 ${\vec{x}}^{\vec{m}}$, i.e.\ pulling all expectation operators outside
-\begin{equation*}
-\begin{split}
-\int_{0}^Tg(t)\E{\vec X_t^{\vec m}}\,dt
- =&\int_{0}^T\sum_{x\in\mathcal{S}}g(t)\Pr(X_s=x)x^m\,dt\\
- =&\int_{0}^T\int_{\Omega} g(t) {X_s(\omega)}^m\,dP(\omega)\,dt\\
- =&\int_{\Omega}\int_{0}^T g(t) {X_s(\omega)}^m\,dt\,dP(\omega)\\
-=&\;\E{\int_{0}^Tg(t){\vec X}_t^{\vec m}\,dt}.
-\end{split}
-\end{equation*}
+\begin{align*}
+	& \;\quad\int_{0}^Tg(t)\E{\vec X_t^{\vec m}}\,dt\\
+	& =\int_{0}^T\sum_{x\in\mathcal{S}}g(t)\Pr(X_s=x)x^m\,dt\\
+	& =\int_{0}^T\int_{\Omega} g(t) {X_s(\omega)}^m\,dP(\omega)\,dt\\
+	& =\int_{\Omega}\int_{0}^T g(t) {X_s(\omega)}^m\,dt\,dP(\omega)\\
+	& =\E{\int_{0}^Tg(t){\vec X}_t^{\vec m}\,dt}.
+\end{align*}
 Hence, we are able to to pull out the expectation operator in~\eqref{eq:exp_constraint}.
 \begin{equation}\label{eq:e_exp_constraint}
 \begin{split}
@@ -383,18 +354,21 @@ We will use these as constraints in the semi-definite program used to bound \acp
 \begin{example}
 If we apply this to our previous example (cf.\ \eqref{eq:dim_exp_ode}), letting $m=1$ %\vw{same example has $\vec m=(1,0)$ above }
 and $k=1$ we obtain the following process for \autoref{model:dim}.
-$$
+	\[
     Z_T^{(1,1)} = TX_T - \int_0^T X_t\,dt - \lambda \int_0^T t\,dt - 2\delta
     \int_0^T t X_t\,dt +
     2{\delta}\int_0^TtX_t^2\,dt,
-    $$
+    \]
 where the sequences according to \eqref{eq:basic_poly_martingale} are $(m_i)_i=(1,0,1,2)$, $(k_i)_i=(0,1,1,1)$,
 and $(c_i)_i=(-1,-\lambda, -2\delta,2\delta)$.
 \end{example}
 \section{Bounds for Mean First Passage Times}\label{sec:mfpt:mfpt_bounds}
 We now turn to the analysis of first passage times within some time-bound
 $T>0$. Given some subset of the state-space
-$B\subseteq \mathcal{S}$ the first passage time is given by the continuous random variable $$\tau = \inf\{t\geq 0\mid \vec X_t \in B\} \land T$$
+$B\subseteq \mathcal{S}$ the first passage time is given by the continuous random variable 
+\[
+	\tau = \inf\{t\geq 0\mid \vec X_t \in B\} \land T
+\]
 where $a \land b \coloneqq \min\{a, b\}$.
 For this work, we only look at threshold hitting times,
 i.e.\ we set a threshold $H$ for species $S$ and thus $B=\{\vec{x}\mid x^{(S)}\geq
@@ -432,9 +406,13 @@ we will consider  moments $X^m$, $m=0,1,2,\dots,$ of a one-dimensional process.
 The   approach proposed in the sequel, however,
 can be extended to multi-dimensional processes and more complex target sets $B$.
 
-Consider again \autoref{model:dim} and assume that we are interested in the
+\begin{example}
+	Consider again \autoref{model:dim} and assume that we are interested in the
 time at which species $M$ exceeds  threshold $H$ while fixing the considered time-horizon to
-$T=4$. That is, we are interested in the stopping time $\tau=\inf\{t\geq 0\mid X_t\geq 10\}\land 4$.
+$T=4$. That is, we are interested in the stopping time
+\[
+	\tau=\inf\{t\geq 0\mid X_t\geq 10\}\land 4\,.
+\]
 Since the abundance of $D$ does not influence $M$, we can ignore
 species $D$ and treat the process as one-dimensional.
 \autoref{fig:decomposition} shows three example trajectories:
@@ -447,7 +425,7 @@ moments are represented by the $E(\tau^k{\vec{X}_{\tau}}^{\vec{m}})$ term in \eq
 This distribution corresponding two moments encompasses both cases of how
 $\tau$ can be reached. In the first case threshold $H$ is reached and the second case the process reaches the time-horizon $T$.
 In the following we will define the interplay between these measures more formally.
-\begin{figure}[t]
+\begin{figure}[htb]
     \centering
     \includegraphics[scale=.8]{gfx/decomp1.pdf}
 	\caption[Occupation measure $\xi$ and
@@ -458,9 +436,10 @@ In the following we will define the interplay between these measures more formal
     their exit location highlighted. The plots are based on $10,\!000$ sample trajectories.}
     \label{fig:decomposition}
 \end{figure}
+\end{example}
 
 
-Therefore we can view \eqref{eq:constraint} as the description of a relationship between
+Eq.~\eqref{eq:constraint}  describes a relationship between
 two measures~\cite[Chapter~9.2]{lasserre2010moments}:
 \begin{description}
 \item[Expected Occupation Measure] $\xi$ describes the expected residence time inside a subset of the state-space and time. As such it is supported on $[0,H]\times [0,T]$:
@@ -485,34 +464,51 @@ to $\tau$ restricting to the time instants belonging to $C$.
 In particular, $\xi([0,H]\times [0,T])=\E{\tau}$.
 The exit location probability $\nu$, while being a two-dimensional distribution, can be viewed as a composition of a density describing the time at which the process reaches $H$ (if it does) and a probability mass function on the states of the process if the time-horizon is reached without exceeding $H$.
 We partition the measure $\nu$ into $\nu_1$ and $\nu_2$ by conditioning on $\tau=T$.
-Thus, $$\nu_1(C)\coloneqq\Pr(\tau\in C, \tau<T)\quad\text{and}\quad\nu_2(A)\coloneqq\Pr(X_T\in
-A, \tau=T)$$
+Thus, 
+\[
+	\nu_1(C)\coloneqq\Pr(\tau\in C, \tau<T)
+\]
+and
+\[
+	\nu_2(A)\coloneqq\Pr(X_T\in A, \tau=T)
+\]
 and hence $\nu(A\times C)=\nu_1(C)+\nu_2(A)$.
 To refer to the moments of these measures, we define \emph{partial moments}
-$$
+\[
     \E{g({X}); f({Y}) = y}\coloneqq
     \E{g({X})\mid f({Y})=y}\Pr(f({Y})=y)\,,
-$$
+    \]
 for some polynomial $g$ and some indicator function $f$. Then
-$$\E{\tau^k X_{\tau}^m}=T^k\E{X_{\tau}^m;\tau=T} + H^m\E{{\tau}^k;\tau < T, X_{\tau}=H}\,.$$
+\[
+	\E{\tau^k X_{\tau}^m}=T^k\E{X_{\tau}^m;\tau=T} + H^m\E{{\tau}^k;\tau < T, X_{\tau}=H}\,.
+\]
 % The partial expectations in terms of $\nu_1$, $\nu_2$
-% $$
+% \[
 % \E{X_{\tau}^m;\tau=T} + \E{{\tau}^k;\tau < T, X_{\tau}=H}
-% $$
-Therefore the linear moment constraints have the form
-\begin{equation}
-    \begin{split}
-        0 = \,&T^k\E{X_{\tau}^m;\tau=T} + H^m\E{{\tau}^k;\tau < T, X_{\tau}=H}\\
-        &- 0^kx_0^{m}
-        % - k \E{\int_{0}^{\tau} t^{k-1} \vec X_t^m\,dt}
-        + \sum_{i}c_i\E{\int_{0}^{\tau} t^{k_i}X_t^{m_i}\,dt}\,.
-    \end{split}
-\end{equation}
+% \]
+Therefore the linear moment constraints are
+\begin{multline*}
+ 	0 = T^k\E{X_{\tau}^m;\tau=T} + H^m\E{{\tau}^k;\tau < T, X_{\tau}=H}\\
+ 	- 0^kx_0^{m}
+ 	% - k \E{\int_{0}^{\tau} t^{k-1} \vec X_t^m\,dt}
+ 	+ \sum_{i}c_i\E{\int_{0}^{\tau} t^{k_i}X_t^{m_i}\,dt}\,.
+\end{multline*}
+% \begin{multline*}
+% 	0 = \,&T^k\E{X_{\tau}^m;\tau=T} + H^m\E{{\tau}^k;\tau < T, X_{\tau}=H}\\
+% 	- 0^kx_0^{m}
+% 	% - k \E{\int_{0}^{\tau} t^{k-1} \vec X_t^m\,dt}
+% 	+ \sum_{i}c_i\E{\int_{0}^{\tau} t^{k_i}X_t^{m_i}\,dt}\,.
+% \end{multline*}
 Next, we consider infinite sequences of partial moments 
  $\vec{y}_1=(y_{1k})_{k\in\mathbb{N}}$, $\vec{y}_2=(y_{2m})_{m\in\mathbb{N}}$, and $\vec{z}=(z_{mk})_{(m,k)^{\T}\in\mathbb{N}^2}$
  of $\nu_1$, $\nu_2$, and $\xi$, respectively.
-$$y_{1k} \coloneqq \E{{\tau}^k;\tau < T},\quad y_{2m}\coloneqq\E{X_{\tau}^m;\tau=T},$$
-$$z_{km}\coloneqq\E{\int_0^{\tau}t^k X_t^m\,dt}\,$$
+ In particular,
+\begin{align*}
+	y_{1k} &\coloneqq \E{{\tau}^k;\tau < T}\,,\\
+	y_{2m} &\coloneqq\E{X_{\tau}^m;\tau=T}\,,
+\intertext{and}
+	z_{km} &\coloneqq\E{\int_0^{\tau}t^k X_t^m\,dt}\,.
+\end{align*}
 
 \subsection{Objective}
 Given the above measures and their corresponding moments, we can
@@ -520,12 +516,16 @@ now identify the moments we are particularly interested in.
 We formulate an optimization problem with variables corresponding 
 to the moments defined above.
 The \ac{MFPT} is exactly the zeroth moment of $\xi$,
-$$z_{00}=\E{\int_0^{\tau}1_{\leq H}(X_t)\,dt} = \E{\tau}\,.$$
+\[
+	z_{00}=\E{\int_0^{\tau}1_{\leq H}(X_t)\,dt} = \E{\tau}\,.
+\]
 Therefore $z_{00}$ corresponds to the objective of the optimization problem
 that gives bounds for the \ac{MFPT}.
 Furthermore, we can easily change the objective to the  
 zeroth moment of $\nu_1$,
-$$y_{10} = \E{\tau^0;\tau<T}=\Pr(\tau < T)\,.$$
+\[
+	y_{10} = \E{\tau^0;\tau<T}=\Pr(\tau < T)\,.
+\]
 This moment is the probability of reaching
 threshold $H$ before reaching time-horizon $T$. Since the target set can be more complex, this formulation can be used to perform model checking on a
 wide variety of properties.
@@ -538,14 +538,20 @@ The linear constraints alone are not sufficient to identify moment bounds.
 We further leverage the fact that a necessary condition for a positive measure that the \emph{moment matrices}
 are positive semi-definite.
 A matrix $M\in\mathbb{R}^{n\times n}$ is positive semi-definite, denoted by  $M\succeq 0$ if and only if
-$$ {\vec v}^T M{\vec v} \geq 0\quad \forall \vec v\in\mathbb{R}^n\,.$$
+\[
+	{\vec v}^T M{\vec v} \geq 0\quad \forall \vec v\in\mathbb{R}^n\,.
+\]
 \begin{example}
 As an example, let us consider a one-dimensional random variable $Z$
 with moment sequence $\vec z$.
 For  moment order $r$,
 the entries of the $(r+1)\times (r+1)$ moment matrix $M_r(\vec x)$ are given by
 the raw moments.
-In particular, $$(M_r({\vec{z}}))_{ij}=z_{i+j-2}=\E{Z^{i+j-2}}$$ for
+In particular, 
+\[ 
+	(M_r({\vec{z}}))_{ij}=z_{i+j-2}=\E{Z^{i+j-2}}
+\]
+for
 $i,j\in\mathbb{N}_r$ where $\mathbb{N}_r=\{0,1,\dots,r\}$ and the maximum order in the matrix is $2r$.
 For instance,
 \begin{equation}
@@ -559,11 +565,11 @@ For instance,
 needs to be positive semi-definite. By Sylvester's criterion this means $\det
 M_1\geq 0$ and $x_0\geq 0$.
 We can easily see that in this case this entails
-$$
+	\[
 \det M_1=x_0x_2 - x_1^2=\E{X^2}-\E{X}^2
 =\Var({X})
 \geq 0\,.
-$$
+\]
 This restriction is natural since the variance is always non-negative.
 \end{example}
 % Even though the measures $\nu_1$, $\nu_2$, and $\xi$ are not probability measures
@@ -583,20 +589,20 @@ This can be done, by defining non-negative polynomials
 on the intended support of the measure.
 \begin{example}
 The exit location probability $\nu_2$ has support $[0,H]$. We can now define
-$$
+	\[
 u_H(t,x) = Hx - x^2, \quad x\in \mathbb R
-$$
+\]
 as a polynomial that is non-negative on $[0,H]$.
 Using such polynomials, we can construct \emph{localizing matrices},
 which have to be positive semi-definite~\cite{lasserre2010moments}.
 Applying $u_H$ to the moment matrix of measure $\nu_2$, i.e.\ $M_1(\vec{y}_2)$
-$$
+	\[
 M_1(u_H, \vec{y_2})=
 \begin{bmatrix}
     Hy_{21} - y_{22} & Hy_{22} - y_{23} \\
     Hy_{22} - y_{23} & Hy_{23} - y_{24}
 \end{bmatrix}
-$$
+\]
 with the constraint $M_1(u_H, \vec{y_2})\succeq 0$, where the application of
 a polynomial such as $u_H$ to a moment matrix
 is formally defined for the multidimensional case in \autoref{subsec:mfpt:multidim}.
@@ -606,8 +612,8 @@ $[0,H]\times[0,T]$.
 This gives us the following restrictions on the moment matrices.
 \begin{equation}\label{eq:localizing_sd_constraints}
 \begin{split}
-&M_r(u_T,\vec{z})\succeq 0, \quad M_r(u_H,\vec{z})\succeq 0,\\
-&M_r(u_T,\vec{y_1})\succeq 0,\quad M_r(u_H,\vec{y_2})\succeq 0\,.
+	& M_r(u_T,\vec{z})\succeq 0\,, &M_r(u_T,\vec{y_1})\succeq 0\,,\\
+	& M_r(u_H,\vec{z})\succeq 0\,, &M_r(u_H,\vec{y_2})\succeq 0\,.
 \end{split}
 \end{equation}
 \end{example}
@@ -615,35 +621,47 @@ This gives us the following restrictions on the moment matrices.
 \section{Multi-Dimensional Generalization}
 \label{subsec:mfpt:multidim}
 For a general multi-dimensional moment sequence
-$$\vec{y}={\left(\E{\vec X^{\vec{m}}}\right)}_{\vec{m}\in\mathbb{N}^{n_s}}\,,$$ the moment
+\[
+	\vec{y}={\left(\E{\vec X^{\vec{m}}}\right)}_{\vec{m}\in\mathbb{N}^{n_s}}\,,
+\]
+	the moment
 matrix is~\cite{lasserre2010moments}
 % \todo{explain the order $r$ in some detail (max order is $2r$), define
 % $\mathbb{N}_r^n$}
-$$M_r(\vec y)(\vec\alpha,\vec\beta)
+\begin{equation}\label{eq:def_mom_mat}
+	M_r(\vec y)(\vec\alpha,\vec\beta)
 =y_{\vec\alpha + \vec\beta},\quad\forall\vec{\alpha},
-\vec{\beta}\in\mathbb{N}_r^n$$
-where row and column indices, $\vec{\alpha}$ and $\vec\beta$, are ordered according to the canonical basis
-\begin{equation}\label{eq:canoncial_basis}
-\vec{v}_r(\vec{x}) =
-{(1,x_1,x_2,\dots,x_n,x_1^2,x_1x_2,\dots ,x_1x_n,\dots ,x_1^r,\dots
-	,x_n^r)}^T\,.
+\vec{\beta}\in\mathbb{N}_r^n
 \end{equation}
-Equivalently, $M_r(\vec{y})=\E{\vec{v}_r (\vec x)\vec{v}_r(\vec x)^T}$.
+where row and column indices, $\vec{\alpha}$ and $\vec\beta$, are ordered according to the canonical basis
+\begin{multline}\label{eq:canoncial_basis}
+\vec{v}_r(\vec{x}) =
+(1,x_1,x_2,\dots,x_n,x_1^2,x_1x_2,\dots \\
+	\dots, x_1x_n,\dots ,x_1^r,\dots
+	,x_n^r)^T\,.
+\end{multline}
+Equivalently to \eqref{eq:def_mom_mat},
+\[
+	M_r(\vec{y})=\E{\vec{v}_r (\vec x)\vec{v}_r(\vec x)^T}\,.
+\]
 For a moment sequence the semi-definite restriction $M_r(\vec{y})\succeq 0$ must hold.
 
 Measures can be restricted to semi-algebraic sets
-$$\{\vec x\in\mathbb{R}^n \mid u_j(\vec x)\geq 0, j=1,\dots,m\}\,,$$
+\[
+	\{\vec x\in\mathbb{R}^n \mid u_j(\vec x)\geq 0, j=1,\dots,m\}\,,
+\]
 where $u_j$, $j=1,\dots,m$ are polynomials~\cite{lasserre2010moments}.
 This is done by placing restrictions on the {localizing matrices}.
 For each polynomial $u_i\in\mathbb{R}[x]$ with coefficient vector
 $\vec{u}=\{u_{\vec\gamma}\}$,
-i.e.\ $u(\vec x) = \sum_{\vec{\gamma}\in\mathbb{N}^n} u_{\vec{\gamma}}
-\vec{x}^{\vec{\gamma}}$,
+i.e.\ \[u(\vec x) = \sum_{\vec{\gamma}\in\mathbb{N}^n} u_{\vec{\gamma}}
+\vec{x}^{\vec{\gamma}}\,,\]
 the localizing matrix is
-$$ M_r(u, \vec{y})(\vec{\alpha}, \vec{\beta})=
+\[ M_r(u, \vec{y})(\vec{\alpha}, \vec{\beta})=
 \sum_{\vec\gamma\in\mathbb{N}^n}u_{\vec\gamma}
 y_{\vec\gamma+\vec\alpha+\vec\beta},\quad
-\forall\vec{\alpha},\vec{\beta}\in\mathbb{N}^n_r.$$
+\forall\vec{\alpha},\vec{\beta}\in\mathbb{N}^n_r.
+\]
 Requiring that this matrix is positive semi-definite restricts the measure to
 $\{\vec{x}\mid u_i(\vec{x})\geq 0\}$.
 This way we can, for example, restrict the moment sequence $\vec{y}$
@@ -652,7 +670,7 @@ Simply letting $u(\vec{x}) = x_j$ and requiring
 $M_1(\vec{u},\vec{y})\succeq 0$ for $i=1,\dots,n_S$ gives us this restriction.
 
 
-\subsection{A Semi-Definite Program to Bound MFPTs}
+\subsection{A Semi-Definite Program}
 With the linear constraints given in \eqref{eq:constraint}
 and the semi-definite constraints \eqref{eq:sd_constraints} and \eqref{eq:localizing_sd_constraints} 
 discussed in the previous sections, we can now formulate a
@@ -725,9 +743,10 @@ $\mathcal{S}\setminus {B}$ is often finite,
 it is possible to derive trivial bounds, which can be used to scale moments.
 If, for example, we have a one-dimensional process $X_t$ with $X_0 = 0$ a.s.\ and are interested in the hitting
 time of an upper threshold $H>0$ until time $T>0$ for $i,k\in \mathbb N$
-$$
+\[
 z_{ik} = \E{\int_0^{\tau}t^i X_t^k\,dt}\leq\E{\int_0^T t^i X_t^k\,dt}\leq H^k\int_0^T t^i\,dt
-=\frac{T^{i+1}H^k}{i+1}.$$
+=\frac{T^{i+1}H^k}{i+1}\,.
+\]
 Thus, we fix a scaling vector $\vec d$ with entries $d_{ik}={T^{i+1}H^k}$ in
 the same order
 as the canonical base vector~\eqref{eq:canoncial_basis}.
@@ -770,7 +789,9 @@ interface~\cite{cvxpy} (version 1.0.24).
 As a first case study, we use \autoref{model:dim} with parameters $\lambda=100$ and $\delta=0.2$.
 In this model, we are interested in the time at which the number of agents of type $M$
 surpasses a threshold of 25 before some time-horizon $T$,
-i.e.\ $$\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T\,.$$
+i.e.\ \[
+	\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T\,.
+\]
 First, we set no finite time-horizon $T$, i.e.\ $T=\infty$.
 This is achieved by dropping the moments $\vec y_2$
 of measure $\nu_2$ in the linear constraints~\eqref{eq:sdp_for_fpt}.
@@ -783,7 +804,7 @@ As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the \ac{MFPT} pr
 The difference between upper and lower bound decreases roughly exponentially with increasing relaxation order $r$.
 We found that this trend was consistent among the case studies presented here (cf.\ \autoref{fig:convergence}).
 \begin{figure}
-	\myfloatalign
+	\centering
 	\subfloat[\ac{FPT} distribution]
     {\label{fig:dim_fpt_fpt}
 	\includegraphics[width=.48\textwidth]{gfx/fpt_dist_dim.pdf}}
@@ -819,10 +840,13 @@ expected occupation measure $\xi$ to the mass of $\nu_1$.
 In terms of moments, the objective changes from $z_{00}$ to $y_{10}$.
 The need for such a scenario often arises in the context of model checking, where one might be
 interested in the probability of a population exceeding a critical threshold.
-By varying the time-horizon, we are able to recover bounds on the cumulative density $$F(t) = \Pr(X_s=H\mid s<t)$$ of
-the first passage time (\autoref{fig:dim_fpt_fin:rp}).
+By varying the time-horizon, we are able to recover bounds on the cumulative density 
+\[
+	F(t) = \Pr(X_s=H\mid s<t)
+\]
+of the first passage time (\autoref{fig:dim_fpt_fin:rp}).
 \begin{figure}
-    \myfloatalign
+    \centering
 	\subfloat[\ac{MFPT} bounds over $T$.]
     {\label{fig:dim_fpt_fin:mfpt}
 	\includegraphics[width=.48\textwidth]{gfx/mfpt_bounds.pdf}}
@@ -864,12 +888,16 @@ order $r$ (cf.\ \autoref{fig:convergence} and \autoref{tab:bounds}).
 \subsubsection{Parallel Dimerizations}
 As a second study, we consider a 2-dimensional model by combining two
 independent dimerizations.
-\begin{model}[Parallel independent dimerizations]\label{model:double_dim}
-$$\varnothing\xrightarrow{10^4}M_1,\quad 2M_1\xrightarrow{0.1}D_1,\quad \varnothing\xrightarrow{10^4}M_2,\quad 2M_2\xrightarrow{0.1}D_2$$
+\begin{model}[Parallel independent dimerizations]\label{model:double_dim} This model consists of two independent versions of \autoref{model:dim}\turnto{model:dim}.
+	\[
+		\varnothing\xrightarrow{10^4}M_1\quad 2M_1\xrightarrow{0.1}D_1\quad \varnothing\xrightarrow{10^4}M_2\quad 2M_2\xrightarrow{0.1}D_2
+	\]
+	Initially, \[0=X_0^{(M_1)}=X_0^{(M_2)}=X_0^{(D_1)}=X_0^{(D_2)}\,.\]
 \end{model}
 As a \ac{FPT} we consider the time at which either $M_1$ or $M_2$ surpasses a threshold of 200 or a time-horizon of $T=10$
 is reached, i.e.
-$$ \tau=\inf\{t\geq 0\mid X_t^{(M_1)} \geq 200\}\land \inf\{t\geq 0\mid X_t^{(M_2)} \geq 200\}\land 10\,.$$
+\[ \tau=\inf\{t\geq 0\mid X_t^{(M_1)} \geq 200\}\land \inf\{t\geq 0\mid X_t^{(M_2)} \geq 200\}\land 10\,.
+\]
 As before, we ignore the product species $D_1$ and $D_2$ since they do not influence $\tau$.
 % Still, the possible state-space reaches a size of $200^2=40,\!000$.
 % \luca{40000 is very small... I would not emphasize it}\todo{yes, but the only reason for this case study ist that we have a ``larger'' relevant state-space}
@@ -878,7 +906,7 @@ which is captured tightly by the \ac{SDP} bounds (cf.\ \autoref{tab:bounds}).
 For higher relaxation orders $r \geq 5$  numerical issues prevented the solution of the
 corresponding \acp{SDP}.
 
-\subsection{Hybrid Models and Multi-Modal Behavior}
+\subsection{Hybrid Models and Multi-Modality}
 The analysis of switching times is a particularly interesting case of \acp{FPT} that
 arises in many   contexts.
 Often mode switching in such systems can be described a modulating Markov process
@@ -892,12 +920,15 @@ This state is modeled by  $\hat{n}_S$ population variables with
 binary domains. Therefore, at each time point, the state of these modulator variables
 is given by a set of Bernoulli random variables.
 When considering the moments of
-such a variable $X$, clearly $\E{X^m}=\E{X}=\Pr(X=1)$ for all $m\geq 1$.
-
-% We can use this fact two ways: First we could use the same moment
-% constraints
-% as above and impose additional equality constraints on the moments matrices
-% to ensure $\E{X^m}=\E{X}$, $m\geq 1$.
+such a variable $X$, clearly
+\[
+	\E{X^m}=\E{X}=\Pr(X=1)\,,\quad \forall m\geq 1
+\]
+We can use this fact two ways: We could use the same moment
+constraints
+as above and impose additional equality constraints on the moments matrices
+to ensure $\E{X^m}=\E{X}$, $m\geq 1$.
+Alternatively, we can apply this simplification to the moment equation, which we choose here.
 
 We apply a  split of variables $\vec X_t$  into the high count part ${\vec{\tilde{X}}}_t$ and the binary
 part ${\vec{\hat{X}}}_t$ to
@@ -978,20 +1009,22 @@ negative feedback which is a common pattern in many genetic circuits~\cite{steke
 This model consists of a gene state that is either on or off, i.e.\ $X^{D_{\text{on}}}_t
 +X^{D_{\text{off}}}_t = 1$, $\forall t\geq 0$. Therefore the system has two \emph{modes}.
 $$
-D_{\text{on}} \xrightarrow{\tau_{0}} D_{\text{off}}, \quad
-D_{\text{off}} \xrightarrow{\tau_{1}} D_{\text{on}}, \quad
-D_{\text{on}} \xrightarrow{\rho} D_{\text{on}} + P, \quad
+D_{\text{on}} \xrightarrow{\tau_{0}} D_{\text{off}} \quad
+D_{\text{off}} \xrightarrow{\tau_{1}} D_{\text{on}} \quad
+D_{\text{on}} \xrightarrow{\rho} D_{\text{on}} + P \quad
 $$
 $$
-P\xrightarrow{\delta}\varnothing,\quad
+P\xrightarrow{\delta}\varnothing\quad
 P + D_{\text{on}} \xrightarrow{\gamma} D_{\text{off}}
 $$
 The model parameters are $(\tau_0,\tau_1,\rho,\delta,\gamma)=(10,10,2,0.1,0.1)$ and
 $X_0^{(D_{\text{off}})}=1$, $X_0^{(P)}=0$ a.s.
 \end{model}
 
-As a first passage time we consider $$\tau=\inf\{t\geq 0\mid X_t^{(P)} \geq
-5\}\land 20\,.$$
+As a first passage time we consider 
+\[
+	\tau=\inf\{t\geq 0\mid X_t^{(P)} \geq 5\}\land 20\,.
+\]
 
 
 The results are summarized in \autoref{tab:bounds}.
