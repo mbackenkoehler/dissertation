@@ -254,28 +254,27 @@ Over the iterations, the covered area decreases, while the aggregation granulari
 The final truncation distribution approximation is also depicted and covers $1 - \text{1.27e-2}$ of the true stationary distribution (cf.\ \autoref{tab:intervals}).
 
 For this case study, we also compute state-wise bounds on the probabilities conditioned on the truncation as discussed in \autoref{sec:statagg:fsp}.
-In \autoref{fig:par_bd_errors} (right), we present the difference between upper and lower bound for $\epsilon=0.1$.
+In \autoref{fig:par_bd_errors}, we present the difference between upper and lower bound for $\epsilon=0.1$.
 We observe intervals that are narrowest in the truncation's interior near the distribution's mode.
 The largest intervals or the largest absolute uncertainty is present in the boundary states.
 This indicates, that the specific reentry distribution has little effect on the main approximate stationary mass.
 More detailed results on the intervals' magnitudes are given in \autoref{tab:intervals}.
-\begin{figure}[t]
+\begin{figure}[htb]
     \centering
-    \begin{minipage}{.48\textwidth}
-    \centering
-    \includegraphics[scale=0.5]{gfx/iteration_legend.pdf}\\
+    \includegraphics[scale=0.7]{gfx/iteration_legend.pdf}\\
     \vspace{-5mm}
-    \includegraphics[width=\textwidth]{gfx/parbd_truncs.pdf}
-    \end{minipage}
-    \begin{minipage}{.43\textwidth}
-    \includegraphics[width=\textwidth]{gfx/diffs.pdf}
-    \end{minipage}
-    \caption{Results for \autoref{model:par_bd} with truncation threshold $\epsilon=0.1$. (left) Truncations of different iterations are layered on top of each other. At higher iterations, truncations cover less area but increase in detail, due to the refinement of macro-states. The final approximation is indicated by its approximate probabilities. (right) The difference between the upper and lower bounds on the probability conditioned on the truncation.}
-    \label{fig:par_bd}
+    \includegraphics[width=.75\textwidth]{gfx/parbd_truncs.pdf}
+	\caption[Overview of truncation refinements]{\label{fig:par_bd}Truncations of different iterations are layered on top of each other. At higher iterations, truncations cover less area but increase in detail, due to the refinement of macro-states. The final approximation is indicated by its approximate probabilities.}
+\end{figure}
+\begin{figure}[htb]
+	\centering
+    \includegraphics[width=.6\textwidth]{gfx/diffs.pdf}
+	\caption[Differences between upper and lower bounds]{Results for \autoref{model:par_bd} with truncation threshold $\epsilon=0.1$.  The difference between the upper and lower bounds on the probability conditioned on the truncation.}
+    \label{fig:par_bd_errors}
 \end{figure}
 \begin{table}
     \centering
-    \begin{tabular}{L{23mm} R{18mm} R{18mm} R{18mm} R{18mm}}
+    \begin{tabular}{L{22mm} R{15mm} R{15mm} R{15mm} R{15mm}}
     \toprule
       & \multicolumn{4}{c}{threshold parameter $\epsilon$} \\\cmidrule(lr){2-5}
        & 1e-1 & 1e-2 & 1e-3 & 1e-4 \\
@@ -288,21 +287,14 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
     \caption{Results for \autoref{model:par_bd} : The characteristics of the lower-upper bound intervals on the conditional probability and the mass not contained in the truncation are given.}
     \label{tab:intervals}
 \end{table}
-\begin{figure}
-    \centering
-    \includegraphics[scale=.8]{gfx/trunc_sizes.pdf}
-	\caption[The sizes of the final truncation v.\ the threshold parameter $\epsilon$]{The sizes of the final truncation vs.\ the threshold parameter $\epsilon$ (\autoref{model:bd} and \autoref{model:excl_switch}).}
-    \label{fig:excl_switch:trunc_sizes}
-\end{figure}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.1.pdf}
-    \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.01.pdf}
-    \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.001.pdf}
-    \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.0001.pdf}
-    \caption{The error over the truncation wrt.\ the analytical solution}
-    \label{fig:par_bd_errors}
-\end{figure}
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.1.pdf}
+%     \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.01.pdf}
+%     \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.001.pdf}
+%     \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.0001.pdf}
+%     \caption{The error over the truncation wrt.\ the analytical solution}
+% \end{figure}
 
 \subsection{Exclusive Switch}
 The exclusive switch~\cite{barzel2008calculation}  has three different modes of operation, depending on the
@@ -334,15 +326,21 @@ We compute error bounds using a worst-case analysis based on reference solutions
 We observe a strong decrease in both upper bounds on the total absolute and maximal absolute error in the final iteration.
 Interestingly, the errors between different thresholds are very close in earlier iterations.
 This is mainly due to the usage of absolute errors which causes probabilities close to the mode dominate.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=.7]{gfx/excl_switch_dist.pdf}
+	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\text{1e-4}$.}
+    \label{fig:excl_switch:excl_switch_dist}
+\end{figure}
 
 
-Using Geobound we observe that our final truncation captures the stationary mass very well (cf.\ \autoref{tab:intervals}).
+Using Geobound we observe that our final truncation captures the stationary mass very well (cf.\ \autoref{tab:intervals} and \autoref{fig:excl_switch:excl_switch_dist}).
 We use the Geobound's lower bounds with $\epsilon_{\ell}=1e-2$ and find that the uncovered mass by the aggregation-based truncation is magnitudes lower than $\epsilon$ or close to it (for $\epsilon=0.1$).
 While they capture the mass well, they are much smaller than the Geobound truncation ($\epsilon_{\ell}=0.1$) % \vw{?} 
 with 16,780 states, regardless of the threshold parameter $\epsilon$.
 \begin{table}[htb]
     \centering
-    \begin{tabular}{L{30mm} R{15mm} R{15mm} R{15mm} R{15mm}}
+    \begin{tabular}{L{30mm} R{14mm} R{14mm} R{14mm} R{14mm}}
     \toprule
       & \multicolumn{4}{c}{threshold parameter $\epsilon$} \\\cmidrule(lr){2-5}
        & 1e-1 & 1e-2 & 1e-3 & 1e-4 \\
@@ -360,15 +358,21 @@ In \autoref{fig:excl_switch:trunc_sizes}, we show the effect of the threshold pa
 We observe a roughly linear increase in size with an exponential decrease of $\epsilon$.
 \begin{figure}[htb]
     \centering
-    \includegraphics[scale=.7]{gfx/excl_switch_dist.pdf}
-	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\text{1e-4}$.}
-    \label{fig:excl_switch:excl_switch_dist}
+    \includegraphics[scale=.8]{gfx/trunc_sizes.pdf}
+	\caption[The sizes of the final truncation v.\ the threshold parameter $\epsilon$]{The sizes of the final truncation vs.\ the threshold parameter $\epsilon$ (\autoref{model:bd} and \autoref{model:excl_switch}).}
+    \label{fig:excl_switch:trunc_sizes}
 \end{figure}
 
 \subsection{p53 Oscillator}
 We now consider a model of the interactions of the tumor suppressor p53~\cite{geva2006oscillations}. The system describes the negative feedback loop between  p53 and the oncogene Mdm2.
 Species pMdm2 models a precursor to Mdm2. This model is particularly interesting due to its complex three-dimensional oscillatory behavior.
 The model is ergodic with a unique stationary distribution~\cite{gupta2014scalable}.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{gfx/p53_traj.pdf}
+    \caption{A sample trajectory illustrating the oscillatory long-run behavior. }
+    \label{fig:p53:traj}
+\end{figure}
 \begin{model}[p53 Oscillator]\label{model:p53}
 \begin{align*}
 \varnothing \xrightarrow{k_1} \mathrm{p53} \qquad
@@ -389,7 +393,6 @@ With the exception of propensity function $\alpha_4$, we can compute the transit
 We consider $\alpha_4$ separately, because it is non-polynomial and therefore, we have to make an approximation.
 The fraction occurring in the non-linear propensity function $\alpha_4$ can roughly be characterized as an activation function:
 Due to the low value of parameter $k_7=0.01$ we can approximate\graffito{Note, that $\sum_{i=0}^n i / (i + k_7)$ can be solved analytically. However, the approximation presented above is much simpler to compute.}
-
 \[\frac{x_{\mathrm{p53}}}{x_{\mathrm{p53}} + k_7}
 \approx
 \begin{cases}
@@ -398,7 +401,7 @@ Due to the low value of parameter $k_7=0.01$ we can approximate\graffito{Note, t
 \end{cases}
 \]
 We use this approximation at the coarser levels of aggregation to efficiently compute the approximate transition rate $\bar{\alpha}_4$.
-At the fines granularity we switch back to exact propensity function $\alpha_4$.
+At the finest granularity we switch back to exact propensity function $\alpha_4$.
 
 We now derive Lyapunov-sets for the p53 oscillator case study (Model~\ref{model:p53}). Let the Lyapunov function
 \begin{equation}
@@ -443,9 +446,7 @@ A truncation of this same area would consist of 226,492,416 states instead of th
 The model has a striking oscillatory behavior (cf.\ \autoref{fig:p53:traj}) that is reflected in its stationary distribution.
 This feature is well-captured in the approximate distribution, where the oscillatory behavior leads to a complex stationary distribution (cf.\ \autoref{fig:p53:dist}).
 This distribution leads to a non-trivial truncation (357,488 states) which is tailored to the main stationary mass (\autoref{fig:p53:trunc}).
-
-
-\begin{figure}
+\begin{figure}[htb]
     \centering
     \begin{minipage}{0.9\textwidth}
     \centering
@@ -454,15 +455,7 @@ This distribution leads to a non-trivial truncation (357,488 states) which is ta
 \caption{The final truncation at original granularity derived for the p53 oscillator.}
 \label{fig:p53:trunc}
 \end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{gfx/p53_traj.pdf}
-    \caption{A sample trajectory illustrating the oscillatory long-run behavior. }
-    \label{fig:p53:traj}
-\end{figure}
-
-\begin{figure}
+\begin{figure}[htb]
     \includegraphics[width=.9\textwidth]{gfx/p53_dist.pdf}
 	\caption[approximate marginal distributions of the p53 stationary distribution]{The approximate marginal distributions of the stationary distribution based on the truncation derived with $\epsilon=0.1$.}
 \label{fig:p53:dist}

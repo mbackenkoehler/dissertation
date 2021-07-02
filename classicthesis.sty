@@ -208,7 +208,11 @@
 
 
 
-
+%\PassOptionsToPackage{
+%	protrusion=true,
+%	expansion,
+%	kerning=true,
+%}{microtype}
 \RequirePackage{microtype} % character protruding and other micro-typography stuff
 % [expansion=false]
 
@@ -230,9 +234,11 @@
     {% B5 176mm x 250mm
             % Thanks to Jos\'e M. Alcaide
             \PackageInfo{classicthesis}{B5 paper, Palatino or other}%
-            \areaset[current]{311pt}{645pt}%
-            \setlength{\marginparwidth}{6em}%
-            \setlength{\marginparsep}{1.5em}%
+	    % \areaset[current]{311pt}{645pt}%
+            % \setlength{\marginparwidth}{6em}%
+	    \areaset[current]{311pt}{622pt}%
+            \setlength{\marginparwidth}{7em}%
+            \setlength{\marginparsep}{1.0em}%
     }{\relax}
 \ifthenelse{\equal{\ct@paper}{a5}}%
     {% A5 148mm x 210mm
@@ -315,7 +321,7 @@
       \PackageInfo{classicthesis}{Using microtype for character spacing.%
                                   Make sure your pdflatex is version 1.40 or higher.}%
       % \microtypesetup{expansion=false}
-      \microtypesetup{protrusion=true,expansion=true}
+      \microtypesetup{tracking=true,protrusion=true,expansion=true}
       \DeclareRobustCommand{\spacedallcaps}[1]{\textls[160]{\ct@caps\MakeTextUppercase{#1}}}
       \DeclareRobustCommand{\spacedlowsmallcaps}[1]{\textls[80]{\ct@caps\MakeTextLowercase{#1}}}
       }{\relax}

@@ -31,8 +31,8 @@
 For the quantitative analysis of \acp{CTMC}, many   approaches have been
 developed, where properties of interest are often expressed in terms of temporal logics such as
 \acs{CSL}~\cite{aziz1996verifying,baier2000model,baier2003model},
-\acs{MTL}~\cite{chen2011time}, and timed-automata
-specifications~\cite{chen2009quantitative,mikeev2013fly}.
+\acs{MTL}~\cite{chen2011time},
+and specifications for timed-automata~\cite{chen2009quantitative,mikeev2013fly}.
 In addition, there exist
 efficient software
 tools~\cite{hinton2006prism,kwiatkowska2011prism,dehnert2017storm}
@@ -270,9 +270,8 @@ An integration by parts on $[0, T]$ yields~\cite{dowdy2018dynamic,sakurai2019bou
         - w(t_0)\E{f(X_{t_0})}
 	- \int_{t_0}^{T}\frac{dw(t)}{dt}\E{f(X_t)}\,dt\\
         =\sum_{j=1}^{n_R}\int_{t_0}^{T}w(t)
-        \E{\left(f{(X_t + v_j)} - f(X_t)\right)\alpha_j(X_t)}\,dt
+        \E{\left(f{(X_t + v_j)} - f(X_t)\right)\alpha_j(X_t)}\,dt\,.
 \end{multline}
-
 Starting from this equation, it is possible to derive a martingale process,
 i.e.\ a process that has an expected value of 0, regardless of time.
 
@@ -303,7 +302,7 @@ This gives us the expected value of a time-dependent function of the original pr
 The function can be viewed as a stochastic process of its own where the
 time-horizon $T$ is the index variable. A key property
 of this process is also illustrated by \eqref{eq:e_exp_constraint}: The process'
-expected value remains 0, regardless of the choice of $T$.
+expected value remains zero, regardless of the choice of $T$.
 This martingale property is particularly useful because it can be used
 to formulate linear constraints on stopping times of the process.
 Explicitly, we can define this process $\{Z_T\}_{T\geq 0}$ parameterized by
@@ -313,11 +312,13 @@ the time-weighting $w$ and polynomial $f$.
     Z_T\coloneqq&\,w(T)f(\vec X_T) - w(0)f(\vec X_{0}) -
     \int_{0}^T\frac{dw(t)}{dt}f(\vec X_t)\,dt\\
     &-\sum_{j=1}^{n_R}\int_{0}^Tw(t)
-         (f(\vec X_t+\vec v_j) - f(\vec X_t))\alpha_j(\vec X_t)\,dt\,,
+         (f(\vec X_t+\vec v_j) - f(\vec X_t))\alpha_j(\vec X_t)\,dt\,.
          \end{split}
 \end{equation}
 A useful choice for $f$ and $w$ are monomials.
-When choosing $w(t)=t^k$ with $k\in\mathbb N$ and $f(\vec X)={\vec X}^{\vec m}$
+When choosing $w(t)=t^k$
+\marginpar{In \autoref{ch:cvinsrns} we use a different weighting: $w(t) =\exp({-\lambda t})$.}
+with $k\in\mathbb N$ and $f(\vec X)={\vec X}^{\vec m}$
 the process takes the form
 \begin{equation}\label{eq:basic_poly_martingale_app}
 Z_T^{(\vec m, k)}=
@@ -354,11 +355,12 @@ We will use these as constraints in the semi-definite program used to bound \acp
 \begin{example}
 If we apply this to our previous example (cf.\ \eqref{eq:dim_exp_ode}), letting $m=1$ %\vw{same example has $\vec m=(1,0)$ above }
 and $k=1$ we obtain the following process for \autoref{model:dim}.
-	\[
-    Z_T^{(1,1)} = TX_T - \int_0^T X_t\,dt - \lambda \int_0^T t\,dt - 2\delta
+\begin{multline*}
+    Z_T^{(1,1)} = TX_T - \int_0^T X_t\,dt
+	- \lambda \int_0^T t\,dt\\ - 2\delta
     \int_0^T t X_t\,dt +
     2{\delta}\int_0^TtX_t^2\,dt,
-    \]
+\end{multline*}
 where the sequences according to \eqref{eq:basic_poly_martingale} are $(m_i)_i=(1,0,1,2)$, $(k_i)_i=(0,1,1,1)$,
 and $(c_i)_i=(-1,-\lambda, -2\delta,2\delta)$.
 \end{example}
@@ -402,7 +404,7 @@ the hitting time via $\E{\tau^k {X}_{\tau}^{{m}}}$.
 
 For the ease of exposition, we now turn to the analysis of first passage times in
 one-dimensional processes w.r.t.\ an upper threshold $H$. In particular,
-we will consider  moments $X^m$, $m=0,1,2,\dots,$ of a one-dimensional process.
+we will consider  moments $\expSym(X^m)$, $m=0,1,2,\dots,$ of a one-dimensional process.
 The   approach proposed in the sequel, however,
 can be extended to multi-dimensional processes and more complex target sets $B$.
 
@@ -570,7 +572,7 @@ We can easily see that in this case this entails
 =\Var({X})
 \geq 0\,.
 \]
-This restriction is natural since the variance is always non-negative.
+This restriction is natural since the variance cannot be negative.
 \end{example}
 % Even though the measures $\nu_1$, $\nu_2$, and $\xi$ are not probability measures
 % this restriction remains valid for them. Either they can be normalized to
@@ -743,10 +745,10 @@ $\mathcal{S}\setminus {B}$ is often finite,
 it is possible to derive trivial bounds, which can be used to scale moments.
 If, for example, we have a one-dimensional process $X_t$ with $X_0 = 0$ a.s.\ and are interested in the hitting
 time of an upper threshold $H>0$ until time $T>0$ for $i,k\in \mathbb N$
-\[
-z_{ik} = \E{\int_0^{\tau}t^i X_t^k\,dt}\leq\E{\int_0^T t^i X_t^k\,dt}\leq H^k\int_0^T t^i\,dt
+\begin{multline*}
+z_{ik} = \E{\int_0^{\tau}t^i X_t^k\,dt}\leq\E{\int_0^T t^i X_t^k\,dt}\\\leq H^k\int_0^T t^i\,dt
 =\frac{T^{i+1}H^k}{i+1}\,.
-\]
+\end{multline*}
 Thus, we fix a scaling vector $\vec d$ with entries $d_{ik}={T^{i+1}H^k}$ in
 the same order
 as the canonical base vector~\eqref{eq:canoncial_basis}.
@@ -788,7 +790,7 @@ interface~\cite{cvxpy} (version 1.0.24).
 \subsubsection{Dimerization}
 As a first case study, we use \autoref{model:dim} with parameters $\lambda=100$ and $\delta=0.2$.
 In this model, we are interested in the time at which the number of agents of type $M$
-surpasses a threshold of 25 before some time-horizon $T$,
+surpasses a threshold of $25$ before some time-horizon $T$,
 i.e.\ \[
 	\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T\,.
 \]
@@ -798,7 +800,7 @@ of measure $\nu_2$ in the linear constraints~\eqref{eq:sdp_for_fpt}.
 This can be done because the threshold on $M$ makes the state-space finite
 and therefore the first passage time distribution is a phase-type distribution
 which possesses finite moments \cite[Chapter 7.6]{stewart2009probability}.
-The empirical \ac{FPT} distribution based on 100,000 \ac{SSA} simulations is given in \autoref{fig:dim_fpt_fpt}
+The empirical \ac{FPT} distribution based on $100,000$ \ac{SSA} simulations is given in \autoref{fig:dim_fpt_fpt}
 and the bounds, given different moment orders, are given in \autoref{fig:dim_fpt:mfpt}.
 As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the \ac{MFPT} precisely for orders 5, 6.
 The difference between upper and lower bound decreases roughly exponentially with increasing relaxation order $r$.
@@ -812,7 +814,7 @@ We found that this trend was consistent among the case studies presented here (c
     {\label{fig:dim_fpt:mfpt}%
         \includegraphics[width=.48\textwidth]{gfx/fpt_bounds_dim.pdf}} \\
 	\caption[\ac{FPT} and \ac{MFPT} distribution and bounds]{First-passage time characterisitics for \autoref{model:dim} with $\tau=\inf\{t\geq 0\mid X_t \geq 10\}\land \infty$.
-	The dashed red line denotes the sampled \ac{MFPT} based on 100,000 \ac{SSA} samples. Bounds are based on the \ac{SDP} \eqref{eq:sdp_for_fpt} with different moment orders}
+	The dashed red line denotes the sampled \ac{MFPT} based on $100,000$ \ac{SSA} samples. Bounds are based on the \ac{SDP} \eqref{eq:sdp_for_fpt} with different moment orders}
 \end{figure}
 % \begin{figure}[t]
 %     \centering
@@ -838,7 +840,7 @@ threshold before time $T$, are of particular interest.
 This is done by switching the optimization objective in~\eqref{eq:sdp_for_fpt} from the mass of the
 expected occupation measure $\xi$ to the mass of $\nu_1$.
 In terms of moments, the objective changes from $z_{00}$ to $y_{10}$.
-The need for such a scenario often arises in the context of model checking, where one might be
+The need for such a scenario often aris\-es in the context of model checking, where one might be
 interested in the probability of a population exceeding a critical threshold.
 By varying the time-horizon, we are able to recover bounds on the cumulative density 
 \[
@@ -984,11 +986,11 @@ The moment constraint over the partial moments has a linear structure:
 \begin{table}[t]
 \centering
 	\caption{\ac{MFPT} bounds on \autoref{model:dim}, \autoref{model:double_dim}, \autoref{model:gexpr}.\label{tab:bounds}}
-\begin{tabular}{l@{\hspace{2em}}l@{\hspace{2em}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r}
+\begin{tabular}{l@{\hspace{1em}}l@{\hspace{1em}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r}
     \toprule
-    & & \multicolumn{5}{c}{Relaxation Order $r$}\\
+    & & \multicolumn{5}{c}{relaxation order $r$}\\
         \cmidrule{3-7}
-        & & 1 & 2        & 3        & 4       & 5       \\
+        & & $1$ & $2$        & $3$        & $4$       & $5$       \\
         \midrule
         \autoref{model:dim} & lower & 0.0909 & 0.2661 & 0.2845 & 0.2867 & 0.2871\\
         & upper & 1.0000 & 0.3068 & 0.2932 & 0.2886 & 0.2875  \\

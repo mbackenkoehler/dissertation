@@ -76,7 +76,7 @@ The analysis of countably infinite state-spaces is often handled by a pre-define
 Sophisticated state-space truncations for the (unconditioned) forward analysis have been developed to give lower bounds and rely on a trade-off between computational load and tightness of the bound~\cite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
 
 \paragraph{Reachability in Verification}
-Reachability analysis, which is relevant in the context of probabilistic verification \cite{bortolussi2014stochastic,neupane2019stamina}, is a bridging problem where the endpoint constraint is the visit of a set of goal states.
+Reachability --~relevant in the context of probabilistic verification \cite{bortolussi2014stochastic,neupane2019stamina}~-- is a bridging problem where the endpoint constraint is the visit of a set of goal states.
 Backward probabilities are commonly used to compute reachability likelihoods \cite{amparore2013backward,zapreev2006safe}.
 Approximate techniques for reachability, based on moment closure and stochastic approximation, have also been developed in \cite{bortolussi2014stochastic,Bortolussi18infcomp}, but lack error guarantees. 
 
@@ -144,7 +144,11 @@ factorization
     \gamma(x_i, t) = \pi(x_i, t)\beta(x_i, t)/\pi(x_g, T)
 \end{equation}
 due to the Markov property.
-The normalization factor, given by the reachability probability $\pi(x_g, T)=\beta(x_0, 0)$, ensures that $\gamma(\cdot, t)$ is 
+The normalization factor, given by the reachability probability 
+\[
+	\pi(x_g, T)=\beta(x_0, 0)\,,
+\]
+ensures that $\gamma(\cdot, t)$ is 
 a distribution for all time points $t\in[0,T]$.
 We call each $\gamma(\cdot, t)$ a   \emph{bridging distribution}.
 From the Kolmogorov equations \eqref{eq:forward}\turnto{eq:forward} and \eqref{eq:backward}
@@ -171,7 +175,7 @@ Finally, the approximate bridging distribution $\hat\gamma$ can be recognized to
 \end{figure}
 \end{example}
 
-\section{Bridge Truncation via Lumping Approximations}\label{sec:bridging:method}
+\section{Bridge Truncation via Lumping Approximation}\label{sec:bridging:method}
 We first discuss the truncation of countably infinite state-spaces
 to analyze backward and forward probabilities (\autoref{sec:bridging:fsp}).
 To identify effective truncations we employ a lumping scheme.
@@ -299,13 +303,14 @@ A prototype was implemented in Python~3.8. For numerical integration we used the
 The analysis as a Jupyter notebook is made available online~\cite{mjp_bridging}.
 
 \subsection{Bounding Rare Event Probabilities}
-
 We consider a simple model of two parallel Poisson processes describing the production of two 
 types of agents. 
 The corresponding probability distribution
 has Poisson product form at all time points $t\geq 0$ and hence we can compare the accuracy of our  numerical results with the exact analytic solution.
 We use the proposed approach to compute lower bounds for rare event probabilities.
-\footnote{These bounds are rigorous up to the approximation error of the numerical integration scheme. However, the forward solution could be replaced by an adaptive uniformization approach~\cite{andreychenko2010fly} for a more rigorous integration error control.}
+These bounds are rigorous up to the approximation error of the numerical integration scheme.
+However, the forward solution could be replaced by an uniformization\turnto{item:uniformization} approach for a more rigorous error control.
+
 
 
 
@@ -470,11 +475,15 @@ the transition rates between macro-states
 for a macro-state $\bar{x}= \{a,\dots,b\}$.%\vw{explain $k$ I guess it is the mode}%\MB{we don't have mode vars here. it's just $k$ to make the expression more clear because then its essentially 1D}
 
 We analyze the switching scenario from $(0, 120)$ to the first visit of state $(120, 0)$ up to time $T=10$. The initial lumping scheme covers up to 352 molecules of $A$ and $B$ and  macro-states have size $32\times32$.
-The truncation threshold is $\delta=\e{1}{-4}$.
+The truncation threshold is $\delta=1e-4$.
 %Transition rates are computed using the above non-polynomial integral.
 The resulting truncation is shown in \autoref{fig:switching_dynamics:occ}.
 It also illustrates the kind of insights that can be obtained from the bridging distributions.
-For an overview of the switching dynamics, we look at the expected occupation time under the terminal constraint of having entered state $(120,0)$. Letting the corresponding hitting time be $\tau=\inf\{t\geq 0\mid X_t=(120, 0)\}$, the expected occupation time for some state $x$ is
+For an overview of the switching dynamics, we look at the expected occupation time under the terminal constraint of having entered state $(120,0)$. Letting the corresponding hitting time be 
+\[
+	\tau=\inf\{t\geq 0\mid X_t=(120, 0)\}\,,
+\]
+the expected occupation time for some state $x$ is
 \[
 	E\left(\int_0^{\tau}1_{=x}(X_t)\,dt\mid \tau\leq 10\right)\,.
 \]

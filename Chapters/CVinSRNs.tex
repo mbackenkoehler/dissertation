@@ -183,6 +183,7 @@ In the context of computing moment bounds via semi-definite programming
 the polynomial $w(t)=t^s$~\cite{sakurai2019bounding} and the exponential $w(t)=e^{\lambda(T - t)}$~\cite{dowdy2018dynamic}
 have been proposed.
 While both choices proved to be effective in different case studies, relying solely on the latter choice,
+\marginpar{In \autoref{ch:MFPT} we chose the monomial, such that \eqref{eq:poly_con} would admit the interpretation of temporal moments. Here the exponential is a good choice, because it can model both increasing and decreasing weighting.}
 i.e.\ \[
 	w(t)=e^{\lambda(T - t)} \] was sufficient.
 
@@ -228,7 +229,7 @@ with $\E{Z}=0$.
 % Clearly, for $\rho=0$ and $z=0$ \eqref{eq:simpl_pol} and \eqref{eq:simpl_exp}
 % are equivalent.
 
-Note, that a realization of $Z$ depends on the whole trajectory $\tau=x_0t_1 x_1 t_1 \dots\allowbreak t_n x_n$ over $[t_0,T]$.
+Note, that a realization of $Z$ depends on the whole trajectory $\tau=x_0t_1 x_1 t_2 \dots\allowbreak t_n x_n$ over $[t_0,T]$.
 Thus, for the integral terms
 in \eqref{eq:z} we have to compute sums
 \begin{equation}\label{eq:dis_int}
@@ -327,7 +328,11 @@ Specifically,
 	\beta^{*}={\Sigma_{ Z}}^{-1}{\Sigma}_{ Z V}\,.
 \]
 Then, asymptotically
-the variance of this estimator is~\cite{szechtman2003control},
+the variance of the estimator
+\begin{equation}
+\hat{Y}_{{\beta^*}}=\hat{V}-{\beta^*}^{\top}\hat{ Z}
+\end{equation}
+is~\cite{szechtman2003control},
 \begin{equation}\label{eq:lcv_asym}
     {\sigma_{\hat Y_{\beta^*}}^2} = (1 - R_{ Z V}^2){\sigma_{\hat V}^2}\,,
 \end{equation}
@@ -337,10 +342,13 @@ where
 \end{equation*}
 In practice, however, $\beta^*$ is unknown and needs to be replaced by
 an estimate $\hat{\beta}$.
+Then the estimator
+\begin{equation}
+\hat{Y}_{\hat{\beta}}=\hat{V}-\hat{\beta}^{\top}\hat{ Z}\,.
+\end{equation}
 This leads to an increase in the estimator's variance.
 Under the assumption of $Z$ and $V$ having a multivariate normal
 distribution~\cite{cheng1978analysis,lavenberg1982statistical}, the variance of the estimator is
-$\hat{Y}_{\hat{\beta}}=\hat{V}-\hat{\beta}^{\top}\hat{ Z}$
 \begin{equation}\label{eq:lcv_norm_varred}
     {\sigma_{\hat{Y}_{\hat{\beta}}}^2} = \frac{n - 2}{n - 2 - d}(1 - R_{ ZV}^2){\sigma_{\hat V}^2}\,.
 \end{equation}
@@ -371,33 +379,12 @@ The algorithm consists of a main loop which performs $n$ simulation runs (\autor
 Between each run the mean and covariance estimates of $[Z,\;  V]$ are updated (\autoref{line:updates}).
 Every $d<n$ iterations, the control variates are checked for  \emph{efficiency}
 and \emph{redundancy} (lines \ref{line:cond_ck_begin}--\ref{line:cond_ck_end}).
-
-\begin{figure}
-    \centering
-    \begin{minipage}{.6\textwidth}
-    \centering
-    \includegraphics[scale=.6]{gfx/decision_funcs.pdf}
-    \end{minipage}
-    \hspace{-2.8em}
-    \begin{minipage}{.3\textwidth}
-    \includegraphics[scale=.6]{gfx/legend_1.pdf} \vfill
-    \end{minipage}
-	\caption[\ac{CV} Redundancy heuristics]{Different decision functions
-    used in the redundant control  variate removal. The weaker of any two control  variates is removed if
-    the pair $(\bar\rho_{ij}, \rho_{ij})$ belongs to the shaded area of the considered function.
-    The vertical dashed line indicates $\rho_{\min}$.\label{fig:decision}}
-\end{figure}
-
-\begin{figure}
-    \begin{minipage}{.45\textwidth}
-    \centering
-    \includegraphics[scale=0.55]{gfx/cs_bdim.pdf}\\
-    \end{minipage}
-    \hspace{1em}
-    \begin{minipage}{.45\textwidth}
-    \centering
-    \includegraphics[scale=0.55]{gfx/cs_pm.pdf}\\
-    \end{minipage}
+\begin{figure}[htb]
+	\centering
+	\subfloat[$\E{X^A_2}$ in \autoref{model:dim}]
+	{\includegraphics[scale=0.55]{gfx/cs_bdim.pdf}}
+	\subfloat[$\E{X^X_{50}}$ in \autoref{model:dm}]
+	{\includegraphics[scale=0.55]{gfx/cs_pm.pdf}}
 	\caption[\ac{CV} correlation charactersitics]{The absolute correlation of different constraints {to $V$}
     arising from different choices of $\lambda$. The blue dots represent constraints
     based on first order moments, while the orange refers to control  variates derived from second
@@ -406,22 +393,23 @@ and \emph{redundancy} (lines \ref{line:cond_ck_begin}--\ref{line:cond_ck_end}).
     the redundancy removal. Furthermore, a histogram of control  variates selected by \autoref{alg:ssa:lcv}
     is given.
     In (a) $\E{X^A_2}$ in the dimerization model was estimated.
-    In (b) $\E{X^X_{50}}$ in the processive modification model was estimated.
+    In (b) $\E{X^X_{50}}$ in the distributive modification model was estimated.
     }
     \label{fig:bdim}
 \end{figure}
 
 Checking both conditions is based on the correlation $\rho_{ij}$ between the $i$-th and $j$-th control variate
 and the correlation $\rho_{iv}$ of a control variate $i$ to $V$.
-% $$
-% C=
-% \begin{bmatrix}
-% 1 & \dots & \rho_{1k} & \rho_{1v} \\
-% \vdots & \ddots & \vdots & \vdots \\
-% \rho_{k1} & \dots & 1 & \rho_{kv} \\
-% \rho_{v1} & \dots & \rho_{vk} & 1
-% \end{bmatrix}\,.
-% $$
+These are elements of the correlation matrix
+\[
+C=
+\begin{bmatrix}
+1 & \dots & \rho_{1k} & \rho_{1v} \\
+\vdots & \ddots & \vdots & \vdots \\
+\rho_{k1} & \dots & 1 & \rho_{kv} \\
+\rho_{v1} & \dots & \rho_{vk} & 1
+\end{bmatrix}\,.
+\]
 The first condition is a simple lower threshold $\rho_{\min}$ for a correlation $\rho_{iv}$.
 This condition aims to remove those variates  from the control  variate set that are only weakly correlated to $V$ (\autoref{line:weak_covs}).
 The rationale is that, if variate $i$ has a low correlation with the variable of interest $V$,
@@ -474,9 +462,22 @@ Another variant of $\phi$ is given by including the lower bound $\rho_{\min}$ an
 the quadratic function accordingly:
 \[ \phi_{\mathit{sq}}(\bar\rho)=1-((1-\bar\rho)/(1-\rho_{\min}))^2\,.\]
 The different choices of $\phi$ considered here are plotted in \autoref{fig:decision}.
-
-
-\begin{algorithm}[t]
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}{.6\textwidth}
+    \centering
+    \includegraphics[scale=.6]{gfx/decision_funcs.pdf}
+    \end{minipage}
+    \hspace{-2.8em}
+    \begin{minipage}{.3\textwidth}
+    \includegraphics[scale=.6]{gfx/legend_1.pdf} \vfill
+    \end{minipage}
+	\caption[\ac{CV} redundancy heuristics]{Different decision functions
+    used in the redundant control  variate removal. The weaker of any two control  variates is removed if
+    the pair $(\bar\rho_{ij}, \rho_{ij})$ belongs to the shaded area of the considered function.
+    The vertical dashed line indicates $\rho_{\min}$.\label{fig:decision}}
+\end{figure}
+\begin{algorithm}[ht]
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
 \Input{$n, d, n_{\max}, n_{\lambda}, k_{\min}$}
@@ -519,6 +520,12 @@ choice of initial values for would be $L=\{-\delta\}$.
 This, however, is generally not known.
 Therefore, we sample a set of $\lambda$'s
 from some fixed distribution $\pi_{\lambda}$ (\autoref{line:lambda_sample}).
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=.6]{gfx/reduction.pdf}
+	\caption[CV mean estimates v.\ std.\ mean estimates]{The effect of including \acp{CV} on the mean estimates $\hat{E}(X^M_2)$ in the dimerization case study. Parameters were ${\pi}_{\lambda}=N(0,1)$, ${n}_{\lambda}=30$, ${k}_{\min}=4$, $\phi(\bar\rho)=1-{(1 - \bar\rho)}^2$.}
+\end{figure}
+
 
 % \begin{itemize}
 %     \item \textbf{Choice of control variates}
@@ -532,7 +539,7 @@ from some fixed distribution $\pi_{\lambda}$ (\autoref{line:lambda_sample}).
 We first define a criterion of \emph{efficiency} in order to estimate
 whether the reduction in variance is worth the increased cost.
 A natural baseline of a variance reduction is, that it is more efficient to pay for
-the overhead of the reduction than to generate more samples to achieve a similar
+the computational overhead of the reduction than to generate more samples to achieve a similar
 reduction of variance.
 Let $\sigma_Y^2$ be the variance of $Y$.
 % https://statweb.stanford.edu/~owen/mc/Ch-var-basic.pdf
@@ -548,6 +555,7 @@ the standard estimate $Y$~\cite{l1994efficiency}, i.e.
 \begin{equation}\label{eq:efficiency}
 E=\frac{c_0\sigma_Y^2}{c_1\sigma^2_{Y_{\text{CV}}}}\,.
 \end{equation}
+This is the ratio between \emph{slowdown} $c_0/c_1$ and variance reduction $\sigma_{Y}^2 / \sigma_{Y_{\text{CV}}}^2$.
 That ratio $c_0/c_1$ depends heavily on both the specific implementation and the technical setup.
 The cost increase is  mainly due to the computation of the integrals in \eqref{eq:simpl_exp}.
 But the repeated checking of control  variates for efficiency also increases the cost.
@@ -633,44 +641,20 @@ the proposed method.
 Note that the implementation does not simplify the constraint representations
 or the state space according to stoichiometric invariants or limited
 state spaces.
-\autoref{model:dm}, for example has the invariant $X^X_t+X^Y_t+X^B_t=\mathrm{const.}$, $\forall t\geq 0$, which
-could be used to reduce the state-space dimensionality to two.
-In \autoref{model:es} the invariant $\forall t\geq 0.X^D_t,X^{D.{P_1}}_t,X^{d.{P_2}}_t\in\{0,1\}$ could
-be used to optimize the algorithm by eliminating redundant moments, e.g.\ $\expSym({(X^D)}^2)=\E{X^D}$.
+\autoref{model:dm}, for example has the invariant 
+\[
+	X^X_t+X^Y_t+X^B_t=\mathrm{const.}$, $\forall t\geq 0\,,
+\]
+which could be used to reduce the state-space dimensionality to two.
+In \autoref{model:es} the invariant 
+\[
+	\forall t\geq 0.X^D_t,X^{D.{P_1}}_t,X^{D.{P_2}}_t\in\{0,1\}
+\]
+could be used to optimize the algorithm by eliminating redundant moments, e.g.\ $\expSym({(X^D)}^2)=\E{X^D}$.
 Such an optimization would further increase the efficiency of the algorithm.
 
-\begin{figure}[t]
-    \centering
-    \begin{minipage}{.3\textwidth}
-    \centering
-    \includegraphics[scale=.6]{gfx/reduction.pdf}
-    \end{minipage}
-    \hspace{1em}
-    \begin{minipage}{.5\textwidth}
-    \centering
-    \includegraphics[scale=.4]{gfx/efficiency_priors.pdf}
-    \end{minipage}
-    \hspace{-2em}
-    \begin{minipage}{0.12\textwidth}
-    \includegraphics[scale=.5]{gfx/legend.pdf}
-    \end{minipage}
-    \begin{minipage}{.3\textwidth}
-    \hspace{2.8cm}(a)
-    \end{minipage}
-    \begin{minipage}{.69\textwidth}
-    \centering(b)
-    \end{minipage}
-	\caption[\ac{CV} illustration and the influence of algorithmic parameters]{(a) The effect of including \acp{CV} on the mean estimates
-    $\hat{E}(X^M_2)$ in the dimerization case study. Parameters
-    were ${\pi}_{\lambda}=N(0,1)$, ${n}_{\lambda}=30$, ${k}_{\min}=4$, $\phi(\bar\rho)=1-{(1 - \bar\rho)}^2$.
-    (b) The efficiencies for different valuations of ${n}_{\lambda}$ and ${k}_{\min} $
-    and choices of ${\pi}_{\lambda}$. The sample size was $n=10,\!000$ in all cases
-    with $d=100$.
-    The bars give the 
-    bootstrapped ($1000$ iterations)
-    standard deviations.}
-    \label{fig:efficiencies_prior}
-\end{figure}
+
+
 
 We first turn to the choice of the $\lambda$ sampling distribution. Here we
 consider two choices:
@@ -686,7 +670,7 @@ the number of $\lambda$-samples $n_{\lambda}$.
 We used samples size $n=10,\!000$ and checked the control  variates every $d=100$ iterations
 for the defined criteria.
 For each valuation $1000$ estimations were performed.
-In \autoref{fig:efficiencies_prior}b, we summarize the efficiencies
+In \autoref{fig:efficiencies_prior}, we summarize the efficiencies
 for the arising parameter combinations on the three case studies.
 Most strikingly, we can note that the efficiency was consistently larger than one in
 all cases.
@@ -702,6 +686,30 @@ Given that larger absolute values for $\lambda$ seem unreasonable due
 their exponential influence on the weighting function and the problem of fixing
 a suitable interval for a uniform sampling scheme, the choice of a standard normal
 distribution for $\pi_{\lambda}$ seems superior.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=.6]{gfx/legend.pdf}\\
+    \includegraphics[scale=.5]{gfx/efficiency_priors.pdf}
+	\caption[Influence of algorithmic parameters on estimates]{The efficiencies for different valuations of ${n}_{\lambda}$ and ${k}_{\min} $
+    and choices of ${\pi}_{\lambda}$. The sample size was $n=10,\!000$ in all cases
+    with $d=100$.
+    The bars give the bootstrapped ($1000$ iterations) standard deviations.\label{fig:efficiencies_prior}}
+\end{figure}
+
+In \autoref{fig:efficiencies_order} we compare efficiencies for
+different maximum orders of constraints $n_{\max}$.
+This comparison is performed for different choices
+of the redundancy rule and initial $\lambda$ sample sizes $n_{\lambda}$.
+Again, for each parameter valuation 1000 estimations were performed.
+With respect to the maximum constraints order $n_{\max}$ we see a clear
+tendency, that the inclusion of second order
+constraints lessens the efficiency of the method.
+In case of a constant redundancy threshold it even dips below break-even
+for the distributive modification case study.
+This is not surprising, since the inclusion of second order moments
+increases the number of initial constraints quadratically
+and the incurred cost, especially of the first iterations,
+lessens efficiency.
 \begin{figure}[htb]
     \centering    
     \includegraphics[scale=.55]{gfx/legend_orders.pdf}\\
@@ -725,21 +733,6 @@ distribution for $\pi_{\lambda}$ seems superior.
     bootstrapped (1000 iterations) standard deviations.
     The break-even $E=1$ is marked by the dotted red line.\label{fig:efficiencies_alg_params}}
 \end{figure}
-
-In \autoref{fig:efficiencies_order} we compare efficiencies for
-different maximum orders of constraints $n_{\max}$.
-This comparison is performed for different choices
-of the redundancy rule and initial $\lambda$ sample sizes $n_{\lambda}$.
-Again, for each parameter valuation 1000 estimations were performed.
-With respect to the maximum constraints order $n_{\max}$ we see a clear
-tendency, that the inclusion of second order
-constraints lessens the efficiency of the method.
-In case of a constant redundancy threshold it even dips below break-even
-for the distributive modification case study.
-This is not surprising, since the inclusion of second order moments
-increases the number of initial constraints quadratically
-and the incurred cost, especially of the first iterations,
-lessens efficiency.
 
 
 

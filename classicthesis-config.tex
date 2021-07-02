@@ -215,6 +215,18 @@
 
 
     }
+\newenvironment{changemargin}[2]{%
+\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{#1}%
+\setlength{\rightmargin}{#2}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{\parskip}%
+}%
+\item[]}{\end{list}}
+
+\renewcommand{\vec}[1]{#1}
 % 
 % \usepackage{tocloft}
 % \newcommand{\listlemmaname}{List of Models}
