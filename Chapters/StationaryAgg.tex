@@ -229,13 +229,13 @@ This is a desirable feature since relevant regions are less likely to be pruned 
 
 \section{Results}\label{sec:statagg:results}
 A prototype was implemented in Rust~1.50 and Python~3.8.
-The linear systems were solved either using Numpy~\cite{numpy} for up to 5000 states, or the sparse linear solver as available through Scipy~\cite{2020SciPy-NMeth}, or the iterative biconjugate gradient stabilized algorithm~\cite{van1992bi} (up to $10,\!000$ iterations and absolute tolerance $10^{-16}$).
+The linear systems were solved either using Numpy~\cite{numpy} for up to 5000 states, or the sparse linear solver as available through Scipy~\cite{2020SciPy-NMeth}, or the iterative biconjugate gradient stabilized algorithm~\cite{van1992bi} (up to $10,000$ iterations and absolute tolerance $10^{-16}$).
 
 The examples that we consider in the sequel 
 are typical benchmarks for the analysis of \acp{MPM}. For most of them, appropriate Lyapunov functions
 have been determined using Geobound \cite{geobound,spieler2014numerical}.
 However, the corresponding Lyapunov sets containing at least $1-\epsilon_{\ell}$ of the stationary probability mass are very large for typical choices of $\epsilon_{\ell}$ (e.g. $\epsilon_{\ell}\in \{0.1,0.05,0.001\}$). Even
-for extremely large $\epsilon_{\ell}$, say $\epsilon_{\ell}=0.8$, the remaining state-space may still be huge (e.g, 15,198 states).
+for extremely large $\epsilon_{\ell}$, say $\epsilon_{\ell}=0.8$, the remaining state-space may still be huge (e.g, $15,198$ states).
 \subsection{Parallel Birth-Death Process}
 We first examine the algorithm on the simple example of two parallel, uncoupled birth-death processes.
 \begin{model}[Parallel Birth-Death Process]\label{model:par_bd}
@@ -247,18 +247,18 @@ As a parameterization we choose $\rho = 100$ and $\delta=1$.
 \end{model}
 For this model, the stationary distribution is known to be the product of two Poisson distributions with rate $\rho / \delta$.
 
-According to the Lyapunov analysis with a 1e-4 bound, we fix the initial truncation to a $70\times 70$ grid of macro-states with size $2^7$ in each dimension.
+According to the Lyapunov analysis with a \e{1}{-4} bound, we fix the initial truncation to a $70\times 70$ grid of macro-states with size $2^7$ in each dimension.
 This implies 8 iterations of the algorithm to arrive at a truncation with the original granularity.
 In \autoref{fig:par_bd}, we illustrate the truncations of different iterations.
 Over the iterations, the covered area decreases, while the aggregation granularity increases.
-The final truncation distribution approximation is also depicted and covers $1 - \text{1.27e-2}$ of the true stationary distribution (cf.\ \autoref{tab:intervals}).
+The final truncation distribution approximation is also depicted and covers $1 - \e{1.27}{-2}$ of the true stationary distribution (cf.\ \autoref{tab:intervals:par_bd}).
 
 For this case study, we also compute state-wise bounds on the probabilities conditioned on the truncation as discussed in \autoref{sec:statagg:fsp}.
 In \autoref{fig:par_bd_errors}, we present the difference between upper and lower bound for $\epsilon=0.1$.
 We observe intervals that are narrowest in the truncation's interior near the distribution's mode.
 The largest intervals or the largest absolute uncertainty is present in the boundary states.
 This indicates, that the specific reentry distribution has little effect on the main approximate stationary mass.
-More detailed results on the intervals' magnitudes are given in \autoref{tab:intervals}.
+More detailed results on the intervals' magnitudes are given in \autoref{tab:intervals:par_bd}.
 \begin{figure}[htb]
     \centering
     \includegraphics[scale=0.7]{gfx/iteration_legend.pdf}\\
@@ -274,18 +274,18 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
 \end{figure}
 \begin{table}
     \centering
-    \begin{tabular}{L{22mm} R{15mm} R{15mm} R{15mm} R{15mm}}
+	{\small \begin{tabular}{lrrrr}% L{22mm} R{15mm} R{15mm} R{15mm} R{15mm}}
     \toprule
       & \multicolumn{4}{c}{threshold parameter $\epsilon$} \\\cmidrule(lr){2-5}
-       & 1e-1 & 1e-2 & 1e-3 & 1e-4 \\
+	    & \e{1}{-1} & \e{1}{-2} & \e{1}{-3} & \e{1}{-4} \\
      \midrule
-          total width & 1.2336 & 3.09e-02 & 5.39e-04 & 8.12e-06 \\
-          max.\ width &  3.47e-03 & 9.29e-05 & 4.04e-07 & 4.65e-09 \\
-          outside mass & 1.27e-02 & 1.05e-04 & 1.05e-06 & 1.06e-08 \\
+	    total width & $1.2336$ & \e{3.09}{-2} & \e{5.39}{-4} & \e{8.12}{-6} \\
+	    max.\ width &  \e{3.47}{-3} & \e{9.29}{-5} & \e{4.04}{-7} & \e{4.65}{-9} \\
+	    outside mass & \e{1.27}{-2} & \e{1.05}{-4} & \e{1.05}{-6} & \e{1.06}{-8} \\
          \bottomrule
-    \end{tabular}
-    \caption{Results for \autoref{model:par_bd} : The characteristics of the lower-upper bound intervals on the conditional probability and the mass not contained in the truncation are given.}
-    \label{tab:intervals}
+	\end{tabular}}
+	\caption[Probability bound properties for approximation of the stationary distribution]{Results for \autoref{model:par_bd} : The characteristics of the lower-upper bound intervals on the conditional probability and the mass not contained in the truncation are given.}
+    \label{tab:intervals:par_bd}
 \end{table}
 % \begin{figure}
 %     \centering
@@ -329,27 +329,28 @@ This is mainly due to the usage of absolute errors which causes probabilities cl
 \begin{figure}[htb]
     \centering
     \includegraphics[scale=.7]{gfx/excl_switch_dist.pdf}
-	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\text{1e-4}$.}
+	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\e{1}{-4}$.}
     \label{fig:excl_switch:excl_switch_dist}
 \end{figure}
 
 
 Using Geobound we observe that our final truncation captures the stationary mass very well (cf.\ \autoref{tab:intervals} and \autoref{fig:excl_switch:excl_switch_dist}).
-We use the Geobound's lower bounds with $\epsilon_{\ell}=1e-2$ and find that the uncovered mass by the aggregation-based truncation is magnitudes lower than $\epsilon$ or close to it (for $\epsilon=0.1$).
+We use the Geobound's lower bounds with $\epsilon_{\ell}=\e{1}{-2}$ and find that the uncovered mass by the aggregation-based truncation is magnitudes lower than $\epsilon$ or close to it (for $\epsilon=0.1$).
 While they capture the mass well, they are much smaller than the Geobound truncation ($\epsilon_{\ell}=0.1$) % \vw{?} 
-with 16,780 states, regardless of the threshold parameter $\epsilon$.
+with $16,780$ states, regardless of the threshold parameter $\epsilon$.
 \begin{table}[htb]
     \centering
-    \begin{tabular}{L{30mm} R{14mm} R{14mm} R{14mm} R{14mm}}
+	{\small \begin{tabular}{lrrrr}%{L{30mm} R{14mm} R{14mm} R{14mm} R{14mm}}
     \toprule
       & \multicolumn{4}{c}{threshold parameter $\epsilon$} \\\cmidrule(lr){2-5}
-       & 1e-1 & 1e-2 & 1e-3 & 1e-4 \\
+	    & \e{1}{-1} & \e{1}{-2} & \e{1}{-3} & \e{1}{-4} \\
      \midrule
-         total width & 5.5171 & 1.5559 & 2.89e-02 & 3.71e-04 \\
-         max.\ width & 1.58e-01 & 3.30e-03 & 3.47e-05 & 3.84e-07 \\
-         outside mass $\leq$ & 1.52e-01 & 1.29e-03 & 2.02e-05 & 2.72e-07 \\
+	    total width & $5.5171$ & $1.5559$ & \e{2.89}{-2} & \e{3.71}{-4} \\
+	    max.\ width & \e{1.58}{-1} & \e{3.30}{-3} & \e{3.47}{-5} & \e{3.84}{-7} \\
+	    outside mass $\leq$ & \e{1.52}{-1} & \e{1.29}{-3} & \e{2.02}{-5} & \e{2.72}{-7} \\
          \bottomrule
     \end{tabular}
+	}
 	\caption[Characteristics of the lower-upper bound intervals]{Results for \autoref{model:excl_switch}: The characteristics of the lower-upper bound intervals on the conditional probability and the upper bound on mass not contained in the truncation are given.}
     \label{tab:intervals}
 \end{table}
@@ -358,7 +359,7 @@ In \autoref{fig:excl_switch:trunc_sizes}, we show the effect of the threshold pa
 We observe a roughly linear increase in size with an exponential decrease of $\epsilon$.
 \begin{figure}[htb]
     \centering
-    \includegraphics[scale=.8]{gfx/trunc_sizes.pdf}
+    \includegraphics[scale=.7]{gfx/trunc_sizes.pdf}
 	\caption[The sizes of the final truncation v.\ the threshold parameter $\epsilon$]{The sizes of the final truncation vs.\ the threshold parameter $\epsilon$ (\autoref{model:bd} and \autoref{model:excl_switch}).}
     \label{fig:excl_switch:trunc_sizes}
 \end{figure}
@@ -420,10 +421,10 @@ Then the drift
             - 0.096 x_{\mathrm{Mdm2}}
             - 0.02 x_{\mathrm{p53}} \\
             &- 0.0093 x_{\mathrm{pMdm2}}
-            + 10800\,. 
+            + 10,800\,. 
 \end{split}
 \end{equation}
-Clearly, $c = \sup_{x\in{S}} d(x) = 10800$.
+Clearly, $c = \sup_{x\in{S}} d(x) = 10,800$.
 In particular, the supremum $c$ is at the origin since all non-constant terms are negative.
 The slowest rate of decrease for \eqref{eq:p53_drift} is $x_{\mathrm{p53}}$ with $x_{\mathrm{Mdm2}} = x_{\mathrm{pMdm2}} = 0$.
 We are content with a superset of a Lyapunov set \eqref{eq:lyapunov_set} for some threshold $\epsilon_{\ell}$.
@@ -442,10 +443,10 @@ Therefore
 
 Due to the exponential increase stemming from the three-dimension\-al nature of this model, we only evaluated with parameter $\epsilon=0.1$.
 According to the Lyapunov analysis shown above, the area covered by an $6\times 6\times 6$ macro-states with size $2^{20}$, covers 0.9 of stationary mass.
-A truncation of this same area would consist of 226,492,416 states instead of the 216 macro-states.
+A truncation of this same area would consist of $226,492,416$ states instead of the $216$ macro-states.
 The model has a striking oscillatory behavior (cf.\ \autoref{fig:p53:traj}) that is reflected in its stationary distribution.
 This feature is well-captured in the approximate distribution, where the oscillatory behavior leads to a complex stationary distribution (cf.\ \autoref{fig:p53:dist}).
-This distribution leads to a non-trivial truncation (357,488 states) which is tailored to the main stationary mass (\autoref{fig:p53:trunc}).
+This distribution leads to a non-trivial truncation ($357,488$ states) which is tailored to the main stationary mass (\autoref{fig:p53:trunc}).
 \begin{figure}[htb]
     \centering
     \begin{minipage}{0.9\textwidth}

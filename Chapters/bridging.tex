@@ -209,8 +209,9 @@ This choice of grid size is convenient because we can halve states
 in each dimension.
 Moreover, this choice ensures that all states have equal volume
 and we end up with states of volume $2^0=1$ which is
-equivalent to a truncation of the original non-lumped state-space.\\
-\indent An iteration of the state-space refinement starts by computing both the
+equivalent to a truncation of the original non-lumped state-space.
+
+An iteration of the state-space refinement starts by computing both the
 forward and backward probabilities (\autoref{line:forw} and \autoref{line:backw})  via integration of \eqref{eq:forward}\turnto{eq:forward} and
 \eqref{eq:backward}, respectively, using
  the lumped $\hat Q$-matrix.
@@ -233,8 +234,8 @@ halves the state in each dimension.
 Otherwise, it is removed.
 Thus, each macro-state is either split into $2^{n_S}$ new states or removed
 entirely.
-The result forms the next lumped state-space $\mathcal{S}^{(i+1)}$.
- The   $Q$-matrix is adjusted (\autoref{line:update_q}) such that transition rates  for $\mathcal{S}^{(i+1)}$  are calculated according to 
+The result forms the next lumped state-space $\mathcal{S}^{(i)}$.
+ The   $Q$-matrix is adjusted (\autoref{line:update_q}) such that transition rates  for $\mathcal{S}^{(i)}$  are calculated according to 
  \eqref{eq:lumped_q}. 
  Entries of truncated states are removed from the transition matrix. Transitions leading to them are
 re-directed to a sink state (\autoref{sec:bridging:fsp}).
@@ -249,15 +250,15 @@ computing an approximation of the bridging distribution.
 \Input{Initial partitioning $\mathcal{S}^{(0)}$, truncation threshold $\delta$}
 \Output{approximate bridging distribution $\hat\gamma$}
 \For{$i=1,\dots,m$}{
-    ${\hat\pi}^{(i)}_t\leftarrow $ approximate forward equation on $\mathcal{S}^{(i)}$\label{line:forw}\;
-    ${\hat\beta}^{(i)}_t\leftarrow $ approximate backward equation on $\mathcal{S}^{(i)}$\label{line:backw}\;
+    ${\hat\pi}^{(i-1)}_t\leftarrow $ approximate forward equation on $\mathcal{S}^{(i)}$\label{line:forw}\;
+    ${\hat\beta}^{(i-1)}_t\leftarrow $ approximate backward equation on $\mathcal{S}^{(i)}$\label{line:backw}\;
     ${\hat\gamma}^{(i)}_t\leftarrow {\hat\beta}^{(i)} {\hat\pi}^{(i)}/\hat\pi(x_g,  T)$\label{line:bridge}\tcc*{approx. bridging}
-    $\mathcal{S}^{(i+1)}\leftarrow \emptyset$\;
+    $\mathcal{S}^{(i)}\leftarrow \emptyset$\;
     \ForEach{$\bar{x}\in\mathcal{S}^{(i)}$}{
         \If{
             $\exists t.{\hat\gamma}^{(i)}_t(\bar{x})\geq \delta$\label{line:refine}\tcc*{refinement}
         }{
-            $\mathcal{S}^{(i+1)}\leftarrow \mathcal{S}^{(i+1)} \cup \Split(\bar{x})$\label{line:union}\;
+            $\mathcal{S}^{(i)}\leftarrow \mathcal{S}^{(i)} \cup \Split(\bar{x})$\label{line:union}\;
         }}
         update $\hat{Q}$-matrix\label{line:update_q}\;
 }
@@ -321,7 +322,7 @@ The initial condition $X_0=(0,0)$ holds with probability one. After $t$ time uni
 is Poisson distributed with rate $\lambda=t$.
 \end{model}
 We consider the final constraint of reaching a state where both
-processes exceed a threshold of 64 at time 20.
+processes exceed a threshold of $64$ at time $20$.
 Without prior knowledge, a reasonable truncation would have been $160\times 160$. But our analysis shows that just 20\% of the states are necessary to capture over 99.6\% of the probability mass reaching the
 target event (cf.\ \autoref{tab:par_poisson}).
 Decreasing the threshold $\delta$ leads to a larger set of states retained after truncation as more of the bridging distribution is included (cf.\ \autoref{fig:2poisson_rare}).
@@ -338,21 +339,23 @@ logarithmic in $\delta$, which, in this example, indicates robustness of the met
     \label{fig:2poisson_rare}
 \end{figure}
 
-\setlength{\tabcolsep}{10pt}
+%\setlength{\tabcolsep}{10pt}
 \begin{table}[!t]
     \centering
+	{\small
     \begin{tabular}{lrrrr}
     \toprule
-    threshold $\delta$ & 1e-2 & 1e-3 & 1e-4 & 1e-5 \\
+	    & \multicolumn{4}{c}{threshold $\delta$}\\ \cmidrule(lr){2-5} 
+	    & \e{1}{-2} & \e{1}{-3} & \e{1}{-4} & \e{1}{-5} \\
     \midrule
-    truncation size & 1154 & 2354 & 3170 & 3898 \\
-    overall states & 2074 & 3546 & 4586 & 5450 \\
-    estimate& 8.88e-30 & 1.85e-29 & 1.86e-29 & 1.86e-29\\
-    rel.\ error& 5.22e-01 & 3.66e-03 & 3.74e-05 & 9.52e-08\\
+	    $|\mathcal{S}^{(m)}|$ & $1154$ & $2354$ & $3170$ & $3898$ \\
+	    $\sum_m|\mathcal{S}^{(m)}|$\hspace{-1ex} & $2074$ & $3546$ & $4586$ & $5450$ \\
+	    estimate& \e{8.88}{-30} & \e{1.85}{-29} & \e{1.86}{-29} & \e{1.86}{-29} \\
+	    rel.\ error& \e{5.22}{-1} & \e{3.66}{-3} & \e{3.74}{-5} & \e{9.52}{-8} \\
     \bottomrule
-    \end{tabular}
-    \caption{Estimated reachability probabilities based on varying truncation thresholds $\delta$: The true probability is
-    1.8625e-29. We also report the size of the final truncation and the accumulated size of all truncations during refinement iterations (overall states).}
+    \end{tabular}}
+	\caption[Rare event analysis on the \autoref{model:bd}]{Estimated reachability probabilities based on varying truncation thresholds $\delta$: The true probability is
+	\e{1.8625}{-29}. We also report the size of the final truncation $|\mathcal{S}^{(m)}|$ and the accumulated size of all truncations during refinement iterations (overall states) $\sum_m|\mathcal{S}^{(m)}|$.}
     \label{tab:par_poisson}
 \end{table}
 
@@ -366,7 +369,7 @@ It is possible to adapt our truncation approach to the dynamic scheme in \citet{
 
 A finite state-space truncation covering the same area as the initial lumping approximation would contain $25,\!600$ states.\graffito{The goal  is not treated as a single state. Otherwise, it consisted of $24,\!130$ states.}
 The standard approach would be to build up the entire state-space for such a model \cite{kwiatkowska2011prism}.
-Even using a conservative truncation threshold $\delta=\text{1e-5}$, our method yields an accurate estimate using only about a fifth (5450) of this accumulated over all intermediate lumped approximations. 
+Even using a conservative truncation threshold $\delta=\e{1}{-5}$, our method yields an accurate estimate using only about a fifth ($5,450$) of this accumulated over all intermediate lumped approximations. 
 % Moreover the analysis yields intermediate distributions which we would not obtain using PRISM.
 
 \subsection{Mode Switching}
@@ -458,7 +461,7 @@ These dynamics are already qualitatively captured by the first lumped approximat
 Next, we apply our method to  a toggle switch model exhibiting non-polynomial rate functions.
 This well-known  model considers two proteins $A$ and $B$
 inhibiting the production of the respective other protein~\cite{lipshtat2006genetic}.
-\begin{model}[Toggle Switch using Hill functions]
+\begin{model}[Toggle Switch using Hill functions]\label{model:hill_toggle}
 We have population types $A$ and $B$ with the following reactions and reaction rates.
 $$ \varnothing \xrightarrow{\alpha_1(\cdot)} A\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + x_B},
 \qquad A \xrightarrow\lambda \varnothing $$
@@ -474,8 +477,8 @@ the transition rates between macro-states
 \]
 for a macro-state $\bar{x}= \{a,\dots,b\}$.%\vw{explain $k$ I guess it is the mode}%\MB{we don't have mode vars here. it's just $k$ to make the expression more clear because then its essentially 1D}
 
-We analyze the switching scenario from $(0, 120)$ to the first visit of state $(120, 0)$ up to time $T=10$. The initial lumping scheme covers up to 352 molecules of $A$ and $B$ and  macro-states have size $32\times32$.
-The truncation threshold is $\delta=1e-4$.
+We analyze the switching scenario from $(0, 120)$ to the first visit of state $(120, 0)$ up to time $T=10$. The initial lumping scheme covers up to $352$ molecules of $A$ and $B$ and  macro-states have size $32\times32$.
+The truncation threshold is $\delta=\e{1}{-4}$.
 %Transition rates are computed using the above non-polynomial integral.
 The resulting truncation is shown in \autoref{fig:switching_dynamics:occ}.
 It also illustrates the kind of insights that can be obtained from the bridging distributions.
@@ -530,7 +533,7 @@ We consider the following scenario:
 We know that initially ($t=0$) one individual is infected and the rest is susceptible.
 At time $t=0.3$ all individuals are tested for the disease.
 The test, however, only identifies infected individuals with probability $0.99$.
-Moreover, the probability of a false positive is 0.05.
+Moreover, the probability of a false positive is $0.05$.
 We like to identify the distribution given both the initial state and the measurement at time $t=0.3$.
 In particular, we want to infer the distribution over the latent counts of  $S$ and $E$ by
 % The question we like to answer is whether the number of infected exceeds the threshold $k=100$ in the time interval $[t,2t]$.
@@ -562,7 +565,7 @@ Moreover, can we infer a distribution over the unknown number of susceptible and
 \end{figure}
 \begin{figure}
 	\centering
-    \includegraphics[width=.5\linewidth]{gfx/prior_posterior.pdf}
+    \includegraphics[width=.6\linewidth]{gfx/prior_posterior.pdf}
 	\caption[Prior and posterior latent distribution (\ac{SEIR})]{\label{fig:latent}
 	    The prior and posterior distribution over the latent types $E$ and $S$ at time $t=0.3$.}
 \end{figure}
@@ -570,7 +573,7 @@ Moreover, can we infer a distribution over the unknown number of susceptible and
 % Using the posterior \eqref{eq:bayes_posterior} of the first sub-problem, we can proceed and analyze the bridging problem from using the terminal constraint of the infected population exceeding threshold $k$.
 % To this end this area of the state-space is made absorbing and we can proceed as before.
 \section{Conclusion}
-The analysis of Markov Jump processes with constraints on the initial and terminal behavior is an important part of many probabilistic inference tasks such as parameter estimation using Bayesian or maximum likelihood estimation, inference of latent system behavior, the estimation of rare event probabilities, and reachability analysis for the verification of temporal properties.  
+The analysis of \acp{MPM} with constraints on the initial and terminal behavior is an important part of many probabilistic inference tasks such as parameter estimation using Bayesian or maximum likelihood estimation, inference of latent system behavior, the estimation of rare event probabilities, and reachability analysis for the verification of temporal properties.  
 If endpoint constraints correspond to atypical system behaviors, 
 standard analysis methods fail
 as they have no strategy to identify those parts of the state-space relevant for meeting the terminal constraint. 

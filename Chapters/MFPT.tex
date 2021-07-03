@@ -103,7 +103,7 @@ We also extend our approach to deal with \acp{MPM} exhibiting strong multimodal 
 
 % For our numerical investigations, we concentrate  and find encouraging
 % results already for a small number of moments.
-% For instance, in one of our case studies  $100,\!000$ \ac{SSA} runs are necessary to
+% For instance, in one of our case studies  $100,000$ \ac{SSA} runs are necessary to
 % achieve a relative   width of 0.9\% for the \ac{MFPT} confidence interval.
 % The \ac{SDP} solver, however, returns a guaranteed interval with 
 % a relative width of 0.3\%.\\
@@ -317,7 +317,7 @@ the time-weighting $w$ and polynomial $f$.
 \end{equation}
 A useful choice for $f$ and $w$ are monomials.
 When choosing $w(t)=t^k$
-\marginpar{In \autoref{ch:cvinsrns} we use a different weighting: $w(t) =\exp({-\lambda t})$.}
+\marginpar{In \autoref{ch:cvinsrns} we use an exponential weighting.}
 with $k\in\mathbb N$ and $f(\vec X)={\vec X}^{\vec m}$
 the process takes the form
 \begin{equation}\label{eq:basic_poly_martingale_app}
@@ -435,7 +435,7 @@ In the following we will define the interplay between these measures more formal
     exit location probability measures $\nu_1$ and $\nu_2$. The shaded area indicates
     the structure of the occupation measure. Three example trajectories are
     additionally plotted with
-    their exit location highlighted. The plots are based on $10,\!000$ sample trajectories.}
+    their exit location highlighted. The plots are based on $10,000$ sample trajectories.}
     \label{fig:decomposition}
 \end{figure}
 \end{example}
@@ -701,7 +701,8 @@ used in the optimization problem.
                    M_r({u}_T, \vec{z'})\succeq 0, M_r({u}_H, \vec{z'})\succeq 0\\
         & M_r(\vec{y_1'}) \succeq 0, M_r({u}_T,\vec{y_1'}) \succeq 0\\
         & M_r(\vec{y_2'}) \succeq 0, M_r({u}_H, \vec{y_2'}) \succeq 0\\
-        & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m +\sum_i c_i  z_{k_i m_i}', \quad\forall m, k
+        & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m \\
+	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k
     \end{split}
 \end{equation}
 This \ac{SDP} can be compiled to the canonical form.
@@ -802,7 +803,7 @@ and therefore the first passage time distribution is a phase-type distribution
 which possesses finite moments \cite[Chapter 7.6]{stewart2009probability}.
 The empirical \ac{FPT} distribution based on $100,000$ \ac{SSA} simulations is given in \autoref{fig:dim_fpt_fpt}
 and the bounds, given different moment orders, are given in \autoref{fig:dim_fpt:mfpt}.
-As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the \ac{MFPT} precisely for orders 5, 6.
+As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the \ac{MFPT} precisely for orders $5$ and $6$.
 The difference between upper and lower bound decreases roughly exponentially with increasing relaxation order $r$.
 We found that this trend was consistent among the case studies presented here (cf.\ \autoref{fig:convergence}).
 \begin{figure}
@@ -888,7 +889,7 @@ order $r$ (cf.\ \autoref{fig:convergence} and \autoref{tab:bounds}).
 
 
 \subsubsection{Parallel Dimerizations}
-As a second study, we consider a 2-dimensional model by combining two
+As a second study, we consider a two-dimensional model by combining two
 independent dimerizations.
 \begin{model}[Parallel independent dimerizations]\label{model:double_dim} This model consists of two independent versions of \autoref{model:dim}\turnto{model:dim}.
 	\[
@@ -896,14 +897,14 @@ independent dimerizations.
 	\]
 	Initially, \[0=X_0^{(M_1)}=X_0^{(M_2)}=X_0^{(D_1)}=X_0^{(D_2)}\,.\]
 \end{model}
-As a \ac{FPT} we consider the time at which either $M_1$ or $M_2$ surpasses a threshold of 200 or a time-horizon of $T=10$
+As a \ac{FPT} we consider the time at which either $M_1$ or $M_2$ surpasses a threshold of $200$ or a time-horizon of $T=10$
 is reached, i.e.
 \[ \tau=\inf\{t\geq 0\mid X_t^{(M_1)} \geq 200\}\land \inf\{t\geq 0\mid X_t^{(M_2)} \geq 200\}\land 10\,.
 \]
 As before, we ignore the product species $D_1$ and $D_2$ since they do not influence $\tau$.
-% Still, the possible state-space reaches a size of $200^2=40,\!000$.
+% Still, the possible state-space reaches a size of $200^2=40,000$.
 % \luca{40000 is very small... I would not emphasize it}\todo{yes, but the only reason for this case study ist that we have a ``larger'' relevant state-space}
-The \ac{SSA}   (using $n=10,\!000$ runs) gives the estimate $\E{\tau}\approx 0.028378$ %\pm 1.3025e-04$ (99\%-CI)
+The \ac{SSA}   (using $n=10,000$ runs) gives the estimate $\E{\tau}\approx 0.028378$ %\pm 1.3025e-04$ (99\%-CI)
 which is captured tightly by the \ac{SDP} bounds (cf.\ \autoref{tab:bounds}).
 For higher relaxation orders $r \geq 5$  numerical issues prevented the solution of the
 corresponding \acp{SDP}.
@@ -992,14 +993,14 @@ The moment constraint over the partial moments has a linear structure:
         \cmidrule{3-7}
         & & $1$ & $2$        & $3$        & $4$       & $5$       \\
         \midrule
-        \autoref{model:dim} & lower & 0.0909 & 0.2661 & 0.2845 & 0.2867 & 0.2871\\
-        & upper & 1.0000 & 0.3068 & 0.2932 & 0.2886 & 0.2875  \\
+        \autoref{model:dim} & lower & $0.0909$ & $0.2661$ & $0.2845$ & $0.2867$ & $0.2871$ \\
+        & upper & $1.0000$ & $0.3068$ & $0.2932$ & $0.2886$ & $0.2875$  \\
          \midrule
-         \autoref{model:double_dim} & lower &0.0010 & 0.0250 & 0.0275 & 0.0280 & 0.0280\\
-         & upper & 10.0000 & 0.0575 & 0.0323 & 0.0299 & 0.0290 \\
+         \autoref{model:double_dim} & lower & $0.0010$ & $0.0250$ & $0.0275$ & $0.0280$ & $0.0280$ \\
+         & upper & $10.0000$ & $0.0575$ & $0.0323$ & $0.0299$ & $0.0290$ \\
          \midrule
-         \autoref{model:gexpr} & lower & 4.0000 & 6.0028 & 6.2207 & 6.3377 & 6.3772  \\
-         & upper & 10.7179 & 6.4619 & 6.4079 & 6.4004 & 6.3835 \\\bottomrule
+         \autoref{model:gexpr} & lower & $4.0000$ & $6.0028$ & $6.2207$ & $6.3377$ & $6.3772$  \\
+         & upper & $10.7179$ & $6.4619$ & $6.4079$ & $6.4004$ & $6.3835$ \\\bottomrule
 \end{tabular}
 \end{table}
 
@@ -1030,10 +1031,10 @@ As a first passage time we consider
 
 
 The results are summarized in \autoref{tab:bounds}.
-The estimated \ac{MFPT} based on $100,\!000$
+The estimated \ac{MFPT} based on $100,000$
 \ac{SSA} samples is $\E{\tau}\approx 6.37795\pm0.02847$ at $99\%$ confidence level.
 Note that our \ac{SDP} solution for $r=5$ yields tighter moment bounds than
-the statistical estimation.% based on $100,\!000$ trajectories.
+the statistical estimation.% based on $100,000$ trajectories.
 
 
 In \autoref{fig:convergence} we summarize our results about the decrease of the interval widths for increasing relaxation order $r$ by plotting them on a log-scale.
@@ -1041,7 +1042,7 @@ We see an approximately exponential decrease with increasing $r$.
 The \acp{SDP} above were all solved within at most a few seconds.
 \begin{figure}[t]
     \centering
-    \includegraphics[scale=0.65]{gfx/convergence.pdf}
+    \includegraphics[width=\textwidth]{gfx/convergence.pdf}
 	\caption[\ac{MFPT} bound convergence]{The interval width, i.e.\ the difference between upper and lower bound,
     for different case studies and targeted first passage times against the order $r$
     of the \ac{SDP} relaxation.\label{fig:convergence}}

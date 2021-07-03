@@ -442,8 +442,8 @@ If this inequality holds, constraint $\argmin_{k\in\{i,j\}}\rho_{kv}$ is removed
 Naturally, there are many possible choices for the above decision boundary $\phi$ (cf.\ \autoref{fig:decision}).
 
 
-The simplest choice is to ignore $\bar\rho_{ij}$ and just fix a constant close to 1 as a threshold,
-e.g.\ \[ \phi_c(\bar\rho_{ij})=.99\,.\] While this often leads to the strongest variance reduction
+The simplest choice is to ignore $\bar\rho_{ij}$ and just fix a constant close to $1$ as a threshold,
+e.g.\ \[ \phi_c(\bar\rho_{ij})=0.99\,.\] While this often leads to the strongest variance reduction
 and avoids numerical issues in the control variate computation, it turns out
 that the computational overhead is not as well-com\-pen\-sa\-ted as by other choices of $\phi$ (see \autoref{sec:cv:study}).
 
@@ -462,27 +462,12 @@ Another variant of $\phi$ is given by including the lower bound $\rho_{\min}$ an
 the quadratic function accordingly:
 \[ \phi_{\mathit{sq}}(\bar\rho)=1-((1-\bar\rho)/(1-\rho_{\min}))^2\,.\]
 The different choices of $\phi$ considered here are plotted in \autoref{fig:decision}.
-\begin{figure}[htb]
-    \centering
-    \begin{minipage}{.6\textwidth}
-    \centering
-    \includegraphics[scale=.6]{gfx/decision_funcs.pdf}
-    \end{minipage}
-    \hspace{-2.8em}
-    \begin{minipage}{.3\textwidth}
-    \includegraphics[scale=.6]{gfx/legend_1.pdf} \vfill
-    \end{minipage}
-	\caption[\ac{CV} redundancy heuristics]{Different decision functions
-    used in the redundant control  variate removal. The weaker of any two control  variates is removed if
-    the pair $(\bar\rho_{ij}, \rho_{ij})$ belongs to the shaded area of the considered function.
-    The vertical dashed line indicates $\rho_{\min}$.\label{fig:decision}}
-\end{figure}
 \begin{algorithm}[ht]
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
 \Input{$n, d, n_{\max}, n_{\lambda}, k_{\min}$}
 \Output{An estimate using linear control variates}
-  $L=\{\lambda_i\sim \pi_\lambda \mid 1\leq i< n_{\lambda} \} \cup \{ 0 \}$\label{line:lambda_sample}\;
+  $L\leftarrow\{\lambda_i\sim \pi_\lambda \mid 1\leq i< n_{\lambda} \} \cup \{ 0 \}$\label{line:lambda_sample}\;
   $P \leftarrow \{ ({m}, \lambda) | 1\leq\lvert {m} \rvert \leq n_{\max}, \lambda\in L\}$\label{line:init_covs}\;
   \For{$i=1,\dots,n$\label{line:main_loop}}{
      $\tau \leftarrow$ \textsc{SSA}($\pi_0,T,A$)\label{line:run_ssa}\;
@@ -500,6 +485,21 @@ The different choices of $\phi$ considered here are plotted in \autoref{fig:deci
 \Return $\hat{V}_n - {(\hat{\Sigma}_{{Z}}^{-1}\hat\Sigma_{{Z}V})}^{\top}\hat{{Z}}_n$\label{line:compute_lcv}\;
     \caption{\label{alg:ssa:lcv}Estimate the mean of species $i$ at time $T$}
 \end{algorithm}
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}{.6\textwidth}
+    \centering
+    \includegraphics[scale=.6]{gfx/decision_funcs.pdf}
+    \end{minipage}
+    \hspace{-2.8em}
+    \begin{minipage}{.3\textwidth}
+    \includegraphics[scale=.6]{gfx/legend_1.pdf} \vfill
+    \end{minipage}
+	\caption[\ac{CV} redundancy heuristics]{Different decision functions
+    used in the redundant control  variate removal. The weaker of any two control  variates is removed if
+    the pair $(\bar\rho_{ij}, \rho_{ij})$ belongs to the shaded area of the considered function.
+    The vertical dashed line indicates $\rho_{\min}$.\label{fig:decision}}
+\end{figure}
 
 
 Now, we discuss  the choice of the initial control  variates. We identify control  variate $k$ by
@@ -561,10 +561,10 @@ The cost increase is  mainly due to the computation of the integrals in \eqref{e
 But the repeated checking of control  variates for efficiency also increases the cost.
 The accumulation over the trajectory directly increases the cost of a single simulation
 which is the critical part of the estimation.
-To estimate the base-line cost $c_0$, 2000 estimations were performed without
+To estimate the base-line cost $c_0$, $2000$ estimations were performed without
 considering any control variates.
 
-The simulation is implemented in the Rust programming language\footnote{\url{https://www.rust-lang.org}}.
+The simulation is implemented in the Rust programming language\marginpar{\url{www.rust-lang.org}}.
 The model description is parsed from a high level specification. 
 Rate functions are compiled to stack programs for fast evaluation.
 Code is made available online \cite{cme-simulation-github}.
@@ -745,7 +745,7 @@ and the case study, this permissive strategy may pay off. In case of the dimeriz
 it pays off, while in case of the distributive modification it leads to a lower efficiency ratio.
 In the latter case the model is more complex, and therefore the set of initial
 control  variates is larger. With a more permissive redundancy strategy, more control  variates are kept
-(ca.\ 10 when using $\phi_c$ vs.\ ca.\ 2--3 for the others).
+(ca.\ $10$ when using $\phi_c$ vs.\ ca.\ $2$--$3$ for the others).
 The other redundancy boundaries move the results further in the direction of less variance reduction
 while keeping the cost increase low.
 On the opposite end is the linear $\phi_{\ell}$.
@@ -794,21 +794,21 @@ The $\lambda$ sampling distribution $\pi_{\lambda}$ is a standard normal.
 
 Finally, we discuss the effect of the sample size $n$ on the efficiency $E$. In \autoref{fig:sample_sizes}
 we give both the efficiencies and the slowdown for different sample sizes.
-As a redundancy rule we used the unscaled quadratic function, 30 initial values of $\lambda$,
+As a redundancy rule we used the unscaled quadratic function, $30$ initial values of $\lambda$,
 and $k_{\min}=3$. With increasing sample size, the efficiency usually approaches an upper limit.
 This is due to the fact that most control  variates are dropped early on and
 the control  variates often remain the same for the rest of the simulations.
 If we assume there are no helpful control  variates in the initial set
-and all would be removed at iteration 100, the efficiency would approach 1
-with $n\to \infty$.
+and all would be removed at iteration $100$, the efficiency would converge to $1$
+for $n\to \infty$.
 \begin{figure}[htb]
 	\myfloatalign
 	\subfloat[Efficiency v.\ sample size]
 	{\label{fig:sample_sizes:eff}
-	\includegraphics[scale=.35]{gfx/sample_size_efficiency.pdf}}\quad
+	\includegraphics[scale=.39]{gfx/sample_size_efficiency.pdf}}\quad
 	\subfloat[Slowdown v.\ sample size]
 	{\label{fig:sample_sizes:slowdown}
-	\includegraphics[scale=.35]{gfx/sample_size_slowdown.pdf}}
+	\includegraphics[scale=.39]{gfx/sample_size_slowdown.pdf}}
 	\caption[Effect of sample size on control variate performance]{
     The effect of sample size on the efficiency $E$ and slowdown in the different case studies.
     The break-even $E=1$ is marked by the dashed red line.

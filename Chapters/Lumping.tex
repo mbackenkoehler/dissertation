@@ -200,13 +200,10 @@ But the same number of macro-states covers more micro-states.
 
 A forward integration\marginpar{The integration is done using an ad-hoc \ac{FSP} on $[0, 200]$.} of both, the model at original granularity and the aggregated version
 is shown in \autoref{fig:lumped}.
-The lumped version shows a similar temporal dynamic, but the distributions are spread out more.
-This is a desirable feature because it indicates the location of the main probability mass with
-significantly less states.
 \begin{figure}[htb]
     \centering
     \includegraphics[scale=.6]{gfx/lumpedvorig.pdf}
-	\caption[Lumping approximation of \autoref{model:bd}]{A lumping approximation of \autoref{model:bd} on the state-space truncation to $[0, 200]$ on $t\in[0, 50]$. On the left-hand side solutions of a regular truncation approximation and a lumped truncation (macro-state size is 5) are given.}
+	\caption[Lumping approximation of \autoref{model:bd}]{A lumping approximation of \autoref{model:bd} on the state-space truncation to $[0, 200]$ on $t\in[0, 50]$. On the left-hand side solutions of a regular truncation approximation and a lumped truncation (macro-state size is $5$) are given.}
     \label{fig:lumped}
 \end{figure}
 % \begin{figure}[htb]
@@ -216,3 +213,17 @@ significantly less states.
 %     \label{fig:lumped_terminal}
 % \end{figure}
 \end{example}
+
+\section{Approximation Features}
+Considering the previous example, we observe that the lumped version shows a similar temporal dynamic, but the distributions are spread out more.
+This is a desirable feature because it indicates the location of the main probability mass with
+significantly less states.
+
+These features are not valid in general and the aggregation scheme remains a heuristic approach.
+This is partly due to the \ac{MPM} formalism allowing for arbitrary propensity functions.
+One can construct a process such that a significant change in dynamics inside a macro-state would be missed.
+Mostly we encounter this phenomenon in models that exhibit a significant change near the zero-boundary for some species.
+Examples include the toggle switch with Hill-functions (\autoref{model:hill_toggle}\turnto{model:hill_toggle}) and die-out in epidemics models (\autoref{model:seir}\turnto{model:seir}).
+Other cases are rather rare in the standard model repertoire, but some awareness is necessary.
+
+Fortunately, by refining the aggregation down to ``full resolution'', we can gain the guarantees inherent to \ac{FSP}.

@@ -1,7 +1,7 @@
 \chapter{Augmented Foster-Lyapunov Bounds}
 
 \section{The drift and its properties}
-The drift \eqref{eq:drift} plays a central role in this chapter.\marginpar{In contrast to page~\ref{eq:drift}, we make the dependency on the Lyapunov function $g$ explicit here.}
+The drift \eqref{eq:drift} plays a central role in this chapter.\marginpar{We explain the interpretation and give some basic use of the drift in \autoref{sec:statagg:lyapunov} on page~\pageref{sec:statagg:lyapunov}.}
 \begin{equation}
 	d(x; g) = Qg(x) = \sum_{j=1}^{n_R} \alpha_j(x) (g(x+v_j) -  g(x))
 \end{equation}
@@ -12,16 +12,14 @@ That is
 	=Qg(x)
 \end{equation}
 for some constant $b\in\mathbb{R}$.
-Clearly a positive linear factor $m$ to $g$ factors out, i.e.\ $Q(mg)(x)=mQg(x)$ for $m>0$.
+Clearly a positive linear factor $m$ to $g$ factors out, i.e.\ $Q(f\circ g)(x)=mQg(x)$ for $f(x) = mx$, $m>0$.
 Consequently, if the drift is scaled by its maximum value, the scaled version is invariant to linear
 transforms of $g$:
-\marginpar{A slight abuse of notation.}
 \begin{equation}
-	\frac{Q(mg)(x)}{\max_{x\in\mathcal{S}}Q(mg)(x)}
+	\frac{Q(f\circ g)(x)}{\max_{x\in\mathcal{S}}Q(f \circ g)(x)}
 	=
 	\frac{Qg(x)}{\max_{x\in\mathcal{S}}Qg(x)}
 \end{equation}
-for some constant $m>0$.
 Since the probability bounded sets $C_{\epsilon_{\ell}}$ depend on the scaled drift.
 Therefore invariance under linear transformation implies that we cannot change --~especially improve~-- the tightness of the sets by such a transform.
 
@@ -32,7 +30,7 @@ The confidence interval for level $1-\alpha$ of a Poisson with rate $\mu$ is
 \[
 \frac{1}{2}P^{-1}(\alpha/2; 2k)\le\mu\leq\frac{1}{2}P^{-1}(1-\alpha/2;{2k+2})\,.
 \]
-where $P^{-1}(\cdot; l)$ is the inverse \ac{CDF} of a $\chi^2_{l}$ distribution.
+where $P^{-1}(\,\cdot\,; l)$ is the inverse \ac{CDF} of a $\chi^2_{l}$ distribution.
 Thus, its the inverse of the regularized gamma function
 \[
 	\frac{1}{\Gamma(k/2)}\int_0^{x/2} t^{k/2 - 1} e^{-t}\,dt
@@ -72,13 +70,13 @@ The drifts $d'$ and $d^*$ are defined accordingly.
 \begin{example}
 Consider the example of Model~\ref{model:bd}.
 Using a simple L2 norm as an initially, i.e.\ $g(x) = x^2$, we obtain a fairly large set.
-In Figure~\ref{fig:truncation}, we contrast this result to the solution given by the choice of $g^*(x)=(x - 250)^2$, which gives a much tighter subset with the same guarantees.
+In Figure~\ref{fig:bd:truncation}, we contrast this result to the solution given by the choice of $g^*(x)=(x - 250)^2$, which gives a much tighter subset with the same guarantees.
 In this case, the guarantee is that the sets contain at least 0.9 stationary probability mass.
 We further demonstrate how the incorporation $g^*$ into $g$ significantly tightens the set proposed initially.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=.6\textwidth]{gfx/lyapunov_bd.pdf}
-    \caption[Manually augmented Foster-Lyapunov function]{\label{fig:truncation}Different example Lyapunov functions for Model~\ref{model:bd}. The drifts $d$, $d^*$, and $d'$ are scaled and the appropriate threshold for $\epsilon=0.1$ is given.}
+    \caption[Manually augmented Foster-Lyapunov function]{\label{fig:bd:truncation}Different example Lyapunov functions for Model~\ref{model:bd}. The drifts $d$, $d^*$, and $d'$ are scaled and the appropriate threshold for $\epsilon=0.1$ is given.}
 \end{figure}
 \end{example}
 
@@ -92,6 +90,16 @@ This freedom enables the use of flexible machine learning models to search an ef
 \includegraphics[width=\textwidth]{gfx/lya_sets.pdf}
 	\caption[Augmented v.\ proposal Lyapunov sets]{\label{fig:lya_sets}Lyapunov sets for the birth-death process for different probability thresholds $\epsilon$ for the augmented function (red) and the proposal (orange). The ``perfect'' sets are computed using the confidence interval (dark).}
 \end{figure}
+\begin{figure}[htb]
+	\centering
+	\subfloat[Linear proposal]
+	{\includegraphics[width=0.48\textwidth]{gfx/lnn_improvement_linear.pdf}}
+	\subfloat[Quadratic proposal]
+	{\includegraphics[width=0.48\textwidth]{gfx/lnn_improvement_quadratic.pdf}}
+	\caption{\label{fig:improvement}}
+\end{figure}
+
+\section{Polynomial Augmentation}
 
 \section{Neural Augmentation}
 The characteristics of the augmentation function $g^*$ are typically not known beforehand.
@@ -115,5 +123,5 @@ $$
 	2A+B\xrightarrow{\nu_1}3A\qquad
 	2A+A\xrightarrow{\nu_2}3B
 $$
-As a parameterization we choose $\rho = 5$, $\delta=0.1$, $\nu_1=6.0e-5$, and $\nu_2=6.2e-5$.
+	As a parameterization we choose $\rho = 5$, $\delta=0.1$, $\nu_1=\e{6}{-5}$, and $\nu_2=\e{6.2}{-5}$.
 \end{model}

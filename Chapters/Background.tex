@@ -350,6 +350,29 @@ The model consists of exponentially distributed arrivals and service times propo
 	\[ \varnothing \xrightarrow{\mu} S \qquad\text{and}\qquad S \xrightarrow{\gamma} \varnothing\,.\]
 The initial condition $X_0=0$ holds with probability one.
 \end{model}
+	The underlying \ac{CTMC} has the following infinite structure.
+\vspace{2em}\\
+\begin{tikzpicture}{thick}
+	\node (n0) at (0, 0) [shape=circle, draw] {$0$};
+	\node (n1) at (2, 0) [shape=circle, draw] {$1$};
+	\node (n2) at (4, 0) [shape=circle, draw] {$2$};
+	\node (n3) at (6, 0) [shape=circle, draw] {$3$};
+	\node (n4) at (8, 0) [shape=circle, draw] {$4$};
+	\node (n5) at (10, 0) {$\cdots$};
+	
+	\draw[->] (n0) edge[out=20, in=-200] node[above] {$\mu$} (n1);
+	\draw[->] (n1) edge[out=20, in=-200] node[above] {$\mu$} (n2);
+	\draw[->] (n2) edge[out=20, in=-200] node[above] {$\mu$} (n3);
+	\draw[->] (n3) edge[out=20, in=-200] node[above] {$\mu$} (n4);
+	\draw[->] (n4) edge[out=20, in=-200] node[above] {$\mu$} (n5);
+
+	\draw[<-] (n0) edge[out=-20, in=-160] node[below] {$  \gamma$} (n1);
+	\draw[<-] (n1) edge[out=-20, in=-160] node[below] {$2 \gamma$} (n2);
+	\draw[<-] (n2) edge[out=-20, in=-160] node[below] {$3 \gamma$} (n3);
+	\draw[<-] (n3) edge[out=-20, in=-160] node[below] {$4 \gamma$} (n4);
+	\draw[<-] (n4) edge[out=-20, in=-160] (n5);
+\end{tikzpicture}
+\vspace{2em}\\
 The change of probability mass in a single state $x>0$ is described by expanding
 \eqref{eq:cme} and
 \begin{multline}\label{eq:cme_bd}
@@ -357,9 +380,56 @@ The change of probability mass in a single state $x>0$ is described by expanding
 	- (\mu + \gamma x)\pi(x, t)\,.
 \end{multline}
 A typical truncation scheme to $[0, N]$ would use \eqref{eq:cme_bd} for $x\in[0,\dotsc,N - 1]$
-and for $x=N$ the transition to $N+1$ via the first reaction is re-directed back to state $N$.
-In effect, this is equivalent to cutting the transition, because the truncation has only this border state.
-Thus, the approximation here reads
+and for $x=N$ the transition to $N+1$ via the first reaction is re-directed into a sink state.
+	We can drop the sink state because of the invariant $\sum_{x}\pi_t(x) = 1$, $\forall t\geq 0$.\marginpar{In general, we can drop one equation in the \ac{CME} system because of this invariant.}
+	The \ac{ODE} for the boundary state would consequently read
+\[
+	\frac{d}{dt}\pi_t(N)=\mu \pi(N-1, t) - (\gamma N + \mu)\pi(N, t)\,.
+\]
+	Visualizing the resulting \ac{CTMC} and letting $N=3$.
+\vspace{2em}\\
+\begin{tikzpicture}{thick}
+	\node (n0) at (0, 0) [shape=circle, draw] {$0$};
+	\node (n1) at (2, 0) [shape=circle, draw] {$1$};
+	\node (n2) at (4, 0) [shape=circle, draw] {$2$};
+	\node (n3) at (6, 0) [shape=circle, draw] {$3$};
+	\node (n4) at (8, 0) [shape=circle, draw] {sink};
+	
+	\draw[->] (n0) edge[out=20, in=-200] node[above] {$\mu$} (n1);
+	\draw[->] (n1) edge[out=20, in=-200] node[above] {$\mu$} (n2);
+	\draw[->] (n2) edge[out=20, in=-200] node[above] {$\mu$} (n3);
+	\draw[->] (n3) edge[out=20, in=-200] node[above] {$\mu$} (n4);
+
+	\draw[<-] (n0) edge[out=-20, in=-160] node[below] {$  \gamma$} (n1);
+	\draw[<-] (n1) edge[out=-20, in=-160] node[below] {$2 \gamma$} (n2);
+	\draw[<-] (n2) edge[out=-20, in=-160] node[below] {$3 \gamma$} (n3);
+\end{tikzpicture}
+\vspace{2em}\\
+In a forward analysis, the sink state accumulates mass ``lost'' by the approximation.
+	This provides a good practical error bound\marginpar{The accuracy of the bound is dependent on the specific method of the forward analysis. Numerical integration, for example, it is less strict.}
+	for the chosen truncation.
+
+If one is interested in the stationary probability distribution (\autoref{sec:stationary_dist}), a sink state is not practical, since --~in the long run~-- the process will usually enter such a state.
+Instead, the cut transitions are re-directed back into the truncation.
+A plethora of re-directions is possible \cite{gupta2017finite,kuntz2021stationary,spieler2014numerical}, but in general it is reasonable to re-direct to states with cut incoming transitions.\marginpar{Such re-directions are used in \autoref{ch:statagg}.}
+In this example, this is equivalent to cutting the transition, because the truncation has only this border state.
+\vspace{2em}\\
+\begin{tikzpicture}{thick}
+	\node (n0) at (0, 0) [shape=circle, draw] {$0$};
+	\node (n1) at (2, 0) [shape=circle, draw] {$1$};
+	\node (n2) at (4, 0) [shape=circle, draw] {$2$};
+	\node (n3) at (6, 0) [shape=circle, draw] {$3$};
+	
+	\draw[->] (n0) edge[out=20, in=-200] node[above] {$\mu$} (n1);
+	\draw[->] (n1) edge[out=20, in=-200] node[above] {$\mu$} (n2);
+	\draw[->] (n2) edge[out=20, in=-200] node[above] {$\mu$} (n3);
+
+	\draw[<-] (n0) edge[out=-20, in=-160] node[below] {$  \gamma$} (n1);
+	\draw[<-] (n1) edge[out=-20, in=-160] node[below] {$2 \gamma$} (n2);
+	\draw[<-] (n2) edge[out=-20, in=-160] node[below] {$3 \gamma$} (n3);
+\end{tikzpicture}
+\vspace{2em}\\
+Thus, the \ac{ODE} for state $N$ here reads
 \[
 	\frac{d}{dt}\pi_t(N)=\mu \pi(N-1, t) - \gamma N\pi(N, t)\,.
 \]
