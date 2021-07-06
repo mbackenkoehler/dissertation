@@ -364,7 +364,7 @@ We thus aim to pick control  variates that are highly correlated with $V$.
 \begin{example} Consider, for example, the above case of the birth-death process.
 If we choose \eqref{eq:bd_constraint} as a constraint, it would always yield
 the exact difference of the exact mean to the sample mean and therefore have a 
-perfect correlation. Clearly, $\hat\beta$ reduces to 1 and $\hat Y_1 = \E{X_t}$.
+	perfect correlation. Clearly, $\hat\beta$ reduces to \num{1} and $\hat Y_1 = \E{X_t}$.
 \end{example}
 
 \section{Moment-Based Variance Reduction}\label{sec:cv:algo}
@@ -388,8 +388,8 @@ and \emph{redundancy} (lines \ref{line:cond_ck_begin}--\ref{line:cond_ck_end}).
 	\caption[\ac{CV} correlation charactersitics]{The absolute correlation of different constraints {to $V$}
     arising from different choices of $\lambda$. The blue dots represent constraints
     based on first order moments, while the orange refers to control  variates derived from second
-    order moments. In both cases $10,\!000$ samples were used with
-    30 initial samples for $\lambda$ from $N(0,1)$ and $k_{\min}=2$. A quadratic decision bound was used for
+	order moments. In both cases $\num{10000}$ samples were used with
+	\num{30} initial samples for $\lambda$ from $N(0,1)$ and $k_{\min}=2$. A quadratic decision bound was used for
     the redundancy removal. Furthermore, a histogram of control  variates selected by \autoref{alg:ssa:lcv}
     is given.
     In (a) $\E{X^A_2}$ in the dimerization model was estimated.
@@ -592,10 +592,10 @@ will move towards either attracting region with equal probability.
 The distributive modification model was introduced in \citet{cardelli2012cell}.
 It consists of the reactions
 \begin{align*}
-	X + Y &\xrightarrow{.001} B + Y &
-    B + Y &\xrightarrow{.001} 2 Y\\
-	Y + X &\xrightarrow{.001} B + X &
-   B + X &\xrightarrow{.001} 2 X
+	X + Y &\xrightarrow{\num{.001}} B + Y &
+	B + Y &\xrightarrow{\num{.001}} 2 Y\\
+	Y + X &\xrightarrow{\num{.001}} B + X &
+	B + X &\xrightarrow{\num{.001}} 2 X
 \end{align*}
 with initial conditions $X^X_0=X^Y_0=X^B_0=100$.
 \end{model}
@@ -619,7 +619,7 @@ with initial conditions $X^X_0=X^Y_0=X^B_0=100$.
 % \end{model}
 
 \begin{model}[Exclusive Switch]\label{model:es}
-The exclusive switch model consists of 5 species, 3 of which are typically binary (activity states of the genes) \cite{loinger2007stochastic}.
+	The exclusive switch model consists of \num{5} species, \num{3} of which are typically binary (activity states of the genes) \cite{loinger2007stochastic}.
 \begin{align*}
 	D + P_1 &\xrightarrow{} D.P_1 &
 	D.P1 &\xrightarrow{} D + P_1  &
@@ -667,9 +667,9 @@ corresponds to a uniform weighting function.
 We performed estimations on the case studies using different valuations of the
 algorithm parameters of the minimum threshold $k_{\min}$ and
 the number of $\lambda$-samples $n_{\lambda}$.
-We used samples size $n=10,\!000$ and checked the control  variates every $d=100$ iterations
+We used samples size $n=\num{10000}$ and checked the control  variates every $d=100$ iterations
 for the defined criteria.
-For each valuation $1000$ estimations were performed.
+For each valuation \num{1000} estimations were performed.
 In \autoref{fig:efficiencies_prior}, we summarize the efficiencies
 for the arising parameter combinations on the three case studies.
 Most strikingly, we can note that the efficiency was consistently larger than one in
@@ -688,10 +688,10 @@ a suitable interval for a uniform sampling scheme, the choice of a standard norm
 distribution for $\pi_{\lambda}$ seems superior.
 \begin{figure}[htb]
     \centering
-    \includegraphics[scale=.6]{gfx/legend.pdf}\\
+    \includegraphics[scale=.7]{gfx/legend.pdf}\\
     \includegraphics[scale=.5]{gfx/efficiency_priors.pdf}
 	\caption[Influence of algorithmic parameters on estimates]{The efficiencies for different valuations of ${n}_{\lambda}$ and ${k}_{\min} $
-    and choices of ${\pi}_{\lambda}$. The sample size was $n=10,\!000$ in all cases
+	and choices of ${\pi}_{\lambda}$. The sample size was $n=\num{10000}$ in all cases
     with $d=100$.
     The bars give the bootstrapped ($1000$ iterations) standard deviations.\label{fig:efficiencies_prior}}
 \end{figure}
@@ -700,7 +700,7 @@ In \autoref{fig:efficiencies_order} we compare efficiencies for
 different maximum orders of constraints $n_{\max}$.
 This comparison is performed for different choices
 of the redundancy rule and initial $\lambda$ sample sizes $n_{\lambda}$.
-Again, for each parameter valuation 1000 estimations were performed.
+Again, for each parameter valuation \num{1000} estimations were performed.
 With respect to the maximum constraints order $n_{\max}$ we see a clear
 tendency, that the inclusion of second order
 constraints lessens the efficiency of the method.
@@ -716,7 +716,7 @@ lessens efficiency.
     \includegraphics[scale=.4]{gfx/efficiency_ord1.pdf}
 	\caption[Influence of the redundancy heuristic
 	and moment orders]{The efficiency for different redundancy policies $\phi$ and maximal 
-    moment orders $n_{\max}$. The sample size was $n=10,\!000$ in all cases
+	moment orders $n_{\max}$. The sample size was $n=\num{10000}$ in all cases
     with $d=100$. Furthermore, $k_{\min}=3$, $\pi_\lambda=N(0,1)$, and $n_{\max}=1$.
     The bars give the 
     bootstrapped ($1000$ iterations) standard deviations.\label{fig:efficiencies_order}}
@@ -726,11 +726,11 @@ lessens efficiency.
     \includegraphics[scale=.55]{gfx/legend.pdf}\\
     \includegraphics[scale=.4]{gfx/efficiency_pminfrac.pdf}
 	\caption[Influence of the redundancy heuristic and $k_{\min}$]{The empirical efficiencies for different $n_\lambda$ and $k_{\min}$.
-    On the considered case studies. The sample size was $n=10,\!000$ in all cases
+	On the considered case studies. The sample size was $n=\num{10000}$ in all cases
     with $d=100$.
-    $1000$ estimations were performed for each case.
+	$\num{1000}$ estimations were performed for each case.
     The bars give the 
-    bootstrapped (1000 iterations) standard deviations.
+	bootstrapped (\num{1000} iterations) standard deviations.
     The break-even $E=1$ is marked by the dotted red line.\label{fig:efficiencies_alg_params}}
 \end{figure}
 
@@ -745,7 +745,7 @@ and the case study, this permissive strategy may pay off. In case of the dimeriz
 it pays off, while in case of the distributive modification it leads to a lower efficiency ratio.
 In the latter case the model is more complex, and therefore the set of initial
 control  variates is larger. With a more permissive redundancy strategy, more control  variates are kept
-(ca.\ $10$ when using $\phi_c$ vs.\ ca.\ $2$--$3$ for the others).
+(ca.\ $10$ when using $\phi_c$ vs.\ ca.\ \numrange{2}{3}for the others).
 The other redundancy boundaries move the results further in the direction of less variance reduction
 while keeping the cost increase low.
 On the opposite end is the linear $\phi_{\ell}$.
@@ -775,7 +775,7 @@ The quadratic versions $\phi_{q}$ and $\phi_{\mathit{sq}}$ can be found in the m
     Markers of the same kind differ in $n_{\lambda}$ and shift with increasing value
     upwards in variance reduction and lower in $c_0/c_1$, i.e.\ the shift is to the left and upwards
     with increasing $n_{\lambda}$.
-    The sample size was $n=10,\!000$ in all cases
+	The sample size was $n=\num{10000}$ in all cases
     with $d=100$. Furthermore, $k_{\min}=3$ and $\pi_\lambda=N(0,1)$.}
     \label{fig:trade_off}
 \end{figure}

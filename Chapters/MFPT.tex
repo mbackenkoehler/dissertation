@@ -208,7 +208,7 @@ of this time using semi-definite programming.
 Further, it is possible to impose a time-horizon $T$, and find bounds
 on the probability of $ X_t^{(M)}\geq H$ for some $0\leq t\leq T$.
 The employed framework is centered around semi-definite relaxations
-of the generalized moment problem~\cite{lasserre2010moments}.
+of the \ac{GMP}~\cite{lasserre2010moments}.
 These require linear constraints on the moments of measures.
 In the following section, we derive such constraints.
 
@@ -273,7 +273,7 @@ An integration by parts on $[0, T]$ yields~\cite{dowdy2018dynamic,sakurai2019bou
         \E{\left(f{(X_t + v_j)} - f(X_t)\right)\alpha_j(X_t)}\,dt\,.
 \end{multline}
 Starting from this equation, it is possible to derive a martingale process,
-i.e.\ a process that has an expected value of 0, regardless of time.
+i.e.\ a process that has an expected value equal to \num{0}, regardless of time.
 
 
 We now want to interchange the order of integration and the summation due to the expected value.
@@ -372,9 +372,12 @@ $B\subseteq \mathcal{S}$ the first passage time is given by the continuous rando
 	\tau = \inf\{t\geq 0\mid \vec X_t \in B\} \land T
 \]
 where $a \land b \coloneqq \min\{a, b\}$.
-For this work, we only look at threshold hitting times,
-i.e.\ we set a threshold $H$ for species $S$ and thus $B=\{\vec{x}\mid x^{(S)}\geq
-H\}$. Note, that this framework
+For this chapter, we only look at threshold hitting times,
+i.e.\ we set a threshold $H$ for species $S$ and thus 
+\[
+	B=\{\vec{x}\mid x^{(S)}\geq H\}\,.
+\]
+Note, that this framework
 allows for a more general class of target sets, which are discussed in
 \autoref{subsec:mfpt:multidim}.
 In the sequel, we will use $\tau$ as a stopping time in our martingale
@@ -383,12 +386,16 @@ $Z_\tau^{(\vec m, k)}$ instead of $Z_T^{(\vec m, k)}$.
 Since~\eqref{eq:basic_poly_martingale} defines a martingale, $Z_{\tau}^{(\vec m, k)}$
 remains a martingale by
 Doob's optional sampling theorem~\cite{gihmantheory}. In particular, this
-implies that $\expSym(Z_{\tau}^{(\vec m, k)})=0$ for all moment orders $m$ and
+implies that 
+\begin{equation}\label{eq:zero_constraint}
+	\expSym(Z_{\tau}^{(\vec m, k)})=0
+\end{equation}
+for all moment orders $m$ and
 degrees $k$ in the weighting function $w(t)$.
 
 \subsection{Linear Moment Constraints}
 To simplify our presentation, we fix an initial state $\vec x_0$, i.e.\ $P(\vec X_0=\vec x_0)=1$.
-Using $\expSym(Z_{\tau}^{(\vec m, k)})=0$ and the form
+Expanding \eqref{eq:zero_constraint} using
 \eqref{eq:basic_poly_martingale} for $Z_{\tau}^{(\vec m, k)}$
 yields the following linear constraint on expected values.
 \begin{equation}\label{eq:constraint}
@@ -435,7 +442,7 @@ In the following we will define the interplay between these measures more formal
     exit location probability measures $\nu_1$ and $\nu_2$. The shaded area indicates
     the structure of the occupation measure. Three example trajectories are
     additionally plotted with
-    their exit location highlighted. The plots are based on $10,000$ sample trajectories.}
+	their exit location highlighted. The plots are based on \num{10000} sample trajectories.}
     \label{fig:decomposition}
 \end{figure}
 \end{example}
@@ -775,7 +782,7 @@ of the problem.
     \includegraphics[width=\textwidth]{gfx/magnitudes.pdf}
 	\caption[Unscaled and scaled value of the moment matrix]{The unscaled and scaled value of the moment matrix proxy variable
     $M(\vec{z'})$ after optimization using MOSEK. The indices are given along the
-    logarithmic (base 10) values. The unscaled version (left) shows large
+    logarithmic (base $10$) values. The unscaled version (left) shows large
     differences in magnitudes, while on the scaling suppresses
     these large variations (right). The case study used here is \autoref{model:dim},
     with a threshold $H=25$ for species $M$ and a time-horizon $T=1$. The
@@ -796,14 +803,16 @@ i.e.\ \[
 	\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T\,.
 \]
 First, we set no finite time-horizon $T$, i.e.\ $T=\infty$.
+\marginpar{We can let $T\to\infty$ because this system is ergodic and therefore $\tau<\infty$ a.s.}
 This is achieved by dropping the moments $\vec y_2$
 of measure $\nu_2$ in the linear constraints~\eqref{eq:sdp_for_fpt}.
 This can be done because the threshold on $M$ makes the state-space finite
 and therefore the first passage time distribution is a phase-type distribution
 which possesses finite moments \cite[Chapter 7.6]{stewart2009probability}.
-The empirical \ac{FPT} distribution based on $100,000$ \ac{SSA} simulations is given in \autoref{fig:dim_fpt_fpt}
+
+The empirical \ac{FPT} distribution based on \num{100000} \ac{SSA} simulations is given in \autoref{fig:dim_fpt_fpt}
 and the bounds, given different moment orders, are given in \autoref{fig:dim_fpt:mfpt}.
-As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the \ac{MFPT} precisely for orders $5$ and $6$.
+As we can see in \autoref{fig:dim_fpt:mfpt}, the bounds capture the \ac{MFPT} precisely for orders \numlist{5;6}.
 The difference between upper and lower bound decreases roughly exponentially with increasing relaxation order $r$.
 We found that this trend was consistent among the case studies presented here (cf.\ \autoref{fig:convergence}).
 \begin{figure}
@@ -815,7 +824,7 @@ We found that this trend was consistent among the case studies presented here (c
     {\label{fig:dim_fpt:mfpt}%
         \includegraphics[width=.48\textwidth]{gfx/fpt_bounds_dim.pdf}} \\
 	\caption[\ac{FPT} and \ac{MFPT} distribution and bounds]{First-passage time characterisitics for \autoref{model:dim} with $\tau=\inf\{t\geq 0\mid X_t \geq 10\}\land \infty$.
-	The dashed red line denotes the sampled \ac{MFPT} based on $100,000$ \ac{SSA} samples. Bounds are based on the \ac{SDP} \eqref{eq:sdp_for_fpt} with different moment orders}
+	The dashed red line denotes the sampled \ac{MFPT} based on \num{100000} \ac{SSA} samples. Bounds are based on the \ac{SDP} \eqref{eq:sdp_for_fpt} with different moment orders}
 \end{figure}
 % \begin{figure}[t]
 %     \centering
@@ -858,7 +867,7 @@ of the first passage time (\autoref{fig:dim_fpt_fin:rp}).
         \includegraphics[width=.48\textwidth]{gfx/reachability_probs.pdf}}
 	\caption[\acp{MFPT} up to a varying time-horizon]{\Acp{MFPT} and reaching probability bounds for the dimerization model with
     $\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T$ and varying $T$.
-    The results for \ac{SDP} relaxations of orders 1 (light) to 6 (dark) are shown.\label{fig:dim_fpt_fin}}
+	The results for \ac{SDP} relaxations of orders \num{1} (light) to \num{6} (dark) are shown.\label{fig:dim_fpt_fin}}
 \end{figure}
 % \begin{figure}[t]
 %     \centering
@@ -875,7 +884,7 @@ of the first passage time (\autoref{fig:dim_fpt_fin:rp}).
 %     % \end{minipage}
 %     \caption{First passage times for the dimerization model with
 %     $\tau=\inf\{t\geq 0\mid X_t \geq 25\}\land T$.
-%     The results for \ac{SDP} relaxations of orders 1 (light) to 6 (dark) are shown.
+%     The results for \ac{SDP} relaxations of orders \num{1} (light) to \num{6} (dark) are shown.
 %     (a) The bounds on the \ac{MFPT} for differing time-horizons $T$.
 %     (b) Bounds on the probability to reach the threshold before time $T$.\label{fig:dim_fpt_fin}}
 % \end{figure}
@@ -897,14 +906,14 @@ independent dimerizations.
 	\]
 	Initially, \[0=X_0^{(M_1)}=X_0^{(M_2)}=X_0^{(D_1)}=X_0^{(D_2)}\,.\]
 \end{model}
-As a \ac{FPT} we consider the time at which either $M_1$ or $M_2$ surpasses a threshold of $200$ or a time-horizon of $T=10$
+As a \ac{FPT} we consider the time at which either $M_1$ or $M_2$ surpasses a threshold of \num{200} or a time-horizon of $T=10$
 is reached, i.e.
 \[ \tau=\inf\{t\geq 0\mid X_t^{(M_1)} \geq 200\}\land \inf\{t\geq 0\mid X_t^{(M_2)} \geq 200\}\land 10\,.
 \]
 As before, we ignore the product species $D_1$ and $D_2$ since they do not influence $\tau$.
-% Still, the possible state-space reaches a size of $200^2=40,000$.
+% Still, the possible state-space reaches a size of $200^2=\num{40000}$.
 % \luca{40000 is very small... I would not emphasize it}\todo{yes, but the only reason for this case study ist that we have a ``larger'' relevant state-space}
-The \ac{SSA}   (using $n=10,000$ runs) gives the estimate $\E{\tau}\approx 0.028378$ %\pm 1.3025e-04$ (99\%-CI)
+The \ac{SSA}   (using $n=\num{10000}$ runs) gives the estimate $\E{\tau}\approx {0.028378}$ %\pm 1.3025e-04$ (99\%-CI)
 which is captured tightly by the \ac{SDP} bounds (cf.\ \autoref{tab:bounds}).
 For higher relaxation orders $r \geq 5$  numerical issues prevented the solution of the
 corresponding \acp{SDP}.
@@ -917,6 +926,7 @@ whose switching rates may depend on the system state (e.g.\ the population sizes
 In biological applications, mode switching often describes a change of the
 \acs{DNA} state~\cite{hasenauer2014method,stekel2008strong} and the analysis of
 switching time distribution is of particular interest~\cite{spieler2011model,barzel2008calculation}.
+
 In the context of \acp{MPM}, typically the state-space $\mathcal{S}=
 \mathbb{N}^{\tilde{n}_S}\times {\{0,1\}}^{\hat{n}_S}$.
 This state is modeled by  $\hat{n}_S$ population variables with
@@ -1031,7 +1041,7 @@ As a first passage time we consider
 
 
 The results are summarized in \autoref{tab:bounds}.
-The estimated \ac{MFPT} based on $100,000$
+The estimated \ac{MFPT} based on \num{100000}
 \ac{SSA} samples is $\E{\tau}\approx 6.37795\pm0.02847$ at $99\%$ confidence level.
 Note that our \ac{SDP} solution for $r=5$ yields tighter moment bounds than
 the statistical estimation.% based on $100,000$ trajectories.

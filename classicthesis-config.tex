@@ -30,7 +30,7 @@
 % ****************************************************************************************************
 \PassOptionsToPackage{
   b5paper=true,
-  drafting=false,    % print version information on the bottom of the pages
+  drafting=true,    % print version information on the bottom of the pages
   tocaligned=false, % the left column of the toc will be aligned (no indentation)
   dottedtoc=false,  % page numbers in ToC flushed right
   eulerchapternumbers=true, % use AMS Euler for chapter font (otherwise Palatino)
@@ -166,7 +166,7 @@
 \newcommand{\Var}{\ensuremath{\mathrm{Var}}}
 \newcommand{\Cov}[2]{\ensuremath{\mathrm{Cov}(#1, #2)}}
 
-\newcommand{\e}[2]{\ensuremath{ #1\!\times\!10^{#2} }}
+\newcommand{\e}[2]{\ensuremath{ #1\!\times\hspace{-.5ex} 10^{#2} }}
 
 
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -227,6 +227,10 @@
 \item[]}{\end{list}}
 
 \renewcommand{\vec}[1]{#1}
+
+
+\usepackage[group-separator={,}]{siunitx}
+
 % 
 % \usepackage{tocloft}
 % \newcommand{\listlemmaname}{List of Models}
@@ -319,8 +323,9 @@
 % Changing the text area
 % ********************************************************************
 %\areaset[current]{312pt}{761pt} % 686 (factor 2.2) + 33 head + 42 head \the\footskip
-%\setlength{\marginparwidth}{7em}%
-%\setlength{\marginparsep}{2em}%
+\areaset[current]{311pt}{622pt}%
+\setlength{\marginparwidth}{7em}%
+\setlength{\marginparsep}{1em}%
 
 % ********************************************************************
 % Using different fonts
@@ -335,6 +340,7 @@
 %\usepackage[default,osfigures]{opensans} % scale=0.95
 %\usepackage[sfdefault]{FiraSans}
 %\usepackage[opticals,mathlf]{MinionPro} % onlytext
+%\usepackage[onlytext,mathlf]{MinionPro} % onlytext
 % ********************************************************************
 %\usepackage[largesc,osf]{newpxtext}
 %\linespread{1.05} % a bit more for Palatino

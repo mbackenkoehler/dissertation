@@ -81,7 +81,7 @@ where we define
 \]
 Often, \eqref{eq:kolm_forw} and \eqref{eq:kolm_back} are used in the context of an
 distributions.
-In this case it makes more sense to right-multiply $\vec{1}$ to these equations such
+In this case it makes more sense to right-multiply the unit vector to these equations such
 that
 \begin{equation}\label{eq:kolm_forw_d}
 	\frac{d}{dt}\pi(t) = \pi(t)Q
@@ -460,6 +460,18 @@ The output of \autoref{alg:ssa} is an alternating sequence of states and jump ti
 \]
 called a \emph{trajectory}.
 
+Monte Carlo estimation requires a sufficiently large number of such trajectories to
+be generated.
+This collection of realizations facilitates a statistical estimate of
+a wide range of quantities such as expected values and probabilities.
+The main benefit of this approach is its flexibility.
+It can solve essentially all relevant tasks.
+The main drawback is the cost associated with the generation of a sufficiently large trajectory ensemble.
+This problem becomes very pronounced in case of rare event probability estimation and stiff systems.
+\marginpar{Bespoke techniques for these scenarios are available \cite{cao2005slow,daigle2011automated}.}
+Furthermore, the results only provide --~by their very nature~-- statistical guarantees.
+Other methods such as explicit state-space representations can give stronger guarantees.
+
 
 \section{Moment Dynamics}\label{sec:moments_bg}
 Often times, the moments of a stochastic process provide sufficient information for its analysis.
@@ -530,6 +542,9 @@ If we consider the general expression \eqref{eq:mom_ode} for the moment of order
 quadratic.
 Therefore, researches commonly rely on ad-hoc approximations to truncate this infinite system of \acp{ODE} \cite{hespanha2008moment,schnoerr2015,schnoerr2014validity}.
 Unfortunately such schemes have typically no guarantees to converge --~or even improve~-- with increasing truncation order \cite{schnoerr2014validity} or increasing system size.
+Furthermore,
+\marginpar{This finite moment problem could also be posed as a \acl{GMP}. The resulting \ac{SDP} can be solved numerically \cite{lasserre2010moments}.}
+fairly involved numerical schemes have to be employed to recover distributional approximations \cite{andreychenko2017distribution}.
 The only scheme with a convergence guarantee in the system size limit is the \emph{mean-field} approximation \cite{bortolussi2013continuous}.
 Therein zero-covariances are assumed, i.e.\ the system is truncated at the first oder equations using the approximation $\E{X_t^2}=\E{X_t}^2$.
 \begin{figure}[htb]
@@ -537,6 +552,12 @@ Therein zero-covariances are assumed, i.e.\ the system is truncated at the first
 	\includegraphics[width=0.9\textwidth]{gfx/momsandprobs.pdf}
 	\caption[Moments and probability distribution $\pi(t)$]{\label{fig:momsandprobs}The expected value $\pm$ a standard deviation along with a sampled trajectory (left) and the probability distribution over time (right) of \autoref{model:bd} with $\mu=10$ and $\gamma=0.1$.}
 \end{figure}
+
+\subsection{Hybrid Representations}
+\begin{itemize}
+	\item Equivalent results are obtained by modifying the network to have 1 species per abundancy (basically rule based)
+\end{itemize}
+\cite{hasenauer2014method,kazeroonian2014modeling,andreychenko2015reconstruction}
 
 \section{Stationary Distribution}\label{sec:stationary_dist}
 Assuming

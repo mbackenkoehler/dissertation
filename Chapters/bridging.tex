@@ -323,7 +323,7 @@ is Poisson distributed with rate $\lambda=t$.
 \end{model}
 We consider the final constraint of reaching a state where both
 processes exceed a threshold of $64$ at time $20$.
-Without prior knowledge, a reasonable truncation would have been $160\times 160$. But our analysis shows that just 20\% of the states are necessary to capture over 99.6\% of the probability mass reaching the
+Without prior knowledge, a reasonable truncation would have been $160\times 160$. But our analysis shows that just \num{20}\% of the states are necessary to capture over \num{99.6}\% of the probability mass reaching the
 target event (cf.\ \autoref{tab:par_poisson}).
 Decreasing the threshold $\delta$ leads to a larger set of states retained after truncation as more of the bridging distribution is included (cf.\ \autoref{fig:2poisson_rare}).
 We observe an increase in truncation size that is approximately
@@ -369,7 +369,7 @@ It is possible to adapt our truncation approach to the dynamic scheme in \citet{
 
 A finite state-space truncation covering the same area as the initial lumping approximation would contain $25,\!600$ states.\graffito{The goal  is not treated as a single state. Otherwise, it consisted of $24,\!130$ states.}
 The standard approach would be to build up the entire state-space for such a model \cite{kwiatkowska2011prism}.
-Even using a conservative truncation threshold $\delta=\e{1}{-5}$, our method yields an accurate estimate using only about a fifth ($5,450$) of this accumulated over all intermediate lumped approximations. 
+Even using a conservative truncation threshold $\delta=\e{1}{-5}$, our method yields an accurate estimate using only about a fifth (\num{5450}) of this accumulated over all intermediate lumped approximations. 
 % Moreover the analysis yields intermediate distributions which we would not obtain using PRISM.
 
 \subsection{Mode Switching}
@@ -427,7 +427,7 @@ to
  x_2 = (0, 32, 0, 1, 0) 
 \]
 over the time interval $t\in[0,10]$.
-The initial lumping scheme covers up to 80 molecules of $P_1$ and $P_2$ for each mode.
+The initial lumping scheme covers up to \num{80} molecules of $P_1$ and $P_2$ for each mode.
 Macro-states have size $8\times8$ and
 the truncation threshold is $\delta=\e{1}{-4}$.
 
@@ -477,7 +477,7 @@ the transition rates between macro-states
 \]
 for a macro-state $\bar{x}= \{a,\dots,b\}$.%\vw{explain $k$ I guess it is the mode}%\MB{we don't have mode vars here. it's just $k$ to make the expression more clear because then its essentially 1D}
 
-We analyze the switching scenario from $(0, 120)$ to the first visit of state $(120, 0)$ up to time $T=10$. The initial lumping scheme covers up to $352$ molecules of $A$ and $B$ and  macro-states have size $32\times32$.
+We analyze the switching scenario from $(0, 120)$ to the first visit of state $(120, 0)$ up to time $T=10$. The initial lumping scheme covers up to \num{352} molecules of $A$ and $B$ and  macro-states have size $32\times32$.
 The truncation threshold is $\delta=\e{1}{-4}$.
 %Transition rates are computed using the above non-polynomial integral.
 The resulting truncation is shown in \autoref{fig:switching_dynamics:occ}.
@@ -530,10 +530,26 @@ The parameter values are $\lambda=0.5$, $\mu=3$, $\rho=3$. Due to the stoichiome
 \end{model}
 
 We consider the following scenario:
+There are $N$ individuals.
 We know that initially ($t=0$) one individual is infected and the rest is susceptible.
 At time $t=0.3$ all individuals are tested for the disease.
-The test, however, only identifies infected individuals with probability $0.99$.
-Moreover, the probability of a false positive is $0.05$.
+The test, however, only identifies infected individuals with probability
+$p_{\text{tp}}= 0.99$.
+Moreover, the probability of a false positive is $p_{\text{fp}} = 0.05$.
+\marginpar{The false positive probability is the same for all non-infected invididuals.}
+The random variable $Y_t$ models the measurement likelihood at time $t$.
+Based on the description above
+\begin{multline*}
+	\Pr(Y_t=\hat{n}_I\mid X_t^{(I)} = n_I)\\
+	=
+	\sum_{k=0}^{\hat{n}_I} B(k; {n_I}, p_{\text{tp}}) B(\hat{n}_I - k ; N - n_I, p_{\text{fp}})
+%%%%%%%%\binom{N - n_I}{\hat{n}_I - k}\\
+%%%%%%%%	p_{\text{tp}}^k (1-p_{\text{tp}})^{n_I - k} p_{\text{fp}}^{\hat{n}_I - k} (1 - p_{\text{fp}})^{N - n_I - \hat{n}_I - k}
+\end{multline*}
+where $B$ is the binomial probability mass function and
+\[
+	B(k; n, p) = \binom{n}{k}p^k(1 - p)^{n -  k}\,.
+\]
 We like to identify the distribution given both the initial state and the measurement at time $t=0.3$.
 In particular, we want to infer the distribution over the latent counts of  $S$ and $E$ by
 % The question we like to answer is whether the number of infected exceeds the threshold $k=100$ in the time interval $[t,2t]$.
@@ -542,7 +558,7 @@ In particular, we want to infer the distribution over the latent counts of  $S$ 
 % The first sub-problem is the estimation of the posterior distribution at time $t$ given the measurement.
 The posterior for $n_I$ infected individuals at time $t$, given measurement $Y_t=\hat{n}_I$ can be computed using  Bayes' rule
 \begin{multline}\label{eq:bayes_posterior}
-\Pr(X_t^{(I)}=n_I\mid Y_t=\hat{n}_I)\\ \propto \Pr(Y_t=\hat{n}_I\mid X_t^{(I)} = n_I)\Pr(X_t^{(I)}=n_I)\,.
+	\Pr(X_t^{(I)}=n_I\mid Y_t=\hat{n}_I, X_0=x_0)\\ \propto \Pr(Y_t=\hat{n}_I\mid X_t^{(I)} = n_I)\Pr(X_t^{(I)}=n_I\mid X_0=x_0)\,.
 \end{multline}
 This problem is an extension of the bridging problem discussed up until now.
 The difference is that the terminal posterior   is   estimated it using the result of the lumped forward equation and the measurement distribution using~\eqref{eq:bayes_posterior}.

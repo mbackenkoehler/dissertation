@@ -92,7 +92,7 @@ The process' dynamics outside the truncation are defined by the \emph{stochastic
 If its behavior was known, one could redirect outgoing to incoming transitions optimally and preserve the correct stationary distribution.
 However, this reentry distribution is typically unknown in most relevant cases.
 Many different reentry distributions have been used, such as redirecting to some internal state or states with incoming transition from outside the truncation.
-Reference~\cite{kuntz2021approximations} provides a comprehensive review of such methods.
+\citet{kuntz2021approximations} provides a comprehensive review of such methods.
 
 The most natural choice is to pick a reentry distribution that redirects mass to states with incoming transitions from truncated states (cf.\ \autoref{fig:truncation} (center)).
 
@@ -229,13 +229,13 @@ This is a desirable feature since relevant regions are less likely to be pruned 
 
 \section{Results}\label{sec:statagg:results}
 A prototype was implemented in Rust~1.50 and Python~3.8.
-The linear systems were solved either using Numpy~\cite{numpy} for up to 5000 states, or the sparse linear solver as available through Scipy~\cite{2020SciPy-NMeth}, or the iterative biconjugate gradient stabilized algorithm~\cite{van1992bi} (up to $10,000$ iterations and absolute tolerance $10^{-16}$).
+The linear systems were solved either using Numpy~\cite{numpy} for up to \num{5000} states, or the sparse linear solver as available through Scipy~\cite{2020SciPy-NMeth}, or the iterative biconjugate gradient stabilized algorithm~\cite{van1992bi} (up to \num{10000} iterations and absolute tolerance \num{e-16}).
 
 The examples that we consider in the sequel 
 are typical benchmarks for the analysis of \acp{MPM}. For most of them, appropriate Lyapunov functions
 have been determined using Geobound \cite{geobound,spieler2014numerical}.
 However, the corresponding Lyapunov sets containing at least $1-\epsilon_{\ell}$ of the stationary probability mass are very large for typical choices of $\epsilon_{\ell}$ (e.g. $\epsilon_{\ell}\in \{0.1,0.05,0.001\}$). Even
-for extremely large $\epsilon_{\ell}$, say $\epsilon_{\ell}=0.8$, the remaining state-space may still be huge (e.g, $15,198$ states).
+for extremely large $\epsilon_{\ell}$, say $\epsilon_{\ell}=0.8$, the remaining state-space may still be huge (e.g, \num{15198} states).
 \subsection{Parallel Birth-Death Process}
 We first examine the algorithm on the simple example of two parallel, uncoupled birth-death processes.
 \begin{model}[Parallel Birth-Death Process]\label{model:par_bd}
@@ -337,7 +337,7 @@ This is mainly due to the usage of absolute errors which causes probabilities cl
 Using Geobound we observe that our final truncation captures the stationary mass very well (cf.\ \autoref{tab:intervals} and \autoref{fig:excl_switch:excl_switch_dist}).
 We use the Geobound's lower bounds with $\epsilon_{\ell}=\e{1}{-2}$ and find that the uncovered mass by the aggregation-based truncation is magnitudes lower than $\epsilon$ or close to it (for $\epsilon=0.1$).
 While they capture the mass well, they are much smaller than the Geobound truncation ($\epsilon_{\ell}=0.1$) % \vw{?} 
-with $16,780$ states, regardless of the threshold parameter $\epsilon$.
+with \num{16780} states, regardless of the threshold parameter $\epsilon$.
 \begin{table}[htb]
     \centering
 	{\small \begin{tabular}{lrrrr}%{L{30mm} R{14mm} R{14mm} R{14mm} R{14mm}}
@@ -421,16 +421,16 @@ Then the drift
             - 0.096 x_{\mathrm{Mdm2}}
             - 0.02 x_{\mathrm{p53}} \\
             &- 0.0093 x_{\mathrm{pMdm2}}
-            + 10,800\,. 
+	    + \num{10800}\,. 
 \end{split}
 \end{equation}
-Clearly, $c = \sup_{x\in{S}} d(x) = 10,800$.
+Clearly, $c = \sup_{x\in{S}} d(x) = \num{10800}$.
 In particular, the supremum $c$ is at the origin since all non-constant terms are negative.
 The slowest rate of decrease for \eqref{eq:p53_drift} is $x_{\mathrm{p53}}$ with $x_{\mathrm{Mdm2}} = x_{\mathrm{pMdm2}} = 0$.
 We are content with a superset of a Lyapunov set \eqref{eq:lyapunov_set} for some threshold $\epsilon_{\ell}$.
 Therefore taking \eqref{eq:lyapunov_set}, we can solve the inequality
 \[
-\frac{\epsilon_{\ell}}{c}(c - 0.02 x_{\mathrm{p53}}) > \epsilon_{\ell} - 1
+	\frac{\epsilon_{\ell}}{c}(c - \num{0.02} x_{\mathrm{p53}}) > \epsilon_{\ell} - 1
 \]
 for $x_{\mathrm{p53}}$ and 
 \begin{equation*}
@@ -442,11 +442,11 @@ Therefore
 \end{equation*}
 
 Due to the exponential increase stemming from the three-dimension\-al nature of this model, we only evaluated with parameter $\epsilon=0.1$.
-According to the Lyapunov analysis shown above, the area covered by an $6\times 6\times 6$ macro-states with size $2^{20}$, covers 0.9 of stationary mass.
-A truncation of this same area would consist of $226,492,416$ states instead of the $216$ macro-states.
+According to the Lyapunov analysis shown above, the area covered by an $6\times 6\times 6$ macro-states with size $2^{20}$, covers \num{0.9} of stationary mass.
+A truncation of this same area would consist of \num{226492416} states instead of the \num{216} macro-states.
 The model has a striking oscillatory behavior (cf.\ \autoref{fig:p53:traj}) that is reflected in its stationary distribution.
 This feature is well-captured in the approximate distribution, where the oscillatory behavior leads to a complex stationary distribution (cf.\ \autoref{fig:p53:dist}).
-This distribution leads to a non-trivial truncation ($357,488$ states) which is tailored to the main stationary mass (\autoref{fig:p53:trunc}).
+This distribution leads to a non-trivial truncation (\num{357488} states) which is tailored to the main stationary mass (\autoref{fig:p53:trunc}).
 \begin{figure}[htb]
     \centering
     \begin{minipage}{0.9\textwidth}
