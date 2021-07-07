@@ -1,7 +1,8 @@
 \chapter{Background}\label{ch:background}
 
 \section{Continuous-time Markov Chains}
-A \emph{stochastic process} is a parameterized collection of random variables $\{X_t\}_{t\in T}$ defined on some probability space $(\Omega, \mathcal{F}, P)$ and takes values in complete metric space $(\mathcal{S}, r)$.\graffito{See \citet{oksendal2013stochastic} for stoch.\ processes in general.}
+A \emph{stochastic process} is a parameterized collection of random variables $\{X_t\}_{t\in T}$ defined on some probability space $(\Omega, \mathcal{F}, P)$ and takes values in complete metric space $(\mathcal{S}, r)$.
+\marginpar{See \citet{feller} for stoch.\ processes in general.}
 In most contexts the index set $T$ models \emph{time}.
 In a discrete setting $T=\mathbb{N}$, while $T=[0,\infty)$ in the continuous setting, which we consider in this thesis.
 We observe the values $X(t, \omega)$ for some fixed, but unknown $\omega\in\Omega$.
@@ -162,6 +163,9 @@ Here, we only provide a basic overview and intuition relevant for the rest of th
 \section{Markovian Population Models}
 An \acf{MPM}
 \marginpar{Other names for this model class are \acf{pCTMC}, \acf{CRN}, and \acf{SRN}.}
+\acused{pCTMC}
+\acused{CRN}
+\acused{SRN}
 describes the stochastic interactions
 among agents of $n_S$ distinct types in a well-stirred system.
 The system is given by a continuous-time stochastic process $\{X_t\}_{t\geq 0}$.
@@ -612,7 +616,7 @@ Given the $g$, we define its \emph{drift} $d$ as its average infinitesimal chang
 \begin{equation}\label{eq:drift}
 	d(x) = Qg(x) = \sum_{j=1}^{n_R} \alpha_j(x) (g(x+v_j) -  g(x))
 \end{equation}
-As\marginpar{Note that we end up with \eqref{eq:mom_ode} taking the expectation.} such the drift can be interpreted as the expected local tendency of change of a scalar valued function $g$, i.e.\ 
+As such the drift can be interpreted as the expected local tendency of change of a scalar valued function $g$, \marginpar{Note that we end up with \eqref{eq:mom_ode} taking the expectation.}i.e.\ 
 \[
 	d(x) = \frac{d}{dt}\E{g(X_t)\mid X_t = x}\,.
 \]
@@ -666,8 +670,8 @@ Specifically, it can be used to describe the following features.
 	\item[Operational Multimodality]
 		This kind of multimodality characterizes the model behavior directly.
 		Consider, for example, a gene
-		expression model\graffito{\autoref{model:gexpr}
-		on page~\pageref{model:gexpr} is an instance of this.}:
+		expression model\marginpar{See \autoref{model:gexpr}
+		on page~\pageref{model:gexpr} for an example of this.}:
 		The gene state is digital, meaning it is either active or inactive.
 		Depending on this state a protein is either synthesized or not.
 		Therefore the system has distinct \emph{operational modes}

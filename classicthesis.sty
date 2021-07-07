@@ -158,13 +158,18 @@
 % ********************************************************************
 \ifthenelse{\boolean{xetex}\OR\boolean{luatex}}
    { % use fontspec and OpenType fonts with utf8 engines
+       \ifthenelse{\boolean{ct@eulermath}}%
+         {\PassOptionsToPackage{euler-digits}{eulervm}%
+         \RequirePackage{eulervm}} % Euler math fonts
+         {\relax}
      \RequirePackage{fontspec}
      \ifthenelse{\boolean{ct@palatino}}% default
        {
-         \setmainfont[Ligatures=TeX,Numbers=OldStyle]{TeX Gyre Pagella} % Palatino clone
+	       \setmainfont{AldusLTStd-Roman.otf}
+     %   \setmainfont[Ligatures=TeX,Numbers=OldStyle]{TeX Gyre Pagella} % Palatino clone
          \linespread{1.05} % a bit more for Palatino
-         \RequirePackage{unicode-math}
-         \setmathfont{TeX Gyre Pagella Math}
+     %   \RequirePackage{unicode-math}
+     %   \setmathfont{TeX Gyre Pagella Math}
        }{\relax} % use class' default font
      \ifthenelse{\boolean{ct@beramono}}%
        {\setmonofont[Scale=0.85]{DejaVu Sans Mono}} % like Bera; Scale=MatchLowercase
@@ -208,11 +213,11 @@
 
 
 
-%\PassOptionsToPackage{
-%	protrusion=true,
-%	expansion,
-%	kerning=true,
-%}{microtype}
+% \PassOptionsToPackage{
+% 	protrusion=true,
+% 	expansion,
+% 	kerning=true,
+% }{microtype}
 \RequirePackage{microtype} % character protruding and other micro-typography stuff
 % [expansion=false]
 
@@ -632,9 +637,12 @@
 % ********************************************************************
 % Captions
 % ********************************************************************
-% \PassOptionsToPackage{font=small}{caption} % ,format=hang ,labelformat=smallcaps
+%\PassOptionsToPackage{font=sf,textfont=it}{caption} % ,format=hang ,labelformat=smallcaps
 \RequirePackage{caption}
 \captionsetup{font=small}
+% \captionsetup{font+=sf}
+\captionsetup{labelfont=bf}
+% \captionsetup{labelfont=sc}
 % Thanks to cgnieder and Claus Lahiri
 % http://tex.stackexchange.com/questions/69349/spacedlowsmallcaps-in-caption-label
 % [REMOVED DUE TO OTHER PROBLEMS, SEE ISSUE #82]

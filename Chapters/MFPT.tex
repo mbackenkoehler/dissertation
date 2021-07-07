@@ -173,7 +173,7 @@ For good introductions and overviews of application areas, we refer
 the reader to \citet{parrilo2003semidefinite} and, more recently,
 \citet{lasserre2010moments}.
 
-\paragraph{First Passage Times using Optimization}
+\paragraph{\acl{FPT} using Optimization}
 Particularly relevant for this work is the application of convex optimization to
 \ac{FPT}.
 \citet{helmes2001computing} formulated a linear program using the
@@ -542,6 +542,58 @@ wide variety of properties.
 Moreover, it is possible to formulate objectives not directly corresponding to
 a raw moment such as the variance~\cite{sakurai2019bounding,dowdy2018bounds}.
 
+\subsection{Hausdorff Constraints}
+Before discussing the semi-definite constraints which we will use for the remainder of this study, we will briefly discuss the Hausdorff moment constraints.
+These constraints offer linear constraints on moments of bounded measures.
+The Hausdorff moment problem is the question whether an infinite sequence $(m_0, m_1, \dotsc)$ is a sequence of moments
+\[
+	m_k = \int_{0}^{1} x^k\,d\mu(x), \quad \forall k\in\mathbb{N}
+\]
+for some Borel-measure supported on the unit interval $[0,1]$.
+
+\citet{hausdorff} came up with a necessary condition that
+\marginpar{See also \citet{feller} for additional details.}
+\begin{equation}\label{eq:hausdorff}
+	\int_0^1 x^n(1-x)^k\,d\mu(x) \geq 0, \quad \forall n, k\in\mathbb{N}\,.
+\end{equation}
+The validity of this condition is easy to see since
+\begin{equation}\label{eq:hausdorff_integrand}
+	x^n(1-x)^k\geq 0, \quad \forall x\in[0,1]\,.
+\end{equation}
+Expanding this term yields a polynomial, which --~by integration~-- provides a linear constraint on the moments.
+This moment condition has been used by \citet{helmes2001computing} to bound \acp{MFPT} in a variety of stochastic processes.
+Since these conditions are linear in the moments they can solve linear programs instead of the semi-definite programs shown below.
+
+\begin{example}
+	Let $n = 2$, $k=2$. Then the \eqref{eq:hausdorff} becomes
+	\[
+		\int_0^1 x (1 - x)^2 \,d\mu(x) =
+		m_2 - 2 m_3 + m_4 \geq 0
+	\]
+	constraining the moments on $[0,1]$.
+\end{example}
+
+Since the Hausdorff moment problem is defined on $[0,1]$, we need to adjust accordingly.
+Let the interval be $[0,H]$, $H>0$ then we can simply change the variables.
+That means considering $y=x/H$ instead of $x$.
+Equivalently, we can apply this rescaling in \eqref{eq:hausdorff} such that
+\begin{equation}\label{eq:hausdorff_scaled}
+	\int_0^H x^n(H-x)^k\,d\mu(x) \geq 0, \quad \forall n, k\in\mathbb{N}
+\end{equation}
+remains a valid constraint on $[0,H]$.
+
+Generalizing \eqref{eq:hausdorff} to multiple dimensions can be done by simply multiplying terms
+for each dimension in a similar manner.
+For $n$ dimensions
+\begin{equation*}
+	\int_{{[0,1]}^n}\prod_{i = 0}^n x^{n_i}{(1-x)}^{k_i}\,d\mu{(\vec{x}})\geq 0
+\end{equation*}
+for all $n_i, k_i\in\mathbb{N}$ and $i\in \{0,\dotsc, n\}$.
+With arbitrary positive upper bounds $H_1, H_2, \dotsc, H_n$ this becomes
+\begin{equation}
+	\int_{{[0,1]\times[0,H_2]\times\dotsm\times [0,H_n]}}\prod_{i = 0}^n x^{n_i}{(H_i-x)}^{k_i}\,d\mu{(\vec{x}})\geq 0
+\end{equation}
+
 \subsection{Semi-Definite Constraints}
 The linear constraints alone are not sufficient to identify moment bounds.
 We further leverage the fact that a necessary condition for a positive measure that the \emph{moment matrices}
@@ -703,7 +755,7 @@ With each moment sequence $\vec x$ we associate a sequence proxy variables $\vec
 used in the optimization problem.
 \begin{equation}\label{eq:sdp_for_fpt}
     \begin{split}
-        \min / \max \hspace{1em}&  z_{00}^{\prime} \\
+	    \text{min} / \text{max} \hspace{1em}&  z_{00}^{\prime} \\
         \text{such that}\hspace{1em} & M_r(\vec{z'})\succeq 0,
                    M_r({u}_T, \vec{z'})\succeq 0, M_r({u}_H, \vec{z'})\succeq 0\\
         & M_r(\vec{y_1'}) \succeq 0, M_r({u}_T,\vec{y_1'}) \succeq 0\\
