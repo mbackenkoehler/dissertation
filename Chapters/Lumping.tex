@@ -89,14 +89,15 @@ where
 \end{equation}
 is the sum of all rates belonging to reaction $j$ in $\bar{x}$.
 In particular, the division by $\left|\bar{x}_i\right|$ in \eqref{eq:lumped_q} is due to the uniformity assumption: According to the assumption, given the process is in $\bar{x}_i$ it is in
-each constituent micro-state of the transition state $\bar{x}_{i\xrightarrow{j} k}$ with probability ${\left|\bar{x}_i\right|}^{-1}$.
+each constituent micro-state of the transition state $\bar{x}_{i\xrightarrow{j} k}$ with probability $1/{\left|\bar{x}_i\right|}$.
 Therefore, each of the added micro-state rates in \eqref{eq:lumped_propfun} is divided
 by the state volume $\left|\bar{x}_i\right|$.
 
 Under the assumption of polynomial rates, as is the case for mass-action
 systems, we can compute the sum of rates over this transition set
 efficiently using Faulhaber's formula.
-As an example consider the following mass-action reaction
+\begin{example}
+Consider the following mass-action reaction
 $ 2 X \xrightarrow{c} \varnothing\,. $
 For macro-state
 $\bar{x} = \{0, \dots, n\}$
@@ -108,6 +109,7 @@ we can compute the corresponding lumped transition rate
 	& =\frac{c}{2}\left(\frac{2n^3+3n^2+n}{6} - \frac{n^2 + n}{2}\right)
 \end{align*}
 eliminating the explicit summation in the lumped propensity function.
+\end{example}
 
 Interestingly, the lumped distribution
 tends to be less concentrated. %\MB{rephrase this passage in terms of entropy?}\todo{L: this is interesting, but why? maybe an intuition of why uniform spreads more the distribution}

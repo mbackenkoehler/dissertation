@@ -255,7 +255,7 @@ The corresponding constraint \eqref{eq:simpl_exp} with $\lambda=0$ gives
 		0=\E{X_T} - \E{X_0} - \gamma T + \delta \int_0^{T} \E{X_t}\,dt\,.
 	\]
 In this instance the constraint  leads to an explicit function of
-the moment over time. If  $X_0=0$ w.p.\ 1, then \eqref{eq:simpl_exp} becomes
+the moment over time. If  $X_0=0$ w.p.\ $1$, then \eqref{eq:simpl_exp} becomes
 \begin{equation}\label{eq:bd_constraint}
 \E{X_T} = \frac{\gamma}{\delta} \left(1 - e^{-\delta T}\right)
 \end{equation}
@@ -643,7 +643,7 @@ or the state space according to stoichiometric invariants or limited
 state spaces.
 \autoref{model:dm}, for example has the invariant 
 \[
-	X^X_t+X^Y_t+X^B_t=\mathrm{const.}$, $\forall t\geq 0\,,
+	X^X_t+X^Y_t+X^B_t=\text{const.}$, $\forall t\geq 0\,,
 \]
 which could be used to reduce the state-space dimensionality to two.
 In \autoref{model:es} the invariant 
@@ -745,7 +745,7 @@ and the case study, this permissive strategy may pay off. In case of the dimeriz
 it pays off, while in case of the distributive modification it leads to a lower efficiency ratio.
 In the latter case the model is more complex, and therefore the set of initial
 control  variates is larger. With a more permissive redundancy strategy, more control  variates are kept
-(ca.\ $10$ when using $\phi_c$ vs.\ ca.\ \numrange{2}{3}for the others).
+(ca.\ $10$ when using $\phi_c$ vs.\ ca.\ \numrange{2}{3} for the others).
 The other redundancy boundaries move the results further in the direction of less variance reduction
 while keeping the cost increase low.
 On the opposite end is the linear $\phi_{\ell}$.
@@ -805,10 +805,10 @@ for $n\to \infty$.
 	\myfloatalign
 	\subfloat[Efficiency v.\ sample size]
 	{\label{fig:sample_sizes:eff}
-	\includegraphics[scale=.39]{gfx/sample_size_efficiency.pdf}}\quad
+	\includegraphics[scale=.38]{gfx/sample_size_efficiency.pdf}}\quad
 	\subfloat[Slowdown v.\ sample size]
 	{\label{fig:sample_sizes:slowdown}
-	\includegraphics[scale=.39]{gfx/sample_size_slowdown.pdf}}
+	\includegraphics[scale=.38]{gfx/sample_size_slowdown.pdf}}
 	\caption[Effect of sample size on control variate performance]{
     The effect of sample size on the efficiency $E$ and slowdown in the different case studies.
     The break-even $E=1$ is marked by the dashed red line.

@@ -158,19 +158,18 @@
 }
 % ****************************************************************************************************
 
+\newcommand{\e}[2]{\ensuremath{ #1\!\times\hspace{-.5ex} 10^{#2} }}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\Var}{Var}
+\DeclareMathOperator*{\COV}{Cov}
 
 \newcommand{\expSym}{{E}}
 \newcommand{\E}[1]{\ensuremath{\expSym\left(#1\right)}}
 \newcommand{\prob}[1]{\ensuremath{\Pr\left(#1\right)}}
 \newcommand{\T}{T}
-\newcommand{\Var}{\ensuremath{\mathrm{Var}}}
-\newcommand{\Cov}[2]{\ensuremath{\mathrm{Cov}(#1, #2)}}
-
-\newcommand{\e}[2]{\ensuremath{ #1\!\times\hspace{-.5ex} 10^{#2} }}
-
-
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\Cov}[2]{\ensuremath{\COV(#1, #2)}}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -227,13 +226,8 @@
 \item[]}{\end{list}}
 
 \renewcommand{\vec}[1]{#1}
-\renewcommand{\exp}{\text{exp}}
-\renewcommand{\inf}{\ensuremath{\text{inf}\,}}
-\renewcommand{\Pr}{\ensuremath{\text{Pr}}}
-
 
 \usepackage[group-separator={,}]{siunitx}
-
 % 
 % \usepackage{tocloft}
 % \newcommand{\listlemmaname}{List of Models}
@@ -344,10 +338,20 @@
 %\usepackage[sfdefault]{FiraSans}
 \usepackage[scaled]{classico}
 %\usepackage[opticals,mathlf]{MinionPro} % onlytext
-%\usepackage[onlytext,mathlf]{MinionPro} % onlytext
-%\linespread{1.05}
+% \usepackage[onlytext,mathlf]{MinionPro} % onlytext
+% \linespread{1.05}
 \usepackage[LY1]{fontenc}
 \renewcommand{\rmdefault}{Aldus}
+
+\DeclareSymbolFont{sfoperators}{OT1}{cmss}{m}{n}
+\DeclareSymbolFont{sfoperators}{LY1}{Aldus}{m}{n}
+%\DeclareSymbolFontAlphabet{\mathsf}{sfoperators}
+ \makeatletter
+ \renewcommand{\operator@font}{\mathgroup\symsfoperators}
+\renewcommand{\chapterNumber}{%
+\fontsize{70}{70}\usefont{\encodingdefault}{\sfdefault}{m}{n}}
+\definecolor{CTsemi}{named}{Maroon} %{gray}{0.0}%45} % chapter numbers will be semi transparent .5 .55 .6 .0
+\titlespacing*{\chapter}{0pt}{-30pt}{20pt}
 % ********************************************************************
 %\usepackage[largesc,osf]{newpxtext}
 %\linespread{1.05} % a bit more for Palatino
