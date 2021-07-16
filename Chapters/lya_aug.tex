@@ -1,4 +1,33 @@
 \chapter{Augmented Foster-Lyapunov Bounds}
+In many cases, researchers are interested in the \emph{long-run} behavior of \acp{MPM}.
+This behavior is characterized by the stationary distribution of the underlying \ac{CTMC}.
+Rigorous analyses of the stationary distribution either hinge on bounds on the moments of this distribution or a Foster-Lyapunov analysis \cite{kuntz2021stationary}.
+Using the former, i.e.\ moment bounds, entails solving a \acl{SDP} involving linear constraints dicated by the moment dynamics.\turnto{sec:moments_bg}
+These moment problems are prone to numerical problems because moments increase by several orders of magnitudes with increasing moment order.
+Since --~in most cases~-- constraints up to high moment orders are necessary, solving such convex problems is often difficult in practice.
+This problem becomes particularly problematic, if some species tend to have high abundances at stationarity.
+The use of the latter, i.e.\ Foster-Lyapunov approaches, are often two-fold: They are used to prove ergodicity and to provide sets with a lower bound $1-\epsilon$ on their stationary probability mass.
+Often practical methods focus on proving \emph{global} properties of their associated drift \cite{gupta2014scalable,spieler2014numerical}.
+In many models, simple affine functions \cite{gupta2017finite} and even the identity \cite{spieler2014numerical} is sufficient.
+While such simple forms provide some of the necessary ease of a global analysis, the task of optimizing them with performance in mind, is much more difficult \cite{milias2014optimization}.\marginpar{\emph{Performance} in this context means least states to cover most stationary probability mass.}
+
+Ideally one would have the best of both worlds: The ease of working with simple forms for the global guarantees of the Foster-Lyapunov criteria and the freedom of choice to fit efficient functions and get sets that are as small as possible.
+The approach presented in this chapter achieves this by \emph{locally} altering a proposal Foster-Lyapunov function.
+This proposal function is essentially assumed as an input for this method.
+Such a function can be identified by convex analysis, for example \cite{gupta2014scalable}.
+Using a set of probability $>1-\epsilon$ is identified using such a functional.
+On this set, the original function is then replaced by any other lower bounded function.
+At the set boundary this supplementary function is \emph{phased out} and we switch back to the original function using some smooth step function.
+The choice of such a supplementary function offers much room for experimentation since all the necessary global criteria.
+For this function we can, for example, use any polynomial or even more variable models such as neural networks.
+
+The procedure to identify an efficient function is thereby reduced to a simple machine learning problem.
+The objective exponentially rewards negative drift yielding tight sets.
+Its computation needs, in principle, all points in a sufficiently large set.
+For optimization however, we switch to an approach of sampling uniformly from the augmentation set.
+
+This method yields sets that are smaller on the order of $10^3$ for a fixed probability bound over a simple linear functional.
+We study neural networks and polynomial templates as candidates for local augmentation.
 
 \section{The drift and its properties}
 The drift \eqref{eq:drift} plays a central role in this chapter.\marginpar{We explain the interpretation and give some basic use of the drift in \autoref{sec:statagg:lyapunov} on page~\pageref{sec:statagg:lyapunov}.}
