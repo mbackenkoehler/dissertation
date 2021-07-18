@@ -34,7 +34,7 @@
     \WarningFilter{titlesec}{Non standard sectioning command detected}
 \documentclass[ twoside,openright,titlepage,numbers=noenddot,%1headlines,
                 headinclude,footinclude,cleardoublepage=empty,abstract=on,
-                BCOR=5mm,paper=b5,fontsize=12pt,
+                BCOR=5mm,paper=b5,fontsize=11pt,
 		dvipsnames
                 ]{scrbook}
 
@@ -73,6 +73,7 @@
 % GO!GO!GO! MOVE IT!
 %*******************************************************
 \begin{document}
+\urlstyle{sf}
 \frenchspacing
 \raggedbottom
 \selectlanguage{american} % american ngerman
@@ -92,7 +93,7 @@
 \cleardoublepage\include{FrontBackmatter/Declaration}
 \cleardoublepage\include{FrontBackmatter/Abstract}
 %\cleardoublepage\include{FrontBackmatter/Publications}
-% \cleardoublepage\include{FrontBackmatter/Acknowledgments}
+\cleardoublepage\include{FrontBackmatter/Acknowledgments}
 \cleardoublepage\include{FrontBackmatter/Contents}
 %********************************************************************
 % Mainmatter
@@ -146,9 +147,11 @@
 % ********************************************************************
 % Backmatter
 %*******************************************************
-\backmatter
+\appendix
+%\renewcommand{\thechapter}{\alph{chapter}}
 \part{Appendix}
 \include{Chapters/cv_appendix}
+\backmatter
 % \sloppy alternative from https://latex.org/forum/viewtopic.php?t=21170
 \tolerance 1414
 \hbadness 1414
@@ -158,8 +161,6 @@
 \vfuzz \hfuzz
 \raggedbottom
 \cleardoublepage\include{FrontBackmatter/Bibliography}
-\appendix
-%\renewcommand{\thechapter}{\alph{chapter}}
 \cleardoublepage
 %********************************************************************
 % Other Stuff in the Back *******************************************

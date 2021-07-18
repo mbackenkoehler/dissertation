@@ -2,11 +2,12 @@
 In many cases, researchers are interested in the \emph{long-run} behavior of \acp{MPM}.
 This behavior is characterized by the stationary distribution of the underlying \ac{CTMC}.
 Rigorous analyses of the stationary distribution either hinge on bounds on the moments of this distribution or a Foster-Lyapunov analysis \cite{kuntz2021stationary}.
-Using the former, i.e.\ moment bounds, entails solving a \acl{SDP} involving linear constraints dicated by the moment dynamics.\turnto{sec:moments_bg}
-These moment problems are prone to numerical problems because moments increase by several orders of magnitudes with increasing moment order.
+Using the former, i.e.\ moment bounds, entails solving a \acl{SDP} involving linear constraints dictated by the moment dynamics.\turnto{sec:moments_bg}
+These moment problems are prone to numerical problems because moments increase by several orders of magnitudes with their orders.
 Since --~in most cases~-- constraints up to high moment orders are necessary, solving such convex problems is often difficult in practice.
 This problem becomes particularly problematic, if some species tend to have high abundances at stationarity.
-The use of the latter, i.e.\ Foster-Lyapunov approaches, are often two-fold: They are used to prove ergodicity and to provide sets with a lower bound $1-\epsilon$ on their stationary probability mass.
+Reasoning over the drift is often less plagued by numerical issues than the moment bounding approach.
+The use of Foster-Lyapunov approaches, is often two-fold: They are used to prove ergodicity and to provide sets with a lower bound $1-\epsilon$ on their stationary probability mass.
 Often practical methods focus on proving \emph{global} properties of their associated drift \cite{gupta2014scalable,spieler2014numerical}.
 In many models, simple affine functions \cite{gupta2017finite} and even the identity \cite{spieler2014numerical} is sufficient.
 While such simple forms provide some of the necessary ease of a global analysis, the task of optimizing them with performance in mind, is much more difficult \cite{milias2014optimization}.\marginpar{\emph{Performance} in this context means least states to cover most stationary probability mass.}

@@ -38,7 +38,7 @@
   floatperchapter=true,     % numbering per chapter for all floats (i.e., Figure 1.1)
   eulermath=true,  % use awesome Euler fonts for mathematical formulae (only with pdfLaTeX)
   beramono=true,    % toggle a nice monospaced font (w/ bold)
-  palatino=false,    % deactivate standard font for loading another one, see the last section at the end of this file for suggestions
+  palatino=true,    % deactivate standard font for loading another one, see the last section at the end of this file for suggestions
   style=classicthesis % classicthesis, arsclassica
 }{classicthesis}
 
@@ -98,6 +98,7 @@
 }{biblatex}
     \usepackage{biblatex}
 
+
 \PassOptionsToPackage{fleqn}{amsmath}       % math environments and more by the AMS
   \usepackage{amsmath}
 
@@ -107,7 +108,7 @@
 \usepackage{graphicx} %
 \usepackage{scrhack} % fix warnings when using KOMA with listings package
 \usepackage{xspace} % to get the spacing after macros right
-\PassOptionsToPackage{printonlyused}{acronym}
+\PassOptionsToPackage{printonlyused,smaller}{acronym}
   \usepackage{acronym} % nice macros for handling all acronyms in the thesis
   %\renewcommand{\bflabel}[1]{{#1}\hfill} % fix the list of acronyms --> no longer working
   %\renewcommand*{\acsfont}[1]{\textsc{#1}}
@@ -227,6 +228,8 @@
 
 \renewcommand{\vec}[1]{#1}
 
+
+
 \usepackage[group-separator={,}]{siunitx}
 % 
 % \usepackage{tocloft}
@@ -262,7 +265,7 @@
   pdfsubject={},%
   pdfkeywords={},%
   pdfcreator={pdfLaTeX},%
-  pdfproducer={LaTeX with hyperref and classicthesis}%
+  pdfproducer={LaTeX with hyperref}%
 }
 
 
@@ -329,6 +332,7 @@
 % ********************************************************************
 %\usepackage[oldstylenums]{kpfonts} % oldstyle notextcomp
 %\usepackage[osf]{libertine}
+%\usepackage{librecaslon}
 %\usepackage[light,condensed,math]{iwona}
 %\renewcommand{\sfdefault}{iwona}
 %\usepackage{lmodern} % <-- no osf support :-(
@@ -336,18 +340,19 @@
 %\usepackage[urw-garamond]{mathdesign} % <-- no osf support :-(
 %\usepackage[default,osfigures]{opensans} % scale=0.95
 %\usepackage[sfdefault]{FiraSans}
-\usepackage[scaled]{classico}
 %\usepackage[opticals,mathlf]{MinionPro} % onlytext
 % \usepackage[onlytext,mathlf]{MinionPro} % onlytext
 % \linespread{1.05}
-\usepackage[LY1]{fontenc}
-\renewcommand{\rmdefault}{Aldus}
+\usepackage{classico}
+% \usepackage[LY1]{fontenc}
+% \renewcommand{\rmdefault}{Aldus}
 
-\DeclareSymbolFont{sfoperators}{OT1}{cmss}{m}{n}
-\DeclareSymbolFont{sfoperators}{LY1}{Aldus}{m}{n}
+
+%\DeclareSymbolFont{sfoperators}{OT1}{cmss}{m}{n}
+%\DeclareSymbolFont{sfoperators}{LY1}{Aldus}{m}{n}
 %\DeclareSymbolFontAlphabet{\mathsf}{sfoperators}
- \makeatletter
- \renewcommand{\operator@font}{\mathgroup\symsfoperators}
+%\makeatletter
+%\renewcommand{\operator@font}{\mathgroup\symsfoperators}
 \renewcommand{\chapterNumber}{%
 \fontsize{70}{70}\usefont{\encodingdefault}{\sfdefault}{m}{n}}
 \definecolor{CTsemi}{named}{Maroon} %{gray}{0.0}%45} % chapter numbers will be semi transparent .5 .55 .6 .0
