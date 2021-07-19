@@ -162,20 +162,37 @@ Here, we only provide a basic overview and intuition relevant for the rest of th
 
 \section{Markovian Population Models}
 An \acf{MPM}
-\marginpar{Other names for this model class are \acf{pCTMC}, \acf{CRN}, and \acf{SRN}.}
-\acused{pCTMC}
-\acused{CRN}
-\acused{SRN}
-describes the stochastic interactions
 among agents of $n_S$ distinct types in a well-stirred system.
+Other names for this model class are \acf{pCTMC}, \acf{CRN}, and \acf{SRN}.
 The system is given by a continuous-time stochastic process $\{X_t\}_{t\geq 0}$.
 It models only the number of agents according to their type.
 Therefore the process takes $n_S$-dimensional vectors of natural numbers as values, i.e.\ the
 state-space is $\mathcal{S}\subseteq\mathbb{N}^{n_S}$.
+\marginpar{
+	``The secret to modelling is not being perfect.''
+	\begin{flushright}
+		\emph{--- Karl Lagerfeld}
+\end{flushright}
+}
 By only considering the number of agents, we are neglecting factors such as spatial variations
 in agent density or other factors influencing interactions.
 The assumption of all agents being equally distributed in space is called the \emph{well-stirredness}
 assumptions.
+
+These assumptions bring with them, the convenience of considering populations as a whole.
+The single agent is of no importance to the dynamics of the process.
+Just the overall size of each population determines the stochastic evolution of the process.
+Another consequence of this assumption is the limiting behaviour under this assumption.
+If all populations are proportionally scaled to infinity, their concentrations can be accurately described by deterministic \acp{ODE}.
+\marginpar{Other assumptions, such as exponentially distributed firing times are discussed below.}
+In fact, this is the most widely used paradigm to analyze this kind of reaction networks.
+However this methodology may by widely inaccurate.
+Consider, for example, an epidemic process.
+Typically individuals are not well-stirred in a societal context and the influence of specific
+contact structures is crucial to the process' dynamics \cite{grossmann2020importance}.
+Furthermore such a process typically exhibits discrete stochastic effects, such as the epidemic dying out.
+While the latter effect is retained in an \ac{MPM}, the former is already lost.
+Therefore, a great deal of care has to be taken by the modeller which kinds of abstractions are appropriate for the chosen abstraction.
 
 Interactions between agents are expressed as \emph{reactions}.
 These reactions have associated
