@@ -30,12 +30,12 @@
 %\section{Introduction}
 For the quantitative analysis of \acp{CTMC}, many   approaches have been
 developed, where properties of interest are often expressed in terms of temporal logics such as
-\acs{CSL}~\cite{aziz1996verifying,baier2000model,baier2003model},
-\acs{MTL}~\cite{chen2011time},
-and specifications for timed-automata~\cite{chen2009quantitative,mikeev2013fly}.
+\acs{CSL}~\parencite{aziz1996verifying,baier2000model,baier2003model},
+\acs{MTL}~\parencite{chen2011time},
+and specifications for timed-automata~\parencite{chen2009quantitative,mikeev2013fly}.
 In addition, there exist
 efficient software
-tools~\cite{hinton2006prism,kwiatkowska2011prism,dehnert2017storm}
+tools~\parencite{hinton2006prism,kwiatkowska2011prism,dehnert2017storm}
 that can be used to analyze and verify system properties.
 The computation of reachability probabilities is a central problem in this context.
 
@@ -43,9 +43,9 @@ Popular exact methods for \acp{CTMC} rely on numerical approaches that explicitl
 A major problem is that these methods cannot scale in the context of population
 models with large copy numbers of agents.
 A popular alternative to tackle this problem is statistical model checking,
-which is based on stochastic simulation~\cite{david2015statistical}.
+which is based on stochastic simulation~\parencite{david2015statistical}.
 For \acp{MPM}   arising in the context of chemical reaction networks, trajectories of the process are
-usually generated using the \ac{SSA}~\cite{gillespie1977exact}.
+usually generated using the \ac{SSA}~\parencite{gillespie1977exact}.
 However, since the number of possible interactions grows with the number of
 agents, stochastic simulations of \acp{MPM} are  time-consuming. Moreover, they are
 subject to inherent statistical uncertainty and give only statistically estimated bounds.
@@ -56,23 +56,23 @@ compute the probability of each state.
 For groups of identically behaving agents, it is possible to derive systems of
 differential equations
 for the evolution of the statistical population
-moments~\cite{bogomolov2015adaptive,schnoerr2017survey,bortolussi2013model,engblom2006computing,schnoerr2015,gast2019}.
+moments~\parencite{bogomolov2015adaptive,schnoerr2017survey,bortolussi2013model,engblom2006computing,schnoerr2015,gast2019}.
 However, as the system of exact moment equations is infinite-dimensional, approximation
 schemes typically rely on certain assumptions about the
 underlying probability distribution to truncate it.\turnto{sec:fsp}
 For example, one might employ a ``low dispersion closure'' which assumes that
 higher-order moments are the same as those of a normal
-distribution~\cite{hespanha2008moment}. %\vw{Hespanha macht doch lognormal?}\todo{in dem papier macht er eine survey f\"ur sein tool}
+distribution~\parencite{hespanha2008moment}. %\vw{Hespanha macht doch lognormal?}\todo{in dem papier macht er eine survey f\"ur sein tool}
 Such approximations are, by nature, ad-hoc and do not come with
 any guarantees.
 
 
 Moment-based methods often scale well   in terms of population sizes. However,
 it is not possible to control the effects of the introduced approximations, which in some
-cases can lead to large errors~\cite{schnoerr2015}.
+cases can lead to large errors~\parencite{schnoerr2015}.
 This issue reverberates
 on the application of these methods to  compute reachability
-probabilities and \aclp{MFPT}~\cite{hayden2012fluid,bortolussi2013model,bortolussi2014stochastic}.
+probabilities and \aclp{MFPT}~\parencite{hayden2012fluid,bortolussi2013model,bortolussi2014stochastic}.
 Moreover, they can suffer from numerical instabilities, in particular, when the
 maximum order of the considered moments has to be increased to more
 appropriately describe the underlying distribution. %, a fact impacting their
@@ -86,7 +86,7 @@ For a set of states $B$ and a time-horizon $T$, the \ac{FPT}
 This mean of this stopping time $\E{\tau}$, i.e.\ the \acl{MFPT}, directly characterizes the probability of reaching set $B$
 within $T$ time units. Thus, safe upper and lower bounds on \acp{MFPT} can constitute a core component for the verification of properties in \acp{MPM}.
 Our approach extends recent work on moment
-bounds~\cite{sakurai2017convex,dowdy2018dynamic} and it is based on a martingale formulation of the stopped process that we
+bounds~\parencite{sakurai2017convex,dowdy2018dynamic} and it is based on a martingale formulation of the stopped process that we
 derive from the exact moment equations. From this formalization, we deduce a set
 of linear moment constraints from which we derive
 upper and lower moment bounds using \acf{SDP}. Monotone
@@ -98,7 +98,7 @@ Therefore the bounds are exact up to the numerical accuracy of the \ac{SDP} solv
 
 To experimentally validate our method in terms of accuracy and feasibility, we run some tests on examples from biology, leveraging an existing \ac{SDP} solver and obtaining encouraging results. 
 Comparing with other moment-based methods, our approach is not based on approximations due to closure schemes, thus providing guarantees on the bounds   up to the numerical accuracy of the computations. However, similarly to other moment-based methods, we also found the insurgence of numerical instabilities because moments of higher order tend to span over many orders of magnitude. We ameliorate this problem by considering scaling strategies that reduce such variability. 
-We also extend our approach to deal with \acp{MPM} exhibiting strong multimodal behavior, due to the presence of populations having low copy numbers. This extension exploits some ideas from hybrid moment closures~\cite{kazeroonian2014modeling}. 
+We also extend our approach to deal with \acp{MPM} exhibiting strong multimodal behavior, due to the presence of populations having low copy numbers. This extension exploits some ideas from hybrid moment closures~\parencite{kazeroonian2014modeling}. 
 
 
 % For our numerical investigations, we concentrate  and find encouraging
@@ -124,11 +124,11 @@ In summary, this chapter presents the following novel contributions:
 \section{Related Work}\label{sec:mfpt:related}
 \paragraph{Truncations and Analytic Solutions} Considerable effort has been directed at the analysis of \acl{FPT}
 distributions in \acp{MPM}. Most works can either focus on an explicit state-space
-analysis~\cite{barzel2008calculation,munsky2009specificity,kuntz2019exit,kuntz2021approximations}
+analysis~\parencite{barzel2008calculation,munsky2009specificity,kuntz2019exit,kuntz2021approximations}
 or employ approximation techniques for which, in general, no error bounds can be
-given~\cite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}.
+given~\parencite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}.
 For some model classes such as kinetic proofreading, analytic solutions are
-possible~\cite{munsky2009specificity,bel2009simplicity,iyer2016first}.
+possible~\parencite{munsky2009specificity,bel2009simplicity,iyer2016first}.
 
 \citet{barzel2008calculation} propose a recursive scheme that consists of one equation for
 each state, expressing the average time the system needs to transition from that
@@ -149,14 +149,14 @@ which is required to reach the target region.
 
 \paragraph{Moment Bounds using Optimization} Recently, several groups independently suggested the use of semi-definite
 optimization for the computation of moment bounds for the limiting
-distribution~\cite{ghusinga2017exact,dowdy2018bounds,kuntz2017rigorous,sakurai2017convex}.
+distribution~\parencite{ghusinga2017exact,dowdy2018bounds,kuntz2017rigorous,sakurai2017convex}.
 In this approach, the differential equations describing the moment dynamics are
-set to zero and form linear constraints~\cite{backenkohler2018moment}. Alongside, semi-definite constraints can
+set to zero and form linear constraints~\parencite{backenkohler2018moment}. Alongside, semi-definite constraints can
 be placed on the \emph{moment matrices}. These give a semi-definite program
 that can be solved efficiently.
 
 This approach has been extended to the transient
-case~\cite{dowdy2018dynamic,sakurai2019bounding}.
+case~\parencite{dowdy2018dynamic,sakurai2019bounding}.
 The approach is similar in both works and is a cornerstone of the \ac{MFPT} analysis
 presented here.
 They differ mainly by the fact that \citet{sakurai2019bounding} apply a polynomial
@@ -164,11 +164,11 @@ time-weighting, while \citet{dowdy2018dynamic} use an
 exponential one. We adopt the former approach because it
 can be naturally adapted to the description of densities over time.
 The resulting forms can also be adapted to statistical estimation
-problems~\cite{backenkohler2019control}.
+problems~\parencite{backenkohler2019control}.
 
 Semi-definite programming has been applied to a wide range of problems,
 including stochastic processes in the context of financial
-mathematics~\cite{lasserre2006pricing,kashima2009polynomial}.
+mathematics~\parencite{lasserre2006pricing,kashima2009polynomial}.
 For good introductions and overviews of application areas, we refer
 the reader to \citet{parrilo2003semidefinite} and, more recently,
 \citet{lasserre2010moments}.
@@ -208,7 +208,7 @@ of this time using semi-definite programming.
 Further, it is possible to impose a time-horizon $T$, and find bounds
 on the probability of $ X_t^{(M)}\geq H$ for some $0\leq t\leq T$.
 The employed framework is centered around semi-definite relaxations
-of the \ac{GMP}~\cite{lasserre2010moments}.
+of the \ac{GMP}~\parencite{lasserre2010moments}.
 These require linear constraints on the moments of measures.
 In the following section, we derive such constraints.
 
@@ -226,7 +226,7 @@ mathematical programs that yield upper and lower bounds on \aclp{MFPT}.
 
 Let $f$ be a polynomial function, $t\ge0$.
 Using the \ac{CME} \eqref{eq:cme}\turnto{eq:cme}, we can derive \acp{ODE}
-describing the dynamics of $\expSym(f(\vec{X}_t))$~\cite{engblom2006computing}.
+describing the dynamics of $\expSym(f(\vec{X}_t))$~\parencite{engblom2006computing}.
 Specifically,\graffito{More details on the derivation of the moment \acp{ODE} is given in \autoref{sec:moments_bg}.}
 \begin{equation}\label{eq:mfpt:mom_ode}
     \frac{d}{dt}\E{f(\vec X_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
@@ -259,12 +259,12 @@ one typically resorts to ad-hoc approximations of the highest order moments
 to close the system.
 Here we do \emph{not} need such approximations
 because we do not numerically integrate the moment equations.
-Instead we adopt an approach \cite{dowdy2018dynamic,sakurai2019bounding} that extends
+Instead we adopt an approach \parencite{dowdy2018dynamic,sakurai2019bounding} that extends
 the description of state-space moments to a temporal one.
 
 This is achieved by the introduction of a time-dependent polynomial $w(t)$ that is multiplied to
 \eqref{eq:mfpt:mom_ode}.
-An integration by parts on $[0, T]$ yields~\cite{dowdy2018dynamic,sakurai2019bounding}
+An integration by parts on $[0, T]$ yields~\parencite{dowdy2018dynamic,sakurai2019bounding}
 \begin{multline}\label{eq:exp_constraint}
         w(T)\E{f(X_{T})}
         - w(t_0)\E{f(X_{t_0})}
@@ -385,7 +385,7 @@ formulation and consider
 $Z_\tau^{(\vec m, k)}$ instead of $Z_T^{(\vec m, k)}$.
 Since~\eqref{eq:basic_poly_martingale} defines a martingale, $Z_{\tau}^{(\vec m, k)}$
 remains a martingale by
-Doob's optional sampling theorem~\cite{gihmantheory}. In particular, this
+Doob's optional sampling theorem~\parencite{gihmantheory}. In particular, this
 implies that 
 \begin{equation}\label{eq:zero_constraint}
 	\expSym(Z_{\tau}^{(\vec m, k)})=0
@@ -449,7 +449,7 @@ In the following we will define the interplay between these measures more formal
 
 
 Eq.~\eqref{eq:constraint}  describes a relationship between
-two measures~\cite[Chapter~9.2]{lasserre2010moments}:
+two measures~\parencite[][Chapter~9.2]{lasserre2010moments}:
 \begin{description}
 \item[Expected Occupation Measure] $\xi$ describes the expected residence time inside a subset of the state-space and time. As such it is supported on $[0,H]\times [0,T]$:
 \begin{equation}\label{eq:ex_occ_measure}
@@ -540,7 +540,7 @@ threshold $H$ before reaching time-horizon $T$. Since the target set can be more
 wide variety of properties.
 
 Moreover, it is possible to formulate objectives not directly corresponding to
-a raw moment such as the variance~\cite{sakurai2019bounding,dowdy2018bounds}.
+a raw moment such as the variance~\parencite{sakurai2019bounding,dowdy2018bounds}.
 
 \subsection{Hausdorff Constraints}
 Before discussing the semi-definite constraints which we will use for the remainder of this study, we will briefly discuss the Hausdorff moment constraints.
@@ -637,7 +637,7 @@ This restriction is natural since the variance cannot be negative.
 % this restriction remains valid for them. Either they can be normalized to
 % form a probability measure, or if their mass is zero % we don't care...
 The restriction of the non-negative variance we saw in the example generalizes
-to moment matrices in form of a positive semi-definite constraint \cite{parrilo2003semidefinite}.\graffito{This constraint is valid for general positive measures --- even if they do not model probabilities.}
+to moment matrices in form of a positive semi-definite constraint \parencite{parrilo2003semidefinite}.\graffito{This constraint is valid for general positive measures --- even if they do not model probabilities.}
 This gives us the following restrictions on the moment matrices.
 \begin{equation}\label{eq:sd_constraints}
 M_r(\vec{z})\succeq 0, \quad M_r(\vec{y_1})\succeq 0,\quad\text{and}\quad M_r(\vec{y_2})\succeq 0
@@ -655,7 +655,7 @@ u_H(t,x) = Hx - x^2, \quad x\in \mathbb R
 \]
 as a polynomial that is non-negative on $[0,H]$.
 Using such polynomials, we can construct \emph{localizing matrices},
-which have to be positive semi-definite~\cite{lasserre2010moments}.
+which have to be positive semi-definite~\parencite{lasserre2010moments}.
 Applying $u_H$ to the moment matrix of measure $\nu_2$, i.e.\ $M_1(\vec{y}_2)$
 	\[
 M_1(u_H, \vec{y_2})=
@@ -686,7 +686,7 @@ For a general multi-dimensional moment sequence
 	\vec{y}={\left(\E{\vec X^{\vec{m}}}\right)}_{\vec{m}\in\mathbb{N}^{n_s}}\,,
 \]
 	the moment
-matrix is~\cite{lasserre2010moments}
+matrix is~\parencite{lasserre2010moments}
 % \todo{explain the order $r$ in some detail (max order is $2r$), define
 % $\mathbb{N}_r^n$}
 \begin{equation}\label{eq:def_mom_mat}
@@ -711,7 +711,7 @@ Measures can be restricted to semi-algebraic sets
 \[
 	\{\vec x\in\mathbb{R}^n \mid u_j(\vec x)\geq 0, j=1,\dots,m\}\,,
 \]
-where $u_j$, $j=1,\dots,m$ are polynomials~\cite{lasserre2010moments}.
+where $u_j$, $j=1,\dots,m$ are polynomials~\parencite{lasserre2010moments}.
 This is done by placing restrictions on the {localizing matrices}.
 For each polynomial $u_i\in\mathbb{R}[x]$ with coefficient vector
 $\vec{u}=\{u_{\vec\gamma}\}$,
@@ -749,7 +749,7 @@ $\mathcal{X}$ under linear constraints:
 \end{equation}
 with constant matrices $A^{(i)}\in \mathbb{R}^{n\times n}$, $i=0,\dots,m$ and
 constants $b_k\in\mathbb{R}$, $k=1,\dots,m$ to define a set of $m$ linear constraints.
-Such a problem is convex and can be solved efficiently using off-the-shelf solvers~\cite{vandenberghe2010cvxopt}.
+Such a problem is convex and can be solved efficiently using off-the-shelf solvers~\parencite{vandenberghe2010cvxopt}.
 
 With each moment sequence $\vec x$ we associate a sequence proxy variables $\vec{x'}$
 used in the optimization problem.
@@ -769,9 +769,9 @@ To this end, the moment matrices can be arranged in a block-diagonal form and th
 localizing constraints \eqref{eq:localizing_sd_constraints} can be encoded
 by the introduction of new variables and appropriate equality constraints.
 This transformation can be done automatically using modeling frameworks
-such as CVXPY~\cite{cvxpy}. We therefore only give the \ac{SDP} in the more intuitive format.
-This problem can be solved using off-the-shelf \ac{SDP} solvers such as MOSEK~\cite{mosek},
-CVXOPT~\cite{vandenberghe2010cvxopt}, or SCS~\cite{scs}.
+such as CVXPY~\parencite{cvxpy}. We therefore only give the \ac{SDP} in the more intuitive format.
+This problem can be solved using off-the-shelf \ac{SDP} solvers such as MOSEK~\parencite{mosek},
+CVXOPT~\parencite{vandenberghe2010cvxopt}, or SCS~\parencite{scs}.
 
 In principle, we can choose an arbitrarily large order $r$ for the moment matrices
 and their corresponding constraints, because there are
@@ -786,11 +786,11 @@ higher-order moments.
 \section{Implementation and Evaluation}\label{sec:mfpt:evaluation}
 The implementation of the \ac{SDP} \eqref{eq:sdp_for_fpt} is straightforward using
 modeling frameworks and off-the-shelf solvers.
-However, as noted in previous work~\cite{dowdy2018dynamic,sakurai2017convex,dowdy2018bounds,sakurai2019bounding} on moment-based \acp{SDP}
+However, as noted in previous work~\parencite{dowdy2018dynamic,sakurai2017convex,dowdy2018bounds,sakurai2019bounding} on moment-based \acp{SDP}
 the direct implementation of the problem may lead to difficulties for the solver.
 A source of these is that moments of various orders by nature
 may differ by many orders of magnitude.
-A re-scaling of the moments~\cite{dowdy2018bounds,sakurai2019bounding}
+A re-scaling of the moments~\parencite{dowdy2018bounds,sakurai2019bounding}
 such that moments only vary by few orders of magnitude
 may alleviate this problem.
 In other scenarios such as the bounding of general transient or steady-state moments,
@@ -823,7 +823,7 @@ way.
 Alternatively, one could use approximations such as moment closures
 or bounds obtained by lower-order relaxations or solve a sequence
 of problems, incrementally increasing
-the time-horizon, and adjust the scaling accordingly (suggested in \cite{dowdy2018dynamic}).
+the time-horizon, and adjust the scaling accordingly (suggested in \parencite{dowdy2018dynamic}).
 
 In \autoref{fig:magnitudes} we illustrate the influence the scaling has on the
 optimization variables. While the unscaled version shows large differences
@@ -844,8 +844,8 @@ of the problem.
 
 
 \subsection{Case Studies}
-We implemented and solved the \ac{SDP} programs described above using optimization suite MOSEK~\cite{mosek} (version 9.1.2) via the CVXPY
-interface~\cite{cvxpy} (version 1.0.24).
+We implemented and solved the \ac{SDP} programs described above using optimization suite MOSEK~\parencite{mosek} (version 9.1.2) via the CVXPY
+interface~\parencite{cvxpy} (version 1.0.24).
 
 \subsubsection{Dimerization}
 As a first case study, we use \autoref{model:dim} with parameters $\lambda=100$ and $\delta=0.2$.
@@ -860,7 +860,7 @@ This is achieved by dropping the moments $\vec y_2$
 of measure $\nu_2$ in the linear constraints~\eqref{eq:sdp_for_fpt}.
 This can be done because the threshold on $M$ makes the state-space finite
 and therefore the first passage time distribution is a phase-type distribution
-which possesses finite moments \cite[Chapter 7.6]{stewart2009probability}.
+which possesses finite moments \parencite[][Chapter 7.6]{stewart2009probability}.
 
 The empirical \ac{FPT} distribution based on \num{100000} \ac{SSA} simulations is given in \autoref{fig:dim_fpt_fpt}
 and the bounds, given different moment orders, are given in \autoref{fig:dim_fpt:mfpt}.
@@ -976,8 +976,8 @@ arises in many   contexts.
 Often mode switching in such systems can be described a modulating Markov process
 whose switching rates may depend on the system state (e.g.\ the population sizes).
 In biological applications, mode switching often describes a change of the
-\acs{DNA} state~\cite{hasenauer2014method,stekel2008strong} and the analysis of
-switching time distribution is of particular interest~\cite{spieler2011model,barzel2008calculation}.
+\acs{DNA} state~\parencite{hasenauer2014method,stekel2008strong} and the analysis of
+switching time distribution is of particular interest~\parencite{spieler2011model,barzel2008calculation}.
 
 In the context of \acp{MPM}, typically the state-space $\mathcal{S}=
 \mathbb{N}^{\tilde{n}_S}\times {\{0,1\}}^{\hat{n}_S}$.
@@ -1000,7 +1000,7 @@ part ${\vec{\hat{X}}}_t$ to
 the expectations in~\eqref{eq:mfpt:mom_ode}. Similarly, we split   $\vec v_j$ and
 with a case
 distinction over the mode variable,
-we arrive at a similar result as in~\cite{hasenauer2014method}:
+we arrive at a similar result as in~\parencite{hasenauer2014method}:
 \begin{equation}\label{eq:mcm}
 \begin{split}
 	& \frac{d}{dt}\E{\vec{\tilde{X}}^{{\vec m}}_t 1_{=\vec y}({\vec{\hat{X}}}_t)}\\
@@ -1068,7 +1068,7 @@ The moment constraint over the partial moments has a linear structure:
 
 \subsubsection{Gene Expression with Negative Feedback}
 As an instance of a multi-modal system, we consider a simple gene expression with self-regulating
-negative feedback which is a common pattern in many genetic circuits~\cite{stekel2008strong}.
+negative feedback which is a common pattern in many genetic circuits~\parencite{stekel2008strong}.
 
 \begin{model}[Negative self-regulated gene expression]\label{model:gexpr}
 This model consists of a gene state that is either on or off, i.e.\ $X^{D_{\text{on}}}_t
@@ -1129,7 +1129,7 @@ However, the scaling only addresses the moment matrices but not the linear const
 which still contain values with varying orders of magnitudes.
 Therefore, we plan as future work to investigate an appropriate scaling for the linear constraints
 or to redefine the moment
-constraints (e.g.\ using an exponential time weighting~\cite{dowdy2018dynamic}).
+constraints (e.g.\ using an exponential time weighting~\parencite{dowdy2018dynamic}).
 Based on this investigation, we expect to make this approach applicable to
 more problems including, for example, the computation of bounds of rare event probabilities.
 %Numerical instabilities due to moment values of largely differing orders of magnitudes are a current limitation of all moment-based methods.
@@ -1137,7 +1137,7 @@ We also expect that the development of more sophisticated scaling techniques wil
 
 Furthermore, moment-based analysis approaches have shown to be successful
 in a wide range of applications such as optimal control problems or the estimation
-of densities~\cite{lasserre2010moments}.
+of densities~\parencite{lasserre2010moments}.
 We expect that our proposed ideas   can be adapted to a wider range
 of stochastic models such as stochastic hybrid systems, exhibiting partly deterministic dynamics.
 

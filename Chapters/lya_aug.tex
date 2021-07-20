@@ -1,21 +1,21 @@
 \chapter{Augmented Foster-Lyapunov Bounds}
 In many cases, researchers are interested in the \emph{long-run} behavior of \acp{MPM}.
 This behavior is characterized by the stationary distribution of the underlying \ac{CTMC}.
-Rigorous analyses of the stationary distribution either hinge on bounds on the moments of this distribution or a Foster-Lyapunov analysis \cite{kuntz2021stationary}.
+Rigorous analyses of the stationary distribution either hinge on bounds on the moments of this distribution or a Foster-Lyapunov analysis \parencite{kuntz2021stationary}.
 Using the former, i.e.\ moment bounds, entails solving a \acl{SDP} involving linear constraints dictated by the moment dynamics.\turnto{sec:moments_bg}
 These moment problems are prone to numerical problems because moments increase by several orders of magnitudes with their orders.
 Since --~in most cases~-- constraints up to high moment orders are necessary, solving such convex problems is often difficult in practice.
 This problem becomes particularly problematic, if some species tend to have high abundances at stationarity.
 Reasoning over the drift is often less plagued by numerical issues than the moment bounding approach.
 The use of Foster-Lyapunov approaches, is often two-fold: They are used to prove ergodicity and to provide sets with a lower bound $1-\epsilon$ on their stationary probability mass.
-Often practical methods focus on proving \emph{global} properties of their associated drift \cite{gupta2014scalable,spieler2014numerical}.
-In many models, simple affine functions \cite{gupta2017finite} and even the identity \cite{spieler2014numerical} is sufficient.
-While such simple forms provide some of the necessary ease of a global analysis, the task of optimizing them with performance in mind, is much more difficult \cite{milias2014optimization}.\marginpar{\emph{Performance} in this context means least states to cover most stationary probability mass.}
+Often practical methods focus on proving \emph{global} properties of their associated drift \parencite{gupta2014scalable,spieler2014numerical}.
+In many models, simple affine functions \parencite{gupta2017finite} and even the identity \parencite{spieler2014numerical} is sufficient.
+While such simple forms provide some of the necessary ease of a global analysis, the task of optimizing them with performance in mind, is much more difficult \parencite{milias2014optimization}.\marginpar{\emph{Performance} in this context means least states to cover most stationary probability mass.}
 
 Ideally one would have the best of both worlds: The ease of working with simple forms for the global guarantees of the Foster-Lyapunov criteria and the freedom of choice to fit efficient functions and get sets that are as small as possible.
 The approach presented in this chapter achieves this by \emph{locally} altering a proposal Foster-Lyapunov function.
 This proposal function is essentially assumed as an input for this method.
-Such a function can be identified by convex analysis, for example \cite{gupta2014scalable}.
+Such a function can be identified by convex analysis, for example \parencite{gupta2014scalable}.
 Using a set of probability $>1-\epsilon$ is identified using such a functional.
 On this set, the original function is then replaced by any other lower bounded function.
 At the set boundary this supplementary function is \emph{phased out} and we switch back to the original function using some smooth step function.
@@ -80,10 +80,10 @@ a function $g$ such that
 
 \section{Augmentation via Local Substitution}
 We use a proved Foster-Lyapunov function as a starting point.
-For many relevant reaction networks, simple choices such as L1 or L2 norms are sufficient choices \cite{spieler2014numerical}.
+For many relevant reaction networks, simple choices such as L1 or L2 norms are sufficient choices \parencite{spieler2014numerical}.
 The resulting sets, however, are typically very large.
 Tasks such as computing approximate stationary distributions on truncations set up according to these sets can be very costly.
-This cost is exacerbated when a system has to be solved for a lot of different reentry matrices, which is necessary when state-wise bounds on the probability conditioned on a truncation are desired~\cite{dayar2011bounding}.
+This cost is exacerbated when a system has to be solved for a lot of different reentry matrices, which is necessary when state-wise bounds on the probability conditioned on a truncation are desired~\parencite{dayar2011bounding}.
 
 We propose to augment the proposal function by a function, that is limited to local influence guided by the initial set.
 This supplementary function is phased out asymptotically using a simple sigmoid threshold function

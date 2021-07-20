@@ -38,7 +38,7 @@ The Chapman-Kolmogorov equation
 follows directly from the law of total probability and the Markov property \eqref{eq:markov_prop}.
 \eqref{eq:chapman_kolm} directly tells us that the transition probabilities
 from a semigroup.
-Studying Markov processes from this direction is a popular approach \cite{ethier2009markov}.
+Studying Markov processes from this direction is a popular approach \parencite{ethier2009markov}.
 
 The standard method of specifying a Markov process, and \acp{CTMC} in particular, is
 is the \emph{generator}.
@@ -50,7 +50,7 @@ In general, this is an operator $A$ on some class of functions and
 \end{equation}
 where $\mathcal{F}_t$ is the filtration up to time $t$.
 This equation can be interpreted as the requirement, that
-\[f(X_t) - f(X_0) - \int_0^t Af(x_s)\,ds\] is a martingale \cite[p.~5]{kurtz1981approximation}.
+\[f(X_t) - f(X_0) - \int_0^t Af(x_s)\,ds\] is a martingale \parencite[see][p.~5]{kurtz1981approximation}.
 We will use this in \autoref{ch:MFPT} to derive bounds on \aclp{MFPT}.
 
 In \acp{CTMC} the generator is defined by giving the \emph{intensities} or \emph{rates}
@@ -189,7 +189,7 @@ In fact, this is the most widely used paradigm to analyze this kind of reaction 
 However this methodology may by widely inaccurate.
 Consider, for example, an epidemic process.
 Typically individuals are not well-stirred in a societal context and the influence of specific
-contact structures is crucial to the process' dynamics \cite{grossmann2020importance}.
+contact structures is crucial to the process' dynamics \parencite{grossmann2020importance}.
 Furthermore such a process typically exhibits discrete stochastic effects, such as the epidemic dying out.
 While the latter effect is retained in an \ac{MPM}, the former is already lost.
 Therefore, a great deal of care has to be taken by the modeller which kinds of abstractions are appropriate for the chosen abstraction.
@@ -242,7 +242,7 @@ The infinitesimal  generator matrix $Q$ has the entries
     \end{cases}
 \end{equation}
 Note that in addition mild regularity assumptions
-are   necessary for the existence of a unique \ac{CTMC} $X$, such as non-explosiveness \cite{anderson2012continuous}.
+are   necessary for the existence of a unique \ac{CTMC} $X$, such as non-explosiveness \parencite{anderson2012continuous}.
 These assumptions  are  typically
 valid for realistic reaction networks.
 The probability distribution over time is given by an
@@ -345,8 +345,8 @@ the \ac{CME} \eqref{eq:cme} becomes
 
 The explicit representation of all state probabilities is often not possible, because
 there are infinitely many states. Usually the state-space is truncated to contain all
-relevant states~\cite{andreychenko2011parameter} or one switches to
-an approximation such as the mean-field~\cite{bortolussi2013}.
+relevant states~\parencite{andreychenko2011parameter} or one switches to
+an approximation such as the mean-field~\parencite{bortolussi2013continuous}
 
 
 \section{State-Space Truncation}\label{sec:fsp}
@@ -354,12 +354,12 @@ A complete solution of \eqref{eq:cme} is usually not possible.
 If the state-space with non-negligible probability is suitably small, a state space
 truncation can be performed.
 That is, \eqref{eq:cme} is integrated on a possibly time-dependent subset
-$\hat{\mathcal{S}}_t\subseteq\mathcal{S}$ \cite{henzinger2009sliding,munsky2006finite,spieler2014numerical}.
+$\hat{\mathcal{S}}_t\subseteq\mathcal{S}$ \parencite{henzinger2009sliding,munsky2006finite,spieler2014numerical}.
 Transitions to states, that are not part of this subset are typically re-directed to a introduced sink-state.
 This state captures the mass ``lost'' by the approximation and gives the error up to the numerical integration scheme.\marginpar{Uniformization can give a lower bound on the error.}
 \citet{munsky2006finite} coined the term of \acf{FSP} for such a method.
 
-To analyze the stationary distribution (\autoref{sec:stationary_dist}) the redirection scheme needs to be altered \cite{kuntz2021stationary}:
+To analyze the stationary distribution (\autoref{sec:stationary_dist}) the redirection scheme needs to be altered \parencite{kuntz2021stationary}:
 Instead of a re-redirection into a sink-state, transitions are redirected in \emph{some fashion} back into the truncation set.
 
 \begin{example} Consider a birth-death process as a simple example. This model is used to describe a wide variety of phenomena and often constitutes a sub-module of larger models.
@@ -432,7 +432,7 @@ In a forward analysis, the sink state accumulates mass ``lost'' by the approxima
 
 If one is interested in the stationary probability distribution (\autoref{sec:stationary_dist}), a sink state is not practical, since --~in the long run~-- the process will usually enter such a state.
 Instead, the cut transitions are re-directed back into the truncation.
-A plethora of re-directions is possible \cite{gupta2017finite,kuntz2021stationary,spieler2014numerical}, but in general it is reasonable to re-direct to states with cut incoming transitions.\marginpar{Such re-directions are used in \autoref{ch:statagg}.}
+A plethora of re-directions is possible \parencite{gupta2017finite,kuntz2021stationary,spieler2014numerical}, but in general it is reasonable to re-direct to states with cut incoming transitions.\marginpar{Such re-directions are used in \autoref{ch:statagg}.}
 In this example, this is equivalent to cutting the transition, because the truncation has only this border state.
 \vspace{2em}\\
 \begin{tikzpicture}{thick}
@@ -457,7 +457,7 @@ Thus, the \ac{ODE} for state $N$ here reads
 \end{example}
 
 \section{Stochastic Simulations}\label{sec:ssa}
-We can generate trajectories of this model using the \acf{SSA} (\autoref{alg:ssa})  \cite{gillespie1977exact}.
+We can generate trajectories of this model using the \acf{SSA} (\autoref{alg:ssa})  \parencite{gillespie1977exact}.
 The simulation algorithm consists of repeatedly evaluating the race condition and jump times induced by~\eqref{eq:cme_generator} until some terminal criterion such as a maximum simulation time $T$ is reached (\autoref{line:loop}).
 In particular, the algorithm iteratively chooses a reaction, with a probability that is
 proportional to its rate given the current state $s$ (\autoref{line:sample_r}).
@@ -489,14 +489,14 @@ The main benefit of this approach is its flexibility.
 It can solve essentially all relevant tasks.
 The main drawback is the cost associated with the generation of a sufficiently large trajectory ensemble.
 This problem becomes very pronounced in case of rare event probability estimation and stiff systems.
-\marginpar{Bespoke techniques for these scenarios are available \cite{cao2005slow,daigle2011automated}.}
+\marginpar{Bespoke techniques for these scenarios are available \parencite{cao2005slow,daigle2011automated}.}
 Furthermore, the results only provide --~by their very nature~-- statistical guarantees.
 Other methods such as explicit state-space representations can give stronger guarantees.
 
 
 \section{Moment Dynamics}\label{sec:moments_bg}
 Often times, the moments of a stochastic process provide sufficient information for its analysis.
-%Such is the case for the \emph{mean-field} analysis, where only the expectations \cite{bortolussi2020fluid}
+%Such is the case for the \emph{mean-field} analysis, where only the expectations \parencite{bortolussi2020fluid}
 % are considered, while covariances are assumed to be zero.
 \acp{ODE} for the expected values of an \ac{MPM} can be derived using its generator.
 We can apply $Q$ to a polynomial $f$ such that\marginpar{This is called the \emph{drift} (see \autoref{sec:statagg:lyapunov}).}
@@ -561,12 +561,12 @@ Note, that now the right-hand side of the derivative in the example depends on t
 \end{example}
 If we consider the general expression \eqref{eq:mom_ode} for the moment of order $k$ clearly a term of order $k+1$ occurs, that does (usually) not cancel out if a propensity function is at least
 quadratic.
-Therefore, researches commonly rely on ad-hoc approximations to truncate this infinite system of \acp{ODE} \cite{hespanha2008moment,schnoerr2015,schnoerr2014validity}.
-Unfortunately such schemes have typically no guarantees to converge --~or even improve~-- with increasing truncation order \cite{schnoerr2014validity} or increasing system size.
+Therefore, researches commonly rely on ad-hoc approximations to truncate this infinite system of \acp{ODE} \parencite{hespanha2008moment,schnoerr2015,schnoerr2014validity}.
+Unfortunately such schemes have typically no guarantees to converge --~or even improve~-- with increasing truncation order \parencite{schnoerr2014validity} or increasing system size.
 Furthermore,
-\marginpar{This finite moment problem could also be posed as a \acl{GMP}. The resulting \ac{SDP} can be solved numerically \cite{lasserre2010moments}.}
-fairly involved numerical schemes have to be employed to recover distributional approximations \cite{andreychenko2017distribution}.
-The only scheme with a convergence guarantee in the system size limit is the \emph{mean-field} approximation \cite{bortolussi2013continuous}.
+\marginpar{This finite moment problem could also be posed as a \acl{GMP}. The resulting \ac{SDP} can be solved numerically \parencite{lasserre2010moments}.}
+fairly involved numerical schemes have to be employed to recover distributional approximations \parencite{andreychenko2017distribution}.
+The only scheme with a convergence guarantee in the system size limit is the \emph{mean-field} approximation \parencite{bortolussi2013continuous}.
 Therein zero-covariances are assumed, i.e.\ the system is truncated at the first oder equations using the approximation $\E{X_t^2}=\E{X_t}^2$.
 \begin{figure}[htb]
     \centering
@@ -578,7 +578,7 @@ Therein zero-covariances are assumed, i.e.\ the system is truncated at the first
 \begin{itemize}
     \item Equivalent results are obtained by modifying the network to have 1 species per abundancy (basically rule based)
 \end{itemize}
-\cite{hasenauer2014method,kazeroonian2014modeling,andreychenko2015reconstruction}
+\parencite{hasenauer2014method,kazeroonian2014modeling,andreychenko2015reconstruction}
 
 \section{Stationary Distribution}\label{sec:stationary_dist}
 Assuming
@@ -595,7 +595,7 @@ unit mass. Thus,
 \begin{equation}
 1=\sum_{x\in\mathcal{S}}\pi_{\infty}(x)\,.
 \end{equation}
-Stationary distributions are connected to the \emph{long-run} behavior of an \ac{MPM}~\cite{dayar2011bounding}, as the system's distribution will converge to the (unique)
+Stationary distributions are connected to the \emph{long-run} behavior of an \ac{MPM}~\parencite{dayar2011bounding}, as the system's distribution will converge to the (unique)
 stationary distribution.
 The connection of the stationary distribution to the long-run behavior becomes clear when considering the ergodic theorem.
 For some $A\subseteq\mathcal{S}$,
@@ -614,21 +614,21 @@ Further, we can easily show, that the stationary distribution is Poissonian with
 
 
 For simplicity, we assume throughout that the state-space is composed of a single communicating class.
-Checking ergodicity given a countably infinite number of states is achieved by providing a suitable Foster-Lyapunov function \cite{meyn2012markov}.
-Some automated techniques have been proposed for this task \cite{dayar2011bounding,gupta2014scalable,milias2014optimization}.
+Checking ergodicity given a countably infinite number of states is achieved by providing a suitable Foster-Lyapunov function \parencite{meyn2012markov}.
+Some automated techniques have been proposed for this task \parencite{dayar2011bounding,gupta2014scalable,milias2014optimization}.
 
 
 
 \subsection{Foster-Lyapunov Bounds}\label{sec:statagg:lyapunov}
 It is well-known that for a \ac{CTMC} $X$, ergodicity can be proven by a Foster-Lyapunov
- function $g:\mathcal{S}\to\mathbb{R}$ \cite{meyn1993stability,dayar2011bounding}.
+ function $g:\mathcal{S}\to\mathbb{R}$ \parencite{meyn1993stability,dayar2011bounding}.
  This is the stochastic analogue of the Lyapunov functions, used to prove convergence of \acp{ODE}.
 %The positivity requirement can somewhat be relaxed. The function only needs to be bounded from below since it can be shifted to the positives. In practice this shift can be ignored since it cancels out in the drift \eqref{eq:drift}.
 The function $g$ is required to have finite level sets:
 \[
     \left|\{x\in\mathcal{S} \mid g(x) < l\}\right|<\infty,\quad \forall l > 0.
 \]
-Typical choices for $g$ are linear \cite{gupta2014scalable,milias2014optimization} or quadratic \cite{spieler2014numerical}.
+Typical choices for $g$ are linear \parencite{gupta2014scalable,milias2014optimization} or quadratic \parencite{spieler2014numerical}.
 Given the $g$, we define its \emph{drift} $d$ as its average infinitesimal change, which is obtained applying the generator $Q$ to $g$.\marginpar{Intuitively, $g$ is interpreted as a vector with the values $f(x_i)_i=f_i$ with the same ordering as in $Q$.}% See also \autoref{sec:moments_bg}.}
 \begin{equation}\label{eq:drift}
     d(x) = Qg(x) = \sum_{j=1}^{n_R} \alpha_j(x) (g(x+v_j) -  g(x))
@@ -643,7 +643,7 @@ A Lyapunov function can be used to prove ergodicity of a \ac{CTMC}: If there is 
     &Qg(x)< \infty,\; \forall x\in C\,, \text{ and}\label{eq:pos_inside}\\
     &\lVert x\rVert\to\infty \Rightarrow g(x)\to\infty\,,\;\text{ where }\;\lVert x\rVert=\sum_i x_i\,,\label{eq:lya_normlike}
 \end{align}
-then the chain is non-explosive and ergodic~\cite{milias2014optimization,tweedie_1975}.
+then the chain is non-explosive and ergodic~\parencite{milias2014optimization,tweedie_1975}.
 Intuitively, $g(X_t)$ should be a supermartingale outside $C$ and a submartingale inside.
 Since the $g$ is norm-like due to \eqref{eq:lya_normlike} this entails that the process
 tends towards $C$ when outside, and out of from $C$ when inside.
@@ -658,7 +658,7 @@ is finite, where
 \[
     \infty> c\geq \sup_{x\in\mathcal{S}} d(x)\,.
 \]
-In this case, $\mathcal{C}_{\epsilon_{\ell}}$ contains at least $1-\epsilon_{\ell}$ of stationary probability mass for any $\epsilon_{\ell}\in(0,1)$ \cite[Thm.~8]{spieler2014numerical}.
+In this case, $\mathcal{C}_{\epsilon_{\ell}}$ contains at least $1-\epsilon_{\ell}$ of stationary probability mass for any $\epsilon_{\ell}\in(0,1)$ \parencite[][Thm.~8]{spieler2014numerical}.
 Given that $\mathcal{C}_{\epsilon_{\ell}}$ is finite, the chain is ergodic and
 \begin{equation}
     \sum_{x\in\mathcal{C}_{\epsilon_{\ell}}}\pi(x)> 1 - \epsilon_{\ell}
@@ -696,7 +696,7 @@ Specifically, it can be used to describe the following features.
         Non-biological examples can be found in the
         context of broadcasting systems,
         in which the dynamics change discretely due to messages shared between
-        agents~\cite{bortolussi2020fluid}.
+        agents~\parencite{bortolussi2020fluid}.
 
         Naturally, nearly all models change their dynamics,
         given a change in their state vector.
@@ -720,5 +720,5 @@ does not hold.
 
 Literature:
 \begin{itemize}
-    \item \cite{siegal2011emergence}
+    \item \parencite{siegal2011emergence}
 \end{itemize}

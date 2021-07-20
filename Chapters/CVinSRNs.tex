@@ -25,7 +25,7 @@
 % %
 %\section{Introduction}
 
-Analysis approaches based on sampling, such as the \acf{SSA}~\cite{gillespie1977exact}\turnto{sec:ssa}, can  be applied
+Analysis approaches based on sampling, such as the \acf{SSA}~\parencite{gillespie1977exact}\turnto{sec:ssa}, can  be applied
 independent of the size of the model's state-space. 
 However, statistical approaches are costly since a large number
 of simulation runs is necessary to reduce the statistical 
@@ -40,16 +40,16 @@ errors on top of the statistical uncertainty of the considered point estimators.
 
 Moment-based techniques offer a fast approximation of the statistical moments of the model. 
 The exact moment dynamics can be expressed as an infinite-dimensional system of \acp{ODE}, which cannot be directly  integrated for a transient analysis.
-Hence, ad-hoc approximations need to be introduced, expressing higher order moments as functions of lower-order ones \cite{ale2013general,engblom2006computing}.
+Hence, ad-hoc approximations need to be introduced, expressing higher order moments as functions of lower-order ones \parencite{ale2013general,engblom2006computing}.
 However, moment-based approaches rely on assumptions about the dynamics that are
 often not even approximately fulfilled and may lead to high approximation errors. 
 Recently, equations expressing the moment dynamics have also been used as constraints for parameter
-estimation \cite{backenkohler2018moment} and for computing moment bounds using semi-definite programming \cite{dowdy2018dynamic,ghusinga2017exact}.
+estimation \parencite{backenkohler2018moment} and for computing moment bounds using semi-definite programming \parencite{dowdy2018dynamic,ghusinga2017exact}.
 
 In this work, we propose a combination of such moment constraints with the \ac{SSA} approach.
 Specifically, we   interpret these constraints as random variables 
 that are correlated with the estimators of interest usually given as functions of chemical population variables.
-These constraints can be used  as  (linear) \acfp{CV} in order to improve the final estimate and reduce its variance \cite{lavenberg1982statistical,szechtman2003control}.
+These constraints can be used  as  (linear) \acfp{CV} in order to improve the final estimate and reduce its variance \parencite{lavenberg1982statistical,szechtman2003control}.
 The method is easy on an intuitive level: If a control variate
 is positively correlated with the function to be estimated then 
 we can use the estimate of the variate to
@@ -92,53 +92,53 @@ chain directly.
 But there are also  cases where the transient distribution has an infinitely large support
 and one can still deal with explicit state probabilities.
 To this end, one can fix a finite state-space, that should contain most of the
-probability~\cite{munsky2006finite}. Refinements of the method work
+probability~\parencite{munsky2006finite}. Refinements of the method work
 dynamically and adjust the state-space according to the transient
-distributions~\cite{andreychenko2011parameter,henzinger2009sliding,mateescu2010fast}.
+distributions~\parencite{andreychenko2011parameter,henzinger2009sliding,mateescu2010fast}.
 
 \paragraph{Moment Approximations}
 On the other end of the spectrum there are mean-field approximations, 
-which model the mean densities faithfully in the system size limit~\cite{bortolussi2013continuous}.
-In between there are techniques such as moment closure \cite{singh2006lognormal}, that
+which model the mean densities faithfully in the system size limit~\parencite{bortolussi2013continuous}.
+In between there are techniques such as moment closure \parencite{singh2006lognormal}, that
 not only consider the mean, but also the variance and other higher order moments.
 These methods depend on ad-hoc approximations of higher order moments to
 close the \ac{ODE} system given by the moment equations.
-Yet another class of methods approximate molecular counts continuously and approximate the dynamics in such a continuous space, e.g. the system size expansion~\cite{van1992stochastic} and the
-chemical Langevin equation~\cite{gillespie2000chemical}.
+Yet another class of methods approximate molecular counts continuously and approximate the dynamics in such a continuous space, e.g. the system size expansion~\parencite{van1992stochastic} and the
+chemical Langevin equation~\parencite{gillespie2000chemical}.
 
 While the moment closure method uses ad-hoc approximations for high order moments to
 facilitate numerical integration, they can be avoided in some contexts.
 For the equilibrium distribution, for example, the time-derivative of all moments is equal to zero.
 This directly yields constraints that have been used for parameter estimation at
-steady-state~\cite{backenkohler2018moment}
+steady-state~\parencite{backenkohler2018moment}
 and bounding moments of the equilibrium distribution using semi-definite
-programming~\cite{ghusinga2017estimating,ghusinga2017exact,kuntz2017rigorous}.
+programming~\parencite{ghusinga2017estimating,ghusinga2017exact,kuntz2017rigorous}.
 The latter technique of bounding moments has been successfully adapted in the 
-context of transient analysis~\cite{dowdy2018dynamic,sakurai2017convex,sakurai2019bounding}.
+context of transient analysis~\parencite{dowdy2018dynamic,sakurai2017convex,sakurai2019bounding}.
 We adapt the constraints proposed in these works to improve statistical estimations via stochastic
 simulation (cf.\ \autoref{sec:cv:moments}).
 
 
 \paragraph{Monte-Carlo Simulation}
 While the above techniques give a deterministic output, stochastic simulation generates
-single executions of the stochastic process~\cite{gillespie1977exact}.
+single executions of the stochastic process~\parencite{gillespie1977exact}.
 This necessitates accumulating large numbers of simulation runs to estimate
 quantities.
 This adds a significant computational burden. Consequently, considerable effort
 has been directed at lowering this cost.
-A prominent technique is $\tau$-leaping~\cite{gillespie2001approximate},
+A prominent technique is $\tau$-leaping~\parencite{gillespie2001approximate},
 which in one step performs multiple instead of only a single reaction.
 Another approach is to find approximations that are specific to the problem at hand,
-such as approximations based on time-scale separations~\cite{cao2005slow,bortolussi2015efficient}.
+such as approximations based on time-scale separations~\parencite{cao2005slow,bortolussi2015efficient}.
 
 Recently, multilevel Monte Carlo methods have been applied in to time-inhomogenous
-\ac{MPM}~\cite{anderson2018low}. In this techniques estimates are combined
+\ac{MPM}~\parencite{anderson2018low}. In this techniques estimates are combined
 using estimates of different approximation levels.
 
-% \cite{goodman2009coupling}
+% \parencite{goodman2009coupling}
 
 The most prominent application of a variance reduction technique in the context
-of stochastic reaction networks is importance sampling~\cite{kuwahara2008efficient}.
+of stochastic reaction networks is importance sampling~\parencite{kuwahara2008efficient}.
 This technique relies on an alteration of the process and then weighting samples
 using the likelihood-ratio between the original and the altered process.
 % \vw{This sentence stands here a bit lonely. Maybe shortly explain importance sampling? Also: there are papers about importance splitting (does this count as variance reduction technique? I would guess so.)}
@@ -156,7 +156,7 @@ moment approximations of \ac{MPM}.
 For most models the arising \ac{ODE} system is infinitely large, because the time-derivative of
 low order moments usually depends on the values of higher order moments.
 To close this system, \emph{moment closures}, i.e.\ ad-hoc approximations of higher order moments
-are applied \cite{schnoerr2015}.
+are applied \parencite{schnoerr2015}.
 The main drawback of this kind of analysis is that it is not known whether the chosen closure gives
 an accurate approximation for the case at hand.
 Here, such approximations are not necessary, since we will apply the moment dynamics in the context
@@ -164,13 +164,13 @@ of stochastic sampling instead of trying to integrate \eqref{eq:mom_ode}.
 
 Apart from integration strategies,
 setting \eqref{eq:mom_ode} to zero has been used as a constraint for parameter estimation at steady-state
-\cite{backenkohler2018moment} and bounding moments at steady-state~\cite{dowdy2018bounds,ghusinga2017exact,kuntz2017rigorous}.
+\parencite{backenkohler2018moment} and bounding moments at steady-state~\parencite{dowdy2018bounds,ghusinga2017exact,kuntz2017rigorous}.
 The extension of the latter has recently lead to the adaption of these constraints
-to a transient setting~\cite{dowdy2018dynamic,sakurai2019bounding}.
+to a transient setting~\parencite{dowdy2018dynamic,sakurai2019bounding}.
 These two transient constraint variants are analogously derived by multiplying \eqref{eq:mom_ode}
 by a time-dependent, differentiable weighting function $w(t)$ and integrating:
 
-As in the previous chapter,\turnto{eq:exp_constraint} multiplication with $w(t)$ and integration on $[t_0, T]$ yields~\cite{dowdy2018dynamic,sakurai2019bounding}
+As in the previous chapter,\turnto{eq:exp_constraint} multiplication with $w(t)$ and integration on $[t_0, T]$ yields~\parencite{dowdy2018dynamic,sakurai2019bounding}
 \begin{multline}\label{eq:poly_con}
         w(T)\E{f(X_{T})}
         - w(t_0)\E{f(X_{t_0})}
@@ -180,7 +180,7 @@ As in the previous chapter,\turnto{eq:exp_constraint} multiplication with $w(t)$
 \end{multline}
 
 In the context of computing moment bounds via semi-definite programming
-the polynomial $w(t)=t^s$~\cite{sakurai2019bounding} and the exponential $w(t)=e^{\lambda(T - t)}$~\cite{dowdy2018dynamic}
+the polynomial $w(t)=t^s$~\parencite{sakurai2019bounding} and the exponential $w(t)=e^{\lambda(T - t)}$~\parencite{dowdy2018dynamic}
 have been proposed.
 While both choices proved to be effective in different case studies, relying solely on the latter choice,
 \marginpar{In \autoref{ch:MFPT} we chose the monomial, such that \eqref{eq:poly_con} would admit the interpretation of temporal moments. Here the exponential is a good choice, because it can model both increasing and decreasing weighting.}
@@ -282,7 +282,7 @@ Now suppose, we know of a random variable $Z$ with $0=\E{Z}$.
 The variable $Z$ is called a \emph{\acf{CV}}.
 If a \acl{CV} $Z$ is correlated with $V$, we can
 use it to
-reduce the variance of $\hat{V}_n$~\cite{glasserman2005large,nelson1990control,szechtman2003control,wilson1984variance}.
+reduce the variance of $\hat{V}_n$~\parencite{glasserman2005large,nelson1990control,szechtman2003control,wilson1984variance}.
 For example, consider we are running a set of simulations and consider a single
 constraint.
 If the estimated value of this constraint is larger than zero and we estimate a positive correlation
@@ -332,7 +332,7 @@ the variance of the estimator
 \begin{equation}
 \hat{Y}_{{\beta^*}}=\hat{V}-{\beta^*}^{\top}\hat{ Z}
 \end{equation}
-is~\cite{szechtman2003control},
+is~\parencite{szechtman2003control},
 \begin{equation}\label{eq:lcv_asym}
     {\sigma_{\hat Y_{\beta^*}}^2} = (1 - R_{ Z V}^2){\sigma_{\hat V}^2}\,,
 \end{equation}
@@ -348,7 +348,7 @@ Then the estimator
 \end{equation}
 This leads to an increase in the estimator's variance.
 Under the assumption of $Z$ and $V$ having a multivariate normal
-distribution~\cite{cheng1978analysis,lavenberg1982statistical}, the variance of the estimator is
+distribution~\parencite{cheng1978analysis,lavenberg1982statistical}, the variance of the estimator is
 \begin{equation}\label{eq:lcv_norm_varred}
     {\sigma_{\hat{Y}_{\hat{\beta}}}^2} = \frac{n - 2}{n - 2 - d}(1 - R_{ ZV}^2){\sigma_{\hat V}^2}\,.
 \end{equation}
@@ -532,7 +532,7 @@ from some fixed distribution $\pi_{\lambda}$ (\autoref{line:lambda_sample}).
 %     \item What needs to be logged.
 %     \item Variance, Mean accumulation between runs
 %     \item Choice of $\rho$ is done as the largest negative
-%         eigenvalue of $Q$ \cite{dowdy2018dynamic}.
+%         eigenvalue of $Q$ \parencite{dowdy2018dynamic}.
 % \end{itemize}
 
 \section{Case Studies}\label{sec:cv:study}
@@ -551,7 +551,7 @@ Let $\sigma_Y^2$ be the variance of $Y$.
 % cost of a single iteration is $c_1$.
 The \emph{efficiency} of the method is the ratio of the necessary
 cost to achieve a similar reduction with the \ac{CV} estimate $Y_{\text{CV}}$ compared to
-the standard estimate $Y$~\cite{l1994efficiency}, i.e.
+the standard estimate $Y$~\parencite{l1994efficiency}, i.e.
 \begin{equation}\label{eq:efficiency}
 E=\frac{c_0\sigma_Y^2}{c_1\sigma^2_{Y_{\text{CV}}}}\,.
 \end{equation}
@@ -567,7 +567,7 @@ considering any control variates.
 The simulation is implemented in the Rust programming language\marginpar{\url{www.rust-lang.org}}.
 The model description is parsed from a high level specification. 
 Rate functions are compiled to stack programs for fast evaluation.
-Code is made available online \cite{cme-simulation-github}.
+Code is made available online \parencite{cme-simulation-github}.
 
 We consider four non-trivial case studies. Three models exhibit complex multi-modal behaviour.
 We now describe the models and the estimated quantities in detail.
@@ -601,7 +601,7 @@ with initial conditions $X^X_0=X^Y_0=X^B_0=100$.
 \end{model}
 
 % \begin{model}[Processive Modification]
-% \cite{cardelli2012cell}
+% \parencite{cardelli2012cell}
 % \begin{center}
 % \begin{tabular}{c@{\hskip 1.5em}c@{\hskip 1.5em}c@{\hskip 1.5em}c}
 %     $X + Y \xrightarrow{0.01} B + Y \,,$&
@@ -619,7 +619,7 @@ with initial conditions $X^X_0=X^Y_0=X^B_0=100$.
 % \end{model}
 
 \begin{model}[Exclusive Switch]\label{model:es}
-	The exclusive switch model consists of \num{5} species, \num{3} of which are typically binary (activity states of the genes) \cite{loinger2007stochastic}.
+	The exclusive switch model consists of \num{5} species, \num{3} of which are typically binary (activity states of the genes) \parencite{loinger2007stochastic}.
 \begin{align*}
 	D + P_1 &\xrightarrow{} D.P_1 &
 	D.P1 &\xrightarrow{} D + P_1  &

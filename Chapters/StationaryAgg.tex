@@ -1,10 +1,10 @@
 \chapter{Truncations for Stationary Distributions}\label{ch:statagg}
 An important part of the analysis of such models concerns their long-run behavior.
 Given an ergodic underlying Markov chain, the chain's stationary distribution characterizes this behavior.
-For some special model classes, such as zero-deficiency networks~\cite{anderson2011continuous}, analytical solutions for the stationary distribution are known.
+For some special model classes, such as zero-deficiency networks~\parencite{anderson2011continuous}, analytical solutions for the stationary distribution are known.
 However, most models require numerical approaches, often based on some form of approximation to guarantee tractability.
-Those approaches can be based on stochastic simulation~\cite{gillespie1977exact} (which for steady-state analysis tends to be slow and inaccurate) or moment-bounds via mathematical programming~\cite{kuntz2017rigorous}.
-Here, we draw on numerical approaches based on state-space truncation, which represent a viable option to approximate stationary distributions~\cite{kuntz2021approximations}.
+Those approaches can be based on stochastic simulation~\parencite{gillespie1977exact} (which for steady-state analysis tends to be slow and inaccurate) or moment-bounds via mathematical programming~\parencite{kuntz2017rigorous}.
+Here, we draw on numerical approaches based on state-space truncation, which represent a viable option to approximate stationary distributions~\parencite{kuntz2021approximations}.
 Truncation-based approaches have the benefit of describing the complete dynamics within a finite subset of the typically very large or infinite state-space.
 As such, they enable the approximation of complex distributions that are not well-described by low-order moments.
 
@@ -12,10 +12,10 @@ As such, they enable the approximation of complex distributions that are not wel
 
 The main step in the computation of such an approximation is the identification of a suitable truncation,
 i.e.\ a subset of the state-space encompassing most of the stationary probability mass.
-Existing methods typically rely on Foster-Lyapunov drift conditions to define such subsets~\cite{dayar2011bounding}.
+Existing methods typically rely on Foster-Lyapunov drift conditions to define such subsets~\parencite{dayar2011bounding}.
 While these truncations come with bounds on the contained stationary probability mass, they typically are far larger than necessary.
-The truncation is usually strongly constrained by the form of the chosen Lyapunov function~\cite{gupta2014scalable,dayar2011bounding}.
-Optimizing over possible functions to identify efficient truncations is technically challenging and, to our knowledge, has not been demonstrated for general reaction networks~\cite{milias2014optimization}.
+The truncation is usually strongly constrained by the form of the chosen Lyapunov function~\parencite{gupta2014scalable,dayar2011bounding}.
+Optimizing over possible functions to identify efficient truncations is technically challenging and, to our knowledge, has not been demonstrated for general reaction networks~\parencite{milias2014optimization}.
 
 In this work, we address the identification of suitable truncations by using an aggregation-refinement scheme.
 Initially, a Lyapunov analysis yields a set containing at least $1-\epsilon$ of the stationary probability mass.
@@ -35,28 +35,28 @@ Finally, we demonstrate the method on the p53 oscillator model exhibiting a comp
 
 \section{Related Work}\label{sec:statagg:related}
 \paragraph{Analytical Solutions}
-For some specific models, analytical solutions for the stationary distribution have been found \cite{melykuti2014equilibrium,kurasov2018stochastic}. For the class of zero-deficiency networks, the stationary distribution is known to have a Poisson product form \cite{anderson2010product}. Monomol\-ecular reaction networks can be solved explicitly, as well~\cite{jahnke2007solving}.
+For some specific models, analytical solutions for the stationary distribution have been found \parencite{melykuti2014equilibrium,kurasov2018stochastic}. For the class of zero-deficiency networks, the stationary distribution is known to have a Poisson product form \parencite{anderson2010product}. Monomol\-ecular reaction networks can be solved explicitly, as well~\parencite{jahnke2007solving}.
 
 \paragraph{Truncation-Based Analysis}
-The analysis of countably infinite-sized state-spaces is often handled by pre-defined truncations~\cite{kwiatkowska2011prism}.
+The analysis of countably infinite-sized state-spaces is often handled by pre-defined truncations~\parencite{kwiatkowska2011prism}.
 Sophisticated state-space truncations for the (uncon\-ditioned) forward analysis have been developed that give lower bounds.
-They typically provide a trade-off between computational load and tightness of the bound~\cite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
+They typically provide a trade-off between computational load and tightness of the bound~\parencite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
 Such methods cannot be directly applied to the estimation of stationary distributions because the approximation usually introduces a sink-state.
 
 Truncations for stationary distributions often involve re-direc\-tion schemes for transitions leaving and entering the subset.
-A comprehensive survey of such state-space truncation methods can be found in \cite{kuntz2021stationary}.
+A comprehensive survey of such state-space truncation methods can be found in \parencite{kuntz2021stationary}.
 A popular method of identifying truncations is the construction of a suitable Lyapunov function.
-Beyond their use for establishing ergodicity \cite{meyn1993stability,gupta2014scalable,dayar2011bounding},
-these functions can be used to obtain truncations, guaranteed to contain a certain amount of stationary probability mass \cite{dayar2011bounding}.
-Using Lyapunov functions for the construction of truncations often leads to very conservative sets \cite{milias2014optimization}.
+Beyond their use for establishing ergodicity \parencite{meyn1993stability,gupta2014scalable,dayar2011bounding},
+these functions can be used to obtain truncations, guaranteed to contain a certain amount of stationary probability mass \parencite{dayar2011bounding}.
+Using Lyapunov functions for the construction of truncations often leads to very conservative sets \parencite{milias2014optimization}.
 Different approaches have been employed to find truncations:
 In \citet{gupta2017finite} \ac{SSA} estimates are used to set up an increasing family of truncations.
 
 \paragraph{Moment-Based Approximation}
-Apart from approaches based on state-space truncations, moment-based approaches have been particularly popular recently~\cite{ghusinga2017exact,dowdy2018bounds,kuntz2017rigorous,sakurai2017convex}.
+Apart from approaches based on state-space truncations, moment-based approaches have been particularly popular recently~\parencite{ghusinga2017exact,dowdy2018bounds,kuntz2017rigorous,sakurai2017convex}.
 Such approaches are based on the fact that particular matrices of distributional moments such as mean and variance are positive semi-definite.
-Along with linear constraints stemming from the Kolmogorov equations \cite{backenkohler2016generalized}, a semi-definite program can be formulated and solved using existing tools.
-While this method is suited to compute bounds on both moments and subsets of the state-space, its application is limited, due to numerical issues inherent in the formulation \cite{dowdy2018bounds}.
+Along with linear constraints stemming from the Kolmogorov equations \parencite{backenkohler2016generalized}, a semi-definite program can be formulated and solved using existing tools.
+While this method is suited to compute bounds on both moments and subsets of the state-space, its application is limited, due to numerical issues inherent in the formulation \parencite{dowdy2018bounds}.
 
 An approach where quantities are only described in terms of their magnitude has been proposed in \citet{ceska2019semi}. This allows for an efficient qualitative analysis of both dynamic and transient behavior.
 
@@ -67,11 +67,11 @@ This is the problem of analyzing process dynamics under both initial and termina
 Aggregation-based numerical methods for computing the stationary distribution 
 of discrete or continuous-time Markov chains have been studied in
 previous work. Popular approaches rely on an alternation of aggregation and 
-disaggregation of the state-space \cite{stewart1994introduction,schweitzer1991survey}.
+disaggregation of the state-space \parencite{stewart1994introduction,schweitzer1991survey}.
 In the case of stiff chains, such aggregations are typically based on 
-a separation of time-scales \cite{cao1985iterative}.
+a separation of time-scales \parencite{cao1985iterative}.
 However, these methods have been developed for finite chains with arbitrary structure and are motivated by numerical issues of standard methods such as 
-the power method or Jacobi iteration \cite{stewart1994introduction}.
+the power method or Jacobi iteration \parencite{stewart1994introduction}.
 They do not consider a truncation of irrelevant states, while
 here our aggregation approach is used to determine the most relevant states
 under stationary conditions in large or infinite chains with population structure.
@@ -89,7 +89,7 @@ This way, a forward analysis provides lower bounds since mass leaving the trunca
 This approach, however, is unsuitable for the computation of stationary distributions because mass would accumulate in the sink-state leading to a distribution assigning all mass to it.
 Therefore, transitions leaving the truncation need to be redirected back into the truncation.
 
-The process' dynamics outside the truncation are defined by the \emph{stochastic complement} \cite{spieler2014numerical}.
+The process' dynamics outside the truncation are defined by the \emph{stochastic complement} \parencite{spieler2014numerical}.
 If its behavior was known, one could redirect outgoing to incoming transitions optimally and preserve the correct stationary distribution.
 However, this reentry distribution is typically unknown in most relevant cases.
 Many different reentry distributions have been used, such as redirecting to some internal state or states with incoming transition from outside the truncation.
@@ -97,7 +97,7 @@ Many different reentry distributions have been used, such as redirecting to some
 
 The most natural choice is to pick a reentry distribution that redirects mass to states with incoming transitions from truncated states (cf.\ \autoref{fig:truncation} (center)).
 
-Using varying redirections, we can compute bounds on the stationary probability conditioned on a truncation \cite[(Thm. 14)]{spieler2014numerical}.
+Using varying redirections, we can compute bounds on the stationary probability conditioned on a truncation \parencite[Thm.~14]{spieler2014numerical}.
 To do this, one has to compute the stationary distribution for every possible way of connecting all outgoing to a single incoming transition.
 Naturally, such an algorithm is rather expensive since one has to solve a linear system for each combination.
 Therefore this method of computing bounds is costly on very large truncations, often given by Lyapunov functions.
@@ -108,15 +108,15 @@ Due to the threshold-based truncation scheme, we are likely to end up with a som
 
 
 The identification of good truncations remains a major task in such approximations.
-Using approaches such as Lyapunov functions (\autoref{sec:statagg:lyapunov}) \cite{dayar2011bounding} or moment-bounds \cite{kuntz2021approximations} can provide a good initial estimate, but typically the resulting truncations are far larger than necessary.
+Using approaches such as Lyapunov functions (\autoref{sec:statagg:lyapunov}) \parencite{dayar2011bounding} or moment-bounds \parencite{kuntz2021approximations} can provide a good initial estimate, but typically the resulting truncations are far larger than necessary.
 This leads to dramatically increased computational costs, especially when bounding methods mentioned above are performed.
 Until a system for a larger truncation is solved, the precise location of  most of the probability mass is often unknown.
 Instead of solving the full system for such a large space, we employ an aggregation scheme to cover large areas of the state-space with exponentially fewer variables.
 
 Error bounds have been derived for increasing  truncation sets 
-in the case of linear Lyapunov functions  \cite{gupta2017finite}.
-However, until now it has not been shown that these bounds are applicable in practice \cite{meyn1994computable}.
-Alternatively, one can monitor the product of the probability-ouflow rate and the maximum L1-norm, which bounds the approximation error up to a constant $M>0$, assuming a linear Lyapunov function exists \cite{gupta2017finite}.
+in the case of linear Lyapunov functions  \parencite{gupta2017finite}.
+However, until now it has not been shown that these bounds are applicable in practice \parencite{meyn1994computable}.
+Alternatively, one can monitor the product of the probability-ouflow rate and the maximum L1-norm, which bounds the approximation error up to a constant $M>0$, assuming a linear Lyapunov function exists \parencite{gupta2017finite}.
 
 
 \begin{figure}[t]
@@ -137,14 +137,14 @@ Alternatively, one can monitor the product of the probability-ouflow rate and th
 \subsection{Initial Aggregation}\label{sec:statagg:initagg}
 The initial aggregated space $\hat{\mathcal{S}}^{(0)}$ should encompass all regions of the state-space that could contain significant mass because states outside this initial area will not be refined.
 In principle, multiple approaches could be used to identify such a region.
-One possibility is the computation of moment bounds for the stationary distribution~\cite{ghusinga2017exact,dowdy2018bounds}.
+One possibility is the computation of moment bounds for the stationary distribution~\parencite{ghusinga2017exact,dowdy2018bounds}.
 Based on these bounds on expectations and covariances, an initial truncation could be fixed.
-The approach we use here is to identify such a  region by a Lyapunov analysis \cite{dayar2011bounding}.
+The approach we use here is to identify such a  region by a Lyapunov analysis \parencite{dayar2011bounding}.
 This way, we obtain a polynomial describing a semi-algebraic subset of the entire state-space containing $1-\epsilon_{\ell}$ of the mass, where $\epsilon_{\ell}>0$ can be fixed arbitrarily.
 These sets usually are far larger than a minimal set containing $1-\epsilon_{\ell}$ of stationary probability mass would be.
 As an initial aggregation, we build an aggregation on a subset $[0..n]^{n_S}\subset \mathcal{S}$ containing the set prescribed by the Lyapunov analysis.
 We also employ this approach to estimate errors in the evaluation.
-Specifically, we employ the tool Geobound~\cite{geobound} with L2-norm as function $g$ implementing techniques presented in \citet{dayar2011bounding}.
+Specifically, we employ the tool Geobound~\parencite{geobound} with L2-norm as function $g$ implementing techniques presented in \citet{dayar2011bounding}.
 
 In many cases, simple choices of $g$ such as the L1- or L2- norm are sufficient.
 However, the sets resulting from such functions are often very conservative.
@@ -230,11 +230,11 @@ This is a desirable feature since relevant regions are less likely to be pruned 
 
 \section{Results}\label{sec:statagg:results}
 A prototype was implemented in Rust~1.50 and Python~3.8.
-The linear systems were solved either using Numpy~\cite{numpy} for up to \num{5000} states, or the sparse linear solver as available through Scipy~\cite{2020SciPy-NMeth}, or the iterative biconjugate gradient stabilized algorithm~\cite{van1992bi} (up to \num{10000} iterations and absolute tolerance \num{e-16}).
+The linear systems were solved either using Numpy~\parencite{numpy} for up to \num{5000} states, or the sparse linear solver as available through Scipy~\parencite{2020SciPy-NMeth}, or the iterative biconjugate gradient stabilized algorithm~\parencite{van1992bi} (up to \num{10000} iterations and absolute tolerance \num{e-16}).
 
 The examples that we consider in the sequel 
 are typical benchmarks for the analysis of \acp{MPM}. For most of them, appropriate Lyapunov functions
-have been determined using Geobound \cite{geobound,spieler2014numerical}.
+have been determined using Geobound \parencite{geobound,spieler2014numerical}.
 However, the corresponding Lyapunov sets containing at least $1-\epsilon_{\ell}$ of the stationary probability mass are very large for typical choices of $\epsilon_{\ell}$ (e.g. $\epsilon_{\ell}\in \{0.1,0.05,0.001\}$). Even
 for extremely large $\epsilon_{\ell}$, say $\epsilon_{\ell}=0.8$, the remaining state-space may still be huge (e.g, \num{15198} states).
 \subsection{Parallel Birth-Death Process}
@@ -298,7 +298,7 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
 % \end{figure}
 
 \subsection{Exclusive Switch}
-The exclusive switch~\cite{barzel2008calculation}  has three different modes of operation, depending on the
+The exclusive switch~\parencite{barzel2008calculation}  has three different modes of operation, depending on the
 DNA state, i.e.\ on whether a protein of type one or two is bound to
 the DNA.
 
@@ -321,7 +321,7 @@ Accordingly, we adjust
 the initial truncation:
 The state-space for the DNA states is not lumped. Instead we ``stack''
 lumped approximations of the $P_1$-$P_2$ plane upon each other.
-Such special treatment of DNA states is common for such models \cite{lapin2011shave}.
+Such special treatment of DNA states is common for such models \parencite{lapin2011shave}.
 Using Lyapunov analysis for threshold $0.001$, we fix an initial state-space of $63\times 63$ macro-states with size $2^7$. Detailed results for different parameters $\epsilon$ are presented \autoref{tab:excl_switch}\turnto{tab:excl_switch}.
 We compute error bounds using a worst-case analysis based on reference solutions provided by Geobound with $\epsilon_{\ell}=0.01$.
 We observe a strong decrease in both upper bounds on the total absolute and maximal absolute error in the final iteration.
@@ -366,9 +366,9 @@ We observe a roughly linear increase in size with an exponential decrease of $\e
 \end{figure}
 
 \subsection{p53 Oscillator}
-We now consider a model of the interactions of the tumor suppressor p53~\cite{geva2006oscillations}. The system describes the negative feedback loop between  p53 and the oncogene Mdm2.
+We now consider a model of the interactions of the tumor suppressor p53~\parencite{geva2006oscillations}. The system describes the negative feedback loop between  p53 and the oncogene Mdm2.
 Species pMdm2 models a precursor to Mdm2. This model is particularly interesting due to its complex three-di\-mea\-nsional oscillatory behavior.
-The model is ergodic with a unique stationary distribution~\cite{gupta2014scalable}.
+The model is ergodic with a unique stationary distribution~\parencite{gupta2014scalable}.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{gfx/p53_traj.pdf}
@@ -389,7 +389,7 @@ The non-polynomial degradation reaction rate
 	\[
 \alpha_4(x) =k_3 x_{\mathrm{Mdm2}} \frac{x_{\mathrm{p53}}}{x_{\mathrm{p53}} + k_7}\,.
 \]
-The parameterization based on \cite{ale2013general} is $k_1=90$, $k_2=0.002$, $k_3=1.7$, $k_4=1.1$, $k_5=0.93$, $k_6=0.96$, and $k_7 = 0.01$.
+The parameterization based on \parencite{ale2013general} is $k_1=90$, $k_2=0.002$, $k_3=1.7$, $k_4=1.1$, $k_5=0.93$, $k_6=0.96$, and $k_7 = 0.01$.
 \end{model}
 With the exception of propensity function $\alpha_4$, we can compute the transition rates $\bar{\alpha}_i$ using the Faulhaber formulae, as discussed in \autoref{ch:lumping}.
 We consider $\alpha_4$ separately, because it is non-polynomial and therefore, we have to make an approximation.

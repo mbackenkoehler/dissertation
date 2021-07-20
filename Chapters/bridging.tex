@@ -6,17 +6,17 @@ Many tasks, such as the analysis of rare events or the inference of agent counts
 In these cases, the system's initial state is known, as well as the system's (partial) state at a later time-point.
 % Parameter inference and model analysis conditioned on such sparse and partial observations are notoriously difficult as it requires endpoint conditioned simulation of the system.
 % Essentially, a model must be  analyzed  with initial conditions consistent with the observations at one time-point and under the additional constraint that its subsequent evolution is consistent with observations at later times.
-The probabilities corresponding to this so-called \emph{bridging problem} are often referred to as \emph{bridging probabilities} \cite{golightly2019efficient,golightly2011bayesian}.
+The probabilities corresponding to this so-called \emph{bridging problem} are often referred to as \emph{bridging probabilities} \parencite{golightly2019efficient,golightly2011bayesian}.
 For instance, if the exact, full state of the process $X_t$ has been observed at time $t=0$ and $t=T$, the bridging distribution is given by
 \[
 \Pr(X_t=x\mid X_{0}=x_{0},X_{T}=x_g)
 \]
 for all states $x$ and times $t\in [0,T]$.
 Often, the condition is more complex, such that in addition to an initial distribution, a terminal distribution is present.
-Such problems typically arise in a Bayesian setting, where the a priori behavior of a system is filtered such that the posterior behavior is compatible with noisy, partial observations~\cite{broemeling2017bayesian,huang2016reconstructing}.
-For example, time-series data of protein levels is available while the mRNA concentration is not  \cite{adan2017flow,huang2016reconstructing}.
+Such problems typically arise in a Bayesian setting, where the a priori behavior of a system is filtered such that the posterior behavior is compatible with noisy, partial observations~\parencite{broemeling2017bayesian,huang2016reconstructing}.
+For example, time-series data of protein levels is available while the mRNA concentration is not  \parencite{adan2017flow,huang2016reconstructing}.
 In such a scenario our method can be used to identify a good truncation to analyze the probabilities of mRNA levels.
-% Such measurements are, for example, present in biological flow-cytometry \cite{adan2017flow} data.
+% Such measurements are, for example, present in biological flow-cytometry \parencite{adan2017flow} data.
 % This technique allows one to measure protein concentrations at specific time points based on fluorescent labeling.
 % Such measurements are noisy due to low signal intensity and can, for instance, not measure whether a gene is active or not.
 % A similar problem
@@ -24,23 +24,23 @@ In such a scenario our method can be used to identify a good truncation to analy
 
 % In \acp{HMM}  the backward-forward algorithm 
 % decomposes the bridging problem into a forward and a backward
-% analysis to calculate the marginal likelihood and calibrate the model according to noisy observations. \vw{haben wir da ein Zitat mit population structure und contin.-time? Hier das ist eigentlich eine HMM \cite{andreychenko2012approximate} }\todo{Luca: nicely written, but what is the link with our framework?}
+% analysis to calculate the marginal likelihood and calibrate the model according to noisy observations. \vw{haben wir da ein Zitat mit population structure und contin.-time? Hier das ist eigentlich eine HMM \parencite{andreychenko2012approximate} }\todo{Luca: nicely written, but what is the link with our framework?}
 
 Bridging probabilities also appear in the context
 of rare events.
 Here, the rare event is the terminal constraint because we are only interested in paths containing the event.
-Typically researchers have to resort to Monte-carlo simulations in combination with variance reduction techniques in such cases~\cite{daigle2011automated,kuwahara2008efficient}.
+Typically researchers have to resort to Monte-carlo simulations in combination with variance reduction techniques in such cases~\parencite{daigle2011automated,kuwahara2008efficient}.
 % For instance, we may want to
-% compute the probability of the rare event that the number of molecules of a certain chemical species reaches a certain cellular decision threshold \cite{daigle2011automated,kuwahara2008efficient}.
+% compute the probability of the rare event that the number of molecules of a certain chemical species reaches a certain cellular decision threshold \parencite{daigle2011automated,kuwahara2008efficient}.
 
 Efficient  numerical approaches  that are not based on sampling or ad-hoc approximations have rarely been developed.
 
-Here, we combine state-of-the-art truncation strategies based on a forward analysis~\cite{lapin2011shave,andreychenko2011parameter} with a refinement approach that starts from an abstract \ac{MPM}
+Here, we combine state-of-the-art truncation strategies based on a forward analysis~\parencite{lapin2011shave,andreychenko2011parameter} with a refinement approach that starts from an abstract \ac{MPM}
 with lumped states.
 We base this lumping on a grid-like partitioning of the state-space.
 Throughout a lumped state, we assume a uniform distribution that gives an efficient and convenient abstraction of the original \ac{MPM}.
-Note that the lumping does not follow the classical paradigm of Markov chain lumpability~\cite{buchholz1994exact}
-or its variants \cite{dayar1997quasi}.
+Note that the lumping does not follow the classical paradigm of Markov chain lumpability~\parencite{buchholz1994exact}
+or its variants \parencite{dayar1997quasi}.
 Instead of an approximate block structure of the transition-matrix used in that context, we base our partitioning on a segmentation of the molecule counts.
 Moreover, during the iterative refinement of our
 abstraction, we identify those regions of
@@ -54,34 +54,34 @@ This truncation provides guaranteed lower bounds because it is at the granularit
 
 \section{Related Work}\label{sec:bridging:related}
 \paragraph{Terminal Constraints}
-The problem of endpoint constrain\-ed analysis occurs in the context of Bayesian estimation~\cite{sarkka2013bayesian}. 
+The problem of endpoint constrain\-ed analysis occurs in the context of Bayesian estimation~\parencite{sarkka2013bayesian}. 
 For \acp{MPM}, this problem has been addressed by \citet{huang2016reconstructing} using moment closure approximations and by \citet{wildner2019moment} further employing variational inference.
 Golightly and Sherlock modified stochastic simulation algorithms to approximatively  
-augment generated trajectories  \cite{golightly2019efficient}.
+augment generated trajectories  \parencite{golightly2019efficient}.
 % The idea is to  sample trajectories that are consistent with measurements, which requires sampling   appropriate values for latent state variables and sampling appropriate events between two observation times. 
-Since a statistically exact augmentation is only possible for few simple cases, diffusion approximations \cite{golightly2005bayesian} and moment approximations \cite{milner2013moment} have been employed.
+Since a statistically exact augmentation is only possible for few simple cases, diffusion approximations \parencite{golightly2005bayesian} and moment approximations \parencite{milner2013moment} have been employed.
 Such approximations, however, do not give any guarantees on the approximation error
-and may suffer from numerical instabilities~\cite{schnoerr2014validity}.
+and may suffer from numerical instabilities~\parencite{schnoerr2014validity}.
 
 \paragraph{Rare Event Probabilities}
 The bridging problem also arises during the estimation of first passage times and rare event analysis.
-Approaches for first-passage times are often of heuristic nature ~\cite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}. Rigorous approaches yielding guaranteed bounds are currently limited by the performance of state-of-the-art optimization software~\cite{backenkohler2019bounding}.
-In biological applications, rare events of interest are typically related to the reachability of certain thresholds on molecule counts   or mode switching \cite{strasser2012stability}.
-Most methods for the estimation of rare event probabilities  rely on  importance sampling~\cite{kuwahara2008efficient,daigle2011automated}.
-For other queries, alternative variance reduction techniques such as control variates are available~\cite{backenkohler2019control}.
+Approaches for first-passage times are often of heuristic nature ~\parencite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}. Rigorous approaches yielding guaranteed bounds are currently limited by the performance of state-of-the-art optimization software~\parencite{backenkohler2019bounding}.
+In biological applications, rare events of interest are typically related to the reachability of certain thresholds on molecule counts   or mode switching \parencite{strasser2012stability}.
+Most methods for the estimation of rare event probabilities  rely on  importance sampling~\parencite{kuwahara2008efficient,daigle2011automated}.
+For other queries, alternative variance reduction techniques such as control variates are available~\parencite{backenkohler2019control}.
 Apart from sampling-based approaches, dynamic finite-state projections have been employed by \citet{mikeev2013numerical}, but are lacking automated truncation schemes.
 
 \paragraph{State-Space Truncation}
-The analysis of countably infinite state-spaces is often handled by a pre-defined truncation~\cite{kwiatkowska2011prism}.
-Sophisticated state-space truncations for the (unconditioned) forward analysis have been developed to give lower bounds and rely on a trade-off between computational load and tightness of the bound~\cite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
+The analysis of countably infinite state-spaces is often handled by a pre-defined truncation~\parencite{kwiatkowska2011prism}.
+Sophisticated state-space truncations for the (unconditioned) forward analysis have been developed to give lower bounds and rely on a trade-off between computational load and tightness of the bound~\parencite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
 
 \paragraph{Reachability in Verification}
-Reachability --~relevant in the context of probabilistic verification \cite{bortolussi2014stochastic,neupane2019stamina}~-- is a bridging problem where the endpoint constraint is the visit of a set of goal states.
-Backward probabilities are commonly used to compute reachability likelihoods \cite{amparore2013backward,zapreev2006safe}.
-Approximate techniques for reachability, based on moment closure and stochastic approximation, have also been developed in \cite{bortolussi2014stochastic,Bortolussi18infcomp}, but lack error guarantees. 
+Reachability --~relevant in the context of probabilistic verification \parencite{bortolussi2014stochastic,neupane2019stamina}~-- is a bridging problem where the endpoint constraint is the visit of a set of goal states.
+Backward probabilities are commonly used to compute reachability likelihoods \parencite{amparore2013backward,zapreev2006safe}.
+Approximate techniques for reachability, based on moment closure and stochastic approximation, have also been developed in \parencite{bortolussi2014stochastic,Bortolussi18infcomp}, but lack error guarantees. 
 
 \paragraph{Hidden Markov Models}
-There is also a conceptual similarity between computing bridging probabilities and the forward-backward algorithm for computing state-wise posterior marginals in \acfp{HMM}~\cite{rabiner1986introduction}. Like \acp{MPM}, \acp{HMM} are a generative model that can be conditioned on observations. We only consider two observations (initial and terminal state) that are not necessarily noisy but the forward and backward probabilities admit the same meaning.
+There is also a conceptual similarity between computing bridging probabilities and the forward-backward algorithm for computing state-wise posterior marginals in \acfp{HMM}~\parencite{rabiner1986introduction}. Like \acp{MPM}, \acp{HMM} are a generative model that can be conditioned on observations. We only consider two observations (initial and terminal state) that are not necessarily noisy but the forward and backward probabilities admit the same meaning.
 
 
 \section{Backwards Probabilities}
@@ -119,7 +119,7 @@ finite subset.
 The choice of this truncation heavily depends on the goal of the
 analysis.
 If one is interested in the most ``common'' behavior, for example,
-a dynamic mass-based truncation scheme is most appropriate \cite{mikeev2019approximate}.
+a dynamic mass-based truncation scheme is most appropriate \parencite{mikeev2019approximate}.
 Such a scheme truncates states with small probability during the numerical integration.
 However, common mass-based truncation schemes are not as useful for the
 bridging problem. This is because trajectories that meet
@@ -187,11 +187,11 @@ Even in simple models such as a birth-death Process (\autoref{model:bd}), the
 reachable state-space is countably infinite.
 Direct analyzes of backward \eqref{eq:back_probs} and forward equations \eqref{eq:forw_prob}\turnto{eq:forw_prob} are often infeasible.
 Instead, the integration of these differential equations requires working
-with a finite subset of the infinite state-space \cite{munsky2006finite}.
+with a finite subset of the infinite state-space \parencite{munsky2006finite}.
 If states are truncated, their incoming transitions from states that are not truncated can be re-directed to a \emph{sink state}.
 The  accumulated probability in this sink state is then used
 as an error estimate for the forward integration scheme.
-Consequently, many truncation schemes, such as dynamic truncations \cite{andreychenko2011parameter}, aim to minimize the
+Consequently, many truncation schemes, such as dynamic truncations \parencite{andreychenko2011parameter}, aim to minimize the
 amount of ``lost mass'' of the forward probability.
 We use the same truncation method but base the truncation on bridging probabilities rather than the forward probabilities.
 % We redirect incoming transitions of truncated states to the sink state.
@@ -296,12 +296,12 @@ states contributing significantly to $\hat\gamma_t^{(i)}$ will be kept and refin
 % stochastic evolution is described through an MJP.
 % The corresponding population structure is given by the 
 % copy numbers of different chemical species. 
-% In this application field, an important challenge is the computation of rare event probabilities \cite{daigle2011automated,chong2017path}. 
-% Rare events of interest are typically reachability of certain thresholds on molecule counts   or mode switching \cite{strasser2012stability}. <- ist jetzt im rel work
+% In this application field, an important challenge is the computation of rare event probabilities \parencite{daigle2011automated,chong2017path}. 
+% Rare events of interest are typically reachability of certain thresholds on molecule counts   or mode switching \parencite{strasser2012stability}. <- ist jetzt im rel work
 % 
 We present four examples in this section to evaluate our proposed method. 
-A prototype was implemented in Python~3.8. For numerical integration we used the Scipy implementation \cite{2020SciPy-NMeth} of the implicit method based on backward-differentiation formulas \cite{byrne1975polyalgorithm}.
-The analysis as a Jupyter notebook is made available online~\cite{mjp_bridging}.
+A prototype was implemented in Python~3.8. For numerical integration we used the Scipy implementation \parencite{2020SciPy-NMeth} of the implicit method based on backward-differentiation formulas \parencite{byrne1975polyalgorithm}.
+The analysis as a Jupyter notebook is made available online~\parencite{mjp_bridging}.
 
 \subsection{Bounding Rare Event Probabilities}
 We consider a simple model of two parallel Poisson processes describing the production of two 
@@ -368,25 +368,25 @@ It is possible to adapt our truncation approach to the dynamic scheme in \citet{
 % over time intervals. \todo{L: I do not get this really? line 7 is the split. } % MB: this point is not important
 
 A finite state-space truncation covering the same area as the initial lumping approximation would contain $25,\!600$ states.\graffito{The goal  is not treated as a single state. Otherwise, it consisted of $24,\!130$ states.}
-The standard approach would be to build up the entire state-space for such a model \cite{kwiatkowska2011prism}.
+The standard approach would be to build up the entire state-space for such a model \parencite{kwiatkowska2011prism}.
 Even using a conservative truncation threshold $\delta=\e{1}{-5}$, our method yields an accurate estimate using only about a fifth (\num{5450}) of this accumulated over all intermediate lumped approximations. 
 % Moreover the analysis yields intermediate distributions which we would not obtain using PRISM.
 
 \subsection{Mode Switching}
 %Next, we turn to ``mode switching'' events.
 %These occur in models exhibiting a \emph{multi-modal} behavior, which are of great relevance in
-%many contexts~\cite{siegal2011emergence}. These models exhibit a multi-modal stationary distribution.
+%many contexts~\parencite{siegal2011emergence}. These models exhibit a multi-modal stationary distribution.
 Mode switching occurs in models exhibiting   \emph{multi-modal} behavior (see \autoref{sec:multimodality} for details) when a trajectory   traverses a potential barrier from one mode
 to another.
 \graffito{This often is an instance
 of rare-event analysis.}
-Often, mode switching is a rare event and occurs in the context of gene regulatory networks where a mode is characterized by the set of genes being currently active~\cite{loinger2007stochastic}. 
+Often, mode switching is a rare event and occurs in the context of gene regulatory networks where a mode is characterized by the set of genes being currently active~\parencite{loinger2007stochastic}. 
 Similar dynamics also commonly occur in queuing models where a system may for example switch its operating  behavior stochastically if
 traffic increases above or decreases below certain thresholds.
 Using the presented method, we can get both a   qualitative and quantitative understanding of   switching
 behavior without resorting to Monte-Carlo methods such as   importance sampling.
 % In the most common importance sampling scheme, for example,
-% rate functions are biased using linear constants, fitted according to a cross-entropy objective~\cite{daigle2011automated}.
+% rate functions are biased using linear constants, fitted according to a cross-entropy objective~\parencite{daigle2011automated}.
 % These biased paths are not necessarily representative of the bridging
 % distributions.
 %Thus we can gain a deeper insight into
@@ -399,7 +399,7 @@ behavior without resorting to Monte-Carlo methods such as   importance sampling.
 % \end{itemize}
 
 \subsubsection{Exclusive Switch}
-The exclusive switch~\cite{barzel2008calculation}  has three different modes of operation, depending on the
+The exclusive switch~\parencite{barzel2008calculation}  has three different modes of operation, depending on the
 \ac{DNA} state, i.e.\ on whether a protein of type one or two is bound to
 the \ac{DNA}.
 
@@ -415,7 +415,7 @@ The parameter values are $\rho=\e{1}{-1}$, $\lambda=\e{1}{-3}$, $\beta=\e{1}{-2}
 Since we know a priori of the three distinct operating modes, we adjust
 the method slightly:
 The state-space for the \ac{DNA} states is not lumped. Instead we ``stack''
-lumped approximations of the $P_1$-$P_2$ phase space upon each other. Special treatment of \ac{DNA} states is common for such models \cite{lapin2011shave}. 
+lumped approximations of the $P_1$-$P_2$ phase space upon each other. Special treatment of \ac{DNA} states is common for such models \parencite{lapin2011shave}. 
 
 %We assess the switching dynamics from one mode to another.
 To analyze the switching, we choose the transition from\graffito{Variable order: $P_1$, $P_2$, $D$, $D.P_1$, $D.P_2$.}
@@ -460,7 +460,7 @@ These dynamics are already qualitatively captured by the first lumped approximat
 \subsubsection{Toggle Switch}\label{sec:bridging:hill_toggle}
 Next, we apply our method to  a toggle switch model exhibiting non-polynomial rate functions.
 This well-known  model considers two proteins $A$ and $B$
-inhibiting the production of the respective other protein~\cite{lipshtat2006genetic}.
+inhibiting the production of the respective other protein~\parencite{lipshtat2006genetic}.
 \begin{model}[Toggle Switch using Hill functions]\label{model:hill_toggle}
 We have population types $A$ and $B$ with the following reactions and reaction rates.
 $$ \varnothing \xrightarrow{\alpha_1(\cdot)} A\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + x_B},
@@ -514,7 +514,7 @@ and similarly the backward probabilities are given by
     \beta(x_i, t) = \sum_j\Pr(X_T=x_j\mid X_t = x_i) \beta_T(x_j)\,.
 \end{equation}
 We apply our method to an \acf{SEIR} model.
-This is widely used to describe the spreading of an epidemic such as the current COVID-19 outbreak~\cite{he2020seir,grossmann2020importance}.
+This is widely used to describe the spreading of an epidemic such as the current COVID-19 outbreak~\parencite{he2020seir,grossmann2020importance}.
 Temporal snapshots of the epidemic spread  are mostly only available for a subset of the population and suffer from   inaccuracies of diagnostic tests.
 Bayesian estimation can then be used to infer the spreading dynamics given uncertain temporal snapshots.
 %Therefore due to the combination of model simulation and the uncertain measurements a  problem arises.
@@ -604,11 +604,11 @@ In the final step of the iteration, we operate at the granularity of the origina
 
 Our method exploits the population structure of the model, which is present in many important application fields of \acp{MPM}.
 % As with any direct method based on truncations, our approach is limited to models where population sizes remain relatively small.
-Based on experience with other work based on truncation, the approach can be expected to scale up to at least a few million states~\cite{mikeev2011efficient}.
+Based on experience with other work based on truncation, the approach can be expected to scale up to at least a few million states~\parencite{mikeev2011efficient}.
 Compared to previous work, our method neither relies on approximations of unknown accuracy nor additional information such as a suitable change of measure in the case of importance sampling.
 It only requires a truncation threshold and an initial choice for the macro-state sizes.
-% Alternatively, uniformization can be applied to strengthen the precision guarantees \cite{mateescu2010fast}.\MB{for backward solutions too?; uniformization does not fit with the paragraphs opening; schon oben}
+% Alternatively, uniformization can be applied to strengthen the precision guarantees \parencite{mateescu2010fast}.\MB{for backward solutions too?; uniformization does not fit with the paragraphs opening; schon oben}
 
 In future work, we plan to extend our method to hybrid approaches, in
 which a moment representation is employed for large populations while discrete counts are maintained for small populations.
-Moreover, we will apply our method to model checking  where constraints are described by some temporal logic \cite{hajnal2019data}.
+Moreover, we will apply our method to model checking  where constraints are described by some temporal logic \parencite{hajnal2019data}.

@@ -9,8 +9,16 @@
     %*******************************************************
     % List of Figures
     %*******************************************************
-    %\phantomsection
-    %\addcontentsline{toc}{chapter}{\listfigurename}
+ %  \phantomsection
+ %  \addcontentsline{toc}{chapter}{\listfigurename}
+\defbibheading{bibintoc2}[\listoffigurename]{%
+  \phantomsection
+  \manualmark
+  \markboth{\spacedlowsmallcaps{#1}}{\spacedlowsmallcaps{#1}}%
+  \addtocontents{toc}{\protect\vspace{\beforebibskip}}%
+  \addcontentsline{toc}{chapter}{\tocEntry{#1}}%
+  \chapter*{#1}%
+}
     \pdfbookmark[0]{\listfigurename}{lof}
     \listoffigures
 
