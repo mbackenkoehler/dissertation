@@ -554,18 +554,18 @@ for some Borel-measure supported on the unit interval $[0,1]$.
 \citet{hausdorff} came up with a necessary condition that
 \marginpar{See also \citet{feller} for additional details.}
 \begin{equation}\label{eq:hausdorff}
-	\int_0^1 x^n(1-x)^k\,d\mu(x) \geq 0, \quad \forall n, k\in\mathbb{N}\,.
+    \int_0^1 x^\ell(1-x)^k\,d\mu(x) \geq 0, \quad \forall \ell, k\in\mathbb{N}\,.
 \end{equation}
 The validity of this condition is easy to see since
 \begin{equation}\label{eq:hausdorff_integrand}
-	x^n(1-x)^k\geq 0, \quad \forall x\in[0,1]\,.
+	x^\ell(1-x)^k\geq 0, \quad \forall x\in[0,1]\,.
 \end{equation}
 Expanding this term yields a polynomial, which --~by integration~-- provides a linear constraint on the moments.
 This moment condition has been used by \citet{helmes2001computing} to bound \acp{MFPT} in a variety of stochastic processes.
 Since these conditions are linear in the moments they can solve linear programs instead of the semi-definite programs shown below.
 
 \begin{example}
-	Let $n = 2$, $k=2$. Then the \eqref{eq:hausdorff} becomes
+	Let $\ell = 2$, $k=2$. Then the \eqref{eq:hausdorff} becomes
 	\[
 		\int_0^1 x (1 - x)^2 \,d\mu(x) =
 		m_2 - 2 m_3 + m_4 \geq 0
@@ -578,7 +578,7 @@ Let the interval be $[0,H]$, $H>0$ then we can simply change the variables.
 That means considering $y=x/H$ instead of $x$.
 Equivalently, we can apply this rescaling in \eqref{eq:hausdorff} such that
 \begin{equation}\label{eq:hausdorff_scaled}
-	\int_0^H x^n(H-x)^k\,d\mu(x) \geq 0, \quad \forall n, k\in\mathbb{N}
+	\int_0^H x^\ell(H-x)^k\,d\mu(x) \geq 0, \quad \forall \ell, k\in\mathbb{N}
 \end{equation}
 remains a valid constraint on $[0,H]$.
 
@@ -586,13 +586,32 @@ Generalizing \eqref{eq:hausdorff} to multiple dimensions can be done by simply m
 for each dimension in a similar manner.
 For $n$ dimensions
 \begin{equation*}
-	\int_{{[0,1]}^n}\prod_{i = 0}^n x^{n_i}{(1-x)}^{k_i}\,d\mu{(\vec{x}})\geq 0
+	\int_{{[0,1]}^n}\prod_{i = 0}^n x_i^{\ell_i}{(1-x_i)}^{k_i}\,d\mu{(\vec{x}})\geq 0
 \end{equation*}
-for all $n_i, k_i\in\mathbb{N}$ and $i\in \{0,\dotsc, n\}$.
+for all $\ell_i, k_i\in\mathbb{N}$ and $i\in \{0,\dotsc, n\}$.
+\marginpar{We treat the time horizon $T$ exactly the same as the other bounds $H_i$ here.}
 With arbitrary positive upper bounds $H_1, H_2, \dotsc, H_n$ this becomes
-\begin{equation}
-	\int_{{[0,H_1]\times\dotsm\times [0,H_n]}}\prod_{i = 0}^n x^{n_i}{(H_i-x)}^{k_i}\,d\mu{(\vec{x}})\geq 0
+\begin{equation}\label{eq:hausdorff_constraint}
+	\int_{{[0,H_1]\times\dotsm\times [0,H_n]}}\prod_{i = 0}^n x_i^{\ell_i}{(H_i-x_i)}^{k_i}\,d\mu{(\vec{x}})\geq 0
 \end{equation}
+This equation can simply be expanded using the multi-binomial theorem. % Taken from Wikipedia : https://en.wikipedia.org/wiki/Binomial_theorem#Multi-binomial_theorem
+This is just a vector version of the regular binomial theorem
+\[
+    (y + x)^k = \sum_{j=0}^k \binom{k}{j}y^{j}x^{k-j}\,.
+\]
+That is, given $n$-dimensional vectors $k$, $x$, and $y$
+\begin{multline*}
+    (y_1+x_1)^{k_1}\dotsm(y_n+x_n)^{k_n} =\\ \sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n} \binom{k_1}{j_1} y_1^{j_1}x_1^{k_1-j_1} \dotsc \binom{k_n}{j_n} y_n^{j_n}x_n^{k_n-j_n}\,.
+\end{multline*}
+% In multi-index notation
+% \[
+%     (y + x)^k = \sum_{\nu\leq k} \binom{k}{\nu} y^{\nu}x^{k-\nu}\,.
+% \]
+Thus, \eqref{eq:hausdorff_constraint} becomes
+\begin{multline}
+    \sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n} \binom{k_1}{j_1} H_1^{j_1}(-1)^{k_1-j_1}x_1^{k_1-j_1+\ell_1} \dotsc \\
+    \binom{k_n}{j_n} H_n^{j_n}(-1)^{k_n-j_n}x_n^{k_n-j_n+\ell_n}\geq 0\,.
+\end{multline}
 
 \subsection{Semi-Definite Constraints}
 The linear constraints alone are not sufficient to identify moment bounds.
