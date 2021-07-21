@@ -30,7 +30,7 @@
 %\section{Introduction}
 For the quantitative analysis of \acp{CTMC}, many   approaches have been
 developed, where properties of interest are often expressed in terms of temporal logics such as
-\acs{CSL}~\parencite{aziz1996verifying,baier2000model,baier2003model},
+\acs{CSL}~\parencite{aziz1996verifying,baier2000model,baier2003model,spieler2014model},
 \acs{MTL}~\parencite{chen2011time},
 and specifications for timed-automata~\parencite{chen2009quantitative,mikeev2013fly}.
 In addition, there exist
@@ -596,15 +596,12 @@ With arbitrary positive upper bounds $H_1, H_2, \dotsc, H_n$ this becomes
 \end{equation}
 This equation can simply be expanded using the multi-binomial theorem. % Taken from Wikipedia : https://en.wikipedia.org/wiki/Binomial_theorem#Multi-binomial_theorem
 This is just a vector version of the regular binomial theorem
-\[
-    (y + x)^k = \sum_{j=0}^k \binom{k}{j}y^{j}x^{k-j}\,.
-\]
 That is, given $n$-dimensional vectors $k$, $x$, and $y$
+\marginpar{We use multi-index notation here.}
 \[
-    \prod_{i=1}^{n}(y_i+x_i)^{k_i} =
-    \sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n}
-    \prod_{i=1}^{n}
-    \binom{k_i}{j_i} y_i^{j_i}x_i^{k_i-j_i}\,.
+    (y+x)^{k} =
+    \sum_{j\leq k}
+    \binom{k}{j} y^{j}x^{k-j}\,.
 \]
 % In multi-index notation
 % \[
@@ -612,12 +609,18 @@ That is, given $n$-dimensional vectors $k$, $x$, and $y$
 % \]
 Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
 \marginpar{We can interchange the integrals since all measures have finite support and mass.}
-\begin{multline}
-    \sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n} 
-    \prod_{i=1}^{n}\binom{k_i}{j_i}
-    H_i^{j_i}(-1)^{k_i-j_i}\\
-    \int_{\bigtimes_{m=1}^n{[0,H_m]}} x^{k-j+\ell} \,d\mu(x)\geq 0\,.
-\end{multline}
+\begin{equation}
+    %\sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n} 
+    \sum_{j\leq k}
+    %\left(\prod_{i=1}^{n}\binom{k_i}{j_i}
+    \binom{k}{j}
+    %H_i^{j_i}(-1)^{k_i-j_i}
+    H^j (-1)^{k-j}
+    %\right)\\
+    %\int_{\bigtimes_{i=1}^n[0,H_i]}
+    \int
+    x^{k-j+\ell} \,d\mu(x)\geq 0\,.
+\end{equation}
 
 \subsection{Semi-Definite Constraints}
 The linear constraints alone are not sufficient to identify moment bounds.
@@ -794,9 +797,9 @@ To this end, the moment matrices can be arranged in a block-diagonal form and th
 localizing constraints \eqref{eq:localizing_sd_constraints} can be encoded
 by the introduction of new variables and appropriate equality constraints.
 This transformation can be done automatically using modeling frameworks
-such as CVXPY~\parencite{cvxpy}. We therefore only give the \ac{SDP} in the more intuitive format.
-This problem can be solved using off-the-shelf \ac{SDP} solvers such as MOSEK~\parencite{mosek},
-CVXOPT~\parencite{vandenberghe2010cvxopt}, or SCS~\parencite{scs}.
+such as \acsfont{CVXPY}~\parencite{cvxpy}. We therefore only give the \ac{SDP} in the more intuitive format.
+This problem can be solved using off-the-shelf \ac{SDP} solvers such as \acsfont{MOSEK}~\parencite{mosek},
+\acsfont{CVXOPT}~\parencite{vandenberghe2010cvxopt}, or \acsfont{SCS}~\parencite{scs}.
 
 In principle, we can choose an arbitrarily large order $r$ for the moment matrices
 and their corresponding constraints, because there are
@@ -858,7 +861,7 @@ of the problem.
     \centering
     \includegraphics[width=\textwidth]{gfx/magnitudes.pdf}
 	\caption[Unscaled and scaled value of the moment matrix]{The unscaled and scaled value of the moment matrix proxy variable
-    $M(\vec{z'})$ after optimization using MOSEK. The indices are given along the
+    $M(\vec{z'})$ after optimization using \acsfont{MOSEK}. The indices are given along the
     logarithmic (base $10$) values. The unscaled version (left) shows large
     differences in magnitudes, while on the scaling suppresses
     these large variations (right). The case study used here is \autoref{model:dim},
@@ -869,7 +872,7 @@ of the problem.
 
 
 \subsection{Case Studies}
-We implemented and solved the \ac{SDP} programs described above using optimization suite MOSEK~\parencite{mosek} (version 9.1.2) via the CVXPY
+We implemented and solved the \ac{SDP} programs described above using optimization suite \acsfont{MOSEK}~\parencite{mosek} (version 9.1.2) via the \acsfont{CVXPY}
 interface~\parencite{cvxpy} (version 1.0.24).
 
 \subsubsection{Dimerization}
