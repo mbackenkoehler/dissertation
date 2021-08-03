@@ -1,5 +1,5 @@
 \chapter{State-Space Aggregation}\label{ch:lumping}
-In this part, we propose a  method to identify a truncation that optimizes the trade-off between the size of the considered state-space and the approximation error due to the \acf{FSP}\turnto{sec:fsp}.
+In this part, we propose a  method to identify a truncation that optimizes the trade-off between the size of the considered state-space and the approximation error due to the \acf{FSP}\turnto{sec:fsp}\@.
 To this end, we start with a very coarse-grained model abstraction that we refine iteratively. 
 The coarse-grained model is based on an grid-shaped aggregation (i.e.\ lumping) scheme that identifies a set of macro-states.
 These macro-states can be used to compute an interim model solution that guides the refinement in the next step.
@@ -34,7 +34,7 @@ In the absence of concrete knowledge about the probability distribution inside a
 \section{Construction}
 The grid structure makes the computation of transition rates between macro-states particularly convenient and computationally simple.
 Mass-action reaction rates can be given in a closed-form,
-due to the Faulhaber formulae~\parencite{knuth1993johann} and more complicated rate functions such as Hill-functions can often be handled as well by taking appropriate integrals (see \autoref{sec:bridging:hill_toggle}).
+due to the Faulhaber formulae~\parencite{knuth1993johann} and more complicated rate functions such as Hill-functions can often be handled as well by taking appropriate integrals (see page~\pageref{model:hill_toggle}).
 
 Suppose, we are interested in the transition rate from macro-state $\bar{x}_i$ to macro-state $\bar{x}_k$ according to reaction $j$.
 Using the uniformity assumption, this is simply the mean rate of the states in $\bar{x}_i$ that go to $\bar{x}_k$ using $j$.
@@ -228,4 +228,4 @@ Mostly we encounter this phenomenon in models that exhibit a significant change 
 Examples include the toggle switch with Hill-functions (\autoref{model:hill_toggle}\turnto{model:hill_toggle}) and die-out in epidemics models (\autoref{model:seir}\turnto{model:seir}).
 Other cases are rather rare in the standard model repertoire, but some awareness is necessary.
 
-Fortunately, by refining the aggregation down to ``full resolution'', we can gain the guarantees inherent to \ac{FSP}.
+Fortunately, by refining the aggregation down to ``full resolution'', we can gain the guarantees inherent to \ac{FSP}\@.

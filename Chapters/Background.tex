@@ -16,7 +16,7 @@ For all Borel-measurable functions $f$
     \E{f(X_{t+s})\mid \mathcal{F}_t} = \E{f(X_{t+s})\mid X(t)}\,.
 \end{equation}
 Intuitively, this property expresses that the future of the process depends only on the latest condition, i.e.\ $X_{t}$ and not earlier conditions ($\mathcal{F}_t$).
-A \ac{CTMC} is a Markov process, that takes discrete values $\mathcal{S}=\{s_0, s_1,\dots\}$ over continuous time $T=[0,\infty)$.\marginpar{The time-discrete analogue is the \ac{DTMC}.}
+A \ac{CTMC} is a Markov process, that takes discrete values $\mathcal{S}=\{s_0, s_1,\dots\}$ over continuous time $T=[0,\infty)$.\marginpar{The time-discrete analogue is the \ac{DTMC}\@.}
 If further
 \begin{equation}\label{time_homo}
     \Pr\left(X_t=s_1\mid X_0 = s_0\right)
@@ -51,7 +51,7 @@ In general, this is an operator $A$ on some class of functions and
 where $\mathcal{F}_t$ is the filtration up to time $t$.
 This equation can be interpreted as the requirement, that
 \[f(X_t) - f(X_0) - \int_0^t Af(x_s)\,ds\] is a martingale \parencite[see][p.~5]{kurtz1981approximation}.
-We will use this in \autoref{ch:MFPT} to derive bounds on \aclp{MFPT}.
+We will use this in \autoref{ch:MFPT} to derive bounds on \aclp{MFPT}\@.
 
 In \acp{CTMC} the generator is defined by giving the \emph{intensities} or \emph{rates}
 of transitions.
@@ -127,7 +127,7 @@ Here, we only provide a basic overview and intuition relevant for the rest of th
         integration schemes.
     \item[Uniformization]\label{item:uniformization}
         Uniformization is an elegant algorithm to compute transient solutions.
-        Here, the \ac{CTMC} is transformed into a \ac{DTMC}.
+        Here, the \ac{CTMC} is transformed into a \ac{DTMC}\@.
         Using a uniformization rate \[\lambda_0\geq\max_{i}\lvert q_{ii}\rvert\]
         the transition probabilities of the \ac{DTMC} become
         \[
@@ -147,14 +147,14 @@ Here, we only provide a basic overview and intuition relevant for the rest of th
         Truncation of this series clearly gives an underapproximation.
     \item[Monte Carlo simulation]
         A simple way is estimation using Monte Carlo methods. This entails stochastic
-        simulation of many trajectories of the \ac{CTMC}. Generating a trajectory is
+        simulation of many trajectories of the \ac{CTMC}\@\@. Generating a trajectory is
         straightforward: Given that the process is in a particular state $s_i$
         the a transition has to be sampled along with the residence time in state
         $s_i$. The naive approach is to sample an exponential random variable for
         each $q_{ij}$ and choose the one firing first.
         This algorithm can be improved by sampling a reaction directly and
         sampling the residence time separately. This algorithm will be shown later
-        in the context of \acp{MPM}.\turnto{alg:ssa}
+        in the context of \acp{MPM}\@.\turnto{alg:ssa}
 \end{description}
 % \begin{itemize}
 %    \item Properties (non-explosivity, ergodicity, reversibility, irreducibility etc.)
@@ -163,7 +163,7 @@ Here, we only provide a basic overview and intuition relevant for the rest of th
 \section{Markovian Population Models}
 An \acf{MPM}
 among agents of $n_S$ distinct types in a well-stirred system.
-Other names for this model class are \acf{pCTMC}, \acf{CRN}, and \acf{SRN}.
+Other names for this model class are \acf{pCTMC}, \acf{CRN}, and \acf{SRN}\@.
 The system is given by a continuous-time stochastic process $\{X_t\}_{t\geq 0}$.
 It models only the number of agents according to their type.
 Therefore the process takes $n_S$-dimensional vectors of natural numbers as values, i.e.\ the
@@ -183,13 +183,13 @@ These assumptions bring with them, the convenience of considering populations as
 The single agent is of no importance to the dynamics of the process.
 Just the overall size of each population determines the stochastic evolution of the process.
 Another consequence of this assumption is the limiting behaviour under this assumption.
-If all populations are proportionally scaled to infinity, their concentrations can be accurately described by deterministic \acp{ODE}.
+If all populations are proportionally scaled to infinity, their concentrations can be accurately described by deterministic \acp{ODE}\@.
 \marginpar{Other assumptions, such as exponentially distributed firing times are discussed below.}
 In fact, this is the most widely used paradigm to analyze this kind of reaction networks.
 However this methodology may by widely inaccurate.
 Consider, for example, an epidemic process.
 Typically individuals are not well-stirred in a societal context and the influence of specific
-contact structures is crucial to the process' dynamics \parencite{grossmann2020importance}.
+contact structures is crucial to the process' dynamics \parencite{grossmann2020importance,grossmann2021heterogeneity}.
 Furthermore such a process typically exhibits discrete stochastic effects, such as the epidemic dying out.
 While the latter effect is retained in an \ac{MPM}, the former is already lost.
 Therefore, a great deal of care has to be taken by the modeller which kinds of abstractions are appropriate for the chosen abstraction.
@@ -232,7 +232,7 @@ in some vector of length $n_S$.
 
 According to \eqref{eq:firing} the stochastic
 process $\{{{X}}_t\}_{t\geq 0}$ describing the evolution of the population
-sizes over time $t$ is a \acf{CTMC}.
+sizes over time $t$ is a \acf{CTMC}\@.
 The infinitesimal  generator matrix $Q$ has the entries
 \begin{equation}\label{eq:cme_generator}
     Q_{ x,  y} = \begin{cases}
@@ -365,6 +365,7 @@ Instead of a re-redirection into a sink-state, transitions are redirected in \em
 \begin{example} Consider a birth-death process as a simple example. This model is used to describe a wide variety of phenomena and often constitutes a sub-module of larger models.
 For example, it represents an M/M/1 queue with service rates being linearly dependent on the queue length.
 Note that even for this simple model, the state-space is countably infinite.
+    \marginpar{This process occurs in many different varieties. For example, the state-space may be finite and propensities are non-polynomial \parencite[see][]{backenkohler2020birth}.}
 % \MB{could remove model environment for space}
 \begin{model}[Birth-Death Process]\label{model:bd}
 The model consists of exponentially distributed arrivals and service times proportional to queue length. It can be expressed using two mass-action reactions:
@@ -564,7 +565,7 @@ quadratic.
 Therefore, researches commonly rely on ad-hoc approximations to truncate this infinite system of \acp{ODE} \parencite{hespanha2008moment,schnoerr2015,schnoerr2014validity}.
 Unfortunately such schemes have typically no guarantees to converge --~or even improve~-- with increasing truncation order \parencite{schnoerr2014validity} or increasing system size.
 Furthermore,
-\marginpar{This finite moment problem could also be posed as a \acl{GMP}. The resulting \ac{SDP} can be solved numerically \parencite{lasserre2010moments}.}
+\marginpar{This finite moment problem could also be posed as a \acl{GMP}\@. The resulting \ac{SDP} can be solved numerically \parencite{lasserre2010moments}.}
 fairly involved numerical schemes have to be employed to recover distributional approximations \parencite{andreychenko2017distribution}.
 The only scheme with a convergence guarantee in the system size limit is the \emph{mean-field} approximation \parencite{bortolussi2013continuous}.
 Therein zero-covariances are assumed, i.e.\ the system is truncated at the first oder equations using the approximation $\E{X_t^2}=\E{X_t}^2$.
@@ -622,7 +623,7 @@ Some automated techniques have been proposed for this task \parencite{dayar2011b
 \subsection{Foster-Lyapunov Bounds}\label{sec:statagg:lyapunov}
 It is well-known that for a \ac{CTMC} $X$, ergodicity can be proven by a Foster-Lyapunov
  function $g:\mathcal{S}\to\mathbb{R}$ \parencite{meyn1993stability,dayar2011bounding}.
- This is the stochastic analogue of the Lyapunov functions, used to prove convergence of \acp{ODE}.
+ This is the stochastic analogue of the Lyapunov functions, used to prove convergence of \acp{ODE}\@.
 %The positivity requirement can somewhat be relaxed. The function only needs to be bounded from below since it can be shifted to the positives. In practice this shift can be ignored since it cancels out in the drift \eqref{eq:drift}.
 The function $g$ is required to have finite level sets:
 \[
@@ -707,7 +708,7 @@ Specifically, it can be used to describe the following features.
         Consider an epidemics die-out for example, which is a significant change
         in the operating mode, which is not due to a switch-type reaction.
   \item[Distributional Multimodality]
-      Here the multimodality refers to the stationary distribution $\pi_{\infty}$:
+        This kind of multimodality is characterized by the stationary distribution $\pi_{\infty}$:
         It has multiple
         \emph{modes}, i.e.\ local maxima. Given an ergodic underlying \ac{CTMC}
         this entails, that the system spends most time in distinct regions of the

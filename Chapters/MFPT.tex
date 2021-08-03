@@ -78,18 +78,18 @@ maximum order of the considered moments has to be increased to more
 appropriately describe the underlying distribution. %, a fact impacting their
 %scalability.
 
-Here, we put forward a method based solely on moments that gives \emph{exact bounds}  for \acfp{MFPT} and reachability probabilities in \acp{MPM}.
+Here, we put forward a method based solely on moments that gives \emph{exact bounds}  for \acfp{MFPT} and reachability probabilities in \acp{MPM}\@.
 For a set of states $B$ and a time-horizon $T$, the \ac{FPT}
 \[
 	\tau = \inf\{t\geq 0\mid \vec X_t \in B\} \land T\,.
 \]
 This mean of this stopping time $\E{\tau}$, i.e.\ the \acl{MFPT}, directly characterizes the probability of reaching set $B$
-within $T$ time units. Thus, safe upper and lower bounds on \acp{MFPT} can constitute a core component for the verification of properties in \acp{MPM}.
+within $T$ time units. Thus, safe upper and lower bounds on \acp{MFPT} can constitute a core component for the verification of properties in \acp{MPM}\@.
 Our approach extends recent work on moment
 bounds~\parencite{sakurai2017convex,dowdy2018dynamic} and it is based on a martingale formulation of the stopped process that we
 derive from the exact moment equations. From this formalization, we deduce a set
 of linear moment constraints from which we derive
-upper and lower moment bounds using \acf{SDP}. Monotone
+upper and lower moment bounds using \acf{SDP}\@. Monotone
 sequences of both upper and lower bounds
 can be obtained by increasing the order of the relaxation. Crucially, no
 closure approximations are introduced.
@@ -123,7 +123,7 @@ In summary, this chapter presents the following novel contributions:
 
 \section{Related Work}\label{sec:mfpt:related}
 \paragraph{Truncations and Analytic Solutions} Considerable effort has been directed at the analysis of \acl{FPT}
-distributions in \acp{MPM}. Most works can either focus on an explicit state-space
+distributions in \acp{MPM}\@. Most works can either focus on an explicit state-space
 analysis~\parencite{barzel2008calculation,munsky2009specificity,kuntz2019exit,kuntz2021approximations}
 or employ approximation techniques for which, in general, no error bounds can be
 given~\parencite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}.
@@ -175,7 +175,7 @@ the reader to \citet{parrilo2003semidefinite} and, more recently,
 
 \paragraph{Bounding MFTPs using Optimization}
 Particularly relevant for this work is the application of convex optimization to
-\ac{FPT}.
+\ac{FPT}\@.
 \citet{helmes2001computing} formulated a linear program using the
 %basic adjoint equation and
 Hausdorff moment conditions to bound moments of the
@@ -221,7 +221,7 @@ This extended description results in a process with the martingale property.
 This property can be used to formulate linear constraints on the temporal moments
 and, as a special case, the mean first-passage time.
 In combination with semi-definite properties of moment matrices, we can formulate
-mathematical programs that yield upper and lower bounds on \aclp{MFPT}.
+mathematical programs that yield upper and lower bounds on \aclp{MFPT}\@.
 
 
 Let $f$ be a polynomial function, $t\ge0$.
@@ -364,7 +364,7 @@ and $k=1$ we obtain the following process for \autoref{model:dim}.
 where the sequences according to \eqref{eq:basic_poly_martingale} are $(m_i)_i=(1,0,1,2)$, $(k_i)_i=(0,1,1,1)$,
 and $(c_i)_i=(-1,-\lambda, -2\delta,2\delta)$.
 \end{example}
-\section{Bounds for Mean First-Passage Times}\label{sec:mfpt:mfpt_bounds}
+%\section{Bounds for Mean First-Passage Times}\label{sec:mfpt:mfpt_bounds}
 We now turn to the analysis of first passage times within some time-bound
 $T>0$. Given some subset of the state-space
 $B\subseteq \mathcal{S}$ the first passage time is given by the continuous random variable 
@@ -393,7 +393,7 @@ implies that
 for all moment orders $m$ and
 degrees $k$ in the weighting function $w(t)$.
 
-\subsection{Linear Moment Constraints}
+\section{Linear Moment Constraints}
 To simplify our presentation, we fix an initial state $\vec x_0$, i.e.\ $P(\vec X_0=\vec x_0)=1$.
 Expanding \eqref{eq:zero_constraint} using
 \eqref{eq:basic_poly_martingale} for $Z_{\tau}^{(\vec m, k)}$
@@ -519,7 +519,7 @@ Next, we consider infinite sequences of partial moments
 	z_{km} &\coloneqq\E{\int_0^{\tau}t^k X_t^m\,dt}\,.
 \end{align*}
 
-\subsection{Objective}
+\section{Objective}
 Given the above measures and their corresponding moments, we can
 now identify the moments we are particularly interested in.
 We formulate an optimization problem with variables corresponding 
@@ -542,7 +542,7 @@ wide variety of properties.
 Moreover, it is possible to formulate objectives not directly corresponding to
 a raw moment such as the variance~\parencite{sakurai2019bounding,dowdy2018bounds}.
 
-\subsection{Hausdorff Constraints}
+\section{Hausdorff Constraints}
 Before discussing the semi-definite constraints which we will use for the remainder of this study, we will briefly discuss the Hausdorff moment constraints.
 These constraints offer linear constraints on moments of bounded measures.
 The Hausdorff moment problem is the question whether an infinite sequence $(m_0, m_1, \dotsc)$ is a sequence of moments
@@ -562,6 +562,8 @@ The validity of this condition is easy to see since
 \end{equation}
 Expanding this term yields a polynomial, which --~by integration~-- provides a linear constraint on the moments.
 This moment condition has been used by \citet{helmes2001computing} to bound \acp{MFPT} in a variety of stochastic processes.
+In \citet{helmes2008geometrical} the authors provide an extension taking into account the geometry of the Hausdorff polytope.
+With this extension the method was competitive with the \ac{SDP} approach on their selection of case studies.
 Since these conditions are linear in the moments they can solve linear programs instead of the semi-definite programs shown below.
 
 \begin{example}
@@ -622,7 +624,7 @@ Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
     x^{k-j+\ell} \,d\mu(x)\geq 0\,.
 \end{equation}
 
-\subsection{Semi-Definite Constraints}
+\section{Semi-Definite Constraints}
 The linear constraints alone are not sufficient to identify moment bounds.
 We further leverage the fact that a necessary condition for a positive measure that the \emph{moment matrices}
 are positive semi-definite.
@@ -759,7 +761,7 @@ Simply letting $u(\vec{x}) = x_j$ and requiring
 $M_1(\vec{u},\vec{y})\succeq 0$ for $i=1,\dots,n_S$ gives us this restriction.
 
 
-\subsection{A Semi-Definite Program}
+\section{A Semi-Definite Program}
 With the linear constraints given in \eqref{eq:constraint}
 and the semi-definite constraints \eqref{eq:sd_constraints} and \eqref{eq:localizing_sd_constraints} 
 discussed in the previous sections, we can now formulate a
@@ -860,7 +862,7 @@ of the problem.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{gfx/magnitudes.pdf}
-	\caption[Unscaled and scaled value of the moment matrix]{The unscaled and scaled value of the moment matrix proxy variable
+	\caption[Moment matrix scaling]{The unscaled and scaled value of the moment matrix proxy variable
     $M(\vec{z'})$ after optimization using \acsfont{MOSEK}. The indices are given along the
     logarithmic (base $10$) values. The unscaled version (left) shows large
     differences in magnitudes, while on the scaling suppresses
@@ -1005,7 +1007,7 @@ Often mode switching in such systems can be described a modulating Markov proces
 whose switching rates may depend on the system state (e.g.\ the population sizes).
 In biological applications, mode switching often describes a change of the
 \acs{DNA} state~\parencite{hasenauer2014method,stekel2008strong} and the analysis of
-switching time distribution is of particular interest~\parencite{spieler2011model,barzel2008calculation}.
+switching time distribution is of particular interest~\parencite{spieler2014model,barzel2008calculation}.
 
 In the context of \acp{MPM}, typically the state-space $\mathcal{S}=
 \mathbb{N}^{\tilde{n}_S}\times {\{0,1\}}^{\hat{n}_S}$.
@@ -1076,7 +1078,7 @@ The moment constraint over the partial moments has a linear structure:
 
 \begin{table}[t]
 \centering
-	\caption{\ac{MFPT} bounds on \autoref{model:dim}, \autoref{model:double_dim}, \autoref{model:gexpr}.\label{tab:bounds}}
+    \caption[\ac{MFPT} bounds]{\ac{MFPT} bounds on \autoref{model:dim}, \autoref{model:double_dim}, \autoref{model:gexpr}.\label{tab:bounds}}
 \begin{tabular}{l@{\hspace{1em}}l@{\hspace{1em}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r}
     \toprule
     & & \multicolumn{5}{c}{relaxation order $r$}\\

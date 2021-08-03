@@ -14,8 +14,8 @@ For instance, if the exact, full state of the process $X_t$ has been observed at
 for all states $x$ and times $t\in [0,T]$.
 Often, the condition is more complex, such that in addition to an initial distribution, a terminal distribution is present.
 Such problems typically arise in a Bayesian setting, where the a priori behavior of a system is filtered such that the posterior behavior is compatible with noisy, partial observations~\parencite{broemeling2017bayesian,huang2016reconstructing}.
-For example, time-series data of protein levels is available while the mRNA concentration is not  \parencite{adan2017flow,huang2016reconstructing}.
-In such a scenario our method can be used to identify a good truncation to analyze the probabilities of mRNA levels.
+For example, time-series data of protein levels is available while the \acsfont{mRNA} concentration is not  \parencite{adan2017flow,huang2016reconstructing}.
+In such a scenario our method can be used to identify a good truncation to analyze the probabilities of \acsfont{mRNA} levels.
 % Such measurements are, for example, present in biological flow-cytometry \parencite{adan2017flow} data.
 % This technique allows one to measure protein concentrations at specific time points based on fluorescent labeling.
 % Such measurements are noisy due to low signal intensity and can, for instance, not measure whether a gene is active or not.
@@ -105,7 +105,7 @@ where we use the same vectorization to construct $\beta(t)$ as we used
 for $\pi(t)$.
 The above equation is integrated backwards in time and yields the reachability
 probability for each state $x_i$ and time $t<T$ of ending up in $x_g$ at time $T$.
-Similar to the CME \eqref{eq:cme}, we can state a backward chemical master equation
+Similar to the \ac{CME} \eqref{eq:cme}, we can state a backward chemical master equation
 \begin{equation}\label{eq:bcme}
     \frac{d\beta}{dt}({x}, t) =
     \sum_{j=1}^{n_R}\left(
@@ -451,13 +451,13 @@ These dynamics are already qualitatively captured by the first lumped approximat
 \begin{figure}
     \centering
     \includegraphics[scale=.6]{gfx/toggle_exp_occ.pdf}
-	\caption[The expected occupation time (Toggle Switch)]{The expected occupation time (excluding initial and terminal states) for the switching problem of the toggle switch using Hill-type functions. The bridging problem is from initial $(0,120)$ to a first passage of $(120, 0)$ in
+	\caption[Expected occupation time]{The expected occupation time (excluding initial and terminal states) for the switching problem of the toggle switch using Hill-type functions. The bridging problem is from initial $(0,120)$ to a first passage of $(120, 0)$ in
     $t\in [0,10]$.}
     \label{fig:switching_dynamics:occ}
 \end{figure}
 
 
-\subsubsection*{Toggle Switch}%\label{sec:bridging:hill_toggle}
+\subsubsection*{Toggle Switch}
 Next, we apply our method to  a toggle switch model exhibiting non-polynomial rate functions.
 This well-known  model considers two proteins $A$ and $B$
 inhibiting the production of the respective other protein~\parencite{lipshtat2006genetic}.
@@ -514,7 +514,8 @@ and similarly the backward probabilities are given by
     \beta(x_i, t) = \sum_j\Pr(X_T=x_j\mid X_t = x_i) \beta_T(x_j)\,.
 \end{equation}
 We apply our method to an \acf{SEIR} model.
-This is widely used to describe the spreading of an epidemic such as the current COVID-19 outbreak~\parencite{he2020seir,grossmann2020importance}.
+This is widely used to describe the spreading of an epidemic such as the current 
+\acsfont{COVID}-19 outbreak~\parencite{he2020seir,grossmann2020importance}.
 Temporal snapshots of the epidemic spread  are mostly only available for a subset of the population and suffer from   inaccuracies of diagnostic tests.
 Bayesian estimation can then be used to infer the spreading dynamics given uncertain temporal snapshots.
 %Therefore due to the combination of model simulation and the uncertain measurements a  problem arises.
@@ -582,7 +583,7 @@ Moreover, can we infer a distribution over the unknown number of susceptible and
 \begin{figure}
 	\centering
     \includegraphics[width=.6\linewidth]{gfx/prior_posterior.pdf}
-	\caption[Prior and posterior latent distribution (\ac{SEIR})]{\label{fig:latent}
+	\caption[Prior and posterior (\ac{SEIR})]{\label{fig:latent}
 	    The prior and posterior distribution over the latent types $E$ and $S$ at time $t=0.3$.}
 \end{figure}
 

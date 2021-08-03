@@ -178,7 +178,10 @@ As in the previous chapter,\turnto{eq:exp_constraint} multiplication with $w(t)$
         =\sum_{j=1}^{n_R}\int_{t_0}^{T}w(t)
         \E{\left(f{(X_t + v_j)} - f(X_t)\right)\alpha_j(X_t)}\,dt
 \end{multline}
-
+While many choices of $f$ are possible, for this work we will restrict ourselves to
+monomial functions $f(x)=x^m$, $m\in\mathbb{N}^{n_S}$
+% \vw{ich dachte, m soll ein Vektor sein}
+i.e.\ the \emph{non-central} or \emph{raw moments} of the process.
 In the context of computing moment bounds via semi-definite programming
 the polynomial $w(t)=t^s$~\parencite{sakurai2019bounding} and the exponential $w(t)=e^{\lambda(T - t)}$~\parencite{dowdy2018dynamic}
 have been proposed.
@@ -307,7 +310,7 @@ Therefore
 \]
 where $\rho_{VZ}$ is the correlation of $Z$ and $V$.
 
-If we have multiple control variates, we can proceed in a similar fashion.
+If multiple control variates are available, we can proceed in a similar fashion.
 Now, let ${Z}$ denote a vector of $d$ control variates and let
 \[
 \Sigma=
@@ -523,7 +526,7 @@ from some fixed distribution $\pi_{\lambda}$ (\autoref{line:lambda_sample}).
 \begin{figure}[htb]
     \centering
     \includegraphics[scale=.6]{gfx/reduction.pdf}
-	\caption[CV mean estimates v.\ std.\ mean estimates]{The effect of including \acp{CV} on the mean estimates $\hat{E}(X^M_2)$ in the dimerization case study. Parameters were ${\pi}_{\lambda}=N(0,1)$, ${n}_{\lambda}=30$, ${k}_{\min}=4$, $\phi(\bar\rho)=1-{(1 - \bar\rho)}^2$.}
+    \caption[\ac{CV} mean estimates v.\ std.\ mean estimates]{The effect of including \acp{CV} on the mean estimates $\hat{E}(X^M_2)$ in the dimerization case study. Parameters were ${\pi}_{\lambda}=N(0,1)$, ${n}_{\lambda}=30$, ${k}_{\min}=4$, $\phi(\bar\rho)=1-{(1 - \bar\rho)}^2$.}
 \end{figure}
 
 
@@ -690,7 +693,7 @@ distribution for $\pi_{\lambda}$ seems superior.
     \centering
     \includegraphics[scale=.7]{gfx/legend.pdf}\\
     \includegraphics[scale=.5]{gfx/efficiency_priors.pdf}
-	\caption[Influence of algorithmic parameters on estimates]{The efficiencies for different valuations of ${n}_{\lambda}$ and ${k}_{\min} $
+	\caption[Estimates for varying ${n}_{\lambda}$ and ${k}_{\min}$]{The efficiencies for different valuations of ${n}_{\lambda}$ and ${k}_{\min} $
 	and choices of ${\pi}_{\lambda}$. The sample size was $n=\num{10000}$ in all cases
     with $d=100$.
     The bars give the bootstrapped ($1000$ iterations) standard deviations.\label{fig:efficiencies_prior}}
@@ -714,7 +717,7 @@ lessens efficiency.
     \centering    
     \includegraphics[scale=.55]{gfx/legend_orders.pdf}\\
     \includegraphics[scale=.4]{gfx/efficiency_ord1.pdf}
-	\caption[Influence of the redundancy heuristic
+	\caption[Estimates for varying redundancy heuristics
 	and moment orders]{The efficiency for different redundancy policies $\phi$ and maximal 
 	moment orders $n_{\max}$. The sample size was $n=\num{10000}$ in all cases
     with $d=100$. Furthermore, $k_{\min}=3$, $\pi_\lambda=N(0,1)$, and $n_{\max}=1$.
@@ -725,7 +728,7 @@ lessens efficiency.
     \centering    
     \includegraphics[scale=.55]{gfx/legend.pdf}\\
     \includegraphics[scale=.4]{gfx/efficiency_pminfrac.pdf}
-	\caption[Influence of the redundancy heuristic and $k_{\min}$]{The empirical efficiencies for different $n_\lambda$ and $k_{\min}$.
+	\caption[Varying redundancy heuristics and $k_{\min}$]{The empirical efficiencies for different $n_\lambda$ and $k_{\min}$.
 	On the considered case studies. The sample size was $n=\num{10000}$ in all cases
     with $d=100$.
 	$\num{1000}$ estimations were performed for each case.
@@ -740,7 +743,7 @@ lessens efficiency.
 versus the cost ratio $c_0/c_1$. Comparing the redundancy criterion based on a constant threshold
 $\phi_c$ to the others,
 we observe both a larger variance reduction and an increased cost. This is due to the fact, that
-more control  variates are included throughout the simulations (\autoref{tab:eff1}, \autoref{tab:eff2}). Depending on the sample distribution $\pi_{\lambda}$
+more control  variates are included throughout the simulations (\autoref{tab:eff1}, \autoref{tab:eff2}, \autoref{tab:eff3}). Depending on the sample distribution $\pi_{\lambda}$
 and the case study, this permissive strategy may pay off. In case of the dimerization, for example,
 it pays off, while in case of the distributive modification it leads to a lower efficiency ratio.
 In the latter case the model is more complex, and therefore the set of initial
@@ -769,7 +772,7 @@ The quadratic versions $\phi_{q}$ and $\phi_{\mathit{sq}}$ can be found in the m
 	    \vfill
     \end{minipage}
     \hfill
-	\caption[Overview of the cost v.\ variance reduction trade-off]{A visualisation of the trade-off between variance reduction $\sigma_0^2/\sigma_1^2$
+    \caption[Cost \& variance reduction trade-off]{A visualisation of the trade-off between variance reduction $\sigma_0^2/\sigma_1^2$
     and cost ratio $c_0/c_1$. Isolines for efficiencies are given in grey. The break-even
     is marked by the dashed red line.
     Markers of the same kind differ in $n_{\lambda}$ and shift with increasing value
@@ -784,7 +787,7 @@ We also observe, that an increase of $n_{\lambda}$ is particularly beneficial, i
 the sampling distribution $\pi_{\lambda}$ does not capture the parameter region of
 the highest correlations well.
 This can be seen for the Dimerization case study, where the variance reduction increases
-strongly with increasing sample size (\autoref{fig:efficiencies_alg_params}, \autoref{tab:eff1}, \autoref{tab:eff2}).
+strongly with increasing sample size (\autoref{fig:efficiencies_alg_params}, \autoref{tab:eff1}, \autoref{tab:eff2}, \autoref{tab:eff3}).
 Since $\pi_{\lambda}=N(0,1)$, more samples are needed to sample efficient $\lambda$-values (cf.\ \autoref{fig:bdim}).
 
 In Figure~\ref{fig:efficiencies_alg_params} we give detailed information on the influence of

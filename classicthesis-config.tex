@@ -241,6 +241,25 @@
   {\addxcontentsline{toc}{chapter}{\toc@spacedlowsmallcaps{##1}}}
   {}{}
 \makeatother
+
+\makeatletter
+\DeclareCiteCommand{\fullcite}
+  {\defcounter{maxnames}{\blx@maxbibnames}%
+    \usebibmacro{prenote}}
+  {\usedriver
+     {\DeclareNameAlias{sortname}{default}}
+     {\thefield{entrytype}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+\DeclareCiteCommand{\footfullcite}[\mkbibfootnote]
+  {\defcounter{maxnames}{\blx@maxbibnames}%
+    \usebibmacro{prenote}}
+  {\usedriver
+     {\DeclareNameAlias{sortname}{default}}
+     {\thefield{entrytype}}}
+  {\multicitedelim}
+  {\usebibmacro{postnote}}
+\makeatother
 %%
 %% \usepackage{tocloft}
 % \newcommand{\listlemmaname}{List of Models}

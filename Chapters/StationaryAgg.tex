@@ -116,7 +116,8 @@ Instead of solving the full system for such a large space, we employ an aggregat
 Error bounds have been derived for increasing  truncation sets 
 in the case of linear Lyapunov functions  \parencite{gupta2017finite}.
 However, until now it has not been shown that these bounds are applicable in practice \parencite{meyn1994computable}.
-Alternatively, one can monitor the product of the probability-ouflow rate and the maximum L1-norm, which bounds the approximation error up to a constant $M>0$, assuming a linear Lyapunov function exists \parencite{gupta2017finite}.
+Alternatively, one can monitor the product of the probability-ouflow rate and the maximum L1-norm.
+This bounds the approximation error up to a constant $M>0$, assuming a linear Lyapunov function exists \parencite{gupta2017finite}.
 
 
 \begin{figure}[t]
@@ -127,7 +128,7 @@ Alternatively, one can monitor the product of the probability-ouflow rate and th
     \begin{minipage}{0.35\textwidth}
     \includegraphics[width=\textwidth]{gfx/parbd_lya_v_truth.pdf}
     \end{minipage}
-	\caption[\ac{FSP} for stationary distribution approximation]{(left) A countably infinite state-space. (center) Outgoing transitions are re-directed (according to the reentry distribution) to states that have incoming transitions from outside the truncation. (right) A comparison of the area prescribed by a Lyapunov analysis using Geobound and threshold 0.1 and the minimal area containing 0.9 stationary probability mass. The model is a parallel birth-death process (\autoref{model:par_bd}).}
+    \caption[Stationary \ac{FSP}]{(left) A countably infinite state-space. (center) Outgoing transitions are re-directed (according to the reentry distribution) to states that have incoming transitions from outside the truncation. (right) A comparison of the area prescribed by a Lyapunov analysis using Geobound and threshold \num{0.1} and the minimal area containing \num{0.9} stationary probability mass. The model is a parallel birth-death process (\autoref{model:par_bd}).}
     \label{fig:truncation}
 \end{figure}
 
@@ -149,7 +150,7 @@ Specifically, we employ the tool Geobound~\parencite{geobound} with L2-norm as f
 In many cases, simple choices of $g$ such as the L1- or L2- norm are sufficient.
 However, the sets resulting from such functions are often very conservative.
 Consider \autoref{fig:truncation} (right) as an example, where the Lyapunov truncation with $\epsilon_{\ell}=0.1$ %\vw{eps=0.1 sollte hier angegeben werden? }
-for two parallel birth-death processes (\autoref{model:par_bd}) is compared to the smallest set containing 0.9 of stationary probability.
+for two parallel birth-death processes (\autoref{model:par_bd}) is compared to the smallest set containing \num{0.9} of stationary probability.
 Clearly, the area given by the Lyapunov function is magnitudes larger than necessary to capture probability mass consistent with $\epsilon_{\ell}$.
 
 
@@ -157,7 +158,7 @@ Clearly, the area given by the Lyapunov function is magnitudes larger than neces
 \begin{figure}[t]
     \centering
     \includegraphics[width=\textwidth]{gfx/bd_truncs.pdf}
-	\caption[State-space refinement algorithm for the stationary distribution]{The state-space refinement algorithm on a birth-death process. From left to right the state size is halved and states with low probability are removed from the truncation. The final truncation is a typical truncation with states of size 1 and the initial states are of size $2^4$.}
+    \caption[State-space refinement algorithm]{The state-space refinement algorithm on a birth-death process. From left to right the state size is halved and states with low probability are removed from the truncation. The final truncation is a typical truncation with states of size 1 and the initial states are of size $2^4$.}
     \label{fig:refinement_alg}
 \end{figure}
 
@@ -270,7 +271,7 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
 \begin{figure}[htb]
 	\centering
     \includegraphics[width=.6\textwidth]{gfx/diffs.pdf}
-	\caption[Differences between upper and lower bounds]{Results for \autoref{model:par_bd} with truncation threshold $\epsilon=0.1$.  The difference between the upper and lower bounds on the probability conditioned on the truncation.}
+	\caption[Probability bound widths]{Results for \autoref{model:par_bd} with truncation threshold $\epsilon=0.1$.  The difference between the upper and lower bounds on the probability conditioned on the truncation.}
     \label{fig:par_bd_errors}
 \end{figure}
 \begin{table}
