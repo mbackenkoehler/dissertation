@@ -393,7 +393,7 @@ implies that
 for all moment orders $m$ and
 degrees $k$ in the weighting function $w(t)$.
 
-\section{Linear Moment Constraints}
+\section{Linear Model Constraints}
 To simplify our presentation, we fix an initial state $\vec x_0$, i.e.\ $P(\vec X_0=\vec x_0)=1$.
 Expanding \eqref{eq:zero_constraint} using
 \eqref{eq:basic_poly_martingale} for $Z_{\tau}^{(\vec m, k)}$
@@ -496,12 +496,12 @@ for some polynomial $g$ and some indicator function $f$. Then
 % \E{X_{\tau}^m;\tau=T} + \E{{\tau}^k;\tau < T, X_{\tau}=H}
 % \]
 Therefore the linear moment constraints are
-\begin{multline*}
+\begin{multline}\label{eq:model_constraints}
  	0 = T^k\E{X_{\tau}^m;\tau=T} + H^m\E{{\tau}^k;\tau < T, X_{\tau}=H}\\
  	- 0^kx_0^{m}
  	% - k \E{\int_{0}^{\tau} t^{k-1} \vec X_t^m\,dt}
  	+ \sum_{i}c_i\E{\int_{0}^{\tau} t^{k_i}X_t^{m_i}\,dt}\,.
-\end{multline*}
+\end{multline}
 % \begin{multline*}
 % 	0 = \,&T^k\E{X_{\tau}^m;\tau=T} + H^m\E{{\tau}^k;\tau < T, X_{\tau}=H}\\
 % 	- 0^kx_0^{m}
@@ -542,7 +542,7 @@ wide variety of properties.
 Moreover, it is possible to formulate objectives not directly corresponding to
 a raw moment such as the variance~\parencite{sakurai2019bounding,dowdy2018bounds}.
 
-\section{Hausdorff Constraints}
+\section{Linear Hausdorff Constraints}
 Before discussing the semi-definite constraints which we will use for the remainder of this study, we will briefly discuss the Hausdorff moment constraints.
 These constraints offer linear constraints on moments of bounded measures.
 The Hausdorff moment problem is the question whether an infinite sequence $(m_0, m_1, \dotsc)$ is a sequence of moments
@@ -611,7 +611,7 @@ That is, given $n$-dimensional vectors $k$, $x$, and $y$
 % \]
 Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
 \marginpar{We can interchange the integrals since all measures have finite support and mass.}
-\begin{equation}
+\begin{equation}\label{eq:hausdorff}
     %\sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n} 
     \sum_{j\leq k}
     %\left(\prod_{i=1}^{n}\binom{k_i}{j_i}
@@ -623,6 +623,19 @@ Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
     \int
     x^{k-j+\ell} \,d\mu(x)\geq 0\,.
 \end{equation}
+
+\subsection{A Linear Program}
+Combining the model constraints \eqref{eq:model_constraints} and the linear Hausdorff-type constraints \eqref{eq:hausdorff} for both expected occupation and the exit location measure yields a linear program.
+\begin{equation}\label{eq:lp_for_fpt}
+    \begin{split}
+	    \text{min} / \text{max} \hspace{1em}&  z_{00}^{\prime} \\
+        \text{such that}\hspace{1em} & \text{for all measures and bounds}\\
+        &\qquad\eqref{eq:hausdorff}\text{ holds }\forall m, k,\\
+        & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m \\
+	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k\,.
+    \end{split}
+\end{equation}
+Using a framework such as \acsfont{CVXPY}, this convex program can easily be coded and solved using various state-of-the-art solvers.
 
 \section{Semi-Definite Constraints}
 The linear constraints alone are not sufficient to identify moment bounds.
@@ -709,7 +722,7 @@ This gives us the following restrictions on the moment matrices.
 \end{equation}
 \end{example}
 
-\section{Multi-Dimensional Generalization}
+\subsection{Multi-Dimensional Generalization}
 \label{subsec:mfpt:multidim}
 For a general multi-dimensional moment sequence
 \[
@@ -761,7 +774,7 @@ Simply letting $u(\vec{x}) = x_j$ and requiring
 $M_1(\vec{u},\vec{y})\succeq 0$ for $i=1,\dots,n_S$ gives us this restriction.
 
 
-\section{A Semi-Definite Program}
+\subsection{A Semi-Definite Program}
 With the linear constraints given in \eqref{eq:constraint}
 and the semi-definite constraints \eqref{eq:sd_constraints} and \eqref{eq:localizing_sd_constraints} 
 discussed in the previous sections, we can now formulate a
@@ -787,11 +800,11 @@ used in the optimization problem.
     \begin{split}
 	    \text{min} / \text{max} \hspace{1em}&  z_{00}^{\prime} \\
         \text{such that}\hspace{1em} & M_r(\vec{z'})\succeq 0,
-                   M_r({u}_T, \vec{z'})\succeq 0, M_r({u}_H, \vec{z'})\succeq 0\\
-        & M_r(\vec{y_1'}) \succeq 0, M_r({u}_T,\vec{y_1'}) \succeq 0\\
-        & M_r(\vec{y_2'}) \succeq 0, M_r({u}_H, \vec{y_2'}) \succeq 0\\
+                   M_r({u}_T, \vec{z'})\succeq 0, M_r({u}_H, \vec{z'})\succeq 0,\\
+        & M_r(\vec{y_1'}) \succeq 0, M_r({u}_T,\vec{y_1'}) \succeq 0,\\
+        & M_r(\vec{y_2'}) \succeq 0, M_r({u}_H, \vec{y_2'}) \succeq 0,\\
         & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m \\
-	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k
+	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k\,.
     \end{split}
 \end{equation}
 This \ac{SDP} can be compiled to the canonical form.
@@ -813,7 +826,7 @@ Choosing a finite $r$ is a relaxation of the problem since it removes constraint
 higher-order moments.
 
 
-\section{Implementation and Evaluation}\label{sec:mfpt:evaluation}
+\section{Implementation \textit{\&} Evaluation}\label{sec:mfpt:evaluation}
 The implementation of the \ac{SDP} \eqref{eq:sdp_for_fpt} is straightforward using
 modeling frameworks and off-the-shelf solvers.
 However, as noted in previous work~\parencite{dowdy2018dynamic,sakurai2017convex,dowdy2018bounds,sakurai2019bounding} on moment-based \acp{SDP}
@@ -853,7 +866,7 @@ way.
 Alternatively, one could use approximations such as moment closures
 or bounds obtained by lower-order relaxations or solve a sequence
 of problems, incrementally increasing
-the time-horizon, and adjust the scaling accordingly (suggested in \parencite{dowdy2018dynamic}).
+the time-horizon, and adjust the scaling accordingly (suggested in \citet{dowdy2018dynamic}).
 
 In \autoref{fig:magnitudes} we illustrate the influence the scaling has on the
 optimization variables. While the unscaled version shows large differences
@@ -874,8 +887,8 @@ of the problem.
 
 
 \subsection{Case Studies}
-We implemented and solved the \ac{SDP} programs described above using optimization suite \acsfont{MOSEK}~\parencite{mosek} (version 9.1.2) via the \acsfont{CVXPY}
-interface~\parencite{cvxpy} (version 1.0.24).
+We implemented and solved the \ac{SDP} programs described above using optimization suite \acsfont{MOSEK} version 9.1.2 \parencite{mosek} via the \acsfont{CVXPY}
+interface version 1.0.24 \parencite{cvxpy}.
 
 \subsubsection*{Dimerization}
 As a first case study, we use \autoref{model:dim} with parameters $\lambda=100$ and $\delta=0.2$.
@@ -1000,7 +1013,7 @@ which is captured tightly by the \ac{SDP} bounds (cf.\ \autoref{tab:bounds}).
 For higher relaxation orders $r \geq 5$  numerical issues prevented the solution of the
 corresponding \acp{SDP}.
 
-\subsection{Hybrid Models and Multi-Modality}
+\subsection{Hybrid Models \textit{\&} Multi-Modality}
 The analysis of switching times is a particularly interesting case of \acp{FPT} that
 arises in many   contexts.
 Often mode switching in such systems can be described a modulating Markov process
