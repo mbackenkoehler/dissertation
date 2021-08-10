@@ -464,6 +464,10 @@ In particular, the algorithm iteratively chooses a reaction, with a probability 
 proportional to its rate given the current state $s$ (\autoref{line:sample_r}).
 The jump time $t_j- t_{j+1}$ is determined by sampling from an exponential distribution with rate $\sum_i\alpha_i(s)$ (\autoref{line:sample_dt}).
 \begin{algorithm}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+    \Input{$\pi_0, A$}
+    \Output{trajectory $\tau$}
     $\tau \leftarrow$ empty list, $s\leftarrow$ sample from $\pi_0$, $t\leftarrow 0$\;
     \While{$t<T$\label{line:loop}}{
     $\tau\leftarrow \text{append}(\tau, (s, t))$\;

@@ -1,4 +1,4 @@
-\chapter{Control Variates for Monte-Carlo Estimation}\label{ch:cvinsrns}
+\chapter{Linear Control Variates for Monte~Carlo Estimation}\label{ch:cvinsrns}
 % \author{Michael Backenk\"ohler\inst{1}, Luca Bortolussi\inst{1,2}, Verena Wolf\inst{1}}
 % \authorrunning{M.\ Backenk\"ohler et al.}
 % \institute{\inst{1}Saarland University, Germany, \inst{2}University of Trieste, Italy}
@@ -119,7 +119,7 @@ We adapt the constraints proposed in these works to improve statistical estimati
 simulation (cf.\ \autoref{sec:cv:moments}).
 
 
-\paragraph{Monte-Carlo Simulation}
+\paragraph{Monte Carlo Simulation}
 While the above techniques give a deterministic output, stochastic simulation generates
 single executions of the stochastic process~\parencite{gillespie1977exact}.
 This necessitates accumulating large numbers of simulation runs to estimate
@@ -231,22 +231,6 @@ Assuming the moments remain finite on $[0,T]$, we can define the random variable
 with $\E{Z}=0$.
 % Clearly, for $\rho=0$ and $z=0$ \eqref{eq:simpl_pol} and \eqref{eq:simpl_exp}
 % are equivalent.
-
-Note, that a realization of $Z$ depends on the whole trajectory $\tau=x_0t_1 x_1 t_2 \dots\allowbreak t_n x_n$ over $[t_0,T]$.
-Thus, for the integral terms
-in \eqref{eq:z} we have to compute sums
-\begin{equation}\label{eq:dis_int}
-    % \frac{1}{k+1}\sum_{i=1}^n\left(t_{i+1}^{k+1} - t_i^{k+1}\right)s_i^m
-    % \quad\text{and}\quad
-    \frac{1}{\lambda}\sum_{i=1}^n\left(e^{\lambda(T - t_{i+1})}
-    - e^{\lambda(T-t_i)}\right)x_i^{m_k}
-\end{equation}
-over a given trajectory.
-This accumulation is best done during the simulation to avoid storing the whole trajectory.
-Still, the cost of a simulation run increases.
-For the method to be efficient, the variance reduction (\autoref{sec:cv:var_red}) needs
-to overcompensate for this increased cost of a simulation run.
-
 \begin{example}
 For \autoref{model:bd} the moment equation for $f(x)=x$ becomes
 % \vw{sollte -delta Ex sein}
@@ -268,6 +252,41 @@ when choosing $\lambda=-\delta$.
 % Therefore the variance is reduced to zero. This illustrates the benefit of choosing 
 % control variates, that are highly correlated with the random variable of interest.
 \end{example}
+
+
+In general, a realization of $Z$ depends on the whole trajectory $\tau=x_0t_1 x_1 t_2 \dots\allowbreak t_n x_n$ over $[t_0,T]$.
+Thus, for the integral terms
+in \eqref{eq:z} we have to compute sums
+\begin{equation}\label{eq:dis_int}
+    % \frac{1}{k+1}\sum_{i=1}^n\left(t_{i+1}^{k+1} - t_i^{k+1}\right)s_i^m
+    % \quad\text{and}\quad
+    \frac{1}{\lambda}\sum_{i=1}^n\left(e^{\lambda(T - t_{i+1})}
+    - e^{\lambda(T-t_i)}\right)x_i^{m_k}
+\end{equation}
+over a given trajectory.
+This accumulation is best done during the simulation to avoid storing the whole trajectory.
+Still, the cost of a simulation run increases.
+For the method to be efficient, the variance reduction (\autoref{sec:cv:var_red}) needs
+to overcompensate for this increased cost of a simulation run.
+\begin{algorithm}
+    \SetKwInOut{Input}{input}
+    \SetKwInOut{Output}{output}
+    \Input{$\pi_0, T, A$}
+    \Output{trajectory $\tau$}
+    $\tau \leftarrow$ empty list, $s\leftarrow$ sample from $\pi_0$, $t\leftarrow 0$\;
+    \While{$t<T$}{
+    $\tau\leftarrow \text{append}(\tau, (s, t))$\;
+        $k\leftarrow$ sample reaction $i$ with probability $\propto\alpha_i(s)$\;
+        $\delta\sim \text{Exp}\left(\sum_i \alpha_i(s)\right)$\;
+        \For{$(m,\lambda)\in \mathit{keys}(A)$}{
+            $A[(m,\lambda)]\leftarrow A[(m,\lambda)] + \left(e^{ \lambda(T - t - \delta)} - e^{ \lambda (T - t) }\right)/\lambda$\;
+        }
+        $s\leftarrow s + v_k$\;
+        $t \leftarrow t + \delta$\;
+    }
+    \textbf{return} $\tau$\;
+    \caption{\label{alg:ssa_lcv}\ac{SSA} with accumulator updates}
+\end{algorithm}
 
 \section{Control Variates}\label{sec:cv:var_red}
 Now, we are interested in the estimation of some quantity $\E{V}$

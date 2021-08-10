@@ -611,7 +611,7 @@ That is, given $n$-dimensional vectors $k$, $x$, and $y$
 % \]
 Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
 \marginpar{We can interchange the integrals since all measures have finite support and mass.}
-\begin{equation}\label{eq:hausdorff}
+\begin{equation}\label{eq:hausdorff_appl}
     %\sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n} 
     \sum_{j\leq k}
     %\left(\prod_{i=1}^{n}\binom{k_i}{j_i}
@@ -625,12 +625,12 @@ Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
 \end{equation}
 
 \subsection{A Linear Program}
-Combining the model constraints \eqref{eq:model_constraints} and the linear Hausdorff-type constraints \eqref{eq:hausdorff} for both expected occupation and the exit location measure yields a linear program.
+Combining the model constraints \eqref{eq:model_constraints} and the linear Hausdorff-type constraints \eqref{eq:hausdorff_appl} for both expected occupation and the exit location measure yields a linear program.
 \begin{equation}\label{eq:lp_for_fpt}
     \begin{split}
 	    \text{min} / \text{max} \hspace{1em}&  z_{00}^{\prime} \\
         \text{such that}\hspace{1em} & \text{for all measures and bounds}\\
-        &\qquad\eqref{eq:hausdorff}\text{ holds }\forall m, k,\\
+        &\qquad\eqref{eq:hausdorff_appl}\text{ holds }\forall m, k,\\
         & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m \\
 	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k\,.
     \end{split}
