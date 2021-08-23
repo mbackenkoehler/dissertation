@@ -580,10 +580,24 @@ Therein zero-covariances are assumed, i.e.\ the system is truncated at the first
 \end{figure}
 
 \subsection{Hybrid Representations}
-\begin{itemize}
-    \item Equivalent results are obtained by modifying the network to have 1 species per abundancy (basically rule based)
-\end{itemize}
-\parencite{hasenauer2014method,kazeroonian2014modeling,andreychenko2015reconstruction}
+Especially in biological applications ithe abundancies of individual species vary by orders
+of magnitude within one model.
+A canonical example of this fact are classic gene expression models, where proteins are expressed
+conditional on a binary gene state.
+To approximate such variables using a moment approximation, or even mean-field, does not make too much sense since such approximations either hinge on the high abundancy of the species or try to alleviate state-space explosion stemming from it.
+Hybrid methods leverage the best of both worlds by approximating larger populations using continuous approximations such as moment closures, while small popuations are modeled discretely.
+
+An example of such an approach is the \ac{MCM} presented in \citet{hasenauer2014method} and \citet{kazeroonian2014modeling}.
+In this approach species are split into a high-count component $\tilde{X}_t$ and a low-count component $\hat{X}_t$.
+Then the partial expectations
+\begin{equation}\label{eq:cm}
+    \E{\tilde{X}_t \mid \hat{X}_t = \hat{x}}\Pr({\hat{X}_t=\hat{x}})
+\end{equation}
+are approximated for all or some valuations $\hat{x}$ using a standard moment closure \parencite{andreychenko2015reconstruction}.
+Equivalent results for \eqref{eq:cm} can be achieved by using that $\E{\hat{X}}=\E{\hat{X}^m}$, $m\geq 1$ for a Bernoulli random variable.
+
+%Equivalent results are obtained by modifying the network to have 1 species per abundancy (basically rule based)
+%\parencite{hasenauer2014method,kazeroonian2014modeling,andreychenko2015reconstruction}
 
 \section{Stationary Distribution}\label{sec:stationary_dist}
 Assuming
@@ -723,7 +737,7 @@ Specifically, it can be used to describe the following features.
 While distributional multimodality implies operational multimodality, the reverse
 does not hold.
 
-Literature:
-\begin{itemize}
-    \item \parencite{siegal2011emergence}
-\end{itemize}
+% Literature:
+% \begin{itemize}
+%     \item \parencite{siegal2011emergence}
+% \end{itemize}
