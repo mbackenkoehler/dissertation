@@ -101,6 +101,18 @@ Using varying redirections, we can compute bounds on the stationary probability 
 To do this, one has to compute the stationary distribution for every possible way of connecting all outgoing to a single incoming transition.
 Naturally, such an algorithm is rather expensive since one has to solve a linear system for each combination.
 Therefore this method of computing bounds is costly on very large truncations, often given by Lyapunov functions.
+In \autoref{fig:fsp_redirections} an enumeration of all such redirections is shown on a small $3\times 3$-truncation.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.19\textwidth]{gfx/state_space_redirected_1.pdf}
+    \includegraphics[width=0.19\textwidth]{gfx/state_space_redirected_2.pdf}
+    \includegraphics[width=0.19\textwidth]{gfx/state_space_redirected_3.pdf}
+    \includegraphics[width=0.19\textwidth]{gfx/state_space_redirected_4.pdf}
+    \includegraphics[width=0.19\textwidth]{gfx/state_space_redirected_5.pdf}
+    \caption[Redirections for bounds]{Enumeration and solution of all single-state
+    redirections yields upper and lower bounds on the stationary
+    distribution, conditioned on being inside the truncation.\label{fig:fsp_redirections}}
+\end{figure}
 
 When computing an approximation instead of bounds, we employ a uniform redirection scheme:
 Outgoing transitions are split uniformly among incoming transitions.
@@ -274,6 +286,11 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
 	\caption[Probability bound widths]{Results for \autoref{model:par_bd} with truncation threshold $\epsilon=0.1$.  The difference between the upper and lower bounds on the probability conditioned on the truncation.}
     \label{fig:par_bd_errors}
 \end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{gfx/par_bd_errs.eps}
+    \caption[Stationary distribution errors]{\label{fig:par_bd_errs}Errors of the stationary distribution (\autoref{model:par_bd}) approximations for increasing ($\e{1}{-1}$, $\e{1}{-2}$, $\e{1}{-3}$, $\e{1}{-4}$) truncation thresholds.}
+\end{figure}
 \begin{table}
     \centering
 	{\small \begin{tabular}{lrrrr}% L{22mm} R{15mm} R{15mm} R{15mm} R{15mm}}
@@ -330,7 +347,7 @@ Interestingly, the errors between different thresholds are very close in earlier
 This is mainly due to the usage of absolute errors which causes probabilities close to the mode dominate.
 \begin{figure}[htb]
     \centering
-    \includegraphics[scale=.7]{gfx/excl_switch_dist.pdf}
+    \includegraphics[width=\textwidth]{gfx/gexpr_approx.pdf}
 	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\e{1}{-4}$.}
     \label{fig:excl_switch:excl_switch_dist}
 \end{figure}
@@ -453,7 +470,7 @@ This distribution leads to a non-trivial truncation (\num{357488} states) which 
     \centering
     \begin{minipage}{0.9\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{gfx/p53_trunc.png}
+    \includegraphics[width=\textwidth]{gfx/trunc_p53.pdf}
     \end{minipage}
 \caption{The final truncation at original granularity derived for the p53 oscillator.}
 \label{fig:p53:trunc}
