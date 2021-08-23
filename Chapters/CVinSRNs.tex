@@ -279,7 +279,7 @@ to overcompensate for this increased cost of a simulation run.
         $k\leftarrow$ sample reaction $i$ with probability $\propto\alpha_i(s)$\;
         $\delta\sim \text{Exp}\left(\sum_i \alpha_i(s)\right)$\;
         \For{$(m,\lambda)\in \mathit{keys}(A)$}{
-            $A[(m,\lambda)]\leftarrow A[(m,\lambda)] + \left(e^{ \lambda(T - t - \delta)} - e^{ \lambda (T - t) }\right)/\lambda$\;
+            $A[(m,\lambda)]\leftarrow A[(m,\lambda)] + \left(e^{ \lambda(T - t - \delta)} - e^{ \lambda (T - t) }\right)x^m/\lambda$\;
         }
         $s\leftarrow s + v_k$\;
         $t \leftarrow t + \delta$\;
