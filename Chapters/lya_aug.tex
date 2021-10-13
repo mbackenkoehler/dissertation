@@ -1,4 +1,4 @@
-\chapter{Augmented Foster-Lyapunov Bounds}
+\chapter{Augmented Foster-Lyapunov Bounds}\label{ch:lyapunov}
 In many cases, researchers are interested in the \emph{long-run} behavior of \acp{MPM}.
 This behavior is characterized by the stationary distribution of the underlying \ac{CTMC}.
 Rigorous analyses of the stationary distribution either hinge on bounds on the moments of this distribution or a Foster-Lyapunov analysis \parencite{kuntz2021stationary}.
@@ -147,11 +147,13 @@ based on the scaled augmented drift.
 \begin{model}[Competitive Spread]
 	Two uncoupled parallel birth-death processes (cf.~\autoref{model:par_bd})\turnto{model:par_bd} supplemented with two Gray-Scott type reactions.
 %	https://groups.csail.mit.edu/mac/projects/amorphous/GrayScott/
-$$\varnothing\xrightarrow{\rho} A \qquad A\xrightarrow{\delta} \varnothing \qquad
-\varnothing\xrightarrow{\rho} B \qquad B\xrightarrow{\delta} \varnothing$$
-$$
-	2A+B\xrightarrow{\nu_1}3A\qquad
-	2A+A\xrightarrow{\nu_2}3B
-$$
+\begin{gather*}
+    \varnothing\xrightarrow{\rho} A\,, \quad
+    A\xrightarrow{\delta} \varnothing\,, \quad
+    \varnothing\xrightarrow{\rho} B\,, \quad
+    B\xrightarrow{\delta} \varnothing\,,\\
+	2A+B\xrightarrow{\nu_1}3A\,,\quad
+	2A+A\xrightarrow{\nu_2}3B\,.
+\end{gather*}
 	As a parameterization we choose $\rho = 5$, $\delta=0.1$, $\nu_1=\e{6}{-5}$, and $\nu_2=\e{6.2}{-5}$.
 \end{model}

@@ -255,8 +255,9 @@ We first examine the algorithm on the simple example of two parallel, uncoupled 
 \begin{model}[Parallel Birth-Death Process]\label{model:par_bd}
 Two uncoupled parallel birth-death processes result in a simple stationary distribution that is
 given by a product of two Poisson distributions.
-$$\varnothing\xrightarrow{\rho} A \qquad A\xrightarrow{\delta} \varnothing \qquad
-\varnothing\xrightarrow{\rho} B \qquad B\xrightarrow{\delta} \varnothing$$
+    \[
+        \varnothing\xrightarrow{\rho} A \,,\quad A\xrightarrow{\delta} \varnothing \,,\quad
+    \varnothing\xrightarrow{\rho} B \,,\quad B\xrightarrow{\delta} \varnothing\,.\]
 As a parameterization we choose $\rho = 100$ and $\delta=1$.
 \end{model}
 For this model, the stationary distribution is known to be the product of two Poisson distributions with rate $\rho / \delta$.
@@ -325,9 +326,18 @@ The exclusive switch model consists of a promoter region
 that can express both proteins $P_1$ and $P_2$. Both can bind to the region, suppressing
 the expression of the other protein. For certain parameterizations, this leads to a
 bi-modal or even tri-modal behavior.
-$$ D \xrightarrow{\rho_1} D + P_1 \qquad D \xrightarrow{\rho_2} D + P_2 \qquad P_1 \xrightarrow{\lambda}\varnothing \qquad P_2 \xrightarrow{\lambda} \varnothing $$
-$$ D + P_1 \xrightarrow{\beta} D.P_1 \qquad D.P_1 \xrightarrow{\gamma_1} D + P_1 \qquad D.P_1 \xrightarrow{\rho_1} D.P_1 + P_1 $$
-$$ D + P_2 \xrightarrow{\beta} D.P_2 \qquad D.P_2 \xrightarrow{\gamma_2} D + P_2 \qquad D.P_2 \xrightarrow{\rho_2} D.P_2 + P_2 $$
+\begin{gather*}
+	D + P_1 \xrightarrow{\beta} D.P_1\,,\quad
+	D.P1 \xrightarrow{\gamma_1} D + P_1  \,,\\
+	D + P_2 \xrightarrow{\beta} D.P_2 \,,\quad
+	D.P2 \xrightarrow{\gamma_2} D + P_2 \,,\\
+	D.P_1 \xrightarrow{\rho_1} D.P_1 + P_1\,, \quad
+    D.P_2 \xrightarrow{\rho_2} D.P_2 + P_2\,,\\
+	D \xrightarrow{\rho_1} D + P_1\,,\quad
+	D \xrightarrow{\rho_2} D + P_2\,,  \quad
+	P_1 \xrightarrow{\lambda}\varnothing  \,,\quad
+    P_2\xrightarrow{\lambda} \varnothing
+\end{gather*}
 We choose parameter values $\rho_1 = 0.7$, $\rho_2 = 0.6$, $\lambda=0.02$, $\beta=0.005$, $\gamma_1 = 0.06$, and $\gamma_2 = 0.05$.
 \end{model}
 Since the exclusive switch models mutually exclusive binding of proteins to a single genetic locus,
@@ -390,19 +400,18 @@ The model is ergodic with a unique stationary distribution~\parencite{gupta2014s
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{gfx/p53_traj.pdf}
-    \caption{A sample trajectory illustrating the oscillatory long-run behavior. }
+    \caption[Sample trajectory (p53)]{A sample trajectory of \autoref{model:p53} illustrating the oscillatory long-run behavior. }
     \label{fig:p53:traj}
 \end{figure}
 \begin{model}[p53 Oscillator]\label{model:p53}
-\begin{align*}
-\varnothing \xrightarrow{k_1} \mathrm{p53} \qquad
-\mathrm{p53} \xrightarrow{k_2} \varnothing \qquad
-\mathrm{p53} \xrightarrow{k_4} \mathrm{p53} + \mathrm{pMdm2}
-\\
-\mathrm{p53} \xrightarrow{\alpha_4(\cdot)} \varnothing \qquad
-\mathrm{pMdm2} \xrightarrow{k_5} \mathrm{Mdm2} \qquad
-\mathrm{Mdm2} \xrightarrow{k_6} \varnothing
-\end{align*}
+\begin{gather*}
+\varnothing \xrightarrow{k_1} \mathrm{p53} \,,\quad
+\mathrm{p53} \xrightarrow{k_2} \varnothing \,,\quad
+\mathrm{p53} \xrightarrow{k_4} \mathrm{p53} + \mathrm{pMdm2}\,,\\
+\mathrm{p53} \xrightarrow{\alpha_4(\cdot)} \varnothing \,,\quad
+\mathrm{pMdm2} \xrightarrow{k_5} \mathrm{Mdm2} \,,\quad
+\mathrm{Mdm2} \xrightarrow{k_6} \varnothing\,.
+\end{gather*}
 The non-polynomial degradation reaction rate
 	\[
 \alpha_4(x) =k_3 x_{\mathrm{Mdm2}} \frac{x_{\mathrm{p53}}}{x_{\mathrm{p53}} + k_7}\,.

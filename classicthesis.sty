@@ -165,8 +165,8 @@
      \RequirePackage{fontspec}
      \ifthenelse{\boolean{ct@palatino}}% default
        {
-	       \setmainfont{AldusLTStd-Roman.otf}
-     %   \setmainfont[Ligatures=TeX,Numbers=OldStyle]{TeX Gyre Pagella} % Palatino clone
+		   %\setmainfont{AldusLTStd-Roman.otf}
+        \setmainfont[Ligatures=TeX,Numbers=OldStyle]{TeX Gyre Pagella} % Palatino clone
          \linespread{1.05} % a bit more for Palatino
      %   \RequirePackage{unicode-math}
      %   \setmathfont{TeX Gyre Pagella Math}
@@ -389,8 +389,10 @@
 \ifthenelse{\boolean{ct@linedheaders}}%
 {% lines above and below, number right
     \titleformat{\chapter}[display]%
-    {\relax}{\raggedleft{\color{CTsemi}\chapterNumber\thechapter} \\ }{0pt}%
-    {\titlerule\vspace*{.9\baselineskip}\raggedright\spacedallcaps}[\normalsize\vspace*{.8\baselineskip}\titlerule]%
+    {\relax}
+    {\filcenter{\color{CTsemi}\chapterNumber\thechapter} \\ }{0pt}%
+    {\titlerule\vspace*{.9\baselineskip}\centering\spacedallcaps}
+    [\normalsize\vspace*{.8\baselineskip}\titlerule\vspace*{\baselineskip}]%
 }{% something like Bringhurst
     \titleformat{\chapter}[display]%
     %{\relax}{\mbox{}\oldmarginpar{\vspace*{-3\baselineskip}\color{CTsemi}\chapterNumber\thechapter}}{0pt}%
@@ -642,7 +644,7 @@
 \RequirePackage{caption}
 \captionsetup{font=small}
 % \captionsetup{font+=sf}
-% \captionsetup{labelfont=bf}
+ \captionsetup{labelfont=bf}
 % \captionsetup{labelfont=sc}
 % Thanks to cgnieder and Claus Lahiri
 % http://tex.stackexchange.com/questions/69349/spacedlowsmallcaps-in-caption-label

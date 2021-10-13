@@ -1,12 +1,12 @@
 \chapter{Introduction}
-\begin{flushright}
+\begin{center}
  Machines were mice and men were lions\\
     once upon a time.\\
     But now that it's the opposite\\
     it's twice upon a time.\\
     \medskip
         \emph{--- Moondog}
-\end{flushright}
+\end{center}
 \noindent
 Modelling often is a delicate balance of adequate representation and abstraction.
 The former is the goal to capture all the relevant behaviours and effects in a model.
@@ -88,25 +88,32 @@ in both chapters.
 	\begin{scope}
   \path[mindmap,concept color=gray!25,text=black,level 1 concept/.append style =
       {sibling angle=40}]
-	node[concept] {\autoref{ch:background}\\\aclp{MPM}}
+        node[concept] {\autoref{ch:background}\\Markovian\\population\\models}
     [clockwise from=-30]
+        child[concept]{
+            node[concept] (lya) {\autoref{ch:lyapunov}\\Lyapunov functions}
+        }
     child[concept] {
 	    node[concept] {\autoref{ch:lumping}\\Aggregation}
 	    [clockwise from=-20]
 	    child[concept] {
-		    node[concept] {\autoref{ch:statagg}\\Stationary Distribution}
+            node[concept] (stat) {\autoref{ch:statagg}\\Stationary behavior}
 	    }
 	    child[concept] {
-		    node[concept] {\autoref{ch:bridging}\\Bridging Problem}
+		    node[concept] {\autoref{ch:bridging}\\Bridging problem}
 	    }
     }
     child[concept] {
-	    node[concept] (cv) {\autoref{ch:cvinsrns}\\Control Variates}
+	    node[concept] (cv) {\autoref{ch:cvinsrns}\\Control variates}
     }
     child[concept] {
-	    node[concept] (mfpt) {\autoref{ch:MFPT}\\Bounding {MFPTs}}
+	    node[concept] (mfpt) {\autoref{ch:MFPT}\\Bounding \acsfont{MFPT}s}
     }
     ;
+    \begin{pgfonlayer}{background}
+        \draw [concept connection] (cv) edge (mfpt);
+        \draw [concept connection] (lya) edge (stat);
+    \end{pgfonlayer}
 	\end{scope}
  %    \begin{pgfonlayer}{background}
  %  %\draw [draw=gray!25,fill=gray!25, decorate,decoration=circle connection bar]
@@ -131,22 +138,26 @@ The publications and their respective sections are as indicated below.
 
 \item \autoref{ch:MFPT} has with minor differences been published as
 \begin{quote}
-    \fullcite{backenkohler2019bounding}
+    \fullcite{backenkohler2019bounding}.
 \end{quote}
 
 \item \autoref{ch:cvinsrns} has with minor differences been published as
 \begin{quote}
-    \fullcite{backenkohler2019control}
+    \fullcite{backenkohler2019control}.
+\end{quote}
+The contents of \autoref{sec:splitting} have been published in the article
+\begin{quote}
+    \fullcite{backenkohler2021variance}.
 \end{quote}
 
 \item \autoref{ch:statagg} has with minor differences been published as
 \begin{quote}
-    \fullcite{backenkohler2021abstraction}
+    \fullcite{backenkohler2021abstraction}.
 \end{quote}
 
 \item \autoref{ch:bridging} has with minor differences been published as
 \begin{quote}
-    \fullcite{backenkohler2020analysis}
+    \fullcite{backenkohler2020analysis}.
 \end{quote}
 \end{itemize}
 \autoref{ch:lumping} is in large part based on this and the preceeding publication.

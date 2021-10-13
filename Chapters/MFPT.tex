@@ -235,7 +235,7 @@ Specifically,\graffito{More details on the derivation of the moment \acp{ODE} is
 \end{equation}
 
 \begin{example}
-Let us consider \autoref{model:dim} and agent type $M$ as an example.
+    Let us consider \autoref{model:dim}\turnto{model:dim} and agent type $M$ as an example.
 Further, let $X_t=X_t^{(M)}$
 for ease of exposition.
 When choosing $f(X_t)=X_t^m$, $m=1$ and   $m=2$
@@ -996,11 +996,14 @@ order $r$ (cf.\ \autoref{fig:convergence} and \autoref{tab:bounds}).
 \subsubsection*{Parallel Dimerizations}
 As a second study, we consider a two-dimensional model by combining two
 independent dimerizations.
-\begin{model}[Parallel independent dimerizations]\label{model:double_dim} This model consists of two independent versions of \autoref{model:dim}\turnto{model:dim}.
-	\[
-		\varnothing\xrightarrow{10^4}M_1\quad 2M_1\xrightarrow{0.1}D_1\quad \varnothing\xrightarrow{10^4}M_2\quad 2M_2\xrightarrow{0.1}D_2
-	\]
-	Initially, \[0=X_0^{(M_1)}=X_0^{(M_2)}=X_0^{(D_1)}=X_0^{(D_2)}\,.\]
+\begin{model}[Parallel independent dimerizations]\label{model:double_dim} This model consists of two independent versions of \autoref{model:dim}\turnto{model:dim}. The reactions are
+\[
+    \varnothing\xrightarrow{10^4}M_1\,,\quad
+    2M_1\xrightarrow{0.1}D_1\,,\quad
+    \varnothing\xrightarrow{10^4}M_2\,,\quad
+    2M_2\xrightarrow{0.1}D_2\,.
+\]
+Initially, \[0=X_0^{(M_1)}=X_0^{(M_2)}=X_0^{(D_1)}=X_0^{(D_2)}\,.\]
 \end{model}
 As a \ac{FPT} we consider the time at which either $M_1$ or $M_2$ surpasses a threshold of \num{200} or a time-horizon of $T=10$
 is reached, i.e.
@@ -1117,15 +1120,13 @@ negative feedback which is a common pattern in many genetic circuits~\parencite{
 \begin{model}[Negative self-regulated gene expression]\label{model:gexpr}
 This model consists of a gene state that is either on or off, i.e.\ $X^{D_{\text{on}}}_t
 +X^{D_{\text{off}}}_t = 1$, $\forall t\geq 0$. Therefore the system has two \emph{modes}.
-$$
-D_{\text{on}} \xrightarrow{\tau_{0}} D_{\text{off}} \quad
-D_{\text{off}} \xrightarrow{\tau_{1}} D_{\text{on}} \quad
-D_{\text{on}} \xrightarrow{\rho} D_{\text{on}} + P \quad
-$$
-$$
-P\xrightarrow{\delta}\varnothing\quad
-P + D_{\text{on}} \xrightarrow{\gamma} D_{\text{off}}
-$$
+\begin{gather*}
+    D_{\text{on}} \xrightarrow{\tau_{0}} D_{\text{off}}\,, \quad
+    D_{\text{off}} \xrightarrow{\tau_{1}} D_{\text{on}}\,, \quad
+    D_{\text{on}} \xrightarrow{\rho} D_{\text{on}} + P \,, \\
+    P\xrightarrow{\delta}\varnothing\,,\quad
+    P + D_{\text{on}} \xrightarrow{\gamma} D_{\text{off}}\,.
+\end{gather*}
 The model parameters are $(\tau_0,\tau_1,\rho,\delta,\gamma)=(10,10,2,0.1,0.1)$ and
 $X_0^{(D_{\text{off}})}=1$, $X_0^{(P)}=0$ a.s.
 \end{model}
