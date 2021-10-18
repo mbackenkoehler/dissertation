@@ -599,11 +599,11 @@ We consider four non-trivial case studies. Three models exhibit complex multi-mo
 We now describe the models and the estimated quantities in detail.
 
 The first model\graffito{This model appeared earlier as \autoref{model:dim} on page~\pageref{model:dim}.} is a simple dimerization on a countably infinite state-space.
-\begin{model*}[Dimerization]
+\begin{model}[Dimerization]\label{model:dim2}
 We first examine a simple dimerization model on an unbounded state-space.
 	\[\varnothing\xrightarrow{10}M\,,\quad 2M\xrightarrow{0.1}D\]
 with initial condition $X_0^M=0$.
-\end{model*}
+\end{model}
 Despite the models simplicity, the moment equations are not closed for this system
 due to the second reaction which is non-linear.
 Therefore a direct analysis of the expected value would require a closure.
@@ -715,8 +715,16 @@ a suitable interval for a uniform sampling scheme, the choice of a standard norm
 distribution for $\pi_{\lambda}$ seems superior.
 \begin{figure}[htb]
     \centering
-    \includegraphics[scale=.7]{gfx/legend.pdf}\\
+    \begin{minipage}{0.6\textwidth}
+        \vfill
     \includegraphics[scale=.5]{gfx/efficiency_priors.pdf}
+    \vfill
+    \end{minipage}
+    \begin{minipage}{0.2\textwidth}
+        \vfill
+    \includegraphics[scale=.7]{gfx/legend.pdf}
+        \vfill
+    \end{minipage}
 	\caption[Estimates for varying ${n}_{\lambda}$ and ${k}_{\min}$]{The efficiencies for different valuations of ${n}_{\lambda}$ and ${k}_{\min} $
 	and choices of ${\pi}_{\lambda}$. The sample size was $n=\num{10000}$ in all cases
     with $d=100$.
@@ -873,10 +881,10 @@ Secondly, the subset should not be too large, i.e.  we want to avoid redundancie
  a good  overall computational efficiency of the variance reduction.
 
 
-Accordingly, we define an \emph{efficiency} value to estimate
-whether the reduction in variance is compensating for the associated cost increase.
-A natural baseline of any variance reduction is that it outweighs its associated additional costs.
-Let $\sigma_Y^2$ be the variance of $Y$.
+%Accordingly, we define an \emph{efficiency} value to estimate
+%whether the reduction in variance is compensating for the associated cost increase.
+%A natural baseline of any variance reduction is that it outweighs its associated additional costs.
+%Let $\sigma_Y^2$ be the variance of $Y$.
 % https://statweb.stanford.edu/~owen/mc/Ch-var-basic.pdf
 % Then the variance of the mean, based on $n$ iid.\ samples is $\sigma_Y^2/n$.
 % If we let $c_0$ be the cost (i.e.\ CPU time) of a single simulation run, the overall cost to
@@ -884,16 +892,16 @@ Let $\sigma_Y^2$ be the variance of $Y$.
 % To achieve a variance $\tau^2$, $\sigma_Y^2/\tau^2$ samples are necessary at a cost of
 % $c_0\sigma_Y^2/\tau^2$. We can analogously argue for the CV estimate where the
 % cost of a single iteration is $c_1$.
-The \emph{efficiency} of the method is the ratio of the necessary
-cost to achieve a similar reduction with the CV estimate $Y_{\text{CV}}$ compared to
-the standard estimate $Y$~\parencite{l1994efficiency,mcbook}, i.e.
-\begin{equation}\label{eq:efficiency}
-E=\frac{c_0\sigma_Y^2}{c_1\sigma^2_{Y_{\text{CV}}}}\,.
-\end{equation}
-The cost ratio $c_0/c_1$ depends on both the specific implementation and the technical setup.
-The cost increase is  mainly due to the computation of the integrals in \eqref{eq:dis_int}.
-The accumulation over the trajectory directly increases the cost of a single simulation,
-which is the critical part of the estimation.
+%The \emph{efficiency} of the method is the ratio of the necessary
+%cost to achieve a similar reduction with the CV estimate $Y_{\text{CV}}$ compared to
+%the standard estimate $Y$~\parencite{l1994efficiency,mcbook}, i.e.
+%\begin{equation}
+%E=\frac{c_0\sigma_Y^2}{c_1\sigma^2_{Y_{\text{CV}}}}\,.
+%\end{equation}
+%The cost ratio $c_0/c_1$ depends on both the specific implementation and the technical setup.
+%The cost increase is  mainly due to the computation of the integrals in \eqref{eq:dis_int}.
+%The accumulation over the trajectory directly increases the cost of a single simulation,
+%which is the critical part of the estimation.
 
 If the computation of a variate does not adequately compensate for its computation
 with variance reduction, we do not want to include it.
@@ -926,10 +934,10 @@ We discuss \autoref{alg:splitting:lcv} in more detail below.
 \SetKwInOut{Output}{output}
 \Input{$n, d, n_{\max}, n_{\lambda}, n_{c}, n_s, n_r$}
 \Output{estimate using linear control variates}
-  $L\leftarrow\{\lambda_i\sim \pi_\lambda \mid 1\leq i< n_{\lambda} \} \cup \{ 0 \}$\label{line:resampling:lambda_sample}\tcp*[r]{initialization}
+  $L\leftarrow\{\lambda_i\sim \pi_\lambda \mid 1\leq i< n_{\lambda} \} \cup \{ 0 \}$\label{line:resampling:lambda_sample}\tcc*[r]{initialization}
   $P \leftarrow \{ ({m}, \lambda) | 1\leq\lvert {m} \rvert \leq n_{\max}, \lambda\in L\}$\label{line:resampling:init_covs}\;
   $P_{\text{all}} = \emptyset$
-    \For{$i=1,\dots,n_r$\label{line:resampling:main_loop} \tcp*[r]{resampling}}{
+    \For{$i=1,\dots,n_r$\label{line:resampling:main_loop} \tcc*[r]{resampling}}{
         $(\hat{\Sigma},\hat{V}, \hat{Z}) \leftarrow \text{SSA}_{\text{CV}}(\pi_0,T,P,d)$\;
 
      $P_{\text{all}}\leftarrow P_{\text{all}}\cup P$\;
@@ -937,20 +945,20 @@ We discuss \autoref{alg:splitting:lcv} in more detail below.
      $P\leftarrow \bigcup_{k\in I_{\text{cands}}}\bigcup_{l=1}^{n_s}
      \{(m_k, \lambda_k') \mid \lambda_k'\sim N(\lambda_k, 0.5)\}$\label{line:resampling:end_resampling}\;
   	}
-    $(\hat{\Sigma},\hat{V}, \hat{Z}) \leftarrow {\text{SSA}}_{\text{CV}}(\pi_0,T,P_{\text{all}},5d)$\label{line:resampling:search_loop}\tcp*[r]{covariance}
+    $(\hat{\Sigma},\hat{V}, \hat{Z}) \leftarrow {\text{SSA}}_{\text{CV}}(\pi_0,T,P_{\text{all}},5d)$\label{line:resampling:search_loop}\tcc*[r]{covariance}
      $P^*=\emptyset$\;
      \While{$\exists i:
         (m_i, \lambda_i)\in P_{\text{all}}\setminus P^*\land$\\
         \hspace{4em}$\hat{\gamma}_{iv} \prod_{j=1;(m_j, \lambda_j)\notin P^*}^{\left|P_{\text{all}}\right|}
         \hat{\gamma}_{ij}^{-1}
-        >\epsilon$\tcp*[r]{selection}\label{line:resampling:selection_loop}}{
+        >\epsilon$\tcc*[r]{selection}\label{line:resampling:selection_loop}}{
         $k \leftarrow \argmax_i \hat{\gamma}_{iv}
         \prod_{j=1;(m_j, \lambda_j)\notin P^*}^{\left|P_{\text{all}}\right|}
         \hat{\gamma}_{ij}^{-1}$\label{line:resampling:selection}\;
         $P^*\leftarrow P^* \cup
             \{(m_k,\lambda_k)\}$\;
     }
-    $(\hat{\Sigma},\hat{V}, \hat{Z}) \leftarrow \text{SSA}_{\text{CV}}(\pi_0,T,P^*,n)$\tcp*[r]{estimation}\label{line:resampling:sim}
+    $(\hat{\Sigma},\hat{V}, \hat{Z}) \leftarrow \text{SSA}_{\text{CV}}(\pi_0,T,P^*,n)$\tcc*[r]{estimation}\label{line:resampling:sim}
     \Return $\hat{V} - {(\hat{\Sigma}_{{Z}}^{-1}\hat\Sigma_{{Z}V})}^{\top}\hat{{Z}}$\label{line:resampling:compute_lcv}
     \caption{\label{alg:splitting:lcv}Estimate the mean of species $i$ at time $T$}
 \end{algorithm}
@@ -1109,7 +1117,7 @@ Control variates based on test functions restricted to intervals did not lead to
 
 
 Finally, with the lac operon model we consider a larger case study. This model consists of 11 species and 25 partly non-linear reactions.
-\begin{model}[Lac operon]This is a well-known model of genetic regulation with positive feedback \parencite{stamatakis2009comparison}. Its reactions are
+\begin{model}[Lac operon]\label{model:lac}This is a well-known model of genetic regulation with positive feedback \parencite{stamatakis2009comparison}. Its reactions are
  \begin{gather*}
  \varnothing \xrightleftharpoons[k_19]{k_1} \mathrm{M_R}\,, \quad
  \mathrm{M_R} \xrightarrow{k_2} \mathrm{M_R + R}\,,\quad

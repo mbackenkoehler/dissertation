@@ -41,9 +41,30 @@
     %*******************************************************
     %\phantomsection
     %\addcontentsline{toc}{chapter}{List of Models}
-    \renewcommand{\listtheoremname}{List of Models}
+    %\renewcommand{\listtheoremname}{List of Models}
+    \newcommand{\onpage}[1]{\hspace{1.5em}\pageref{#1}}
+    %\pdfbookmark[0]{\listtheoremname}{lom}
+    %\listoftheorems
     \pdfbookmark[0]{\listtheoremname}{lom}
-    \listoftheorems
+    \newpage\cleardoublepage
+    \markboth{\spacedlowsmallcaps{\listtheoremname}}{\spacedlowsmallcaps{\listtheoremname}}
+    \chapter*{\listtheoremname}
+    \hspace{-1.0em}
+    \begin{tabular}{p{3.5em}l}
+        1, 5 & Dimerization \onpage{model:dim}, \pageref{model:dim2}\\
+        2 & Birth-Death Process \onpage{model:bd}\\
+        3 & Parallel independent dimerization \onpage{model:double_dim}\\
+        4 & Negative self-regulated geme expression \onpage{model:gexpr}\\
+        6 & Distributive Modification \onpage{model:dm}\\
+        7, 10, 13 & Exclusive Switch \onpage{model:es}, \pageref{model:excl_switch}, \pageref{model:excl_switch_2}\\
+        8 & Lac Operon \onpage{model:lac}\\
+        9 & Parallel Birth-Death Process \onpage{model:par_bd}\\
+        11 & p53 Oscillator \onpage{model:p53} \\
+        12 & Parallel Poisson Process \onpage{model:par_poisson} \\
+        14 & Toggle Switch \onpage{model:hill_toggle} \\
+        15 & Epidemics Model \onpage{model:seir} \\
+        16 & Competitive Spread \onpage{model:comp_spread}
+    \end{tabular}
 
     %\vspace{8ex}
     \newpage
