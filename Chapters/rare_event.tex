@@ -1,0 +1,67 @@
+\chapter{Importance Sampling}
+Rare events are events that occur with very low probability.
+Such events can be, for example, the die-out of some population or the switching of a multimodal system across some potential barrier.
+By their nature, most standard methods focus on regions with high probability.
+As an example consider the standard \ac{SSA}:
+Trajectories are generated according to the processes density.
+Therefore unlikely events are exactly as unlikely to be sampled using the direct method.
+Similarly approximations such as moment approximations or mean-field analysis focus on the main probability mass.
+Therefore the analysis of such events is particularly difficult.
+
+The arguably most used method for rare event analysis is \emph{importance sampling}.
+This variance reduction method is very well-suited to the analysis of such events.
+In a nutshell, this method alters the model's dynamics and keeps track of the \emph{likelihood ratio} between this altered and the original model.
+This ratio provides an unbiased estimate of the event probability.
+The main challenge is to find a good way to alter the model.
+One popular approach is found in \acsfont{dwSSA} \parencite{kuwahara2008efficient,daigle2011automated}.
+Therein each reaction rate is altered by some constant scalar factor.
+These biasing values are identified by using pilot runs of the \ac{SSA} and a cross-entropy objective.
+This method has been extended to be state-dependent in \citet{roh2011state}.
+
+\section{The Bridging Master Equation}
+An \ac{MPM} can be modified to fullfill terminal constraints.
+As shown in \citet{huang2016reconstructing}, the bridging \ac{CME} becomes
+\begin{equation}
+    \frac{d\gamma}{d t} ( x,t) =
+    \sum_{j=1}^{n_R}\left(
+        \tilde{\alpha}_j( x- v_j)\gamma( x- v_j,t) - \tilde{\alpha}_j( x)\gamma( x,t)
+    \right)\,,
+\end{equation}
+where the propensities
+\begin{equation}
+    \tilde{\alpha}_j(x, t) = \alpha_j(x)\frac{\beta(x + v_j, t)}{\beta(x, t)}
+\end{equation}
+depend on the backwards probabilities.
+
+\section{Time-Dependent Simulation Algorithm}
+We are changing the rate bias dynamically over fixed intervals of the time-domain.
+Therefore we cannot use the default \ac{SSA}.
+With \autoref{alg:ssa_dyn} we present a version of the \acl{SSA} that simulates trajectories of a system with such dynamically changing biases.
+The main change is the handling of the time-discrete changes in the loop in \autoref{line:tloop}.
+Here it is tested, in which time interval the sampled jkump will take place.
+Therefore rates are recomputed each time the algorithm jumps forward one time-interval.
+\begin{algorithm}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Output}{output}
+    \Input{$\pi_0, A$}
+    \Output{trajectory $\tau$}
+    $\tau \leftarrow$ empty list, $s\leftarrow$ sample from $\pi_0$, $t\leftarrow 0$, $j=1$\;
+    \While{$t<T$\label{line:loop}}{
+    $\tau\leftarrow \text{append}(\tau, (s, t))$\;
+    $X\sim U[0,1]$\;
+    $a_0\leftarrow\sum_i\alpha_{i,j}'(s)$\tcc*[r]{exit rate}
+    $dt\leftarrow t_{j+1} - t$\tcc*[r]{rest of time interval}
+    \While{$X>1 - \exp(-a_0 dt)$\tcc*[r]{find interval}\label{line:tloop}}{
+        $X \leftarrow X - 1 + \exp(-a_0 dt)$\;
+        $t\leftarrow t + dt$\;
+        $j\leftarrow j+1$\;
+        $dt\leftarrow $ time-interval width\;
+        $a_0\leftarrow\sum_i\alpha_{i,j}'(s)$\tcc*[r]{exit rate}
+    }
+    $t \leftarrow t - {\log(1-X)}/{a_0}$\tcc*[r]{update time}
+    $k\leftarrow$ sample reaction $i$ with probability $\alpha_{i,j}'(s)/\sum_i\alpha_{i,j}'(s)$\label{line:sample_r}\;
+    $s\leftarrow s + v_k$\tcc*[r]{update state}
+    }
+     \textbf{return} $\tau$\;
+    \caption{\label{alg:ssa_dyn}Sample a trajectory}
+\end{algorithm}

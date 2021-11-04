@@ -400,8 +400,8 @@ behavior without resorting to Monte-Carlo methods such as   importance sampling.
 
 \subsubsection*{Exclusive Switch}
 The exclusive switch~\parencite{barzel2008calculation}  has three different modes of operation, depending on the
-\ac{DNA} state, i.e.\ on whether a protein of type one or two is bound to
-the \ac{DNA}.
+\acsfont{DNA} state, i.e.\ on whether a protein of type one or two is bound to
+the \acsfont{DNA}.
 
 \begin{model}[Exclusive Switch]\label{model:excl_switch_2} The exclusive switch model consists of a promoter region
 that can express both proteins $P_1$ and $P_2$. Both can bind to the region, suppressing
@@ -423,16 +423,16 @@ The parameter values are $\rho=\e{1}{-1}$, $\lambda=\e{1}{-3}$, $\beta=\e{1}{-2}
 \end{model}
 Since we know a priori of the three distinct operating modes, we adjust
 the method slightly:
-The state-space for the \ac{DNA} states is not lumped. Instead we ``stack''
-lumped approximations of the $P_1$-$P_2$ phase space upon each other. Special treatment of \ac{DNA} states is common for such models \parencite{lapin2011shave}. 
+The state-space for the \acsfont{DNA} states is not lumped. Instead we ``stack''
+lumped approximations of the $P_1$-$P_2$ phase space upon each other. Special treatment of \acsfont{DNA} states is common for such models \parencite{lapin2011shave}. 
 
 %We assess the switching dynamics from one mode to another.
 To analyze the switching, we choose the transition from\graffito{Variable order: $P_1$, $P_2$, $D$, $D.P_1$, $D.P_2$.}
 \[
 	x_{1} = (32, 0, 0, 0, 1) 
-\]
-to
-\[
+    \quad
+    \text{to}
+    \quad
  x_2 = (0, 32, 0, 1, 0) 
 \]
 over the time interval $t\in[0,10]$.
@@ -531,7 +531,7 @@ Bayesian estimation can then be used to infer the spreading dynamics given uncer
 %We demonstrate our method on such an estimation problem.
 % We assume the full model including parameterization is given.
 
-\begin{model}[Epidemics Model]\label{model:seir}
+\begin{model}[Epidemic Spread]\label{model:seir}
 A population of susceptible individuals can contract a disease from infected agents. In this case, they are exposed, meaning they will become infected but cannot yet infect others. After being infected, individuals change to the removed state. The mass-action reactions are as follows.
     \[ S + I \xrightarrow{\lambda} E + I\,, \quad
 E \xrightarrow{\mu} I\,, \quad

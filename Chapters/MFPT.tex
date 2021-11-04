@@ -30,8 +30,8 @@
 %\section{Introduction}
 For the quantitative analysis of \acp{CTMC}, many   approaches have been
 developed, where properties of interest are often expressed in terms of temporal logics such as
-\acs{CSL}~\parencite{aziz1996verifying,baier2000model,baier2003model,spieler2014model},
-\acs{MTL}~\parencite{chen2011time},
+\acsfont{CSL}~\parencite{aziz1996verifying,baier2000model,baier2003model,spieler2014model},
+\acsfont{MTL}~\parencite{chen2011time},
 and specifications for timed-automata~\parencite{chen2009quantitative,mikeev2013fly}.
 In addition, there exist
 efficient software
@@ -177,7 +177,7 @@ the reader to \citet{parrilo2003semidefinite} and, more recently,
 \paragraph{Bounding MFTPs using Optimization}
 Particularly relevant for this work is the application of convex optimization to
 \ac{FPT}\@.
-\citet{helmes2001computing} formulated a linear program using the
+\citet{helmes2001computing} formulated a \ac{LP} using the
 %basic adjoint equation and
 Hausdorff moment conditions \parencite{hausdorff} to bound moments of the
 \ac{FPT} distribution in Markovian processes.
@@ -565,7 +565,7 @@ Expanding this term yields a polynomial, which --~by integration~-- provides a l
 This moment condition has been used by \citet{helmes2001computing} to bound \acp{MFPT} in a variety of stochastic processes.
 In \citet{helmes2008geometrical} the authors provide an extension taking into account the geometry of the Hausdorff polytope.
 With this extension the method was competitive with the \ac{SDP} approach on their selection of case studies.
-Since these conditions are linear in the moments they can solve linear programs instead of the semi-definite programs shown below.
+Since these conditions are linear in the moments they can solve \acp{LP} instead of the semi-definite programs shown below.
 
 \begin{example}
 	Let $\ell = 2$, $k=2$. Then the \eqref{eq:hausdorff} becomes
@@ -591,42 +591,45 @@ For $n$ dimensions
 \begin{equation*}
 	\int_{{[0,1]}^n}\prod_{i = 0}^n x_i^{\ell_i}{(1-x_i)}^{k_i}\,d\mu{(\vec{x}})\geq 0
 \end{equation*}
-for all $\ell_i, k_i\in\mathbb{N}$ and $i\in \{0,\dotsc, n\}$.
-\marginpar{We treat the time horizon $T$ exactly the same as the other bounds $H_i$ here.}
-With arbitrary positive upper bounds $H_1, H_2, \dotsc, H_n$ this becomes
+Using multi-index notation
+\begin{equation*}
+	\int_{{[0,1]}^n} x^{\vec{\ell}}{(\vec{1}-\vec{x})}^{\vec{k}}\,d\mu{(\vec{x}})\geq 0
+\end{equation*}
+for all $\vec\ell, \vec{k}\in\mathbb{N}^{n}$.
+We treat the time horizon $T$ exactly the same as the other bounds $H_i$ here.
+With arbitrary positive upper bounds $\vec{H} = (H_1, H_2, \dotsc, H_n)^{\T}$ this becomes
 \begin{equation}\label{eq:hausdorff_constraint}
-    \int_{\bigtimes_{i=1}^n[0,H_i]}\prod_{i = 0}^n x_i^{\ell_i}{(H_i-x_i)}^{k_i}\,d\mu{(\vec{x}})\geq 0
+    \int_{\bigtimes_{i=1}^n[0,H_i]} x^{\vec{\ell}}{(\vec{H}-\vec{x})}^{\vec{k}}\,d\mu{(\vec{x}})\geq 0
 \end{equation}
 This equation can simply be expanded using the multi-binomial theorem. % Taken from Wikipedia : https://en.wikipedia.org/wiki/Binomial_theorem#Multi-binomial_theorem
 This is just a vector version of the regular binomial theorem
 That is, given $n$-dimensional vectors $k$, $x$, and $y$
-\marginpar{We use multi-index notation here.}
 \[
-    (y+x)^{k} =
-    \sum_{j\leq k}
-    \binom{k}{j} y^{j}x^{k-j}\,.
+    (\vec{y}+\vec{x})^{\vec k} =
+    \sum_{\vec j\leq\vec k}
+    \binom{\vec k}{\vec j} {\vec{y}}^{\vec j}\vec{x}^{\vec k-\vec j}\,.
 \]
 % In multi-index notation
 % \[
 %     (y + x)^k = \sum_{\nu\leq k} \binom{k}{\nu} y^{\nu}x^{k-\nu}\,.
 % \]
 Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
-\marginpar{We can interchange the integrals since all measures have finite support and mass.}
 \begin{equation}\label{eq:hausdorff_appl}
-    %\sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n} 
-    \sum_{j\leq k}
+    %\sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n}
+    \sum_{\vec j\leq \vec k}
     %\left(\prod_{i=1}^{n}\binom{k_i}{j_i}
-    \binom{k}{j}
+    \binom{\vec{k}}{\vec j}
     %H_i^{j_i}(-1)^{k_i-j_i}
-    H^j (-1)^{k-j}
+    {\vec{H}}^{\vec{j}} (-1)^{\vec k-\vec j}
     %\right)\\
     %\int_{\bigtimes_{i=1}^n[0,H_i]}
     \int
-    x^{k-j+\ell} \,d\mu(x)\geq 0\,.
+    {\vec x}^{\vec k-\vec j+\vec \ell} \,d\mu(\vec x)\geq 0\,.
 \end{equation}
+We can interchange the integrals since all measures have finite support and mass.
 
 \subsection{A Linear Program}
-Combining the model constraints \eqref{eq:model_constraints} and the linear Hausdorff-type constraints \eqref{eq:hausdorff_appl} for both expected occupation and the exit location measure yields a linear program.
+Combining the model constraints \eqref{eq:model_constraints} and the linear Hausdorff-type constraints \eqref{eq:hausdorff_appl} for both expected occupation and the exit location measure yields a \ac{LP}.
 \begin{equation}\label{eq:lp_for_fpt}
     \begin{split}
 	    \text{min} / \text{max} \hspace{1em}&  z_{00}^{\prime} \\
@@ -888,8 +891,10 @@ of the problem.
 
 
 \subsection{Case Studies}
-We implemented and solved the \ac{SDP} programs described above using optimization suite \acsfont{MOSEK} version 9.1.2 \parencite{mosek} via the \acsfont{CVXPY}
-interface version 1.0.24 \parencite{cvxpy}.
+The model constraints are derived using the symbolic math toolkit Sympy \parencite{sympy}.
+The \acp{LP} are solved using the Gurobi \parencite{gurobi}.
+We implemented and solved the \ac{SDP} programs described above using optimization suite \acsfont{MOSEK} version 9.1.2 \parencite{mosek}.
+Both optimizers are used through the \acsfont{CVXPY} interface \parencite{cvxpy}.
 
 \subsubsection*{Dimerization}
 As a first case study, we use \autoref{model:dim} with parameters $\lambda=100$ and $\delta=0.2$.
@@ -996,7 +1001,7 @@ order $r$ (cf.\ \autoref{fig:convergence} and \autoref{tab:bounds}).
 \subsubsection*{Parallel Dimerizations}
 As a second study, we consider a two-dimensional model by combining two
 independent dimerizations.
-\begin{model}[Parallel independent dimerizations]\label{model:double_dim} This model consists of two independent versions of \autoref{model:dim}\turnto{model:dim}. The reactions are
+\begin{model}[Parallel Independent Dimerizations]\label{model:double_dim} This model consists of two independent versions of \autoref{model:dim}\turnto{model:dim}. The reactions are
 \[
     \varnothing\xrightarrow{10^4}M_1\,,\quad
     2M_1\xrightarrow{0.1}D_1\,,\quad
@@ -1023,7 +1028,7 @@ arises in many   contexts.
 Often mode switching in such systems can be described a modulating Markov process
 whose switching rates may depend on the system state (e.g.\ the population sizes).
 In biological applications, mode switching often describes a change of the
-\acs{DNA} state~\parencite{hasenauer2014method,stekel2008strong} and the analysis of
+\acsfont{DNA} state~\parencite{hasenauer2014method,stekel2008strong} and the analysis of
 switching time distribution is of particular interest~\parencite{spieler2014model,barzel2008calculation}.
 
 In the context of \acp{MPM}, typically the state-space $\mathcal{S}=
@@ -1095,7 +1100,7 @@ The moment constraint over the partial moments has a linear structure:
 
 \begin{table}[t]
 \centering
-    \caption[\ac{MFPT} bounds]{\ac{MFPT} bounds on \autoref{model:dim}, \autoref{model:double_dim}, \autoref{model:gexpr}.\label{tab:bounds}}
+    \caption[\ac{MFPT} bounds]{\ac{MFPT} bounds on \autoref{model:dim} for $X_t \geq 5$ and $T=1$, \autoref{model:double_dim} for $X_t^{(M_1)}\geq 200$ or $X_t^{(M_2)}\geq 200$ and $T=10$, and \autoref{model:gexpr} for $X_t^{(P)}\geq 5$ and $T=10$.\label{tab:bounds}}
 \begin{tabular}{l@{\hspace{1em}}l@{\hspace{1em}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r}
     \toprule
     & & \multicolumn{5}{c}{relaxation order $r$}\\
@@ -1117,7 +1122,7 @@ The moment constraint over the partial moments has a linear structure:
 As an instance of a multi-modal system, we consider a simple gene expression with self-regulating
 negative feedback which is a common pattern in many genetic circuits~\parencite{stekel2008strong}.
 
-\begin{model}[Negative self-regulated gene expression]\label{model:gexpr}
+\begin{model}[Negative Self-Regulated Gene Expression]\label{model:gexpr}
 This model consists of a gene state that is either on or off, i.e.\ $X^{D_{\text{on}}}_t
 +X^{D_{\text{off}}}_t = 1$, $\forall t\geq 0$. Therefore the system has two \emph{modes}.
 \begin{gather*}
