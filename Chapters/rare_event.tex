@@ -85,7 +85,7 @@ To make this approach feasible, we will use the aggregation approximation of the
 Thus, we will compute and store backward probabilities for the aggregated system for discrete time points up to $T$.
 
 
-\section{Time-Dependent Simulation Algorithm}
+\section{Nonhomogeneous Stochastic Simulation}
 We are changing the rate bias dynamically over fixed intervals of the time-domain.
 Therefore we cannot use the default \ac{SSA}.
 With \autoref{alg:ssa_dyn} we present a version of the \acl{SSA} that simulates trajectories of a system with such dynamically changing biases.
@@ -94,19 +94,50 @@ Here it is tested, in which time interval the sampled jump will take place.
 Therefore rates are recomputed each time the algorithm jumps forward one time-interval.
 
 Let us first consider how exactly the jump time distribution changes.
-Assume, we have an increasing sequence of time points $0, \Delta_1, \Delta_1+\Delta_2,\Delta_1 + \Delta_2+\Delta_3, \dots$ with corresponding rates $\lambda_i >0$.
+A time-inhomogeneous exponential has the cdf
+\[
+    F(t) = 1 - \exp\left(-\int_0^t \lambda(s)\,ds\right)\,.
+\]
+Accordingly, the pdf
+\[
+    f(t) = \lambda(t)\exp\left(-\int_0^t \lambda(s)\,ds\right)\,.
+\]
+Since we compute the biases for fixed intervals, we have a piecewise exponential model.
+Assume, we have an increasing sequence of time points $\tau_0=0, \tau_1, \tau_2, \tau_3, \dots$ with corresponding rates $\lambda_i >0$.
+The piecewise constant hazard function
+\[
+    \lambda(t) = \begin{cases}
+        \lambda_1, & \text{if } \tau_0 \leq t \leq \tau_1\\
+        \lambda_2, & \text{if } \tau_1 < t \leq \tau_2\\
+        \lambda_3, & \text{if } \tau_2 < t \leq \tau_3\\
+        \quad\vdots
+    \end{cases}\,.
+\]
 We can give the pdf using a case distinction as
 \begin{equation}
     f(t) = \begin{cases}
-        f_1(t), &t\in[0,\Delta_1)\\
-        f_2(t), &t\in [\Delta_1,\Delta_1 + \Delta_2)\\
-        f_3(t), &t\in [\Delta_1 + \Delta_2,\Delta_1 + \Delta_2 + \Delta_3)\\
+        f_1(t), & \text{if }\tau_0 \leq t \leq \tau_1\\
+        f_2(t), & \text{if }\tau_1 < t \leq \tau_2\\
+        f_3(t), & \text{if }\tau_2 < t \leq \tau_3\\
         \quad\vdots
     \end{cases}\,,
 \end{equation}
-where the piecewise densities
+where, letting $\Delta_k = \tau_k - \tau_{k-1}$, the piecewise densities
 \[
-    f_k(t) = \lambda_1 \exp \left( -\sum_{i=1}^{k-1}\Delta_i\lambda_i - \lambda_k\left(t - \sum_{i=1}^{k-1} \Delta_i\right)\right)\,.
+    f_k(t) = \lambda_k \exp \left( -\sum_{i=1}^{k-1}\Delta_i\lambda_i - \lambda_k\left(t - \tau_{k-1}\right)\right)\,.
+\]
+Similarly, the cdf
+\begin{equation}
+    F(t) = 1 - \begin{cases}
+        S_1(t), & \text{if }\tau_0 \leq t \leq \tau_1\\
+        S_2(t), & \text{if }\tau_1 < t \leq \tau_2\\
+        S_3(t), & \text{if }\tau_2 < t \leq \tau_3\\
+        \quad\vdots
+    \end{cases}\,,
+\end{equation}
+where the component survival functions
+\[
+    S_k(t) = \exp \left( -\sum_{i=1}^{k-1}\Delta_i\lambda_i - \lambda_k\left(t - \tau_{k-1}\right)\right)\,.
 \]
 The sampling from this density --~necessary in the stochastic simulation~-- uses an inverse transform.
 This transform is most concisely expressed in lines \ref{line:jump_start}--\ref{line:update_t} of the pseudocode in \autoref{alg:ssa_dyn}.
