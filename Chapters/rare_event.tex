@@ -8,7 +8,7 @@ Therefore unlikely events are exactly as unlikely to be sampled using the direct
 Similarly approximations such as moment approximations or mean-field analysis focus on the main probability mass.
 Therefore the analysis of such events is particularly difficult.
 
-The arguably most used method for rare event analysis is \emph{importance sampling}.
+The arguably most used method for rare event analysis is \acf{IS}.
 This variance reduction method is very well-suited to the analysis of such events.
 In a nutshell, this method alters the model's dynamics and keeps track of the \emph{likelihood ratio} between this altered and the original model.
 This ratio provides an unbiased estimate of the event probability.
@@ -18,10 +18,48 @@ Therein each reaction rate is altered by some constant scalar factor.
 These biasing values are identified by using pilot runs of the \ac{SSA} and a cross-entropy objective.
 This method has been extended to be state-dependent in \citet{roh2011state}.
 
-\section{The Bridging Master Equation}
+\section{Importance Sampling}
+Importance Sampling is  a popular variance reduction technique.
+\marginpar{This explanation follows \cite[Chapter~9.7]{kroese2013handbook}.}
+Typically it is applied for the Monte Carlo estimation of rare event probabilities.
+The main idea, is to sample from a different distribution, the \ac{IS} density, and adjust samples using the ratio between this and the original density.
+Let $f$ be the original density and the goal is to estimate
+\[
+    \E{H(X)} = \int H(x)f(x)\,dx\,.
+\]
+Now let $g$ be another density, dominating $Hf$, i.e.\ $g(x)\Rightarrow H(x)f(x) = 0$. Then we can re-write the above as
+\[
+    \expSym_f({H(X)}) = \int H(x)f(x)\,dx = \int H(x) \frac{f(x)}{g(x)} g(x) dx = \expSym_g H(X) \frac{f(X)}{g(X)}\,.
+\]
+Therefore, we can replace the estimate using sampling from $f$ by an estimate using the density $g$ instead.
+According to the right-hand side of this equation, the estimate using i.i.d.\ samples $X_i$, $1\leq i \leq N$
+\begin{equation}\label{eq:imp_sampl}
+    \hat{\expSym}(H(X)) = N^{-1} \sum_{k=1}^N H(X_k) \frac{f(X_k)}{g(X_k)}\,.
+\end{equation}
+The term factor
+\[
+    W(x) = \frac{f(x)}{g(x)}
+\]
+is called the \emph{likelihood ratio}.
+
+Thus, the method hinges on finding a density $g^{*}$, that has a computable likelihood ratio and  minimizes the variance of the estimator \eqref{eq:imp_sampl}.
+If $H(x)$ is an event, the perfect \ac{IS} \parencite[Chapter~9.7.1]{kroese2013handbook}
+\[
+    g^*(x) = \frac{H(x) f(x)}{\E{H(x)}}\,.
+\]
+Therefore the ideal \ac{IS} distribution is the conditional density
+\[
+    g^*(x) = f(x \mid H(X) = 1)\,.
+\]
+
+\section{Near-Optimal Biasing}
 An \ac{MPM} can be modified to fullfill terminal constraints.
-As shown in \citet{huang2016reconstructing}, the bridging \ac{CME} becomes
-\begin{equation}
+Previously, in \autoref{sec:bridge_dist}, we have seen how the endpoint constrained process can be described using the backward probabilities $\beta$.
+The bridging distribution can be either computed using both backward and forward probabilities, but for us it is more instructive to consider, the bridging \ac{CME}.
+This is the endpoint constrainted version of the \ac{CME}.
+It depends on ratios of the backwards probabilities which act as factors to the propensity values.
+As shown in \citet{huang2016reconstructing}, the bridging \ac{CME} is
+\begin{equation}\label{eq:bridge_cme}
     \frac{d\gamma}{d t} ( x,t) =
     \sum_{j=1}^{n_R}\left(
         \tilde{\alpha}_j( x- v_j)\gamma( x- v_j,t) - \tilde{\alpha}_j( x)\gamma( x,t)
@@ -29,38 +67,88 @@ As shown in \citet{huang2016reconstructing}, the bridging \ac{CME} becomes
 \end{equation}
 where the propensities
 \begin{equation}
-    \tilde{\alpha}_j(x, t) = \alpha_j(x)\frac{\beta(x + v_j, t)}{\beta(x, t)}
+    \tilde{\alpha}_j(x, t) = \alpha_j(x)\phi_j(x, t)\,.
 \end{equation}
-depend on the backwards probabilities.
+The time-dependent predilection factor
+\begin{equation*}
+    \phi_j(x, t) = {\beta(x + v_j, t)}/{\beta(x, t)}\,.
+\end{equation*}
+Equation~\eqref{eq:bridge_cme} reveals the optimal biasing scheme for \ac{IS}.
+Since, we know that the ideal \ac{IS} distribution is the conditional distribution $\gamma$, the ratios
+give a perfect biasing.
+We use approximations of these ratios as a time and state dependent predilection functions $\phi_j$ during the stochastic simulation.
+
+Naturally, computing \eqref{eq:bridge_cme} requires full knowledge of all backward probabilities $\beta(x, t)$ for all states $x$ and times $t$.
+A full backward solution contains more information than the event probability, we are interested in.
+This is because the event probability is $\beta(x_0, 0)$ and \eqref{eq:bridge_cme}.
+To make this approach feasible, we will use the aggregation approximation of the backward probabilities.
+Thus, we will compute and store backward probabilities for the aggregated system for discrete time points up to $T$.
+
 
 \section{Time-Dependent Simulation Algorithm}
 We are changing the rate bias dynamically over fixed intervals of the time-domain.
 Therefore we cannot use the default \ac{SSA}.
 With \autoref{alg:ssa_dyn} we present a version of the \acl{SSA} that simulates trajectories of a system with such dynamically changing biases.
 The main change is the handling of the time-discrete changes in the loop in \autoref{line:tloop}.
-Here it is tested, in which time interval the sampled jkump will take place.
+Here it is tested, in which time interval the sampled jump will take place.
 Therefore rates are recomputed each time the algorithm jumps forward one time-interval.
+
+Let us first consider how exactly the jump time distribution changes.
+Assume, we have an increasing sequence of time points $0, \Delta_1, \Delta_1+\Delta_2,\Delta_1 + \Delta_2+\Delta_3, \dots$ with corresponding rates $\lambda_i >0$.
+We can give the pdf using a case distinction as
+\begin{equation}
+    f(t) = \begin{cases}
+        f_1(t), &t\in[0,\Delta_1)\\
+        f_2(t), &t\in [\Delta_1,\Delta_1 + \Delta_2)\\
+        f_3(t), &t\in [\Delta_1 + \Delta_2,\Delta_1 + \Delta_2 + \Delta_3)\\
+        \quad\vdots
+    \end{cases}\,,
+\end{equation}
+where the piecewise densities
+\[
+    f_k(t) = \lambda_1 \exp \left( -\sum_{i=1}^{k-1}\Delta_i\lambda_i - \lambda_k\left(t - \sum_{i=1}^{k-1} \Delta_i\right)\right)\,.
+\]
+The sampling from this density --~necessary in the stochastic simulation~-- uses an inverse transform.
+This transform is most concisely expressed in lines \ref{line:jump_start}--\ref{line:update_t} of the pseudocode in \autoref{alg:ssa_dyn}.
+The uniform random sample $X$ is checked against the probability mass of the current time interval.
+The mass follows an exponential distribution with the current exit rate $a_0$.
+In each iteration we recompute the rate $a_0$ and advance the time until the correct interval is identified.
+Finally, in \autoref{line:update_t} the jump time is computed.
+
+Since the jump time is determined after this part, the reaction selection uses the rates of this time-interval.
+The probability of a reaction $j$ being selected is proportional to its biased reaction rate $\alpha_{i,j}'$ (\autoref{line:sample_dyn_r}).
+
+The sampling of successive reactions is performed until the predefined time horizon $T$ is reached (\autoref{line:outer_loop}).
 \begin{algorithm}
 \SetKwInOut{Input}{input}
 \SetKwInOut{Output}{output}
     \Input{$\pi_0, A$}
     \Output{trajectory $\tau$}
-    $\tau \leftarrow$ empty list, $s\leftarrow$ sample from $\pi_0$, $t\leftarrow 0$, $j=1$\;
-    \While{$t<T$\label{line:loop}}{
+    $\tau \leftarrow$ empty list\;
+    $s\sim\pi_0$\;
+    $t\leftarrow 0$\;
+    $j\leftarrow 1$\;
+    $w\leftarrow 1$\;
+    \While{$t<T$\label{line:outer_loop}}{
     $\tau\leftarrow \text{append}(\tau, (s, t))$\;
-    $X\sim U[0,1]$\;
+    $X\sim U[0,1]$\label{line:jump_start}\;
+    $w'\leftarrow 1$\;
     $a_0\leftarrow\sum_i\alpha_{i,j}'(s)$\tcc*[r]{exit rate}
-    $dt\leftarrow t_{j+1} - t$\tcc*[r]{rest of time interval}
-    \While{$X>1 - \exp(-a_0 dt)$\tcc*[r]{find interval}\label{line:tloop}}{
-        $X \leftarrow X - 1 + \exp(-a_0 dt)$\;
-        $t\leftarrow t + dt$\;
+    $\Delta\leftarrow t_{j+1} - t$\tcc*[r]{rest of time interval}
+    \While{$X>1 - \exp(-a_0 \Delta)$\tcc*[r]{find interval}\label{line:tloop}}{
+        $X \leftarrow X - 1 + \exp(-a_0 \Delta)$\;
+        $w'\leftarrow w' \exp(-\Delta a_0)$\;
+        $t\leftarrow t + \Delta$\;
         $j\leftarrow j+1$\;
-        $dt\leftarrow $ time-interval width\;
-        $a_0\leftarrow\sum_i\alpha_{i,j}'(s)$\tcc*[r]{exit rate}
+        $\Delta\leftarrow $ time-interval width\;
+        $a_0\leftarrow\sum_i\alpha_{i,j}'(s)$\label{line:jump_end}\tcc*[r]{exit rate}
     }
-    $t \leftarrow t - {\log(1-X)}/{a_0}$\tcc*[r]{update time}
-    $k\leftarrow$ sample reaction $i$ with probability $\alpha_{i,j}'(s)/\sum_i\alpha_{i,j}'(s)$\label{line:sample_r}\;
+    $dt \leftarrow - {\log(1-X)}/{a_0}$\;
+    $t \leftarrow t + dt$\label{line:update_t}\tcc*[r]{update time}
+    $w'\leftarrow w' \exp(-a_0 dt)$\;
+    $k\leftarrow$ sample $i$ with probability $\alpha_{i,j}'(s)/\sum_i\alpha_{i,j}'(s)$\label{line:sample_dyn_r}\;
     $s\leftarrow s + v_k$\tcc*[r]{update state}
+    $w\leftarrow w + w'$\label{line:update_w}\;
     }
      \textbf{return} $\tau$\;
     \caption{\label{alg:ssa_dyn}Sample a trajectory}
