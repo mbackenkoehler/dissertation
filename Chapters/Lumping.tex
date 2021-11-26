@@ -93,6 +93,22 @@ each constituent micro-state of the transition state $\bar{x}_{i\xrightarrow{j} 
 Therefore, each of the added micro-state rates in \eqref{eq:lumped_propfun} is divided
 by the state volume $\left|\bar{x}_i\right|$.
 
+The \emph{aggregated \ac{CME}} becomes
+\begin{multline}\label{eq:lumped_cme}
+    \frac{d}{dt}\hat{\pi}(\bar{x}_i, t) =
+    \sum_{j=1}^{n_R}
+        \left(\sum_{i_j}\bar{\alpha}_j(\bar{x}_{i_j \rightarrow i})\hat{\pi}(\bar{x}_{i_j}, t) / \left| \bar{x}_{i_j}\right|\right)\\
+        - \bar{\alpha}_j(\bar{x}_{i\rightarrow})\hat{\pi}(\bar{x}_i, t) / \left| \bar{x}_i \right|
+\end{multline}
+and the associated backwards equation
+\begin{multline}\label{eq:lumped_bcme}
+    \frac{d}{dt}\hat{\beta}(\bar{x}_i, t) =
+    \sum_{j=1}^{n_R}
+        \hat{\beta}(\bar{x}_i, t)
+        \left(\sum_{i_j}\bar{\alpha}_j(\bar{x}_{i_j \rightarrow i})\hat{\beta}(\bar{x}_{i_j}, t) / \left| \bar{x}_{i_j}\right|\right)\\
+        - \bar{\alpha}_j(\bar{x}_{i\rightarrow})\hat{\beta}(\bar{x}_i, t) / \left| \bar{x}_i \right|
+\end{multline}
+
 Under the assumption of polynomial rates, as is the case for mass-action
 systems, we can compute the sum of rates over this transition set
 efficiently using Faulhaber's formula.
