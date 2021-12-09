@@ -80,9 +80,12 @@ We use approximations of these ratios as a time and state dependent predilection
 
 Naturally, computing \eqref{eq:bridge_cme} requires full knowledge of all backward probabilities $\beta(x, t)$ for all states $x$ and times $t$.
 A full backward solution contains more information than the event probability, we are interested in.
-This is because the event probability is $\beta(x_0, 0)$ and \eqref{eq:bridge_cme}.
-To make this approach feasible, we will use the aggregation approximation of the backward probabilities.
+In particular, the event probability is precisely $\beta(x_0, 0)$.
+To make this approach feasible, we will use the aggregation-based approximation $\hat{\beta}$ of the backward probabilities $\beta$.
 Thus, we will compute and store backward probabilities for the aggregated system for discrete time points up to $T$.
+\[
+    \bar{\phi}(i, j; t) = \hat{\beta}\left(\bar{x}_j, \Delta\floor*{\frac{t}{\Delta}}\right) / \hat{\beta}\left(\bar{x}_i, \Delta\floor*{\frac{t}{\Delta}}\right)
+\]
 In \autoref{fig:biases} we illustrate this scheme for a birth-death process (\autoref{model:bd}) with goal macro-state $[40,47]$ at $T=10$
 and $X_0=0$.
 \begin{figure}
@@ -94,6 +97,15 @@ and $X_0=0$.
 Using these approximate backwards probabilities we can compute approximate predilections for the aggregated system.
 
 \autoref{fig:biases} clearly illustrates how the biases increase towards the end increasing the push towards the goal state the farther time progresses.
+But this is only true in the aggregated system, where we consider macro-states as one unit.
+Therefore, we need to transfer the biases back to the original micro-states somehow.
+This essentially entails an interpolation between the bias values $\bar{\phi}$.
+The simplest way is to use a linear interpolation.
+Specifically, we assume the biases to be exactly their approximate value at the center of each macro-state.
+Away from these states, we take an average of the adjacent center points weighted by their distance.
+\[
+    \hat{\phi}_j(x, t) = \sum
+\]
 
 Now, that we have a macro-state biasing, we need to transition back to the original system.
 The approximation assumes probability mass only to be different between macro-state borders.
@@ -107,6 +119,12 @@ With \autoref{alg:ssa_dyn} we present a version of the \acl{SSA} that simulates 
 The main change is the handling of the time-discrete changes in the loop in \autoref{line:tloop}.
 Here it is tested, in which time interval the sampled jump will take place.
 Therefore rates are recomputed each time the algorithm jumps forward one time-interval.
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{gfx/lin_intp.pdf}
+    \includegraphics[scale=0.5]{gfx/biased_SSA.pdf}
+    \caption[Bias interpolation \& biased \ac{SSA}]{\label{fig:bias_ssa}}
+\end{figure}
 
 Let us first consider how exactly the jump time distribution changes.
 A time-inhomogeneous exponential has the cdf
