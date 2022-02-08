@@ -9,9 +9,14 @@
 %\end{center}
 
 
-The scientific method revolves around the evolution of falsifiable hypotheses.
+The scientific method revolves around the finding and testing falsifiable hypotheses.
 Such hypotheses can be simple statements such as water being liquid at room temperature and an average air pressure.
 All hypotheses involve some sort of model~--~some more well-defined than others.
+A model is an abstraction of the ``real world''.
+Often this abstraction aims to capture a few aspects of interest while others are simplified or ignored.
+Therefore a model starts with a number of assumptions that simplify the model enough to reasonably try to draw conclusions.
+
+
 In the natural sciences, we often deal with concentrations of different ``things''.
 This could be the amount of some substance in a beaker or the number of agents waiting for some service.
 
@@ -23,7 +28,31 @@ Abstractions are made for the benefit of both, explainability and facilitating a
 
 Simplify representation for more efficiency per computation.
 
+% Motivation MPMs
 
+\begin{itemize}
+    \item chemistry~\parencite{gillespie1977exact}
+    \item systems biology~\parencite{wilkinson2018stochastic,BuchWolkenhauer}
+    \item epidemiology~\parencite{mode2000stochastic}
+    \item queuing systems~\parencite{breuer2003markov} 
+    \item finance~\parencite{pardoux2008markov}
+\end{itemize}
+
+
+Story:
+\begin{itemize}
+    \item Stochasticity important
+    \item Ignored, to keep models more manageable
+    \item This misses important features (rare events)
+    \item Invalid for lower counts
+    \item Goal: make these models ``analyzable''
+    \item Further the effort of finding scalable methods which can analyze the stochasticity
+    \item Methods should be \emph{reliable}
+    \item Moment closures suck, because they are (mostly) not justified at all
+    \item All methods developed here, are or yield approximations in the pure mathematical sense
+    \item They converge to the ``true'' value
+    \item The theme connecting all approaches is to connect (approximate) distributional information such as moment equations and state-space lumping with methods yielding such approximations
+\end{itemize}
 % MFPT bounds
 
 \Acfp{MPM} provide a
@@ -70,6 +99,12 @@ given by the chemical master equation, whose numerical solution is
 extremely challenging because of the enormous size of the underlying
 state-space. 
 
+\section{Main Research Questions}
+\paragraph{Transition Problems} How does the process get from state $A$ to state $B$?
+\paragraph{Forward Behavior} How does the process behave given an initial state?
+\paragraph{Approximations} How can we use moments to tackle the above questions?
+\paragraph{Applications} Motivate problems through multimodal behaviors.
+
 \section{Organization}
 All contributions presented in this thesis are related to \aclp{MPM}.
 Therefore the background chapter, i.e.\ \autoref{ch:background} is relevant
@@ -87,12 +122,12 @@ in both chapters.
       {sibling angle=40}]
         node[concept] {\autoref{ch:background}\\Markovian\\population\\models}
     [clockwise from=-30]
-        child[concept]{
-            node[concept] (lya) {\autoref{ch:lyapunov}\\Lyapunov functions}
-        }
+        %child[concept]{
+            %node[concept] (lya) {\autoref{ch:lyapunov}\\Lyapunov functions}
+        %}
     child[concept] {
 	    node[concept] {\autoref{ch:lumping}\\Aggregation}
-	    [clockwise from=-15]
+        [clockwise from=35]
 	    child[concept] {
             node[concept] (stat) {\autoref{ch:statagg}\\Stationary behavior}
 	    }
@@ -100,7 +135,7 @@ in both chapters.
 		    node[concept] {\autoref{ch:bridging}\\Bridging problem}
 	    }
 	    child[concept] {
-		    node[concept] {\autoref{ch:is}\\Importance Sampling}
+            node[concept] (rare) {\autoref{ch:is}\\Rare events}
 	    }
     }
     child[concept] {
@@ -112,7 +147,8 @@ in both chapters.
     ;
     \begin{pgfonlayer}{background}
         \draw [concept connection] (cv) edge (mfpt);
-        \draw [concept connection] (lya) edge (stat);
+        \draw [concept connection] (cv) edge (rare);
+        %\draw [concept connection] (lya) edge (stat);
     \end{pgfonlayer}
 	\end{scope}
  %    \begin{pgfonlayer}{background}

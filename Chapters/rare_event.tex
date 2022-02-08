@@ -1,4 +1,4 @@
-\chapter{Importance Sampling}\label{ch:is}
+\chapter{Rare Event Probabilities}\label{ch:is}
 Rare events are events that occur with very low probability.
 Such events can be, for example, the die-out of some population or the switching of a multimodal system across some potential barrier.
 By their nature, most standard methods focus on regions with high probability.
@@ -219,3 +219,24 @@ Typically this means reaching some time-horizon $T>0$, i.e.\ $\Theta(s, t)=t>T$.
     }
     \caption{\label{alg:ssa_dyn}A weighted sample of the rare event}
 \end{algorithm}
+
+\subsection{Issues}
+\begin{itemize}
+    \item Works for some models
+    \item often: under- or over-acceleration
+    \item due to the approximative nature, the speed is often too high or too low
+    \item simultions reach the target to early: many samples with very low weight, few with high weight
+    \item the estimates are still unbiased but not approximately normally distributed, even for larger biases (make an example, that this is also the case for constant biasing)
+    \item bias strength can be adjusted such that only a portion reaches
+    \item this improves the somewhat, but may alter the biases too much and the weight distribution (sampled) is still bad
+    \item solution: use importance splitting instead
+\end{itemize}
+
+\section{Importance Splitting}
+\begin{itemize}
+    \item newer stuff \parencite{budde2017better}
+    \item \ac{RESTART} original paper \parencite{villen1994restart}
+    \item fixed effort splitting \parencite{garvels1998comparison}
+    \item Legay \cite{jegourel2013importance}
+\end{itemize}
+
