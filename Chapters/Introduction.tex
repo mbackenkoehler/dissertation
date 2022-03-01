@@ -9,101 +9,161 @@
 %\end{center}
 
 
-The scientific method revolves around the finding and testing falsifiable hypotheses.
-Such hypotheses can be simple statements such as water being liquid at room temperature and an average air pressure.
-All hypotheses involve some sort of model~--~some more well-defined than others.
-A model is an abstraction of the ``real world''.
-Often this abstraction aims to capture a few aspects of interest while others are simplified or ignored.
-Therefore a model starts with a number of assumptions that simplify the model enough to reasonably try to draw conclusions.
+%The scientific method revolves around the finding and testing falsifiable hypotheses.
+%Such hypotheses can be simple statements such as water being liquid at room temperature and an average air pressure.
+%All hypotheses involve some sort of model~--~some more well-defined than others.
+Any model is an abstraction of reality.
+Often this abstraction aims to capture a few aspects of interest while ignoring others.
+Modelling often is a delicate balance of adequate representation and abstraction.
+The former is the goal to capture all the relevant behaviours and effects in a model.
+Abstractions are made for the benefit of both, explainability and facilitating analysis.
+This balance between faithfully capturing reality and enabling an analysis is at the core of all modelling efforts.
+%starts with a number of assumptions that simplify the model enough to reasonably try to draw conclusions.
 
 
 In the natural sciences, we often deal with concentrations of different ``things''.
 This could be the amount of some substance in a beaker or the number of agents waiting for some service.
+Traditionally, \aclp{ODE} are the most popular paradigm for dynamical models.
+\Aclp{ODE} have two inherent simplifications: Firstly, they impose a continuous state space and secondly they treat are deterministic.
+The first assumption is appropriate in many circumstances.
+For example, chemical concentrations can usually be treated as continuous because the number of molecules in a given volume is large enough for the concentration to be treated as a real number.
+However, this simplification fails where discrete effects are central to the model.
+Consider, for example the die-out of a species in the classical Lotka-Volterra predator-prey model \parencite{lotka1925elements}.
+In this case the distinction between a very low concentration and a zero concentration becomes relevant again:
+If the predator, e.g.\ the foxes, die out the model's dynamic changes dramatically.
+Such an event can be missed by the deterministic model which instead gives a population size larger than zero but much smaller than a single individual.
+\Citeauthor{mollison1991dependence} calls this problem is humorously the \emph{atto-fox} problem \parencite{mollison1991dependence}.
+The second issue, i.e.\ the issue of determinism, is often closely connected to the first.
+While the issue of a deterministic vs.\ a stochastic world is more an issue of philosophy and physics, stochasticity undoubtably provides an excellent abstraction for many phenomena.
+Staying in with the previous example, it makes sense to consider the dying out of the predatory species to be stochastic.
+This means, there is a non-zero probability for both, survival and die-out.
+And answering questions about such probabilities would be one of the central functions of such a model.
+
+The previous example falls in the realm of systems biology.
+There are many more applications in systems biology that benefit from a discrete and stochastic description \parencite{wilkinson2018stochastic,BuchWolkenhauer}.
+Many biological processes such as cell functions are driven by stochastic effects.
+Consider for example the oscillatory processes such as the circadian cycle \parencite{asgari2019mathematical} or even classical models such as the famous predator-prey model \parencite{lotka1925elements}.
+Another phenomenon central to many biological functions is a switch-like behaviour.
 
 
-
-Modelling often is a delicate balance of adequate representation and abstraction.
-The former is the goal to capture all the relevant behaviours and effects in a model.
-Abstractions are made for the benefit of both, explainability and facilitating analysis.
-
+\Acfp{MPM} are a powerful framework to capture stochastic interactions between groups of identical agents.
 Simplify representation for more efficiency per computation.
-
-% Motivation MPMs
-
-\begin{itemize}
-    \item chemistry~\parencite{gillespie1977exact}
-    \item systems biology~\parencite{wilkinson2018stochastic,BuchWolkenhauer}
-    \item epidemiology~\parencite{mode2000stochastic}
-    \item queuing systems~\parencite{breuer2003markov} 
-    \item finance~\parencite{pardoux2008markov}
-\end{itemize}
-
-
-Story:
-\begin{itemize}
-    \item Stochasticity important
-    \item Ignored, to keep models more manageable
-    \item This misses important features (rare events)
-    \item Invalid for lower counts
-    \item Goal: make these models ``analyzable''
-    \item Further the effort of finding scalable methods which can analyze the stochasticity
-    \item Methods should be \emph{reliable}
-    \item Moment closures suck, because they are (mostly) not justified at all
-    \item All methods developed here, are or yield approximations in the pure mathematical sense
-    \item They converge to the ``true'' value
-    \item The theme connecting all approaches is to connect (approximate) distributional information such as moment equations and state-space lumping with methods yielding such approximations
-\end{itemize}
-% MFPT bounds
-
-\Acfp{MPM} provide a
-widely used framework to capture stochastic interactions between groups of identical agents.
-This subclass of \acfp{CTMC}  is used
-to describe the stochastic dynamics of systems in various domains.
-Prominent applications are chemical reaction networks in quantitative
-biology~\parencite{BuchWolkenhauer},
-epidemic spreading~\parencite{porter2016dynamical}, performance analysis  of technical and
-information systems~\parencite{bortolussi2013continuous,gast2019} as well as the behavior of
-collective adaptive systems~\parencite{bernardo2016}.
-
-% Stationary aggregation
-
-In many areas of science, stochastic models  of interacting populations can describe systems in which the discrete population sizes evolve stochastically in continuous time.
-Such problems naturally occur in a wide range of areas such as chemistry~\parencite{gillespie1977exact}, systems biology~\parencite{wilkinson2018stochastic,BuchWolkenhauer}, epidemiology~\parencite{mode2000stochastic} as well as    queuing systems~\parencite{breuer2003markov} and finance~\parencite{pardoux2008markov}.
-
+States are discrete counts of agents and reaction events stochastically change these counts.
 Interactions between agents, commonly referred to as \emph{reactions}, happen at exponentially distributed random times. 
-Their rate depends on the current system state, i.e.\ the population sizes.
-This results in a continuous-time Markov chain semantics~\parencite{anderson2012continuous}.
+Their rate depends only on the current system state, i.e.\ the population sizes.
+This kind of population model introduces the major assumption, that all agents behave similar.
+Similarity entails both, similar behaviour of each agent and a homogenous mixture of all agents.\marginpar{Often the term \emph{well-stirredness} is used to express this.}
+This feature is a \emph{Markov property} and
+therefore \acp{MPM} form a special class of structured \acp{CTMC} \parencite{anderson2012continuous}.
+Accordingly, the time-evolution of the corresponding probability distribution is 
+given by the Kolmogorov equations.\marginpar{In the context of (bio-)chemistry this is often called the \emph{chemical master equation}.}
+For small chains, the Kolmogorov equations can be used easily to compute accurate transition probabilities.
+The \acp{CTMC} underlying most population models, however, can have large, often unbound, populations.
+This makes their numerical solution extremely challenging.
+Many problems occuring in a wide range of areas such as chemistry~\parencite{gillespie1977exact}, epidemiology~\parencite{mode2000stochastic},    queuing systems~\parencite{breuer2003markov}, finance~\parencite{pardoux2008markov}, and performance analysis~\parencite{bortolussi2013continuous,gast2019} can be described using this formalism.
 
-% Bridging
+Faced with such models, typical research questions target the forward behaviour.
+This is the problem of looking into the future, given a starting distribution.
+As an example consider a the question how large the probability is that a system stays in some subset of the state space for a fixed amount of time.
+Mainly, we target these kinds of questions, but in \autoref{ch:bridging} we look at a closely
+related class of problems -- the bridging problem.
+In this problem both the initial and the terminal distribution is fixed.
+\marginpar{This scenario is akin to the smoothing problem from stochastic filtering.}
+Such questions are of particular interest in multimodal models to determine the switching behaviour from one to another attracting region.
+A third area is the question of long-term behavior.
+In \emph{ergodic} models, the forward probabilities converge to a stable equilibrium distribution which is independent of the initial distribution.\turnto{sec:stationary_dist}.
+%\section*{Main Research Questions}
+%\paragraph{Transition Problems} How does the process get from state $A$ to state $B$?
+%\paragraph{Forward Behavior} How does the process behave given an initial state?
+%\paragraph{Approximations} How can we use moments to tackle the above questions?
+%\paragraph{Applications} Motivate problems through multimodal behaviors.
 
-\Acp{MPM} are widely used to model the time evolution of complex 
-discrete phenomena in continuous time. Such problems naturally occur in a wide range of areas such as chemistry~\parencite{gillespie1977exact}, systems biology~\parencite{wilkinson2018stochastic,BuchWolkenhauer}, epidemiology~\parencite{mode2000stochastic} as well as    queuing systems~\parencite{breuer2003markov} and finance~\parencite{pardoux2008markov}.
-% The Markov property renders model analysis   feasible but requires a complete description of the current state
-% to describe the future behavior of the chain.
-In many applications, an \ac{MPM} describes the stochastic interaction of populations of agents.
-%and therefore exhibits a population structure.
-The state variables are counts of individual entities of different populations.
+The goal of this thesis is to develop methods to analyze \acp{MPM}.
+A particular focus of these methods is scalability.
+All methods developed in this thesis aim to provide means to more efficiently analyze such systems -- or at least show up paths that can lead to scalable methodologies.
+Importantly, these methods are \emph{reliable} approximations: There are no ad-hoc approximations influencing estimates.
+The methodological theme is to leverage (approximate) distributional information such as moment equations and state-space aggregation to obtain good approximations.
 
-% LCVs
 
-Markovian Population Models that are used to describe cellular processes are often subject to inherent stochasticity.
-The dynamics of gene expression, for instance, is influenced by 
-single random events (e.g.\ transcription factor binding) and 
-hence, models that take this randomness into account must monitor
-discrete molecular counts and reaction events that change these counts.
-Discrete-state continuous-time Markov chains have successfully  been
-used to describe  networks of chemical reactions
-over time that correspond to the basic events of such processes. 
-The time-evolution of the corresponding probability distribution is 
-given by the chemical master equation, whose numerical solution is
-extremely challenging because of the enormous size of the underlying
-state-space. 
+Methods to analyze such models without ignoring their inherent stochasticity has received much attention in recent years.
+Facing state-spaces too large to handle using the Kolmogorov equation directly, stochastic simulations \parencite{gillespie1977exact} provide an alternative path.
+Such simulations have the advantage of providing an accurate approximation of the process.
+That is, they converge in the limit of simulation runs.
+Stochastic simulations and estimation have been extended quite a bit.
+In \autoref{ch:cvinsrns} we develop on such extension for variance reduction of stochastic estimates.
+This variance reduction exploits moment dynamics to derive constraints on population averages.
+These constraints are a correction to the estimate.
+The corrected estimate is unbiased and has variance lower or equal to the uncorrected estimate.
 
-\section{Main Research Questions}
-\paragraph{Transition Problems} How does the process get from state $A$ to state $B$?
-\paragraph{Forward Behavior} How does the process behave given an initial state?
-\paragraph{Approximations} How can we use moments to tackle the above questions?
-\paragraph{Applications} Motivate problems through multimodal behaviors.
+Similar moment constraints can be used  --~in combination with general moment constraints~-- to formulate convex optimization problems.
+This way, rigorous bounds on reaching probabilities and \aclp{MFPT} can be computed.
+This approach is developed in \autoref{ch:MFPT}.
+Fortunately, both of these moment-based approaches can do without any moment closures
+and thereby avoid any ad-hoc approximations.
+%\begin{itemize}
+    %\item Moment closures, in contrast, suck because they are (mostly) not justified at all
+    %\item sigma expansion
+    %\item langevin equation
+    %\item Moment based stuff
+    %\item Hybrid methods
+%\end{itemize}
+
+In \autoref{pt:aggregation} we use a hyper cube state-space aggregation scheme to gain a rough understanding of the dynamics.
+The aggregation is then further refined (\autoref{ch:statagg} and \autoref{ch:bridging}) or used to guide stochastic simulations (\autoref{ch:is}).
+
+%aspects
+%\begin{itemize}
+    %\item Brownian motion is a physical motivation for memoryless property
+%\end{itemize}
+%Story:
+%\begin{itemize}
+    %\item Goal: make these models ``analyzable''
+    %\item Further the effort of finding scalable methods which can analyze the stochasticity
+    %\item Methods should be \emph{reliable}
+    %\item All methods developed here, are or yield approximations in the pure mathematical sense
+    %\item They converge to the ``true'' value
+    %\item The theme connecting all approaches is to connect (approximate) distributional information such as moment equations and state-space lumping with methods yielding such approximations
+%\end{itemize}
+%% MFPT bounds
+
+%This subclass of \acfp{CTMC}  is used
+%to describe the stochastic dynamics of systems in various domains.
+%Prominent applications are chemical reaction networks in quantitative
+%biology~\parencite{BuchWolkenhauer},
+%epidemic spreading~\parencite{porter2016dynamical}, performance analysis  of technical and
+%information systems~\parencite{bortolussi2013continuous,gast2019} as well as the behavior of
+%collective adaptive systems~\parencite{bernardo2016}.
+
+%% Stationary aggregation
+
+%In many areas of science, stochastic models  of interacting populations can describe systems in which the discrete population sizes evolve stochastically in continuous time.
+%Such problems naturally occur in a wide range of areas such as chemistry~\parencite{gillespie1977exact}, systems biology~\parencite{wilkinson2018stochastic,BuchWolkenhauer}, epidemiology~\parencite{mode2000stochastic} as well as    queuing systems~\parencite{breuer2003markov} and finance~\parencite{pardoux2008markov}.
+
+
+%% Bridging
+
+%\Acp{MPM} are widely used to model the time evolution of complex 
+%discrete phenomena in continuous time. Such problems naturally occur in a wide range of areas such as chemistry~\parencite{gillespie1977exact}, systems biology~\parencite{wilkinson2018stochastic,BuchWolkenhauer}, epidemiology~\parencite{mode2000stochastic} as well as    queuing systems~\parencite{breuer2003markov} and finance~\parencite{pardoux2008markov}.
+%% The Markov property renders model analysis   feasible but requires a complete description of the current state
+%% to describe the future behavior of the chain.
+%In many applications, an \ac{MPM} describes the stochastic interaction of populations of agents.
+%%and therefore exhibits a population structure.
+%The state variables are counts of individual entities of different populations.
+
+%% LCVs
+
+%Markovian Population Models that are used to describe cellular processes are often subject to inherent stochasticity.
+%The dynamics of gene expression, for instance, is influenced by 
+%single random events (e.g.\ transcription factor binding) and 
+%hence, models that take this randomness into account must monitor
+%discrete molecular counts and reaction events that change these counts.
+%Discrete-state continuous-time Markov chains have successfully  been
+%used to describe  networks of chemical reactions
+%over time that correspond to the basic events of such processes. 
+%The time-evolution of the corresponding probability distribution is 
+%given by the chemical master equation, whose numerical solution is
+%extremely challenging because of the enormous size of the underlying
+%state-space.
 
 \section{Organization}
 All contributions presented in this thesis are related to \aclp{MPM}.
