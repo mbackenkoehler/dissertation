@@ -1,17 +1,34 @@
 \chapter{Conclusion}
-\section{Contribution}
-\emph{Main methodology}: The uniform structure of population models enables analysis using aggregate information (in the state domain or by using moment statistics)
-\begin{itemize}
-  \item Proposed novel methodologies
-  \item spanning from rigorous to more heuristic
-  \item hate on ad-hoc heuristics a little (i.e.\ moment closures)
-  \item all methods have an approximating relationship with the actual model (convergence to the actual dynamics) -- illustrate!
-\end{itemize}
+While \acfp{MPM} are a powerful modeling framework, their analysis --~especially wrt.\ their stochasticity~-- poses a significant challenge.
+This thesis has proposed a number of techniques to tackle some parts of this challenge.
+These techniques have in common, that they use the uniform structure of the \acp{CTMC} underlying an \ac{MPM}.
+
+This structure enables us to derive moment equations that yield constraints that have shown to be useful in two contexts.
+In the context of mean first-passage time bounds they formed linear constraints on the moments of the process and the exit location measure.
+In combination with semi-definite constraints this yields a hierarchy of convex optimization problems.
+This hierarchy yields convergent bounds on the reaching probability and the mean first-passage time in a wide class of problems.
+The other application of these moments constraints has been demonstrated in the context of Monte Carlo estimation:
+When used as \acfp{CV} such constraints yield an alternative unbiased estimator with lower variance.
+Using both heuristics and sequential Monte Carlo methods, we demonstrated that efficient constraint sets can be constructed.
+
+The approach of aggregation takes advantage of the fact that often propensity functions result in a smooth ``landscape of transition rates'' across the state-space.
+This motivates the aggregation scheme in which macro states are assumed to have a uniform distribution within.
+Deriving closed-forms for the transition rates between those states, the computational load --~compared to the original model~-- can be greatly reduced.
+We have demonstrated the usefulness of this aggregation scheme on the domains of stationary distributions, bridging distributions, and the use in rare event sampling.
+
+
+%\section{Contribution}
+%\emph{Main methodology}: The uniform structure of population models enables analysis using aggregate information (in the state domain or by using moment statistics)
+%\begin{itemize}
+  %\item Proposed novel methodologies
+  %\item spanning from rigorous to more heuristic
+  %\item hate on ad-hoc heuristics a little (i.e.\ moment closures)
+  %\item all methods have an approximating relationship with the actual model (convergence to the actual dynamics) -- illustrate!
+%\end{itemize}
 \section{Future Work}
-\section{The Major Challenges}
-\paragraph{Practical challenge: Remembering the Domain/appplication} The main challenge in stochastic reaction networks today is the connection of methods to practicioners.
+\paragraph{Practical challenge: Remembering the Domain/application} The main challenge in stochastic reaction networks today is the connection of methods to practicioners.
 A large area body of research is devoted to methods precisely analyzing \acp{SRN}.
-At times, the practical value of proposed methods is a secondary concern.
+It is a danger that the practical value of proposed methods is a secondary concern.
 For these methods to be useful more dialog is needed with domain experts to understand the challenges.
 \begin{itemize}
   \item Method and model development should be driven more by practical problems
