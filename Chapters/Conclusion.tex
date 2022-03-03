@@ -13,7 +13,7 @@ Using both heuristics and sequential Monte Carlo methods, we demonstrated that e
 
 The approach of aggregation takes advantage of the fact that often propensity functions result in a smooth ``landscape of transition rates'' across the state-space.
 This motivates the aggregation scheme in which macro states are assumed to have a uniform distribution within.
-Deriving closed-forms for the transition rates between those states, the computational load --~compared to the original model~-- can be greatly reduced.
+Deriving closed-forms for the transition rates between those states, the computational load --~compared to the original model~-- is greatly reduced.
 We have demonstrated the usefulness of this aggregation scheme on the domains of stationary distributions, bridging distributions, and the use in rare event sampling.
 
 
@@ -26,6 +26,15 @@ We have demonstrated the usefulness of this aggregation scheme on the domains of
   %\item all methods have an approximating relationship with the actual model (convergence to the actual dynamics) -- illustrate!
 %\end{itemize}
 \section{Future Work}
+All ideas presented in this thesis provide starting points for future work.
+\paragraph{Technical}
+\begin{itemize}
+    \item MFPT: scalability / look at Hausdorff constraints
+    \item CV: different functionals; keep it elegant
+    \item aggregation: Schemes more flexible than hyper-cubes (rectangles instead of cubes, other shapes altogether)
+    \item More throgough investigation / further development of sketched ideas (Lyapunov synthesis, Rare event sampling)
+\end{itemize}
+\paragraph{General}
 \paragraph{Practical challenge: Remembering the Domain/application} The main challenge in stochastic reaction networks today is the connection of methods to practicioners.
 A large area body of research is devoted to methods precisely analyzing \acp{SRN}.
 It is a danger that the practical value of proposed methods is a secondary concern.

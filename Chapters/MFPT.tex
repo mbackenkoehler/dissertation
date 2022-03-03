@@ -545,104 +545,6 @@ a raw moment such as the variance~\parencite{sakurai2019bounding,dowdy2018bounds
 
 \iffalse
 
-\section{Linear Hausdorff Constraints}
-Before discussing the semi-definite constraints which we will use for the remainder of this study, we will briefly discuss the Hausdorff moment constraints.
-These constraints offer linear constraints on moments of bounded measures.
-The Hausdorff moment problem is the question whether an infinite sequence $(m_0, m_1, \dotsc)$ is a sequence of moments
-\[
-	m_k = \int_{0}^{1} x^k\,d\mu(x), \quad \forall k\in\mathbb{N}
-\]
-for some Borel-measure supported on the unit interval $[0,1]$.
-
-\citet{hausdorff} came up with a necessary condition that
-\marginpar{See also \citet{feller} for additional details.}
-\begin{equation}\label{eq:hausdorff}
-    \int_0^1 x^\ell(1-x)^k\,d\mu(x) \geq 0, \quad \forall \ell, k\in\mathbb{N}\,.
-\end{equation}
-The validity of this condition is easy to see since
-\begin{equation}\label{eq:hausdorff_integrand}
-	x^\ell(1-x)^k\geq 0, \quad \forall x\in[0,1]\,.
-\end{equation}
-Expanding this term yields a polynomial, which --~by integration~-- provides a linear constraint on the moments.
-This moment condition has been used by \citet{helmes2001computing} to bound \acp{MFPT} in a variety of stochastic processes.
-In \citet{helmes2008geometrical} the authors provide an extension taking into account the geometry of the Hausdorff polytope.
-With this extension the method was competitive with the \ac{SDP} approach on their selection of case studies.
-Since these conditions are linear in the moments they can solve \acp{LP} instead of the semi-definite programs shown below.
-
-\begin{example}
-	Let $\ell = 2$, $k=2$. Then the \eqref{eq:hausdorff} becomes
-	\[
-		\int_0^1 x (1 - x)^2 \,d\mu(x) =
-		m_2 - 2 m_3 + m_4 \geq 0
-	\]
-	constraining the moments on $[0,1]$.
-\end{example}
-
-Since the Hausdorff moment problem is defined on $[0,1]$, we need to adjust accordingly.
-Let the interval be $[0,H]$, $H>0$ then we can simply change the variables.
-That means considering $y=x/H$ instead of $x$.
-Equivalently, we can apply this rescaling in \eqref{eq:hausdorff} such that
-\begin{equation}\label{eq:hausdorff_scaled}
-	\int_0^H x^\ell(H-x)^k\,d\mu(x) \geq 0, \quad \forall \ell, k\in\mathbb{N}
-\end{equation}
-remains a valid constraint on $[0,H]$.
-
-Generalizing \eqref{eq:hausdorff} to multiple dimensions can be done by simply multiplying terms
-for each dimension in a similar manner.
-For $n$ dimensions
-\begin{equation*}
-	\int_{{[0,1]}^n}\prod_{i = 0}^n x_i^{\ell_i}{(1-x_i)}^{k_i}\,d\mu{(\vec{x}})\geq 0
-\end{equation*}
-Using multi-index notation
-\begin{equation*}
-	\int_{{[0,1]}^n} x^{\vec{\ell}}{(\vec{1}-\vec{x})}^{\vec{k}}\,d\mu{(\vec{x}})\geq 0
-\end{equation*}
-for all $\vec\ell, \vec{k}\in\mathbb{N}^{n}$.
-We treat the time horizon $T$ exactly the same as the other bounds $H_i$ here.
-With arbitrary positive upper bounds $\vec{H} = (H_1, H_2, \dotsc, H_n)^{\T}$ this becomes
-\begin{equation}\label{eq:hausdorff_constraint}
-    \int_{\bigtimes_{i=1}^n[0,H_i]} x^{\vec{\ell}}{(\vec{H}-\vec{x})}^{\vec{k}}\,d\mu{(\vec{x}})\geq 0
-\end{equation}
-This equation can simply be expanded using the multi-binomial theorem. % Taken from Wikipedia : https://en.wikipedia.org/wiki/Binomial_theorem#Multi-binomial_theorem
-This is just a vector version of the regular binomial theorem
-That is, given $n$-dimensional vectors $k$, $x$, and $y$
-\[
-    (\vec{y}+\vec{x})^{\vec k} =
-    \sum_{\vec j\leq\vec k}
-    \binom{\vec k}{\vec j} {\vec{y}}^{\vec j}\vec{x}^{\vec k-\vec j}\,.
-\]
-% In multi-index notation
-% \[
-%     (y + x)^k = \sum_{\nu\leq k} \binom{k}{\nu} y^{\nu}x^{k-\nu}\,.
-% \]
-Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
-\begin{equation}\label{eq:hausdorff_appl}
-    %\sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n}
-    \sum_{\vec j\leq \vec k}
-    %\left(\prod_{i=1}^{n}\binom{k_i}{j_i}
-    \binom{\vec{k}}{\vec j}
-    %H_i^{j_i}(-1)^{k_i-j_i}
-    {\vec{H}}^{\vec{j}} (-1)^{\vec k-\vec j}
-    %\right)\\
-    %\int_{\bigtimes_{i=1}^n[0,H_i]}
-    \int
-    {\vec x}^{\vec k-\vec j+\vec \ell} \,d\mu(\vec x)\geq 0\,.
-\end{equation}
-We can interchange the integrals since all measures have finite support and mass.
-
-\subsection{A Linear Program}
-Combining the model constraints \eqref{eq:model_constraints} and the linear Hausdorff-type constraints \eqref{eq:hausdorff_appl} for both expected occupation and the exit location measure yields a \ac{LP}.
-\begin{equation}\label{eq:lp_for_fpt}
-    \begin{split}
-	    \text{min} / \text{max} \hspace{1em}&  z_{00}^{\prime} \\
-        \text{such that}\hspace{1em} & \text{for all measures and bounds}\\
-        &\qquad\eqref{eq:hausdorff_appl}\text{ holds }\forall m, k,\\
-        & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m \\
-	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k\,.
-    \end{split}
-\end{equation}
-Using a framework such as \acsfont{CVXPY}, this convex program can easily be coded and solved using various state-of-the-art solvers.
-
 \fi 
 
 \section{Semi-Definite Constraints}
@@ -1194,4 +1096,102 @@ in a wide range of applications such as optimal control problems or the estimati
 of densities~\parencite{lasserre2010moments}.
 We expect that our proposed ideas   can be adapted to a wider range
 of stochastic models such as stochastic hybrid systems, exhibiting partly deterministic dynamics.
+
+\section{Linear Hausdorff Constraints}
+Before discussing the semi-definite constraints which we will use for the remainder of this study, we will briefly discuss the Hausdorff moment constraints.
+These constraints offer linear constraints on moments of bounded measures.
+The Hausdorff moment problem is the question whether an infinite sequence $(m_0, m_1, \dotsc)$ is a sequence of moments
+\[
+	m_k = \int_{0}^{1} x^k\,d\mu(x), \quad \forall k\in\mathbb{N}
+\]
+for some Borel-measure supported on the unit interval $[0,1]$.
+
+\citet{hausdorff} came up with a necessary condition that
+\marginpar{See also \citet{feller} for additional details.}
+\begin{equation}\label{eq:hausdorff}
+    \int_0^1 x^\ell(1-x)^k\,d\mu(x) \geq 0, \quad \forall \ell, k\in\mathbb{N}\,.
+\end{equation}
+The validity of this condition is easy to see since
+\begin{equation}\label{eq:hausdorff_integrand}
+	x^\ell(1-x)^k\geq 0, \quad \forall x\in[0,1]\,.
+\end{equation}
+Expanding this term yields a polynomial, which --~by integration~-- provides a linear constraint on the moments.
+This moment condition has been used by \citet{helmes2001computing} to bound \acp{MFPT} in a variety of stochastic processes.
+In \citet{helmes2008geometrical} the authors provide an extension taking into account the geometry of the Hausdorff polytope.
+With this extension the method was competitive with the \ac{SDP} approach on their selection of case studies.
+Since these conditions are linear in the moments they can solve \acp{LP} instead of the semi-definite programs shown below.
+
+\begin{example}
+	Let $\ell = 2$, $k=2$. Then the \eqref{eq:hausdorff} becomes
+	\[
+		\int_0^1 x (1 - x)^2 \,d\mu(x) =
+		m_2 - 2 m_3 + m_4 \geq 0
+	\]
+	constraining the moments on $[0,1]$.
+\end{example}
+
+Since the Hausdorff moment problem is defined on $[0,1]$, we need to adjust accordingly.
+Let the interval be $[0,H]$, $H>0$ then we can simply change the variables.
+That means considering $y=x/H$ instead of $x$.
+Equivalently, we can apply this rescaling in \eqref{eq:hausdorff} such that
+\begin{equation}\label{eq:hausdorff_scaled}
+	\int_0^H x^\ell(H-x)^k\,d\mu(x) \geq 0, \quad \forall \ell, k\in\mathbb{N}
+\end{equation}
+remains a valid constraint on $[0,H]$.
+
+Generalizing \eqref{eq:hausdorff} to multiple dimensions can be done by simply multiplying terms
+for each dimension in a similar manner.
+For $n$ dimensions
+\begin{equation*}
+	\int_{{[0,1]}^n}\prod_{i = 0}^n x_i^{\ell_i}{(1-x_i)}^{k_i}\,d\mu{(\vec{x}})\geq 0
+\end{equation*}
+Using multi-index notation
+\begin{equation*}
+	\int_{{[0,1]}^n} x^{\vec{\ell}}{(\vec{1}-\vec{x})}^{\vec{k}}\,d\mu{(\vec{x}})\geq 0
+\end{equation*}
+for all $\vec\ell, \vec{k}\in\mathbb{N}^{n}$.
+We treat the time horizon $T$ exactly the same as the other bounds $H_i$ here.
+With arbitrary positive upper bounds $\vec{H} = (H_1, H_2, \dotsc, H_n)^{\T}$ this becomes
+\begin{equation}\label{eq:hausdorff_constraint}
+    \int_{\bigtimes_{i=1}^n[0,H_i]} x^{\vec{\ell}}{(\vec{H}-\vec{x})}^{\vec{k}}\,d\mu{(\vec{x}})\geq 0
+\end{equation}
+This equation can simply be expanded using the multi-binomial theorem. % Taken from Wikipedia : https://en.wikipedia.org/wiki/Binomial_theorem#Multi-binomial_theorem
+This is just a vector version of the regular binomial theorem
+That is, given $n$-dimensional vectors $k$, $x$, and $y$
+\[
+    (\vec{y}+\vec{x})^{\vec k} =
+    \sum_{\vec j\leq\vec k}
+    \binom{\vec k}{\vec j} {\vec{y}}^{\vec j}\vec{x}^{\vec k-\vec j}\,.
+\]
+% In multi-index notation
+% \[
+%     (y + x)^k = \sum_{\nu\leq k} \binom{k}{\nu} y^{\nu}x^{k-\nu}\,.
+% \]
+Thus, \eqref{eq:hausdorff_constraint} becomes the linear moment constraint
+\begin{equation}\label{eq:hausdorff_appl}
+    %\sum_{j_1=0}^{k_1}\dotsm\sum_{j_n=0}^{k_n}
+    \sum_{\vec j\leq \vec k}
+    %\left(\prod_{i=1}^{n}\binom{k_i}{j_i}
+    \binom{\vec{k}}{\vec j}
+    %H_i^{j_i}(-1)^{k_i-j_i}
+    {\vec{H}}^{\vec{j}} (-1)^{\vec k-\vec j}
+    %\right)\\
+    %\int_{\bigtimes_{i=1}^n[0,H_i]}
+    \int
+    {\vec x}^{\vec k-\vec j+\vec \ell} \,d\mu(\vec x)\geq 0\,.
+\end{equation}
+We can interchange the integrals since all measures have finite support and mass.
+
+\subsection{A Linear Program}
+Combining the model constraints \eqref{eq:model_constraints} and the linear Hausdorff-type constraints \eqref{eq:hausdorff_appl} for both expected occupation and the exit location measure yields a \ac{LP}.
+\begin{equation}\label{eq:lp_for_fpt}
+    \begin{split}
+	    \text{min} / \text{max} \hspace{1em}&  z_{00}^{\prime} \\
+        \text{such that}\hspace{1em} & \text{for all measures and bounds}\\
+        &\qquad\eqref{eq:hausdorff_appl}\text{ holds }\forall m, k,\\
+        & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m \\
+	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k\,.
+    \end{split}
+\end{equation}
+Using a framework such as \acsfont{CVXPY}, this convex program can easily be coded and solved using various state-of-the-art solvers.
 
