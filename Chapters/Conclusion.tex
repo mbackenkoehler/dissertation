@@ -27,25 +27,46 @@ We have demonstrated the usefulness of this aggregation scheme on the domains of
 %\end{itemize}
 \section{Future Work}
 All ideas presented in this thesis provide starting points for future work.
-\paragraph{Technical}
-\begin{itemize}
-    \item MFPT: scalability / look at Hausdorff constraints
-    \item CV: different functionals; keep it elegant
-    \item aggregation: Schemes more flexible than hyper-cubes (rectangles instead of cubes, other shapes altogether)
-    \item More throgough investigation / further development of sketched ideas (Lyapunov synthesis, Rare event sampling)
-\end{itemize}
+
+\paragraph{{MFPTs} via {SDP}}
+The \ac{SDP} approach for \acp{MFPT} presented in \autoref{ch:MFPT} improved in terms of scalability.
+Here, scalability mainly refers to the problem of large populations (or time horizons).
+Such large values increase the moments which tend to grow exponentially with their order.
+The resulting stiffness can be problematic for off-the-shelf \ac{SDP} solvers.
+Better performance could be achieved by a suitable re-scaling of the model or stronger cooperation with domain experts in mathematical optimization to pinpoint problems more precisely.
+Another interesting direction is the study of Hausdorff constraints sketched in \autoref{sec:hausdorff}.
+Since these are linear moment constraints, they can easily be incorporated into the \ac{SDP} formulation.
+
+\paragraph{Control Variates}
+Control variates for Monte Carlo (\autoref{ch:cvinsrns} estimation offer a tremendous design space, both algorithmically and in terms of the constraints themselves.
+Depending on the quantity of interest, non-polynomial test functions might provide better correlations.
+The control variate optimization, based on sequential Monte Carlo, could perhaps be replaced by a search using approximations such as moment closures.
+A challenge in designing \acp{CV} and their algorithmic optimization is always elegance.
+Keeping the algorithm flexible, while keeping the number of parameters low is difficult, but crucial.
+
+\paragraph{Aggregation}
+Similarly to the \aclp{CV}, the aggregation scheme offers quite a few possibilities for further experimentation.
+For example, a dynamic aggregation-disaggregation scheme could be used for forward analysis similar to dynamic truncations \parencite{andreychenko2011parameter}.
+Another possible modification would be to define states more flexible than hyper cubes.
+Other shapes might be better suited for this kind of approximation.
+
+%\paragraph{Technical}
+%\begin{itemize}
+    %\item aggregation: Schemes more flexible than hyper-cubes (rectangles instead of cubes, other shapes altogether)
+    %\item More throgough investigation / further development of sketched ideas (Lyapunov synthesis, Rare event sampling)
+%\end{itemize}
 \paragraph{General}
 \paragraph{Practical challenge: Remembering the Domain/application} The main challenge in stochastic reaction networks today is the connection of methods to practicioners.
 A large area body of research is devoted to methods precisely analyzing \acp{SRN}.
 It is a danger that the practical value of proposed methods is a secondary concern.
 For these methods to be useful more dialog is needed with domain experts to understand the challenges.
 \begin{itemize}
-  \item Method and model development should be driven more by practical problems
+    \item Method and model development should be driven more by practical problems (what do practicioners actually need?)
   \item Prove methods on some domain; drive research using new possibilities
   \item Re-assess 
 \end{itemize}
 
-\paragraph{Methods at Scale}
+\paragraph{Last Message}
 \begin{itemize}
-  \item System and state space size
+  \item Lots of things are possible --- go ahead and apply them!
 \end{itemize}
