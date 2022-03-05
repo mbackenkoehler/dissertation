@@ -1068,39 +1068,12 @@ The \acp{SDP} above were all solved within at most a few seconds.
 
 
 
-\section{Conclusion}\label{sec:mfpt:conclusion}
-Numerical methods to compute reachability probabilities and first passage times
-for continuous-time Markov chains that are based on an exhaustive exploration of the state-space
-are exact up to numerical precision. Such methods, however, do not scale and cannot be efficiently applied to models with large or infinite state-spaces,
-an issue exacerbated in population models. Moment-based methods offer an alternative analysis approach
-for \acp{MPM}, which scales with the number of different populations in the system
-but are approximations with little or no control of the error.
-In this work,
-we bridge this gap by proposing a rigorous approach to derive bounds on first passage
-times and reachability probabilities, leveraging a semi-definite programming formulation
-based on appropriate moment constraints. 
-
-The method we propose is shown to be accurate in several examples. It does, however, suffer, like all moment-based methods, from numerical instabilities in the \ac{SDP} solver, caused by the fact that moments typically span several orders of magnitude. We proposed a scaling of moments to mitigate this effect. 
-However, the scaling only addresses the moment matrices but not the linear constraints
-which still contain values with varying orders of magnitudes.
-Therefore, we plan as future work to investigate an appropriate scaling for the linear constraints
-or to redefine the moment
-constraints (e.g.\ using an exponential time weighting~\parencite{dowdy2018dynamic}).
-Based on this investigation, we expect to make this approach applicable to
-more problems including, for example, the computation of bounds of rare event probabilities.
-%Numerical instabilities due to moment values of largely differing orders of magnitudes are a current limitation of all moment-based methods.
-We also expect that the development of more sophisticated scaling techniques will  improve approximate moment-based methods.
-
-Furthermore, moment-based analysis approaches have shown to be successful
-in a wide range of applications such as optimal control problems or the estimation
-of densities~\parencite{lasserre2010moments}.
-We expect that our proposed ideas   can be adapted to a wider range
-of stochastic models such as stochastic hybrid systems, exhibiting partly deterministic dynamics.
-
 \section{Linear Hausdorff Constraints}
-Before discussing the semi-definite constraints which we will use for the remainder of this study, we will briefly discuss the Hausdorff moment constraints.
+Before closing this chapter, we will briefly discuss the Hausdorff moment constraints.
 These constraints offer linear constraints on moments of bounded measures.
-The Hausdorff moment problem is the question whether an infinite sequence $(m_0, m_1, \dotsc)$ is a sequence of moments
+As such they can --~in principle~-- be used as both, a replacement and an addition to the semi-definite constraints discussed above.
+
+The \emph{Hausdorff moment problem} is the question whether an infinite sequence $(m_0, m_1, \dotsc)$ is a sequence of moments
 \[
 	m_k = \int_{0}^{1} x^k\,d\mu(x), \quad \forall k\in\mathbb{N}
 \]
@@ -1195,3 +1168,45 @@ Combining the model constraints \eqref{eq:model_constraints} and the linear Haus
 \end{equation}
 Using a framework such as \acsfont{CVXPY}, this convex program can easily be coded and solved using various state-of-the-art solvers.
 
+\subsection{An Illustrating Example}
+As a simple example we consider a Poisson process with rate $100$ and the threshold event of reaching \[ \tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 10\,. \]
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{l r r r r}
+        \toprule
+          order & \num{1} & 2 & 3 & 4 \\
+        \midrule
+          lower & \num{0.0000} & \num{0.2438} & \num{0.2499} & \num{0.2499} \\
+          upper & \num{10.000} & \num{0.3225} & \num{0.2527} & \num{0.2527} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\section{Conclusion}\label{sec:mfpt:conclusion}
+Numerical methods to compute reachability probabilities and first passage times
+for continuous-time Markov chains that are based on an exhaustive exploration of the state-space
+are exact up to numerical precision. Such methods, however, do not scale and cannot be efficiently applied to models with large or infinite state-spaces,
+an issue exacerbated in population models. Moment-based methods offer an alternative analysis approach
+for \acp{MPM}, which scales with the number of different populations in the system
+but are approximations with little or no control of the error.
+In this work,
+we bridge this gap by proposing a rigorous approach to derive bounds on first passage
+times and reachability probabilities, leveraging a semi-definite programming formulation
+based on appropriate moment constraints. 
+
+The method we propose is shown to be accurate in several examples. It does, however, suffer, like all moment-based methods, from numerical instabilities in the \ac{SDP} solver, caused by the fact that moments typically span several orders of magnitude. We proposed a scaling of moments to mitigate this effect. 
+However, the scaling only addresses the moment matrices but not the linear constraints
+which still contain values with varying orders of magnitudes.
+Therefore, we plan as future work to investigate an appropriate scaling for the linear constraints
+or to redefine the moment
+constraints (e.g.\ using an exponential time weighting~\parencite{dowdy2018dynamic}).
+Based on this investigation, we expect to make this approach applicable to
+more problems including, for example, the computation of bounds of rare event probabilities.
+%Numerical instabilities due to moment values of largely differing orders of magnitudes are a current limitation of all moment-based methods.
+We also expect that the development of more sophisticated scaling techniques will  improve approximate moment-based methods.
+
+Furthermore, moment-based analysis approaches have shown to be successful
+in a wide range of applications such as optimal control problems or the estimation
+of densities~\parencite{lasserre2010moments}.
+We expect that our proposed ideas   can be adapted to a wider range
+of stochastic models such as stochastic hybrid systems, exhibiting partly deterministic dynamics.
