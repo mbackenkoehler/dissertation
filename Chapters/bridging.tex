@@ -29,7 +29,7 @@ In such a scenario our method can be used to identify a good truncation to analy
 Bridging probabilities also appear in the context
 of rare events.
 Here, the rare event is the terminal constraint because we are only interested in paths containing the event.
-Typically researchers have to resort to Monte-carlo simulations in combination with variance reduction techniques in such cases~\parencite{daigle2011automated,kuwahara2008efficient}.
+Typically researchers have to resort to Monte Carlo simulations in combination with variance reduction techniques in such cases~\parencite{daigle2011automated,kuwahara2008efficient}.
 % For instance, we may want to
 % compute the probability of the rare event that the number of molecules of a certain chemical species reaches a certain cellular decision threshold \parencite{daigle2011automated,kuwahara2008efficient}.
 
@@ -376,7 +376,9 @@ Even using a conservative truncation threshold $\delta=\e{1}{-5}$, our method yi
 %Next, we turn to ``mode switching'' events.
 %These occur in models exhibiting a \emph{multi-modal} behavior, which are of great relevance in
 %many contexts~\parencite{siegal2011emergence}. These models exhibit a multi-modal stationary distribution.
-Mode switching occurs in models exhibiting   \emph{multi-modal} behavior (see \autoref{sec:multimodality} for details) when a trajectory   traverses a potential barrier from one mode
+Mode switching occurs in models exhibiting   \emph{multi-modal} behavior
+%(see \autoref{sec:multimodality} for details)
+when a trajectory   traverses a potential barrier from one mode
 to another.
 \graffito{This often is an instance
 of rare-event analysis.}

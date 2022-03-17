@@ -157,7 +157,7 @@ that can be solved efficiently.
 Previously, \acp{SDP} have been used in the deterministic setting \parencite{hasenauer2009guaranteed}.
 
 This approach has been extended to the transient
-case~\parencite{dowdy2018dynamic,sakurai2019bounding}.
+case~\parencite{dowdy2018dynamic,sakurai2019bounding,holtorf2021tighter}.
 The approach is similar in both works and is a cornerstone of the \ac{MFPT} analysis
 presented here.
 They differ mainly by the fact that \citet{sakurai2019bounding} apply a polynomial
@@ -1162,7 +1162,8 @@ Combining the model constraints \eqref{eq:model_constraints} and the linear Haus
         \text{such that}\hspace{1em} & \text{for all measures and bounds}\\
         &\qquad\eqref{eq:hausdorff_appl}\text{ holds }\forall m, k,\\
         & 0= y_{1k}' H^m -  y_{2m}'T^k - 0^k x_0^m \\
-	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k\,.
+	    &\qquad\quad+\sum_i c_i  z_{k_i m_i}', \quad\forall m, k\,,\\
+        & 1 = y_{10}' + y_{20}'\,.
     \end{split}
 \end{equation}
 Using a framework such as \acsfont{CVXPY}, this convex program can easily be coded and solved using various state-of-the-art solvers.
