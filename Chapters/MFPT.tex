@@ -798,7 +798,6 @@ of the problem.
 
 \subsection{Case Studies}
 The model constraints are derived using the symbolic math toolkit Sympy \parencite{sympy}.
-The \acp{LP} are solved using the Gurobi \parencite{gurobi}.
 We implemented and solved the \ac{SDP} programs described above using optimization suite \acsfont{MOSEK} version 9.1.2 \parencite{mosek}.
 Both optimizers are used through the \acsfont{CVXPY} interface \parencite{cvxpy}.
 
@@ -1068,7 +1067,7 @@ The \acp{SDP} above were all solved within at most a few seconds.
 
 
 
-\section{Linear Hausdorff Constraints}
+\section{Linear Hausdorff Constraints}\label{sec:hausdorff}
 Before closing this chapter, we will briefly discuss the Hausdorff moment constraints.
 These constraints offer linear constraints on moments of bounded measures.
 As such they can --~in principle~-- be used as both, a replacement and an addition to the semi-definite constraints discussed above.
@@ -1168,19 +1167,94 @@ Combining the model constraints \eqref{eq:model_constraints} and the linear Haus
 \end{equation}
 Using a framework such as \acsfont{CVXPY}, this convex program can easily be coded and solved using various state-of-the-art solvers.
 
-\subsection{An Illustrating Example}
-As a simple example we consider a Poisson process with rate $100$ and the threshold event of reaching \[ \tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 10\,. \]
+\subsection{Case Studies}
+The \ac{LP} in \eqref{eq:lp_for_fpt} is encoded using \acsfont{CVXPY}, as well.
+The resulting \acp{LP} are solved using the Gurobi \parencite{gurobi} solver.
+For a fixed moment order $k$ the following constraints are used:
+\begin{enumerate}
+    \item model constraints corresponding to moments $\E{X^{\ell}{\tau}^{m}}$ where $\ell,\tau< k$ and
+    \item Hausdorff constraints \eqref{eq:hausdorff_appl} for all moments smaller and equal $k$ in each dimension.
+\end{enumerate}
+
+As a simple example we consider a Poisson process with rate $100$, i.e.\ \(\varnothing\xrightarrow{100} X\).
+We are interested in the threshold event of reaching $25$ before a time-horizon of $T=10$, i.e.\ \[ \tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 10\,. \]
+The results are given in \autoref{tab:hausdorff_poisson}.
+We can see, that the interval quickly converges to the actual value of $0.25$.
+Even for relatively small orders ($2$ or $3$) the intervals are very tight.
+Furthermore the interval width descreases by orders of magnitudes with each increase in relaxation order.
 \begin{table}[htb]
     \centering
-    \begin{tabular}{l r r r r}
+    \begin{tabular}{l r r r r r}
         \toprule
-          order & \num{1} & 2 & 3 & 4 \\
+          order &  \num{2} & \num{3} & \num{4} & \num{5} \\
         \midrule
-          lower & \num{0.0000} & \num{0.2438} & \num{0.2499} & \num{0.2499} \\
-          upper & \num{10.000} & \num{0.3225} & \num{0.2527} & \num{0.2527} \\
+          lower & \num{0.2438} & \num{0.2500} & \num{0.2500} & \num{0.2500} \\
+          upper & \num{0.2500} & \num{0.2500} & \num{0.2500} & \num{0.2500} \\
+          width & \e{6.1}{-3} & \e{4.8}{-5} & \e{8.0}{-7} & \e{8.9}{-10} \\
+          \# constr. &  \num{140} & \num{299} & \num{792} & \num{1395} \\
         \bottomrule
     \end{tabular}
+    \caption[\ac{MFPT} bounds for a Poisson process using \ac{LP}.]{\label{tab:hausdorff_poisson}\ac{MFPT} bounds for a Poisson process and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 10$ using \ac{LP}.}
 \end{table}
+
+As a second example we consider a birth-death process (\autoref{model:bd}) with rates $\mu=100$ and $\gamma=0.1$.
+We are interested in the threshold event of reaching $25$ before a time-horizon of $T=1$, i.e.\ \[ \tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1\,. \]
+The results are given in \autoref{tab:hausdorff_bd}.
+Here, too, the interval converges quickly, abeit not as fast as in the first example.
+\begin{table}[htb]
+    \centering
+    {\small
+    \begin{tabular}{l r r r r r}
+        \toprule
+          order &  \num{2} & \num{3} & \num{4} & \num{5} \\
+        \midrule
+          lower &  \num{0.2000} & \num{0.2742} & \num{0.2836} & \num{0.2850} \\
+          upper &  \num{0.3333} & \num{0.2895} & \num{0.2857} & \num{0.2852} \\
+          width &  \e{1.3}{-1} & \e{1.5}{-2} & \e{2.1}{-3} & \e{1.6}{-4} \\
+          \# constraints &  \num{140} & \num{299} & \num{792} & \num{1395} \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption[\ac{MFPT} bounds for a birth-death process using \ac{LP}.]{\label{tab:hausdorff_bd}\ac{MFPT} bounds for a birth-death process and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1$ using \ac{LP}.}
+\end{table}
+
+As a third example we consider a dimerization model (\autoref{model:dim}) the threshold event \[ \tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1\,. \]
+The results are given in \autoref{tab:hausdorff_dim}.
+Convergence for this case study was slightly slower than in the examples above.
+For order $6$ and larger, the solver showed signs of numerical instability.
+\begin{table}[htb]
+    \centering
+    {\small
+    \begin{tabular}{l r r r r r}
+        \toprule
+          order &  \num{2} & \num{3} & \num{4} & \num{5} \\
+        \midrule
+          lower &  \num{0.2000} & \num{0.2736} & \num{0.3884} & \num{0.4935} \\
+          upper &  \num{1.0000} & \num{1.0000} & \num{1.0000} & \num{0.5777} \\
+          width &  \e{8.00}{-1} & \e{7.3}{-1} & \e{6.1}{-1} & \e{8.4}{-2} \\
+          \# constraints &  \num{140} & \num{299} & \num{792} & \num{1395} \\
+        \bottomrule
+    \end{tabular}
+    }
+    \caption[\ac{MFPT} bounds for \autoref{model:dim} using \ac{LP}.]{\label{tab:hausdorff_dim}\ac{MFPT} bounds for \autoref{model:dim} and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1$ using \ac{LP}.}
+\end{table}
+
+The inclusion of the linear constraints into the \ac{SDP} did not yield any improvement of the bounds.
+This, of course, may be specific to this problem setting and the inclusion of linear inequalities may lead to improvements on other models and stopping times.
+
+In the above experiment the moment order was not increased above $5$.
+For some of these examples this is possible, but high moment orders tend to cause numerical issues.
+The reasons for these problems are analogue to the \ac{SDP} formulation:
+Moments tend to get exponentially larger with order. Therefore the constraints couple values varying by multiple orders of magnitude.
+Similar stiffness originates from the Hausdorff constraints \eqref{eq:hausdorff_appl} where terms such as $H^j$ may cause coupling of vastly different magnitudes of coefficients.
+It is possible, that some sort of scaling approach similar to the one used before might mitigate these problems at least partially.
+\marginpar{Note, that the above experiments were performed without any scaling.}
+
+Overall the \ac{LP} formulation has the advantage of being easier to formulate and implement than the \ac{SDP} approach.
+However, as it is based on the Hausdorff moment problem, the domain needs to be finite.
+Thus, infinite state-spaces cannot directly be analyzed.
+In case of infinite state-spaces truncations such as the one presented in \textcite{kim2020slack} could be a viable option.
+
 
 \section{Conclusion}\label{sec:mfpt:conclusion}
 Numerical methods to compute reachability probabilities and first passage times

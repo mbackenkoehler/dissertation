@@ -10,14 +10,27 @@
 % \let\cleardoublepage\relax
 
 \chapter*{Abstract}
-We use moment properties to provide bounds on mean first-passage times and to improve statistical estimation of different quantities.  In particular, we use the variance reduction technique of \emph{linear control variates} in connection with these moment constraints.  We present a state-space lumping scheme that aggregates states in a grid structure.  Approximations based on this lumping are used to iteratively refine relevant and truncate irrelevant parts of the state-space.  This way, the algorithm learns a well-justified finite-state projection for different scenarios.  Existing Foster-Lyapunov functions often give sets that are far larger necessary for a given probability bound.  Here, we explore the possibility to improve upon such a function by \emph{local} alterations.  This leaves the global properties --~and thereby its guarantees~-- intact, while we obtain much tighter sets for the same probability bounds.
+Markovian population models are a powerful paradigm to describe processes of stochastically interacting agents. Their dynamics is given by a continuous-time Markov chains over the population sizes. Such large state-spaces make their analysis challenging.
+In this thesis we develop methods for this problem class leveraging their structure. We derive linear moment constraints on the expected occupation measure and exit probabilties. In combination with semi-definite constraints on moment matrices, we obtain a convex program. This way, we are able to provide bounds on mean first-passage times and reaching probabilties. We further use these linear constraints as control variates to improve Monte Carlo estimation of different quantities. Two different algorithm for the construction of efficient variate sets are presented and evaluated.
+Another set of contributions is based on a state-space lumping scheme that aggregates states in a grid structure. Based on the probabilities of these approximations we iteratively refine relevant and truncate irrelevant parts of the state-space. This way, the algorithm learns a well-justified finite-state projection for different scenarios.
 
 \cleardoublepage
 
 \begin{otherlanguage}{ngerman}
 \pdfbookmark[1]{Zusammenfassung}{Zusammenfassung}
 \chapter*{Zusammenfassung}
-Kurze Zusammenfassung des Inhaltes in deutscher Sprache\dots
+Markowsche Populationsmodelle sind ein ausdrucksstarkes Paragigma zur Beschreibung stochastischer Interaktion zwischen Agenten.
+Die Dynamik solcher Modelle is durch eine zeitkontinuierliche Markowkette gegeben mit dem Zustandsraum der Populationsgrößen.
+Dieser große Zustandsraum macht deren Analyse zu einer Herausforderung.
+In dieser Dissertation entwickeln wir Methoden für diese Problemklasse, indem wir deren Struktur ausnutzen.
+Wir leiten lineare Bedingungen an die Aufenthaltsmaße und Ausgangswahrscheinlichkeiten her.
+In Kombination mit semi-definiten Bedingungen an die Momentenmatritzen erhalten wir ein konvexes Programm.
+Auf diese Art können wir mittlere Eingangszeiten und Erreich-Wahrscheinlichkeiten eingrenzen.
+Des Weiteren benutzen wir diese linearen Bedingungen als Kontrollvariate um die Monte Carlo Abschätzung verschiedener Größen zu verbessern.
+Zwei verschiedene Algorithmen für die Konstruktion effizienter Variatmengen werden dabei präsentiert und ausgewertet.
+Weitere Beiträge gründen auf ein Aggregationsschma auf dem Zustandsraum, welches Zustände in einer Gitterstruktur zusammenfasst.
+Ausgehend von den Wahrscheinlichkeiten in diesen Approximationen, verfeinern wir relevante und entfernen irrelevante Teile des Zustandsraumes.
+So lernt der Algorithmus eine gut begründete Ausschnitt ``finite-state projection'' für verschiedene Szenarien.
 \end{otherlanguage}
 
 % \endgroup
