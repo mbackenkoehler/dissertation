@@ -112,7 +112,7 @@ The approximation assumes probability mass only to be different between macro-st
 Therefore, we cannot naively transition back: Then the biases are zero for all internal states.
 The strategy instead is to compute the biases at the macro-state boundaries and then interpolate these values for the interior states using their distance to each border.
 
-\section{Nonhomogeneous Stochastic Simulation}
+\section{Non-homogeneous Stochastic Simulation}
 We are changing the rate bias dynamically over fixed intervals of the time-domain.
 Therefore we cannot use the default \ac{SSA}.
 With \autoref{alg:ssa_dyn} we present a version of the \acl{SSA} that simulates trajectories of a system with such dynamically changing biases.
@@ -121,9 +121,12 @@ Here it is tested, in which time interval the sampled jump will take place.
 Therefore rates are recomputed each time the algorithm jumps forward one time-interval.
 \begin{figure}
     \centering
-    \includegraphics[scale=0.5]{gfx/lin_intp.pdf}
-    \includegraphics[scale=0.5]{gfx/biased_SSA.pdf}
+	\subfloat[Piecewise constant rate function]
+    {\label{fig:bias_ssa:pce}\includegraphics[scale=0.5]{gfx/piecewise_c_exp.pdf}}
+    \subfloat[Biased SSA simulations]
+    {\includegraphics[scale=0.5]{gfx/biased_SSA.pdf}}
     \caption[Bias interpolation \& biased \ac{SSA}]{\label{fig:bias_ssa}}
+    \caption[Importance Sampling using piecewise constant jump distributions]{Importance Sampling using piecewise constant jump distributions: (a) A piecewise constant rate function is induced by the biases changing at discrete time points. (b) We can simulate the system using piecewise constant biases.}
 \end{figure}
 
 Let us first consider how exactly the jump time distribution changes.
@@ -135,7 +138,8 @@ Accordingly, the pdf
 \[
     f(t) = \lambda(t)\exp\left(-\int_0^t \lambda(s)\,ds\right)\,.
 \]
-Since we compute the biases for fixed intervals, we have a piecewise exponential model.
+Since we compute the biases for fixed intervals, we have an exponential model with a piecewise constant rate function.
+In \autoref{fig:bias_ssa:pce}, we give an example of such a distribution.
 Assume, we have an increasing sequence of time points $\tau_0=0, \tau_1, \tau_2, \tau_3, \dots$ with corresponding rates $\lambda_i >0$.
 The piecewise constant hazard function
 \[
