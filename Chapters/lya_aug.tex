@@ -22,7 +22,7 @@ For optimization however, we switch to an approach of sampling uniformly from th
 This method yields sets that are smaller on the order of $10^3$ for a fixed probability bound over a simple linear functional.
 We study neural networks and polynomial templates as candidates for local augmentation.
 
-\section{The Drift and its Properties}
+\subsection{The Drift and its Properties}
 The drift \eqref{eq:drift} plays a central role in this chapter.\marginpar{We explain the interpretation and give some basic use of the drift in \autoref{sec:statagg:lyapunov} on page~\pageref{sec:statagg:lyapunov}.}
 \begin{equation}
 	d(x; g) = Qg(x) = \sum_{j=1}^{n_R} \alpha_j(x) (g(x+v_j) -  g(x))
@@ -40,7 +40,7 @@ transforms of $g$:
 Since the probability bounded sets $C_{\epsilon_{\ell}}$ depend on the scaled drift.
 Therefore invariance under linear transformation implies that we cannot change --~especially improve~-- the tightness of the sets by such a transform.
 
-\section{Augmentation via Local Substitution}
+\subsection{Local Substitution}
 We use a proved Foster-Lyapunov function as a starting point.
 For many relevant reaction networks, simple choices such as L1 or L2 norms are sufficient choices \parencite{spieler2014numerical}.
 The resulting sets, however, are typically very large.

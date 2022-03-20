@@ -84,7 +84,13 @@ All methods developed in this thesis aim to provide means to more efficiently an
 Importantly, these methods are \emph{reliable} approximations: There are no ad-hoc approximations influencing estimates.
 The methodological theme is to leverage (approximate) distributional information such as moment equations and state-space aggregation to obtain good approximations.
 
+The first contribution is presented in \autoref{ch:lyapunov}.
+Therein we suggest to locally alter valid proposal Lyapunov functions.
+Such local alterations are subject to very few constraints.
+Thus methods such as neural networks can be used.
+The resulting sets can be much smaller than the ones induced by the proposal function.
 
+In \autoref{pt:moments} we focus on moment-based techniques.
 Methods to analyze such models without ignoring their inherent stochasticity has received much attention in recent years.
 Facing state-spaces too large to handle using the Kolmogorov equation directly, stochastic simulations \parencite{gillespie1977exact} provide an alternative path.
 Such simulations have the advantage of providing an accurate approximation of the process.
@@ -166,6 +172,7 @@ The aggregation is then further refined (\autoref{ch:statagg} and \autoref{ch:br
 %state-space.
 
 \section{Organization}
+\autoref{fig:chap_deps} provides an overview of the dependencies between chapters.
 All contributions presented in this thesis are related to \aclp{MPM}.
 Therefore the background chapter, i.e.\ \autoref{ch:background} is relevant
 to all later parts of the thesis.
@@ -173,7 +180,7 @@ The prerequisite for \autoref{ch:statagg} and \autoref{ch:bridging} is the aggre
 technique presented in \autoref{ch:lumping}.
 Note that \autoref{ch:MFPT} and \autoref{ch:cvinsrns} share the temporal moment approach presented
 in both chapters.
-\autoref{fig:chap_deps} provides an overview of the dependencies between chapters.
+The conceptual connection between the bridging problem (\autoref{ch:bridging}) and the rare event sampling (\autoref{ch:is}) lies in both, its setting and the utilization of backwards probabilities.
 \begin{figure}[htb]
 	\centering
 \begin{tikzpicture}
@@ -192,7 +199,7 @@ in both chapters.
             node[concept] (stat) {\autoref{ch:statagg}\\Stationary behavior}
 	    }
 	    child[concept] {
-		    node[concept] {\autoref{ch:bridging}\\Bridging problem}
+            node[concept] (bridge) {\autoref{ch:bridging}\\Bridging problem}
 	    }
 	    child[concept] {
             node[concept] (rare) {\autoref{ch:is}\\Rare events}
@@ -207,7 +214,7 @@ in both chapters.
     ;
     \begin{pgfonlayer}{background}
         \draw [concept connection] (cv) edge (mfpt);
-        %\draw [concept connection] (cv) edge (rare);
+        \draw [concept connection] (bridge) edge (rare);
         %\draw [concept connection] (lya) edge (stat);
     \end{pgfonlayer}
 	\end{scope}
