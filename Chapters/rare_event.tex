@@ -224,6 +224,32 @@ Typically this means reaching some time-horizon $T>0$, i.e.\ $\Theta(s, t)=t>T$.
     \caption{\label{alg:ssa_dyn}A weighted sample of the rare event}
 \end{algorithm}
 
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=0.5]{gfx/poisson_sims_and_biases.pdf}
+    \caption{\label{fig:poisson_rare}}
+\end{figure}
+
+\begin{model}[Toggle Switch using Hill functions]\label{model:hill_toggle}
+We have population types $A$ and $B$ with the following reactions and reaction rates.
+$$ \varnothing \xrightarrow{\alpha_1(\cdot)} A\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + k x_B},
+\qquad A \xrightarrow\lambda \varnothing $$
+$$ \varnothing \xrightarrow{\alpha_1(\cdot)} B\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + k x_A},
+\qquad B \xrightarrow\lambda \varnothing $$
+The parameterization is $\rho=10$, $\lambda=0.1$, and $k=0.01$.
+\end{model}
+\[
+\begin{split}
+    \bar{\alpha}_1(\bar{x})&\approx\int_{a-0.5}^{b+0.5} \frac{\rho}{1 + kx}\, dx\\
+    &= \frac{\rho}{k} \left(\log{\left(k(b - \frac{1}{2}) + 1\right)} - \log{\left(k(a + \frac{1}{2}) + 1 \right)} \right)
+\end{split}
+\]
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=0.5]{gfx/hill_toggle_is.pdf}
+    \caption{\label{fig:hill_rare}}
+\end{figure}
+
 \subsection{Issues}
 \begin{itemize}
     \item Works for some models
