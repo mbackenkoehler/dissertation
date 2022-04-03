@@ -226,19 +226,34 @@ In \autoref{fig:bias_ssa}, we illustrate the algorithms result using the biases 
     \caption[Dynamic biasing for the Poisson process]{\label{fig:poisson_rare}The dynamic biasing of a Poisson process with rate 10 based on a lumping of \num{10} states.}
 \end{figure}
 
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{gfx/bd_is.pdf}
+    \caption[Dynamic biasing for the Poisson process]{\label{fig:bd_rare}The dynamic biasing of a birth-death process lumping of \num{10} states and the target event $X(10)=30$.}
+\end{figure}
 \section{Case Studies}
 We implemented the methods in Python and evaluated the method on three case studies.
 The first two are rather simple, but have the advantage of a known analytical distribution.
 Thus, we have a reference to compare the Monte Carlo results.
-In the second part, we take a look at a slightly more involved model -- the toggle switch.
+In the second part, we take a look at a more challenging model -- the toggle switch.
 In this example, we face non-polynomial rate functions and a bi-modal behavior.
 \subsection{Two Simple Examples}
+For the Poisson process we look at the event of exceeding a threshold of \num{150} before a time-horizon of $T=10$.
+The lumping scheme groups \num{10} states together and records the approximate backward probabilities for \num{10} time points.
+In \autoref{fig:rare_estimates:poisson}, we summarize the estimates for different sample sizes.
+In this study, we observe no finite sample bias and a quick convergence to the analytical result.
+
+In case of the birth-death process, we focus on the event of being in state \num{30} at time $T=10$.
+The lumping scheme groups \num{10} states together and records the approximate backward probabilities for \num{10} time points.
+In \autoref{fig:rare_estimates:birth_death}, we summarize the estimates for different sample sizes.
+In this study observe no finite sample bias and a quick convergence to the analytical result.
+Here we also observe a quick convergence to the analytical result.
 \begin{figure}[htb]
     \centering
     \subfloat[Poisson process]
-    {\includegraphics[width=.5\textwidth]{gfx/poisson_estimates.pdf}}
+    {\label{fig:rare_estimates:poisson}\includegraphics[width=.5\textwidth]{gfx/poisson_estimates.pdf}}
     \subfloat[Birth-death bridge]
-    {\includegraphics[width=.5\textwidth]{gfx/bridge_estimates.pdf}}
+    {\label{fig:rare_estimates:birth_death}\includegraphics[width=.5\textwidth]{gfx/bridge_estimates.pdf}}
     \caption[Estimate distribution for different sample sizes]{\label{fig:rare_estimates}Estimate distribution for different sample sizes.}
 \end{figure}
 \subsection{Toggle Switch}
