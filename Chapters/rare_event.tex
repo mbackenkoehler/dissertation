@@ -1,6 +1,7 @@
 \chapter{Rare Event Probabilities}\label{ch:is}
 Rare events are events that occur with very low probability.
 Such events can be, for example, the die-out of some population or the switching of a multimodal system across some potential barrier.
+In biological applications, rare events of interest are typically related to the reachability of certain thresholds on molecule counts  or mode switching \parencite{strasser2012stability}.
 By their nature, most standard methods focus on regions with high probability.
 As an example consider the standard \ac{SSA}:
 Trajectories are generated according to the processes density.
@@ -17,6 +18,24 @@ One popular approach is found in \acsfont{dwSSA} \parencite{kuwahara2008efficien
 Therein each reaction rate is altered by some constant scalar factor.
 These biasing values are identified by using pilot runs of the \ac{SSA} and a cross-entropy objective.
 This method has been extended to be state-dependent in \citet{roh2011state}.
+
+\section{Related Work}
+\paragraph{Importance Sampling}
+Most methods for the estimation of rare event probabilities  rely on  importance sampling~\parencite{kuwahara2008efficient,daigle2011automated}.
+
+\paragraph{Importance Splitting}
+Importance Splitting is an alternative Monte Carlo estimation strategy.
+In this setting \emph{promising} paths are split -- initiating new simulation runs.
+These runs are then reweighted according to the specific splitting algorithm.
+An early proposal of the splitting technique is the \ac{RESTART} algorithm \parencite{villen1994restart}.
+Further popular iterations of this idea where, for example, fixed effort and fixed success splitting \parencite{garvels1998comparison}.
+For more recent developments, we refer to \parencite{budde2017better,jegourel2013importance}.
+A central problem in importance splitting is determining what constitutes a \emph{promising} path.
+Algorithms rely on an \emph{importance function} as an oracle.
+The (approximate) backward probabilities presented here could be used as such an importance function, as well.
+
+\paragraph{Finite state projection}
+Apart from sampling-based approaches, dynamic finite-state projections have been employed by \citet{mikeev2013numerical}, but are lacking automated truncation schemes.
 
 \section{Importance Sampling}
 Importance Sampling is  a popular variance reduction technique.
@@ -289,13 +308,6 @@ The parameterization is $\rho=10$, $\lambda=0.1$, and $k=0.01$.
 \end{itemize}
 
 
-\section{Importance Splitting}
-\begin{itemize}
-    \item newer stuff \parencite{budde2017better}
-    \item \ac{RESTART} original paper \parencite{villen1994restart}
-    \item fixed effort splitting \parencite{garvels1998comparison}
-    \item Legay \cite{jegourel2013importance}
-\end{itemize}
 
 \section{Conclusion}
 \subsection{Future Work}

@@ -63,10 +63,11 @@ Since a statistically exact augmentation is only possible for few simple cases, 
 Such approximations, however, do not give any guarantees on the approximation error
 and may suffer from numerical instabilities~\parencite{schnoerr2014validity}.
 
-\paragraph{Rare Event Probabilities}
 Another manifestation of the bridging problem is found during the estimation of first passage times and rare event analysis.
 Approaches for first-passage times are often of heuristic nature ~\parencite{schnoerr2017efficient,hayden2012fluid,bortolussi2014stochastic}. Rigorous approaches yielding guaranteed bounds are currently limited by the performance of state-of-the-art optimization software~\parencite{backenkohler2019bounding}.
-In biological applications, rare events of interest are typically related to the reachability of certain thresholds on molecule counts   or mode switching \parencite{strasser2012stability}.
+
+\paragraph{Rare Event Probabilities}
+The analysis of rare events is a special case of the terminal constrained Markov processes considered in this chapter.
 Most methods for the estimation of rare event probabilities  rely on  importance sampling~\parencite{kuwahara2008efficient,daigle2011automated}.
 For other queries, alternative variance reduction techniques such as control variates are available~\parencite{backenkohler2019control}.
 Apart from sampling-based approaches, dynamic finite-state projections have been employed by \citet{mikeev2013numerical}, but are lacking automated truncation schemes.
