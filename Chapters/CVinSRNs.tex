@@ -146,6 +146,7 @@ using the likelihood-ratio between the original and the altered process.
 
 % \vw{Warum sagst Du hier nicht kurz etwas über numerische Lösungen der CME und die Schwierigkeiten? Eigentlich wäre numerische Lösung vorzuziehen wenn sie nicht so schwierig wäre}
 
+We refer the reader to \textcite{beentjes2021a} for a recent survey of variance reduction methods applied to \acp{MPM}.
 
 
 
@@ -183,12 +184,13 @@ monomial functions $f(x)=x^m$, $m\in\mathbb{N}^{n_S}$
 % \vw{ich dachte, m soll ein Vektor sein}
 i.e.\ the \emph{non-central} or \emph{raw moments} of the process.
 In the context of computing moment bounds via semi-definite programming
-the polynomial $w(t)=t^s$~\parencite{sakurai2019bounding} and the exponential $w(t)=e^{\lambda(T - t)}$~\parencite{dowdy2018dynamic}
+the polynomial $w(t)=t^s$~\parencite{sakurai2019bounding}
+\marginpar{In \autoref{ch:MFPT} we chose the monomial, such that \eqref{eq:poly_con} would admit the interpretation of temporal moments. Here the exponential is a good choice, because it can model both increasing and decreasing weighting.}
+and the exponential $w(t)=e^{\lambda(T - t)}$~\parencite{dowdy2018dynamic}
 have been proposed.
 While both choices proved to be effective in different case studies, relying solely on the latter choice,
 i.e.\ \[
 	w(t)=e^{\lambda(T - t)} \] was sufficient.
-\marginpar{In \autoref{ch:MFPT} we chose the monomial, such that \eqref{eq:poly_con} would admit the interpretation of temporal moments. Here the exponential is a good choice, because it can model both increasing and decreasing weighting.}
 
 % Let $$
 % % \hat m^{(s)}_f = \int_{t_0}^{T}t^s\E{f(X_t)}\,dt
@@ -212,6 +214,10 @@ i.e.\ \[
 %         % + \lambda m^{(\lambda)}_f
 %         + \sum_{k}c_k{m}^{(\lambda)}_{f_k}\,,
 % \end{equation}
+For this chapter, we assume that propensity functions $\alpha_i$ are polynomial.
+This restriction is only due to the simplification of only haveing to record one value for each tuple of moment vector $m$ and weighting coefficient $\lambda$.
+Given more complex propensity functions, we would need to accumulate other terms during simulation accordingly.
+\marginpar{Contrary to the claim in \textcite[Ch.~2.4.2]{beentjes2021a}, the approach is not restricted to mass-action kinetics.}
 By expanding the rate functions and $f$ in \eqref{eq:poly_con} and substituting the
 exponential weight function we can re-write \eqref{eq:poly_con} as
 \begin{multline}\label{eq:simpl_exp}
@@ -229,6 +235,7 @@ Assuming the moments remain finite on $[0,T]$, we can define the random variable
         + \sum_{k}c_k\int_{t_0}^{T}e^{\lambda(T-t)}X_t^{m_k}\,dt
 \end{equation}
 with $\E{Z}=0$.
+
 % Clearly, for $\rho=0$ and $z=0$ \eqref{eq:simpl_pol} and \eqref{eq:simpl_exp}
 % are equivalent.
 \begin{example}
