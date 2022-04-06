@@ -278,13 +278,13 @@ Here we also observe a quick convergence to the analytical result.
 \subsection{Toggle Switch}
 We return to the example of the toggle switch, known from \autoref{ch:bridging}.
 It notably includes two non-polynomial propensity functions.
-\begin{model}[Toggle Switch using Hill functions]\label{model:hill_toggle_rare}
+\begin{model}[Toggle Switch using Hill functions~\parencite{lipshtat2006genetic}]\label{model:hill_toggle_rare}
 We have population types $A$ and $B$ with the following reactions and reaction rates.
 $$ \varnothing \xrightarrow{\alpha_1(\cdot)} A\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + k x_B},
 \qquad A \xrightarrow\lambda \varnothing $$
 $$ \varnothing \xrightarrow{\alpha_1(\cdot)} B\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + k x_A},
 \qquad B \xrightarrow\lambda \varnothing $$
-The parameterization is $\rho=10$, $\lambda=0.1$, and $k=0.01$.
+The parameterization is $\rho=10$, $\lambda=0.1$, and $k=1.5$.
 \end{model}
 The sums of non-polynomial propensity functions have no simple analytical solution as the Faulhaber formulae.
 Instead, we approximate the discrete sums via an integral:
@@ -295,6 +295,11 @@ Instead, we approximate the discrete sums via an integral:
 \end{split}
 \]
 In this case study, we use both, a aggregation of $5\times 5$ and $10\times10$ states.
+As an initial state we fix $(100, 0)$ and the target event is
+\(\{X_t^{(B)} \geq 100 \mid t\leq 10 \}\).
+In \autoref{fig:hill_rare}, we illustrate the sample trajectories and their mean under the biasing of the approximate backward probabilities.
+On the left-hand side, the mean bias is given over time and per reaction.
+The biasing strength increases towards the time-horizon.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{gfx/hill_toggle_is.pdf}
