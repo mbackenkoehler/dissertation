@@ -276,6 +276,8 @@ Here we also observe a quick convergence to the analytical result.
     \caption[Estimate distribution for different sample sizes]{\label{fig:rare_estimates}Estimate distribution for different sample sizes.}
 \end{figure}
 \subsection{Toggle Switch}
+We return to the example of the toggle switch, known from \autoref{ch:bridging}.
+It notably includes two non-polynomial propensity functions.
 \begin{model}[Toggle Switch using Hill functions]\label{model:hill_toggle_rare}
 We have population types $A$ and $B$ with the following reactions and reaction rates.
 $$ \varnothing \xrightarrow{\alpha_1(\cdot)} A\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + k x_B},
@@ -284,12 +286,15 @@ $$ \varnothing \xrightarrow{\alpha_1(\cdot)} B\,,\quad \text{where}\quad \alpha_
 \qquad B \xrightarrow\lambda \varnothing $$
 The parameterization is $\rho=10$, $\lambda=0.1$, and $k=0.01$.
 \end{model}
+The sums of non-polynomial propensity functions have no simple analytical solution as the Faulhaber formulae.
+Instead, we approximate the discrete sums via an integral:
 \[
 \begin{split}
     \bar{\alpha}_1(\bar{x})&\approx\int_{a-0.5}^{b+0.5} \frac{\rho}{1 + kx}\, dx\\
     &= \frac{\rho}{k} \left(\log{\left(k\left(b - \frac{1}{2}\right) + 1\right)} - \log{\left(k\left(a + \frac{1}{2}\right) + 1 \right)} \right)
 \end{split}
 \]
+In this case study, we use both, a aggregation of $5\times 5$ and $10\times10$ states.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{gfx/hill_toggle_is.pdf}
