@@ -314,7 +314,25 @@ We used ensemble sizes of \num{1000} and \num{10000} for each iteration.
 This imposes a large additional cost, since in almost all instances more than \num{10} optimization iterations were necessary, until a fraction of $0.1$ ensemble trajectories reached the rare event region.
 In some instances no change of measure was found using the cross-entropy optimization.
 
-Regardless of the algorithm used, we observe a finite sample bias.
+\begin{itemize}
+    \item different areas sampled
+    \item right: low weights if B increases early or A does not decrease in the end (tendency)
+    \item right: large variance in sample weights (orders of magnitude)
+    \item left: weights are closer together
+    \item conclusion: sampling true transition paths may require more than constant biasing
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[scale=.6]{gfx/hill_paths_comp.pdf}
+    \caption[Comparison of biased sample paths]{\label{fig:hill_paths_comp}Biased sample paths of the toggle switch using (left) the aggregation based sampling and (right) a constant biasing, determined by cross-entropy optimization \parencite{daigle2011automated}. The constant bias vector is $\approx (0.873, 26.248, 2.751, 0.00159)^{\top}$. The path color represents the relative $\log$ weghts of each trajectory (darker -- higher weight).}
+\end{figure}
+
+\begin{itemize}
+    \item more likely paths are sampled less often
+    \item sample weight distribution not normal
+    \item a high-weight tail
+    \item still unbiased, but too large ``outliers'' need to correct for many estimates that are too low. therefore many samples are necessary
+\end{itemize}
 \begin{figure}[htb]
     \centering
     \begin{minipage}{0.77\textwidth}
@@ -326,26 +344,18 @@ Regardless of the algorithm used, we observe a finite sample bias.
     \end{minipage}
     \caption[Rare event estimates (toggle switch)]{\label{fig:hill_estimates}Rare event estimates (toggle switch with Hill functions) using different methods and sample sizes. For each scenario \num{10} estimations were performed. To the left are the \acsfont{dwSSA} results for comparison. We provide results for estimates using \num{1000} and \num{10000} estimates in each iteration of the prior parameter optimization rounds. On the right, the results for the aggregation method presented in this chapter are given for grids with $5\times 5$ and $10\times 10$ macro states.}
 \end{figure}
-\begin{figure}
-    \centering
-    \includegraphics[scale=.6]{gfx/hill_paths_comp.pdf}
-    \caption[Comparison of biased sample paths]{\label{fig:hill_paths_comp}Biased sample paths of the toggle switch using (left) the aggregation based sampling and (right) a constant biasing, determined by cross-entropy optimization \parencite{daigle2011automated}. The constant bias vector is $\approx (0.873, 26.248, 2.751, 0.00159)^{\top}$. The path color represents the relative $\log$ weghts of each trajectory (darker -- higher weight).}
-\end{figure}
+
+
+\section{Conclusion}
+
 \paragraph{Issues}
 \begin{itemize}
-    \item Works for some models
-    \item often: under- or over-acceleration
     \item due to the approximative nature, the speed is often too high or too low
     \item simultions reach the target to early: many samples with very low weight, few with high weight
     \item the estimates are still unbiased but not approximately normally distributed, even for larger biases (make an example, that this is also the case for constant biasing)
     \item bias strength can be adjusted such that only a portion reaches
     \item this improves the somewhat, but may alter the biases too much and the weight distribution (sampled) is still bad
-    \item solution: use importance splitting instead
 \end{itemize}
-
-
-
-\section{Conclusion}
 \paragraph{Future Work}
 \begin{itemize}
     \item \emph{Multiple importance sampling} for different accelerations to avoid problems of under- and overacceleration
