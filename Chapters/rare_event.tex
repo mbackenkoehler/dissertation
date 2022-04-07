@@ -239,11 +239,11 @@ In \autoref{fig:bias_ssa}, we illustrate the algorithms result using the biases 
     \caption[Importance Sampling using piecewise constant jump distributions]{Importance Sampling using piecewise constant jump distributions: (a) A piecewise constant rate function is induced by the biases changing at discrete time points. (b) We can simulate the system using piecewise constant biases.}
 \end{figure}
 
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=\textwidth]{gfx/poisson_sims_and_biases.pdf}
-    \caption[Dynamic biasing for the Poisson process]{\label{fig:poisson_rare}The dynamic biasing of a Poisson process with rate 10 based on a lumping of \num{10} states.}
-\end{figure}
+%\begin{figure}[htb]
+    %\centering
+    %\includegraphics[width=\textwidth]{gfx/poisson_sims_and_biases.pdf}
+    %\caption[Dynamic biasing for the Poisson process]{\label{fig:poisson_rare}The dynamic biasing of a Poisson process with rate 10 based on a lumping of \num{10} states.}
+%\end{figure}
 
 \begin{figure}[htb]
     \centering
@@ -266,7 +266,7 @@ In case of the birth-death process, we focus on the event of being in state \num
 The lumping scheme groups \num{10} states together and records the approximate backward probabilities for \num{10} time points.
 In \autoref{fig:rare_estimates:birth_death}, we summarize the estimates for different sample sizes.
 In this study observe no finite sample bias and a quick convergence to the analytical result.
-Here we also observe a quick convergence to the analytical result.
+%Here we also observe a quick convergence to the analytical result.
 \begin{figure}[htb]
     \centering
     \subfloat[Poisson process]
@@ -305,7 +305,28 @@ The biasing strength increases towards the time-horizon.
     \includegraphics[width=\textwidth]{gfx/hill_toggle_is.pdf}
     \caption[Dynamic biasing for the toggle switch]{\label{fig:hill_rare}The dynamic biasing of a toggle switch based on a lumping of $10\times 10$ states.}
 \end{figure}
-\subsection{Issues}
+
+In \autoref{fig:hill_estimates}, we provide estimates for this case study using the aggregation-based approach presented here and the popular \acsfont{dwSSA} method as a point of comparison.
+\acsfont{dwSSA} \cite{daigle2011automated} essentially derives a constant bias coefficient for each reaction.
+The biases are optimizes using a cross-entropy objective.
+This optimization, however, needs a large number of runs in each iteration.
+We used ensemble sizes of \num{1000} and \num{10000} for each iteration.
+This imposes a large additional cost, since in almost all instances more than \num{10} optimization iterations were necessary, until a fraction of $0.1$ ensemble trajectories reached the rare event region.
+In some instances no change of measure was found using the cross-entropy optimization.
+
+Regardless of the algorithm used, we observe a finite sample bias.
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}{0.77\textwidth}
+        \includegraphics[scale=.55]{gfx/hill_estimates.pdf}
+    \end{minipage}
+    \hspace{1ex}
+    \begin{minipage}{0.07\textwidth}
+        \includegraphics[scale=.55]{gfx/hill_estimates_legend.pdf}
+    \end{minipage}
+    \caption[Rare event estimates (toggle switch)]{\label{fig:hill_estimates}Rare event estimates (toggle switch with Hill functions) using different methods and sample sizes. For each scenario \num{10} estimations were performed. To the left are the \acsfont{dwSSA} results for comparison. We provide results for estimates using \num{1000} and \num{10000} estimates in each iteration of the prior parameter optimization rounds. On the right, the results for the aggregation method presented in this chapter are given for grids with $5\times 5$ and $10\times 10$ macro states.}
+\end{figure}
+\paragraph{Issues}
 \begin{itemize}
     \item Works for some models
     \item often: under- or over-acceleration
@@ -320,7 +341,7 @@ The biasing strength increases towards the time-horizon.
 
 
 \section{Conclusion}
-\subsection{Future Work}
+\paragraph{Future Work}
 \begin{itemize}
     \item \emph{Multiple importance sampling} for different accelerations to avoid problems of under- and overacceleration
 \end{itemize}
