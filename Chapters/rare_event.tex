@@ -326,6 +326,11 @@ Regardless of the algorithm used, we observe a finite sample bias.
     \end{minipage}
     \caption[Rare event estimates (toggle switch)]{\label{fig:hill_estimates}Rare event estimates (toggle switch with Hill functions) using different methods and sample sizes. For each scenario \num{10} estimations were performed. To the left are the \acsfont{dwSSA} results for comparison. We provide results for estimates using \num{1000} and \num{10000} estimates in each iteration of the prior parameter optimization rounds. On the right, the results for the aggregation method presented in this chapter are given for grids with $5\times 5$ and $10\times 10$ macro states.}
 \end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[scale=.6]{gfx/hill_paths_comp.pdf}
+    \caption[Comparison of biased sample paths]{\label{fig:hill_paths_comp}Biased sample paths of the toggle switch using (left) the aggregation based sampling and (right) a constant biasing, determined by cross-entropy optimization \parencite{daigle2011automated}. The constant bias vector is $\approx (0.873, 26.248, 2.751, 0.00159)^{\top}$. The path color represents the relative $\log$ weghts of each trajectory (darker -- higher weight).}
+\end{figure}
 \paragraph{Issues}
 \begin{itemize}
     \item Works for some models
