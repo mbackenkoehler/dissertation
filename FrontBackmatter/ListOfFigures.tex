@@ -9,10 +9,10 @@
     %*******************************************************
     % List of Figures
     %*******************************************************
- %  \phantomsection
+   \phantomsection
     %\addtocontents{toc}{\protect\vspace{\beforebibskip}}%
-    \addcontentsline{toc}{section}{\listfigurename}
-    \pdfbookmark[0]{\listfigurename}{lof}
+    \addcontentsline{toc}{chapter}{\hspace{1.5em}\listfigurename}
+    %\pdfbookmark[0]{\listfigurename}{lof}
     \listoffigures
 
     %\vspace{8ex}
@@ -22,9 +22,9 @@
     %*******************************************************
     % List of Tables
     %*******************************************************
-    %\phantomsection
-    \addcontentsline{toc}{section}{\listtablename}
-    \pdfbookmark[0]{\listtablename}{lot}
+    \phantomsection
+    \addcontentsline{toc}{chapter}{\hspace{1.5em}\listtablename}
+    %\pdfbookmark[0]{\listtablename}{lot}
     \listoftables
     \newpage
     \cleardoublepage
@@ -32,14 +32,14 @@
     %*******************************************************
     % List of Models
     %*******************************************************
-    %\phantomsection
+    \phantomsection
     %\addcontentsline{toc}{chapter}{List of Models}
     \renewcommand{\listtheoremname}{List of Models}
-    \addcontentsline{toc}{section}{\listtheoremname}
+    \addcontentsline{toc}{chapter}{\hspace{1.5em}\listtheoremname}
     \newcommand{\onpage}[1]{\hspace{1.5em}\pageref{#1}}
     %\pdfbookmark[0]{\listtheoremname}{lom}
     %\listoftheorems
-    \pdfbookmark[0]{\listtheoremname}{lom}
+    %\pdfbookmark[0]{\listtheoremname}{lom}
     \newpage\cleardoublepage
     \markboth{\spacedlowsmallcaps{\listtheoremname}}{\spacedlowsmallcaps{\listtheoremname}}
     \chapter*{\listtheoremname}
@@ -78,11 +78,11 @@
 %*******************************************************
 % Acronyms
 %*******************************************************
-%\phantomsection
-\pdfbookmark[0]{Acronyms}{acronyms}
+\phantomsection
+%\pdfbookmark[0]{Acronyms}{acronyms}
 \markboth{\spacedlowsmallcaps{Acronyms}}{\spacedlowsmallcaps{Acronyms}}
 \chapter*{Acronyms}
-\addcontentsline{toc}{section}{Acronyms}
+\addcontentsline{toc}{chapter}{\hspace{1.5em}Acronyms}
 \begin{acronym}[RESTART]
     \acro{CDF}{cumulative density function}
     \acro{CME}{chemical master equation}
