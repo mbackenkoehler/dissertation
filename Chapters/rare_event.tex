@@ -368,19 +368,35 @@ This yielded \(\Pr(X_{10}^{(B)} \geq 100) \approx \num{4.64e-60}\).
 Note, that this is a lower bound to the probability since we only consider the probability at $t=10$, whereas the stopping time above considers all $t\leq 10$.
 Considering this baseline, it is clear, that both methods have only slowly approach the probability's true magnitude with increasing sample size.
 
+This case study showcases the major difficulty in finding an efficient change of measure that one can encounter.
+Ideally, sampled trajectories should follow the original process, conditioned on the rare event.
+As in this example, constant biases might not be enough to reliably alter the dynamics in this way.
+However, the approximate biasing scheme presented in this chapter, while being based on an approximation of the ideal biasing, seems to over-constrain the process and thus not explore the trajectory space sufficiently.
+Consequently, both methods tend to under-estimate in a majority of cases.
 
 \section{Conclusion}
+In this chapter, we presented a novel change of measure using approximate backward probabilities.
+This approach avoids the necessity of a significant number of pilot runs.
+In the last example, the number of these pilot runs often exceeded the number of runs used for the estimate.
+Therefore, the approach presented is a feasible alternative for cases in which the state-space size allows for an approximate solution.
 
-\paragraph{Issues}
-\begin{itemize}
-    \item emphasize large cost of pilot runs
-    \item due to the approximative nature, the speed is often too high or too low
-    \item simultions reach the target to early: many samples with very low weight, few with high weight
-    \item the estimates are still unbiased but not approximately normally distributed, even for larger biases (make an example, that this is also the case for constant biasing)
-    \item bias strength can be adjusted such that only a portion reaches
-    \item this improves the somewhat, but may alter the biases too much and the weight distribution (sampled) is still bad
-\end{itemize}
-\paragraph{Future Work}
-\begin{itemize}
-    \item \emph{Multiple importance sampling} for different accelerations to avoid problems of under- and overacceleration
-\end{itemize}
+We further showcased a challenge that is often emphasized too little.
+This is the issue of changes of measures, that steer the process to the target region along trajectories that are significantly less likely in the original system than the conditioned paths would be.
+This leads to a case where the estimate distribution is very different from a normal distribution.
+Consequently, the estimates are too low in most cases, and a lot too large in very few cases.
+
+This issue might be tackled by, using state space refinement, similar to the previous chapter.\turnto{ch:bridging}
+Also, combining  backward probability approximations of differing granularity might be a viable strategy.
+%\paragraph{Issues}
+%\begin{itemize}
+    %\item emphasize large cost of pilot runs
+    %\item due to the approximative nature, the speed is often too high or too low
+    %\item simultions reach the target to early: many samples with very low weight, few with high weight
+    %\item the estimates are still unbiased but not approximately normally distributed, even for larger biases (make an example, that this is also the case for constant biasing)
+    %\item bias strength can be adjusted such that only a portion reaches
+    %\item this improves the somewhat, but may alter the biases too much and the weight distribution (sampled) is still bad
+%\end{itemize}
+%\paragraph{Future Work}
+%\begin{itemize}
+    %\item \emph{Multiple importance sampling} for different accelerations to avoid problems of under- and overacceleration
+%\end{itemize}
