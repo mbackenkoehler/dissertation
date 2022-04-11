@@ -362,6 +362,12 @@ Therefore trajectories tend to be more similar --- an effect that is also appear
     \caption[Rare event estimates (toggle switch)]{\label{fig:hill_estimates}Rare event estimates (toggle switch with Hill functions) using different methods and sample sizes. For each scenario \num{10} estimations were performed. To the left are the \acsfont{dwSSA} results for comparison. We provide results for estimates using \num{1000} and \num{10000} estimates in each iteration of the prior parameter optimization rounds. On the right, the results for the aggregation method presented in this chapter are given for grids with $5\times 5$ and $10\times 10$ macro states.}
 \end{figure}
 
+As a reference and baseline we consider the dynamic truncation result obtained by the \acsfont{STAR} tool \parencite{lapin2011shave}.\marginpar{\url{mosi.uni-saarland.de/tools/shave/}}
+We ran the analysis using a relative tolerance of \num{1e-15} and an absolute tolerance of \num{1e-90}.
+This yielded \(\Pr(X_{10}^{(B)} \geq 100) \approx \num{4.64e-60}\).
+Note, that this is a lower bound to the probability since we only consider the probability at $t=10$, whereas the stopping time above considers all $t\leq 10$.
+Considering this baseline, it is clear, that both methods have only slowly approach the probability's true magnitude with increasing sample size.
+
 
 \section{Conclusion}
 
