@@ -60,22 +60,6 @@ While this method is suited to compute bounds on both moments and subsets of the
 
 An approach where quantities are only described in terms of their magnitude has been proposed in \citet{ceska2019semi}. This allows for an efficient qualitative analysis of both dynamic and transient behavior.
 
-\paragraph{Aggregation}
-An aggregation scheme similar to the one used here has been previously proposed in \citet{backenkohler2020analysis} to analyze the bridging problem on Markov population models.
-This is the problem of analyzing process dynamics under both initial and terminal constraints.
-
-Aggregation-based numerical methods for computing the stationary distribution 
-of discrete or continuous-time Markov chains have been studied in
-previous work. Popular approaches rely on an alternation of aggregation and 
-disaggregation of the state-space \parencite{stewart1994introduction,schweitzer1991survey}.
-In the case of stiff chains, such aggregations are typically based on 
-a separation of time-scales \parencite{cao1985iterative}.
-However, these methods have been developed for finite chains with arbitrary structure and are motivated by numerical issues of standard methods such as 
-the power method or Jacobi iteration \parencite{stewart1994introduction}.
-They do not consider a truncation of irrelevant states, while
-here our aggregation approach is used to determine the most relevant states
-under stationary conditions in large or infinite chains with population structure.
-
 
 
 

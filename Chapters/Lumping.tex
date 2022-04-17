@@ -5,6 +5,21 @@ The coarse-grained model is based on an grid-shaped aggregation (i.e.\ lumping) 
 These macro-states can be used to compute an interim model solution that guides the refinement in the next step.
 We perform refinements until the approximation arrives at the resolution of the original model (i.e.\ each macro-state has only one constituent) such that the aggregation introduces no approximation error.
 
+\section{Related Work}
+Aggregation-based numerical methods for the analysis
+of discrete or continuous-time Markov chains have been studied in
+previous work. Popular approaches rely on an alternation of aggregation and 
+disaggregation of the state-space \parencite{stewart1994introduction,schweitzer1991survey}.
+In the case of stiff chains, such aggregations are typically based on 
+a separation of time-scales \parencite{cao1985iterative}.
+However, these methods have been developed for finite chains with arbitrary structure and are motivated by numerical issues of standard methods such as 
+the power method or Jacobi iteration \parencite{stewart1994introduction}.
+They do not consider a truncation of irrelevant states, while
+here our aggregation approach is used to determine the most relevant states
+under stationary conditions in large or infinite chains with population structure.
+
+More recently, a scheme based on the Kullback-Leibler divergence between the approximate and the original system has been proposed for \acp{DTMC} \parencite{geiger2014optimal}.
+
 \section{Macro-States}
 A macro-state is a collection of micro-states (or simply states) treated as one state in the aggregated model, which can be seen as an abstraction of the original model.
 The aggregation scheme defines a partitioning of the state-space.
