@@ -11,10 +11,10 @@ The other application of these moments constraints has been demonstrated in the 
 When used as \acfp{CV} such constraints yield an alternative unbiased estimator with lower variance.
 Using both heuristics and sequential Monte Carlo methods, we demonstrated that efficient constraint sets can be constructed.
 
-The approach of aggregation takes advantage of the fact that often propensity functions result in a smooth ``landscape of transition rates'' across the state-space.
-This motivates the aggregation scheme in which macro states are assumed to have a uniform distribution within.
-Deriving closed-forms for the transition rates between those states, the computational load --~compared to the original model~-- is greatly reduced.
-We have demonstrated the usefulness of this aggregation scheme on the domains of stationary distributions, bridging distributions, and the use in rare event sampling.
+The aggregation approach takes advantage of the fact that often propensity functions result in a smooth ``landscape of transition rates'' across the state-space.
+This motivates an aggregation scheme that approximates a uniform distribution inside macro-states.
+Deriving closed forms for the transition rates between those states significantly reduces the computational load compared to the original model.
+We have demonstrated the usefulness of this aggregation scheme in the domains of stationary distributions, bridging distributions, and the use in rare event sampling.
 
 
 %\section{Contribution}
@@ -56,10 +56,10 @@ Other shapes might be better suited for this kind of approximation.
     %\item More throgough investigation / further development of sketched ideas (Lyapunov synthesis, Rare event sampling)
 %\end{itemize}
 \paragraph{General}
-A main challenge in stochastic reaction networks today is the connection of methods to practicioners and their problems.
+The main challenge in stochastic reaction networks today is the connection of methods to practitioners and their problems.
 A large area body of research is devoted to methods precisely analyzing \acp{SRN}.
 It is a danger that the practical value of proposed methods is a secondary concern.
-For these methods to be useful more dialog is needed with domain experts to understand the challenges.
+For these methods to be useful, more dialog is needed with domain experts to understand the challenges.
 Only then can the new approaches --~such as the ones presented in this thesis~-- develop practical uses.
 %\begin{itemize}
 %    \item Method and model development should be driven more by practical problems (what do practicioners actually need?)
