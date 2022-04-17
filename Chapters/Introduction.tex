@@ -14,29 +14,29 @@
 %All hypotheses involve some sort of model~--~some more well-defined than others.
 Any model is an abstraction of reality.
 Often this abstraction aims to capture a few aspects of interest while ignoring others.
-Modelling often is a delicate balance of adequate representation and abstraction.
-The former is the goal to capture all the relevant behaviours and effects in a model.
-Abstractions are made for the benefit of both, explainability and facilitating analysis.
-This balance between faithfully capturing reality and enabling an analysis is at the core of all modelling efforts.
+Modeling often is a delicate balance of adequate representation and abstraction.
+The former is the goal to capture all the relevant behaviors and effects in a model.
+Abstractions are made for the benefit of both explainability and facilitating analysis.
+This balance between faithfully capturing reality and enabling an analysis is at the core of all modeling efforts.
 %starts with a number of assumptions that simplify the model enough to reasonably try to draw conclusions.
 
 
 In the natural sciences, we often deal with concentrations of different ``things''.
-This could be the amount of some substance in a beaker or the number of agents waiting for some service.
+This could be the amount of some substance or the number of agents waiting for some service.
 Traditionally, \aclp{ODE} are the most popular paradigm for dynamical models.
 \Aclp{ODE} have two inherent simplifications: Firstly, they impose a continuous state space and secondly they treat are deterministic.
 The first assumption is appropriate in many circumstances.
 For example, chemical concentrations can usually be treated as continuous because the number of molecules in a given volume is large enough for the concentration to be treated as a real number.
 However, this simplification fails where discrete effects are central to the model.
-Consider, for example the die-out of a species in the classical Lotka-Volterra predator-prey model \parencite{lotka1925elements}.
-In this case the distinction between a very low concentration and a zero concentration becomes relevant again:
+Consider, for example, the die-out of a species in the classical Lotka-Volterra predator-prey model \parencite{lotka1925elements}.
+In this case, the distinction between a low concentration and a zero concentration becomes relevant again:
 If the predator, e.g.\ the foxes, die out the model's dynamic changes dramatically.
 Such an event can be missed by the deterministic model which instead gives a population size larger than zero but much smaller than a single individual.
 \Citeauthor{mollison1991dependence} calls this problem is humorously the \emph{atto-fox} problem \parencite{mollison1991dependence}.
 The second issue, i.e.\ the issue of determinism, is often closely connected to the first.
-While the issue of a deterministic vs.\ a stochastic world is more an issue of philosophy and physics, stochasticity undoubtably provides an excellent abstraction for many phenomena.
+While the issue of a deterministic vs.\ a stochastic world is more an issue of philosophy and physics, stochasticity undoubtedly provides an excellent abstraction for many phenomena.
 Staying in with the previous example, it makes sense to consider the dying out of the predatory species to be stochastic.
-This means, there is a non-zero probability for both, survival and die-out.
+That means, there is a non-zero probability for both, survival and die-out.
 And answering questions about such probabilities would be one of the central functions of such a model.
 
 The previous example falls in the realm of systems biology.

@@ -313,6 +313,41 @@ This optimization, however, needs a large number of runs in each iteration.
 We used ensemble sizes of \num{1000} and \num{10000} for each iteration.
 This imposes a large additional cost, since in almost all instances more than \num{10} optimization iterations were necessary, until a fraction of $0.1$ ensemble trajectories reached the rare event region.
 In some instances no change of measure was found using the cross-entropy optimization.
+\begin{figure}[htb]
+    \centering
+    \begin{minipage}{0.77\textwidth}
+        \includegraphics[scale=.55]{gfx/hill_estimates.pdf}
+    \end{minipage}
+    \hspace{1ex}
+    \begin{minipage}{0.07\textwidth}
+        \includegraphics[scale=.55]{gfx/hill_estimates_legend.pdf}
+    \end{minipage}
+    \caption[Rare event estimates (toggle switch)]{\label{fig:hill_estimates}Rare event estimates (toggle switch with Hill functions) using different methods and sample sizes. For each scenario \num{10} estimations were performed. To the left are the \acsfont{dwSSA} results for comparison. We provide results for estimates using \num{1000} and \num{10000} estimates in each iteration of the prior parameter optimization rounds. On the right, the results for the aggregation method presented in this chapter are given for grids with $5\times 5$ and $10\times 10$ macro states.}
+\end{figure}
+
+%\begin{itemize}
+    %\item more likely paths are sampled less often
+    %\item sample weight distribution not normal
+    %\item a high-weight tail
+    %\item still unbiased, but too large ``outliers'' need to correct for many estimates that are too low. therefore many samples are necessary
+    %\item less variance in agg. because paths are steared more (not better estimates though...)
+%\end{itemize}
+With both methods, we observe that with smaller sample sizes, the estimate tends to be smaller as well, regardless of the method.
+This is due to the (non-zero) weights not being normally distributed.
+There tend to be more samples with lower weight, which are compensated by few samples with a marger larger weight.
+In other words, there seems to be a long tail towards to higher weights in most cases.
+The theoretical estimate is still unbiased.
+But the estimates which are much larger (``correcting'' the low estimates) are very infrequent.
+This issue is present regardless of the chosen method.
+The most clear difference is that the estimates using aggregation are spread less.
+This effect is likely due to the aggregation-based biasing steering the process with more detail.
+Therefore trajectories tend to be more similar --- an effect that is also appearant in the samples of \autoref{fig:hill_paths_comp}.
+
+As a reference and baseline we consider the dynamic truncation result obtained by the \acsfont{STAR} tool \parencite{lapin2011shave}.\marginpar{\url{mosi.uni-saarland.de/tools/shave/}}
+We ran the analysis using a relative tolerance of \num{1e-15} and an absolute tolerance of \num{1e-90}.
+This yielded \(\Pr(X_{10}^{(B)} \geq 100) \approx \num{4.64e-60}\).
+Note, that this is a lower bound to the probability since we only consider the probability at $t=10$, whereas the stopping time above considers all $t\leq 10$.
+Considering this baseline, it is clear, that both methods have only slowly approach the probability's true magnitude with increasing sample size.
 
 %\begin{itemize}
     %%\item different areas sampled
@@ -326,47 +361,11 @@ The constant biases are obtained using a cross-entropy optimization using $10^4$
 It is immediately clear, that the sampled trajectories differ in the paths that are sampled.
 %The theoretical optimal sampling would generate trajectories proportional to the original system dynamics conditioned on reaching reaching the rare event.
 We further observe a far larger range of likelihood ratios in the constant biasing case.
-\begin{figure}
+\begin{figure}[htb]
     \centering
     \includegraphics[scale=.6]{gfx/hill_paths_comp.pdf}
     \caption[Comparison of biased sample paths]{\label{fig:hill_paths_comp}Biased sample paths of the toggle switch using (left) the aggregation based sampling and (right) a constant biasing, determined by cross-entropy optimization \parencite{daigle2011automated}. The constant bias vector is $\approx (0.873, 26.248, 2.751, 0.00159)^{\top}$. The path color represents the relative $\log$ weghts of each trajectory (darker -- higher weight).}
 \end{figure}
-
-%\begin{itemize}
-    %\item more likely paths are sampled less often
-    %\item sample weight distribution not normal
-    %\item a high-weight tail
-    %\item still unbiased, but too large ``outliers'' need to correct for many estimates that are too low. therefore many samples are necessary
-    %\item less variance in agg. because paths are steared more (not better estimates though...)
-%\end{itemize}
-The estimate performance is summarized in \autoref{fig:hill_estimates}.
-With both methods, we observe that with smaller sample sizes, the estimate tends to be smaller as well, regardless of the method.
-This is due to the (non-zero) weights not being normally distributed.
-There tend to be more samples with lower weight, which are compensated by few samples with a marger larger weight.
-In other words, there seems to be a long tail towards to higher weights in most cases.
-The theoretical estimate is still unbiased.
-But the estimates which are much larger (``correcting'' the low estimates) are very infrequent.
-This issue is present regardless of the chosen method.
-The most clear difference is that the estimates using aggregation are spread less.
-This effect is likely due to the aggregation-based biasing steering the process with more detail.
-Therefore trajectories tend to be more similar --- an effect that is also appearant in the samples of \autoref{fig:hill_paths_comp}.
-\begin{figure}[htb]
-    \centering
-    \begin{minipage}{0.77\textwidth}
-        \includegraphics[scale=.55]{gfx/hill_estimates.pdf}
-    \end{minipage}
-    \hspace{1ex}
-    \begin{minipage}{0.07\textwidth}
-        \includegraphics[scale=.55]{gfx/hill_estimates_legend.pdf}
-    \end{minipage}
-    \caption[Rare event estimates (toggle switch)]{\label{fig:hill_estimates}Rare event estimates (toggle switch with Hill functions) using different methods and sample sizes. For each scenario \num{10} estimations were performed. To the left are the \acsfont{dwSSA} results for comparison. We provide results for estimates using \num{1000} and \num{10000} estimates in each iteration of the prior parameter optimization rounds. On the right, the results for the aggregation method presented in this chapter are given for grids with $5\times 5$ and $10\times 10$ macro states.}
-\end{figure}
-
-As a reference and baseline we consider the dynamic truncation result obtained by the \acsfont{STAR} tool \parencite{lapin2011shave}.\marginpar{\url{mosi.uni-saarland.de/tools/shave/}}
-We ran the analysis using a relative tolerance of \num{1e-15} and an absolute tolerance of \num{1e-90}.
-This yielded \(\Pr(X_{10}^{(B)} \geq 100) \approx \num{4.64e-60}\).
-Note, that this is a lower bound to the probability since we only consider the probability at $t=10$, whereas the stopping time above considers all $t\leq 10$.
-Considering this baseline, it is clear, that both methods have only slowly approach the probability's true magnitude with increasing sample size.
 
 This case study showcases the major difficulty in finding an efficient change of measure that one can encounter.
 Ideally, sampled trajectories should follow the original process, conditioned on the rare event.
