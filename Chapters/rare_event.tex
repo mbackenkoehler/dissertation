@@ -6,22 +6,32 @@ By their nature, most standard methods focus on regions with high probability.
 As an example consider the standard \ac{SSA}:
 Trajectories are generated according to the processes density.
 Therefore unlikely events are exactly as unlikely to be sampled using the direct method.
-Similarly approximations such as moment approximations or mean-field analysis focus on the main probability mass.
-Therefore the analysis of such events is particularly difficult.
+Accordingly, lots of samples are necessary to even sample a rare event at all and many more to get an estimator with a reasonable variance.
+Therefore, standard Monte Carlo estimation falls short for such use cases and typically analysis is done using variance reduction methods tailored to them.
 
 The arguably most used method for rare event analysis is \acf{IS}.
 This variance reduction method is very well-suited to the analysis of such events.
 In a nutshell, this method alters the model's dynamics and keeps track of the \emph{likelihood ratio} between this altered and the original model.
 This ratio provides an unbiased estimate of the event probability.
-The main challenge is to find a good way to alter the model.
+The main challenge is to find a ``good'' way to alter the model.
+Ideally, such an alterated model should generate trajectories conditioned on the rare event with the same distribution found in the original model.
+At the same time, a sufficiently convenient way of finding the alteration for a given model is necessary.
+
 One popular approach is found in \acsfont{dwSSA} \parencite{kuwahara2008efficient,daigle2011automated}.
 Therein each reaction rate is altered by some constant scalar factor.
 These biasing values are identified by using pilot runs of the \ac{SSA} and a cross-entropy objective.
-This method has been extended to be state-dependent in \citet{roh2011state}.
+
+Here, we study using the approximate backward probabilities studies in the previous chapter as a proxy for the \emph{optimal} change of measure.
+We use the backward probabilities' ratios of adjacent macro-states as a bias factor for the respective reaction propensities.
+To deal with continuous time, we record backward probabilities at a pre-determined number of time points.
+This way, the biases remain constant within the resulting time-intervals.
+We illustrate the method and its characteristics on a set of case studies along with a comparison to the \acsfont{dwSSA} method.
+
 
 \section{Related Work}
 \paragraph{Importance Sampling}
 Most methods for the estimation of rare event probabilities  rely on  importance sampling~\parencite{kuwahara2008efficient,daigle2011automated}.
+This method has been extended to be state-dependent in \citet{roh2011state}.
 
 \paragraph{Importance Splitting}
 Importance Splitting is an alternative Monte Carlo estimation strategy.
@@ -46,7 +56,7 @@ Let $f$ be the original density and the goal is to estimate
 \[
     \E{\theta(X)} = \int \theta(x)f(x)\,dx\,.
 \]
-Now let $g$ be another density, dominating $\theta f$, i.e.\ $g(x)\Rightarrow \theta(x)f(x) = 0$. Then we can re-write the above as
+Now let $g$ be another density, dominating $\theta f$, i.e.\ \[g(x)\Rightarrow \theta(x)f(x) = 0\,.\] Then we can re-write the above as
 \[
     \expSym_f({\theta(X)}) = \int \theta(x)f(x)\,dx = \int \theta(x) \frac{f(x)}{g(x)} g(x) dx = \expSym_g \theta(X) \frac{f(X)}{g(X)}\,.
 \]
@@ -364,7 +374,7 @@ We further observe a far larger range of likelihood ratios in the constant biasi
 \begin{figure}[htb]
     \centering
     \includegraphics[scale=.6]{gfx/hill_paths_comp.pdf}
-    \caption[Comparison of biased sample paths]{\label{fig:hill_paths_comp}Biased sample paths of the toggle switch using (left) the aggregation based sampling and (right) a constant biasing, determined by cross-entropy optimization \parencite{daigle2011automated}. The constant bias vector is $\approx (0.873, 26.248, 2.751, 0.00159)^{\top}$. The path color represents the relative $\log$ weghts of each trajectory (darker -- higher weight).}
+    \caption[Comparison of biased sample paths]{\label{fig:hill_paths_comp}Biased sample paths of the toggle switch using (left) the aggregation based sampling and (right) a constant biasing, determined by cross-entropy optimization \parencite{daigle2011automated}. The constant bias vector is $\approx (0.873, 26.248, 2.751, 0.00159)^{\top}$. The path color represents the relative $\log$-weights of each trajectory (darker -- higher weight).}
 \end{figure}
 
 This case study showcases the major difficulty in finding an efficient change of measure that one can encounter.
