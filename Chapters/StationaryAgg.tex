@@ -453,12 +453,6 @@ Therefore
 \pi_{\infty}\left(\left\{x\in\mathcal{S} \mid \frac{c}{0.2\epsilon_{\ell}} < \lVert x \rVert \right\}\right) > 1 - \epsilon_{\ell}\,.
 \end{equation*}
 
-Due to the exponential increase stemming from the three-di\-men\-sion\-al nature of this model, we only evaluated with parameter $\epsilon=0.1$.
-According to the Lyapunov analysis shown above, the area covered by an $6\times 6\times 6$ macro-states with size $2^{20}$, covers \num{0.9} of stationary mass.
-A truncation of this same area would consist of \num{226492416} states instead of the \num{216} macro-states.
-The model has a striking oscillatory behavior (cf.\ \autoref{fig:p53:traj}) that is reflected in its stationary distribution.
-This feature is well-captured in the approximate distribution, where the oscillatory behavior leads to a complex stationary distribution (cf.\ \autoref{fig:p53:dist}).
-This distribution leads to a non-trivial truncation (\num{357488} states) which is tailored to the main stationary mass (\autoref{fig:p53:trunc}).
 \begin{figure}[htb]
     \centering
     \begin{minipage}{0.9\textwidth}
@@ -468,6 +462,12 @@ This distribution leads to a non-trivial truncation (\num{357488} states) which 
 \caption{The final truncation at original granularity derived for the p53 oscillator.}
 \label{fig:p53:trunc}
 \end{figure}
+Due to the exponential increase stemming from the three-di\-men\-sion\-al nature of this model, we only evaluated with parameter $\epsilon=0.1$.
+According to the Lyapunov analysis shown above, the area covered by an $6\times 6\times 6$ macro-states with size $2^{20}$, covers \num{0.9} of stationary mass.
+A truncation of this same area would consist of \num{226492416} states instead of the \num{216} macro-states.
+The model has a striking oscillatory behavior (cf.\ \autoref{fig:p53:traj}) that is reflected in its stationary distribution.
+This feature is well-captured in the approximate distribution, where the oscillatory behavior leads to a complex stationary distribution (cf.\ \autoref{fig:p53:dist}).
+This distribution leads to a non-trivial truncation (\num{357488} states) which is tailored to the main stationary mass (\autoref{fig:p53:trunc}).
 \begin{figure}[htb]
     \includegraphics[width=.9\textwidth]{gfx/p53_dist.pdf}
 	\caption[approximate marginal distributions of the p53 stationary distribution]{The approximate marginal distributions of the stationary distribution based on the truncation derived with $\epsilon=0.1$.}
