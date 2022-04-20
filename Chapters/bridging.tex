@@ -76,7 +76,8 @@ Apart from sampling-based approaches, dynamic finite-state projections have been
 The analysis of countably infinite state-spaces is often handled by a pre-defined truncation~\parencite{kwiatkowska2011prism}.
 Sophisticated state-space truncations for the (unconditioned) forward analysis have been developed to give lower bounds and rely on a trade-off between computational load and tightness of the bound~\parencite{munsky2006finite,lapin2011shave,andreychenko2011parameter,henzinger2009sliding,mikeev2013fly}.
 
-\paragraph{Reachability in Verification}
+\paragraph{Verification}
+The problem considered in this chapter can be interpreted as an instance of a model checking problem \parencite{brim2013model,BENTRIOU2021191}.
 Reachability --~relevant in the context of probabilistic verification \parencite{bortolussi2014stochastic,neupane2019stamina}~-- is a bridging problem where the endpoint constraint is the visit of a set of goal states.
 Backward probabilities are commonly used to compute reachability likelihoods \parencite{amparore2013backward,zapreev2006safe}.
 Approximate techniques for reachability, based on moment closure and stochastic approximation, have also been developed in \parencite{bortolussi2014stochastic,Bortolussi18infcomp}, but lack error guarantees. 
