@@ -1101,6 +1101,14 @@ We note, that the worst case efficiency is close to one.
 This is due to the algorithm throwing out all covariate candidates leaving us with a standard estimation.
 Only the initial covariate evaluation and resampling causes a slowdown, driving efficiency slightly below one.
 Naturally this cost decreases with more samples $n$.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=0.65]{gfx/legend_thres.pdf}\\
+    \includegraphics[width=.49\textwidth]{gfx/dim_thresholds.pdf}
+    \includegraphics[width=.49\textwidth]{gfx/dm_threholds.pdf}
+    \caption[\ac{CV} for probabililty estimation]{The methods efficiency for the estimation of threshold probabilities. For each threshold $\ell$ at least 200 estimations were performed.}
+    \label{fig:thresholds}
+\end{figure}
 
 Control variates based on test functions restricted to intervals did not lead to an improvement (data not shown).
 
@@ -1113,14 +1121,6 @@ Control variates based on test functions restricted to intervals did not lead to
 %     \item LCV not effective for probs. close to 0 or 1
 %     \item interval-based CVs do not perform better for threshold probabilities
 % \end{itemize}
-\begin{figure}[htb]
-    \centering
-    \includegraphics[scale=0.65]{gfx/legend_thres.pdf}\\
-    \includegraphics[width=.49\textwidth]{gfx/dim_thresholds.pdf}
-    \includegraphics[width=.49\textwidth]{gfx/dm_threholds.pdf}
-    \caption[\ac{CV} for probabililty estimation]{The methods efficiency for the estimation of threshold probabilities. For each threshold $\ell$ at least 200 estimations were performed.}
-    \label{fig:thresholds}
-\end{figure}
 
 
 Finally, with the lac operon model we consider a larger case study. This model consists of \num{11} species and \num{25} --~partly non-linear~-- reactions.
