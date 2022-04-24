@@ -46,30 +46,28 @@ Consider for example the oscillatory processes such as the circadian cycle \pare
 Another phenomenon central to many biological functions is a switch-like behaviour.
 
 
-\Acfp{MPM} are a powerful framework to capture stochastic interactions between groups of identical agents.
+\Acfp{MPM} are a versatile framework capturing stochastic interactions between groups of identical agents.
 Simplify representation for more efficiency per computation.
 States are discrete counts of agents and reaction events stochastically change these counts.
-Interactions between agents, commonly referred to as \emph{reactions}, happen at exponentially distributed random times. 
+Interactions between agents commonly referred to as reactions, happen at exponentially distributed random times. 
 Their rate depends only on the current system state, i.e.\ the population sizes.
-This kind of population model introduces the major assumption, that all agents behave similar.
-Similarity entails both, similar behaviour of each agent and a homogenous mixture of all agents.\marginpar{Often the term \emph{well-stirredness} is used to express this.}
+This kind of population model introduces the major assumption, that all agents behave similarly.
+Similarity entails both similar behavior of each agent and a homogenous mixture of all agents.\marginpar{Often the term \emph{well-stirredness} is used to express this.}
 This feature is a \emph{Markov property} and
 therefore \acp{MPM} form a special class of structured \acp{CTMC} \parencite{anderson2012continuous}.
-Accordingly, the time-evolution of the corresponding probability distribution is 
-given by the Kolmogorov equations.\marginpar{In the context of (bio-)chemistry this is often called the \emph{chemical master equation}.}
-For small chains, the Kolmogorov equations can be used easily to compute accurate transition probabilities.
-The \acp{CTMC} underlying most population models, however, can have large, often unbound, populations.
-This makes their numerical solution extremely challenging.
+Accordingly, the Kolmogorov equations describes the time-evolution of the corresponding probability distribution.\marginpar{In the context of (bio-)chemistry this is often called the \emph{chemical master equation}.}
+For small finite chains it is easy to compute accurate transient probabilities using the Kolmogorov equation.
+The \acp{CTMC} underlying most population models, however, can have large and often unbound populations.
+That makes their numerical solution extremely challenging.
 Many problems occuring in a wide range of areas such as chemistry~\parencite{gillespie1977exact}, epidemiology~\parencite{mode2000stochastic},    queuing systems~\parencite{breuer2003markov}, finance~\parencite{pardoux2008markov}, and performance analysis~\parencite{bortolussi2013continuous,gast2019} can be described using this formalism.
 
-Faced with such models, typical research questions target the forward behaviour.
-This is the problem of looking into the future, given a starting distribution.
-As an example consider a the question how large the probability is that a system stays in some subset of the state space for a fixed amount of time.
-Mainly, we target these kinds of questions, but in \autoref{ch:bridging} we look at a closely
-related class of problems -- the bridging problem.
-In this problem both the initial and the terminal distribution is fixed.
+Typical research questions when using such models target the forward behavior.
+That is the problem of looking into the future given a starting distribution.
+For example, consider determining the probability that a system stays in some subset of the state space for a fixed amount of time.
+Mainly, we target these kinds of questions, but in \autoref{ch:bridging} we look at a closely related class of problems -- the bridging problem.
+In this problem, both the initial and the terminal distribution are fixed.
 \marginpar{This scenario is akin to the smoothing problem from stochastic filtering.}
-Such questions are of particular interest in multimodal models to determine the switching behaviour from one to another attracting region.
+Such questions are of particular interest in multimodal models to determine the switching behavior from one to another attracting region.
 A third area is the question of long-term behavior.
 In \emph{ergodic} models, the forward probabilities converge to a stable equilibrium distribution which is independent of the initial distribution.\turnto{sec:stationary_dist}
 %\section*{Main Research Questions}
@@ -80,29 +78,29 @@ In \emph{ergodic} models, the forward probabilities converge to a stable equilib
 
 The goal of this thesis is to develop methods to analyze \acp{MPM}.
 A particular focus of these methods is scalability.
-All methods developed in this thesis aim to provide means to more efficiently analyze such systems -- or at least show up paths that can lead to scalable methodologies.
+All methods developed in this thesis aim to provide means to more efficiently analyze such systems -- or at least uncover paths that can lead to scalable methodologies.
 Importantly, these methods are \emph{reliable} approximations: There are no ad-hoc approximations influencing estimates.
 The methodological theme is to leverage (approximate) distributional information such as moment equations and state-space aggregation to obtain good approximations.
 
-The first contribution is presented in \autoref{ch:lyapunov}.
-Therein we suggest to locally alter valid proposal Lyapunov functions.
-Such local alterations are subject to very few constraints.
-Thus methods such as neural networks can be used.
-The resulting sets can be much smaller than the ones induced by the proposal function.
+The first contribution proposes an augmentation scheme for simple Lyapunov functions in \autoref{ch:lyapunov}.
+Therein we suggest locally altering valid proposal Lyapunov functions.
+Such local alterations are subject to very few constraints and
+Thus methods such as neural networks are applicable.
+The resulting sets can be much smaller.
 
 In \autoref{pt:moments} we focus on moment-based techniques.
-Methods to analyze such models without ignoring their inherent stochasticity has received much attention in recent years.
-Facing state-spaces too large to handle using the Kolmogorov equation directly, stochastic simulations \parencite{gillespie1977exact} provide an alternative path.
+Methods to analyze such models without ignoring their inherent stochasticity received much attention in recent years.
+Facing state spaces too large to handle using the Kolmogorov equation directly, stochastic simulations \parencite{gillespie1977exact} provide an alternative path.
 Such simulations have the advantage of providing an accurate approximation of the process.
 That is, they converge in the limit of simulation runs.
-Stochastic simulations and estimation have been extended quite a bit.
+Many extensions of stochastic simulations and Monte Carlo estimation have been proposed.
 In \autoref{ch:cvinsrns} we develop on such extension for variance reduction of stochastic estimates.
 This variance reduction exploits moment dynamics to derive constraints on population averages.
 These constraints are a correction to the estimate.
-The corrected estimate is unbiased and has variance lower or equal to the uncorrected estimate.
+The corrected estimate is unbiased and has a variance lower or equal to the uncorrected estimate.
 
-Similar moment constraints can be used  --~in combination with general moment constraints~-- to formulate convex optimization problems.
-This way, rigorous bounds on reaching probabilities and \aclp{MFPT} can be computed.
+We use similar moment constraints  --~in combination with general moment constraints~-- to formulate convex optimization problems.
+This way, we compute rigorous bounds on reaching probabilities and \aclp{MFPT}.
 This approach is developed in \autoref{ch:MFPT}.
 Fortunately, both of these moment-based approaches can do without any moment closures
 and thereby avoid any ad-hoc approximations.
