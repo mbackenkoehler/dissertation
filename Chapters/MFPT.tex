@@ -1007,7 +1007,7 @@ The moment constraint over the partial moments has a linear structure:
 
 \begin{table}[t]
 \centering
-    \caption[\ac{MFPT} bounds]{\ac{MFPT} bounds on \autoref{model:dim} for $X_t \geq 5$ and $T=1$, \autoref{model:double_dim} for $X_t^{(M_1)}\geq 200$ or $X_t^{(M_2)}\geq 200$ and $T=10$, and \autoref{model:gexpr} for $X_t^{(P)}\geq 5$ and $T=10$.\label{tab:bounds}}
+    \caption[\ac{SDP} \ac{MFPT} bounds]{\ac{MFPT} bounds on \autoref{model:dim} for $X_t \geq 5$ and $T=1$, \autoref{model:double_dim} for $X_t^{(M_1)}\geq 200$ or $X_t^{(M_2)}\geq 200$ and $T=10$, and \autoref{model:gexpr} for $X_t^{(P)}\geq 5$ and $T=10$.\label{tab:bounds}}
 \begin{tabular}{l@{\hspace{1em}}l@{\hspace{1em}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r@{\hspace{2ex}}r}
     \toprule
     & & \multicolumn{5}{c}{relaxation order $r$}\\
@@ -1197,7 +1197,7 @@ Furthermore the interval width descreases by orders of magnitudes with each incr
           \# constr. &  \num{140} & \num{299} & \num{792} & \num{1395} \\
         \bottomrule
     \end{tabular}
-    \caption[\ac{MFPT} bounds for a Poisson process using \ac{LP}.]{\label{tab:hausdorff_poisson}\ac{MFPT} bounds for a Poisson process and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 10$ using \ac{LP}.}
+    \caption[\ac{LP} \ac{MFPT} bounds for a Poisson process]{\label{tab:hausdorff_poisson}\ac{MFPT} bounds for a Poisson process and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 10$ using \ac{LP}.}
 \end{table}
 
 As a second example we consider a birth-death model (\autoref{model:bd}) with rates $\mu=100$ and $\gamma=0.1$.
@@ -1218,7 +1218,7 @@ Here, too, the interval converges quickly, abeit not as fast as in the first exa
         \bottomrule
     \end{tabular}
     }
-    \caption[\ac{MFPT} bounds for a birth-death process using \ac{LP}.]{\label{tab:hausdorff_bd}\ac{MFPT} bounds for a birth-death process and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1$ using \ac{LP}.}
+    \caption[\ac{LP} \ac{MFPT} bounds for a birth-death process]{\label{tab:hausdorff_bd}\ac{MFPT} bounds for a birth-death process and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1$ using \ac{LP}.}
 \end{table}
 
 As a third example we consider a dimerization model (\autoref{model:dim}) the threshold event \[ \tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1\,. \]
@@ -1239,7 +1239,7 @@ For order $6$ and larger, the solver showed signs of numerical instability.
         \bottomrule
     \end{tabular}
     }
-    \caption[\ac{MFPT} bounds for \autoref{model:dim} using \ac{LP}.]{\label{tab:hausdorff_dim}\ac{MFPT} bounds for \autoref{model:dim} and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1$ using \ac{LP}.}
+    \caption[\ac{LP} \ac{MFPT} bounds for \autoref{model:dim}]{\label{tab:hausdorff_dim}\ac{MFPT} bounds for \autoref{model:dim} and $\tau = \inf\{t\geq 0 \mid X_t \geq 25 \} \land 1$ using \ac{LP}.}
 \end{table}
 
 The inclusion of the linear constraints into the \ac{SDP} did not yield any improvement of the bounds.
