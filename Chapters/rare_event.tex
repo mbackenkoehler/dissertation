@@ -49,7 +49,7 @@ Apart from sampling-based approaches, dynamic finite-state projections have been
 
 \section{Importance Sampling}
 Importance Sampling is  a popular variance reduction technique.
-\marginpar{This explanation follows \cite[Chapter~9.7]{kroese2013handbook}.}
+\marginpar{This explanation follows \citet[Chapter~9.7]{kroese2013handbook}.}
 Typically it is applied for the Monte Carlo estimation of rare event probabilities.
 The main idea, is to sample from a different distribution, the \ac{IS} density, and adjust samples using the ratio between this and the original density.
 Let $f$ be the original density and the goal is to estimate
@@ -317,7 +317,7 @@ The biasing strength increases towards the time-horizon.
 \end{figure}
 
 In \autoref{fig:hill_estimates}, we provide estimates for this case study using the aggregation-based approach presented here and the popular \acsfont{dwSSA} method as a point of comparison.
-\acsfont{dwSSA} \cite{daigle2011automated} essentially derives a constant bias coefficient for each reaction.
+\acsfont{dwSSA} \parencite{daigle2011automated} essentially derives a constant bias coefficient for each reaction.
 The biases are optimizes using a cross-entropy objective.
 This optimization, however, needs a large number of runs in each iteration.
 We used ensemble sizes of \num{1000} and \num{10000} for each iteration.
@@ -352,6 +352,11 @@ This issue is present regardless of the chosen method.
 The most clear difference is that the estimates using aggregation are spread less.
 This effect is likely due to the aggregation-based biasing steering the process with more detail.
 Therefore trajectories tend to be more similar --- an effect that is also appearant in the samples of \autoref{fig:hill_paths_comp}.
+\begin{figure}[htb]
+    \centering
+    \includegraphics[scale=.55]{gfx/weights.pdf}
+    \caption[Weight distribution of different \ac{IS} methods]{\label{fig:rare:weights}Comparison of \num{100} non-zero weights using impotance sampling based on aggregation and on dwSSA. On the left, the samples are plotted on a $\log$-scale and on the right on a linear scale.}
+\end{figure}
 
 As a reference and baseline we consider the dynamic truncation result obtained by the \acsfont{STAR} tool \parencite{lapin2011shave}.\marginpar{\url{mosi.uni-saarland.de/tools/shave/}}
 We ran the analysis using a relative tolerance of \num{1e-15} and an absolute tolerance of \num{1e-90}.
