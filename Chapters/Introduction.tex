@@ -16,7 +16,7 @@ Any model is an abstraction of reality.
 Often this abstraction aims to capture a few aspects of interest while ignoring others.
 Modeling often is a delicate balance of adequate representation and abstraction.
 The former is the goal to capture all the relevant behaviors and effects in a model.
-Abstractions benefit both explainability and analysis.
+Usewful aBstractions benefit both explainability and analysis.
 This balance between faithfully capturing reality and enabling an analysis is at the core of all modeling efforts.
 %starts with a number of assumptions that simplify the model enough to reasonably try to draw conclusions.
 
@@ -24,7 +24,7 @@ This balance between faithfully capturing reality and enabling an analysis is at
 In the natural sciences, we often deal with concentrations of different ``things''.
 This could be the amount of some substance or the number of agents waiting for some service.
 Traditionally, \aclp{ODE} are the most popular paradigm for dynamical models.
-\Aclp{ODE} have two inherent simplifications: Firstly, they impose a continuous state space and, secondly, they treat are deterministic.
+\Aclp{ODE} have two inherent simplifications: Firstly, they impose a continuous state space and, secondly, they are deterministic.
 The first assumption is appropriate in many circumstances.
 For example, chemical concentrations can usually be treated as continuous if the number of molecules in a given volume is large.\marginpar{Think of mixing chemical substances, for example.}
 With large populations, the influence of discrete effects decreases.
@@ -34,7 +34,7 @@ Consider, for example, the die-out of a species in the classical Lotka-Volterra 
 In this case, the distinction between a low concentration and a zero concentration becomes relevant again:
 If the predator, e.g.\ the foxes, die out the model's dynamic changes dramatically.
 Such an event can be missed by the deterministic model which instead gives a population size larger than zero but much smaller than a single individual.
-\Citeauthor{mollison1991dependence} calls this problem is humorously the \emph{atto-fox} problem \parencite{mollison1991dependence}.
+\Citeauthor{mollison1991dependence} calls this problem humorously the \emph{atto-fox} problem \parencite{mollison1991dependence}.
 The second issue, i.e.\ the issue of determinism, is often closely connected to the first.
 While the issue of a deterministic vs.\ a stochastic world is more an issue of philosophy and physics, stochasticity undoubtedly provides an excellent abstraction for many phenomena.
 Staying in with the previous example, it makes sense to consider the dying out of the predatory species to be stochastic.
@@ -42,18 +42,18 @@ That means, there is a non-zero probability for both, survival and die-out.
 And answering questions about such probabilities would be one of the central functions of such a model.
 
 The previous example falls in the realm of systems biology.
-There are many more applications in systems biology that benefit from a discrete and stochastic description \parencite{wilkinson2018stochastic,BuchWolkenhauer}.
+There are numerous applications in systems biology that benefit from a discrete and stochastic description \parencite{wilkinson2018stochastic,BuchWolkenhauer}.
 Many biological processes such as cell functions are driven by stochastic effects.
 Consider for example the oscillatory processes such as the circadian cycle \parencite{asgari2019mathematical} or even classical models such as the famous predator-prey model \parencite{lotka1925elements}.
 Another phenomenon central to many biological functions is a switch-like behavior.
 
 
 \Acfp{MPM} are a versatile framework capturing stochastic interactions between groups of identical agents.
-Simplify representation for more efficiency per computation.
+%Simplify representation for more efficiency per computation.
 States are discrete counts of agents and reaction events stochastically change these counts.
 Interactions between agents commonly referred to as reactions, happen at exponentially distributed random times. 
 Their rate depends only on the current system state, i.e.\ the population sizes.
-This kind of population model introduces the major assumption, that all agents behave similarly.
+This kind of population model introduces the major assumption that all agents behave similarly.
 Similarity entails both similar behavior of each agent and a homogenous mixture of all agents.\marginpar{Often the term \emph{well-stirredness} is used to express this.}
 This feature is a \emph{Markov property} and
 therefore \acp{MPM} form a special class of structured \acp{CTMC} \parencite{anderson2012continuous}.
@@ -96,10 +96,10 @@ Facing state spaces too large to handle using the Kolmogorov equation directly, 
 Such simulations have the advantage of providing an accurate approximation of the process.
 That is, they converge in the limit of simulation runs.
 Many extensions of stochastic simulations and Monte Carlo estimation have been proposed.
-In \autoref{ch:cvinsrns} we develop on such extension for variance reduction of stochastic estimates.
+In \autoref{ch:cvinsrns} we develop such an extension for variance reduction of stochastic estimates.
 This variance reduction exploits moment dynamics to derive constraints on population averages.
 These constraints are a correction to the estimate.
-The corrected estimate is unbiased and has a variance lower or equal to the uncorrected estimate.
+The corrected estimator is unbiased and has a variance lower or equal to the uncorrected estimator's variance.
 
 We use similar moment constraints  --~in combination with general moment constraints~-- to formulate convex optimization problems.
 This way, we compute rigorous bounds on reaching probabilities and \aclp{MFPT}.
@@ -234,7 +234,7 @@ The conceptual connection between the bridging problem (\autoref{ch:bridging}) a
 %*******************************************************
 \section{Previous Publications}%\graffito{This is just an early --~and currently ugly~-- test!}
 The ideas and much of the presented results have appeared previously in the following publications.
-As such, the content of most chapters have undergone peer-review and been published in various conference proceedings.
+As such, the content of most chapters has undergone peer-review and been published in various conference proceedings.
 The publications and their respective sections are as indicated below.
 
 \begin{itemize}
