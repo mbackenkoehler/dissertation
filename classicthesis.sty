@@ -76,7 +76,9 @@
 \DeclareBoolOption{b5paper}
 \DeclareBoolOption{letterpaper}
 \DeclareStringOption[a4]{paper} % paper size defaults to A4
+\DeclareBoolOption{printcolors}
 \ProcessKeyvalOptions{ct}
+
 
 
 %%% seems that KOMA-Script gives preference to old-style paper options, thus first
@@ -145,10 +147,16 @@
 \PassOptionsToPackage{dvipsnames}{xcolor}
     \RequirePackage{xcolor} % [dvipsnames]
 \definecolor{CTsemi}{cmyk}{0,0.82,0.81,0.16} % chapter numbers will be semi transparent .5 .55 .6 .0
-\definecolor{CTcitation}{rgb}{0,0.5,0} % WebGreen
 \definecolor{CTurl}{cmyk}{0,0.82,0.81,0.16} % Maroon
 \definecolor{CTtitle}{cmyk}{0,0.82,0.81,0.16} % Maroon {cmyk}{0, 0.87, 0.68, 0.32}
-\definecolor{CTlink}{named}{RoyalBlue} % RoyalBlue {cmyk}{1, 0.50, 0, 0}
+\ifthenelse{\boolean{ct@printcolors}}%
+    {
+        \definecolor{CTlink}{named}{Black}
+        \definecolor{CTcitation}{named}{Black}
+    }{
+        \definecolor{CTlink}{named}{RoyalBlue} % RoyalBlue {cmyk}{1, 0.50, 0, 0}
+        \definecolor{CTcitation}{rgb}{0,0.5,0} % WebGreen
+    }
 \definecolor{halfgray}{gray}{0.55} % chapter numbers will be semi transparent .5 .55 .6 .0
 \definecolor{webgreen}{rgb}{0,0.5,0}
 \definecolor{webbrown}{rgb}{0.6,0,0}
