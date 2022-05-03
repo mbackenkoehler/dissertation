@@ -4,27 +4,34 @@ Such events can be, for example, the die-out of some population or the switching
 In biological applications, rare events of interest are typically related to the reachability of certain thresholds on molecule counts  or mode switching \parencite{strasser2012stability}.
 By their nature, most standard methods focus on regions with high probability.
 As an example consider the standard \ac{SSA}:
-Trajectories are generated according to the processes density.
+Trajectories are generated according to the processes' density.
 Therefore unlikely events are exactly as unlikely to be sampled using the direct method.
 Accordingly, lots of samples are necessary to even sample a rare event at all and many more to get an estimator with a reasonable variance.
 Therefore, standard Monte Carlo estimation falls short for such use cases and typically analysis is done using variance reduction methods tailored to them.
 
-The arguably most used method for rare event analysis is \acf{IS}.
+The arguably most widely used method for rare event analysis is \acf{IS}.
 This variance reduction method is very well-suited to the analysis of such events.
 In a nutshell, this method alters the model's dynamics and keeps track of the \emph{likelihood ratio} between this altered and the original model.
-This ratio provides an unbiased estimate of the event probability.
+The alteration of the model is referred to as the \emph{change of measure}.
+The ratio between the changed and the original measure can be used to correct the weight of each run.
 The main challenge is to find a ``good'' way to alter the model.
-Ideally, such an alterated model should generate trajectories conditioned on the rare event with the same distribution found in the original model.
-At the same time, a sufficiently convenient way of finding the alteration for a given model is necessary.
+Ideally, such an altered model should generate trajectories conditioned on the rare event with the same distribution found in the original model.
+At the same time, finding such a change of measure should be sufficiently convenient.
 
-One popular approach is found in \acsfont{dwSSA} \parencite{kuwahara2008efficient,daigle2011automated}.
+A popular approach is found in \acsfont{dwSSA} \parencite{kuwahara2008efficient,daigle2011automated}.
+\marginpar{In \citet{cme-simulation-github}, we provide a \acsfont{dwSSA} implementation.}
 Therein each reaction rate is altered by some constant scalar factor.
-These biasing values are identified by using pilot runs of the \ac{SSA} and a cross-entropy objective.
+These biasing values are identified by using \ac{SSA} pilot runs and adjusting biases to according to a cross-entropy objective.
+We iterate on that approach by changing constant biases across fixed time-intervals.
+Additionally, these constant biases are state-dependent.
 
+If the complete backward probabilities are available, we would have the optimal biasing.
+\marginpar{If the backward probabilities are known, the event probability is known.}
+Since they are not known in most interesting cases, we use the aggregation-based approximation discussed in the previous chapters.
 Here, we study using the approximate backward probabilities studies in the previous chapter as a proxy for the \emph{optimal} change of measure.
-We use the backward probabilities' ratios of adjacent macro-states as a bias factor for the respective reaction propensities.
+In particular, the ratios of adjacent macro-states act as a bias for the respective reaction propensities.
 To deal with continuous time, we record backward probabilities at a pre-determined number of time points.
-This way, the biases remain constant within the resulting time-intervals.
+This way, the biases remain constant within the resulting time-intervals and sampling the jump time becomes easier.
 We illustrate the method and its characteristics on a set of case studies along with a comparison to the \acsfont{dwSSA} method.
 
 
@@ -46,6 +53,7 @@ The (approximate) backward probabilities presented here could be used as such an
 
 \paragraph{Finite state projection}
 Apart from sampling-based approaches, dynamic finite-state projections have been employed by \citet{mikeev2013numerical}, but are lacking automated truncation schemes.
+In \autoref{ch:bridging}, we presented a solution to this shortcoming.
 
 \section{Importance Sampling}
 Importance Sampling is  a popular variance reduction technique.
