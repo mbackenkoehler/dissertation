@@ -251,13 +251,6 @@ This implies 8 iterations of the algorithm to arrive at a truncation with the or
 In \autoref{fig:par_bd}, we illustrate the truncations of different iterations.
 Over the iterations, the covered area decreases, while the aggregation granularity increases.
 The final truncation distribution approximation is also depicted and covers $1 - \e{1.27}{-2}$ of the true stationary distribution (cf.\ \autoref{tab:intervals:par_bd}).
-
-For this case study, we also compute state-wise bounds on the probabilities conditioned on the truncation as discussed in \autoref{sec:statagg:fsp}.
-In \autoref{fig:par_bd_errors}, we present the difference between upper and lower bound for $\epsilon=0.1$.
-We observe intervals that are narrowest in the truncation's interior near the distribution's mode.
-The largest intervals or the largest absolute uncertainty is present in the boundary states.
-This indicates, that the specific reentry distribution has little effect on the main approximate stationary mass.
-More detailed results on the intervals' magnitudes are given in \autoref{tab:intervals:par_bd}.
 \begin{figure}[htb]
     \centering
     \includegraphics[scale=0.7]{gfx/iteration_legend.pdf}\\
@@ -265,18 +258,7 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
     \includegraphics[width=.75\textwidth]{gfx/parbd_truncs.pdf}
 	\caption[Overview of truncation refinements]{\label{fig:par_bd}Truncations of different iterations are layered on top of each other. At higher iterations, truncations cover less area but increase in detail, due to the refinement of macro-states. The final approximation is indicated by its approximate probabilities.}
 \end{figure}
-\begin{figure}[htb]
-	\centering
-    \includegraphics[width=.6\textwidth]{gfx/diffs.pdf}
-	\caption[Probability bound widths]{Results for \autoref{model:par_bd} with truncation threshold $\epsilon=0.1$.  The difference between the upper and lower bounds on the probability conditioned on the truncation.}
-    \label{fig:par_bd_errors}
-\end{figure}
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{gfx/par_bd_errs.pdf}
-    \caption[Stationary distribution errors]{\label{fig:par_bd_errs}Errors of the stationary distribution (\autoref{model:par_bd}) approximations for increasing ($\e{1}{-1}$, $\e{1}{-2}$, $\e{1}{-3}$, $\e{1}{-4}$) truncation thresholds.}
-\end{figure}
-\begin{table}
+\begin{table}[htb]
     \centering
 	{\small \begin{tabular}{lrrrr}% L{22mm} R{15mm} R{15mm} R{15mm} R{15mm}}
     \toprule
@@ -291,6 +273,24 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
 	\caption[Probability bound properties for approximation of the stationary distribution]{Results for \autoref{model:par_bd} : The characteristics of the lower-upper bound intervals on the conditional probability and the mass not contained in the truncation are given.}
     \label{tab:intervals:par_bd}
 \end{table}
+
+For this case study, we also compute state-wise bounds on the probabilities conditioned on the truncation as discussed in \autoref{sec:statagg:fsp}.
+In \autoref{fig:par_bd_errors}, we present the difference between upper and lower bound for $\epsilon=0.1$.
+We observe intervals that are narrowest in the truncation's interior near the distribution's mode.
+The largest intervals or the largest absolute uncertainty is present in the boundary states.
+This indicates, that the specific reentry distribution has little effect on the main approximate stationary mass.
+More detailed results on the intervals' magnitudes are given in \autoref{tab:intervals:par_bd}.
+\begin{figure}[htb]
+	\centering
+    \includegraphics[width=.6\textwidth]{gfx/diffs.pdf}
+	\caption[Probability bound widths]{Results for \autoref{model:par_bd} with truncation threshold $\epsilon=0.1$.  The difference between the upper and lower bounds on the probability conditioned on the truncation.}
+    \label{fig:par_bd_errors}
+\end{figure}
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{gfx/par_bd_errs.pdf}
+    \caption[Stationary distribution errors]{\label{fig:par_bd_errs}Errors of the stationary distribution (\autoref{model:par_bd}) approximations for increasing ($\e{1}{-1}$, $\e{1}{-2}$, $\e{1}{-3}$, $\e{1}{-4}$) truncation thresholds.}
+\end{figure}
 % \begin{figure}
 %     \centering
 %     \includegraphics[width=0.48\textwidth]{gfx/par_bd_errs_0.1.pdf}
@@ -304,7 +304,6 @@ More detailed results on the intervals' magnitudes are given in \autoref{tab:int
 The exclusive switch~\parencite{barzel2008calculation}  has three different modes of operation, depending on the
 \acsfont{DNA} state, i.e.\ on whether a protein of type one or two is bound to
 the \acsfont{DNA}.
-
 \begin{model}[Exclusive Switch]\label{model:excl_switch}
 The exclusive switch model consists of a promoter region
 that can express both proteins $P_1$ and $P_2$. Both can bind to the region, suppressing
@@ -324,6 +323,7 @@ bi-modal or even tri-modal behavior.
 \end{gather*}
 We choose parameter values $\rho_1 = 0.7$, $\rho_2 = 0.6$, $\lambda=0.02$, $\beta=0.005$, $\gamma_1 = 0.06$, and $\gamma_2 = 0.05$.
 \end{model}
+
 Since the exclusive switch models mutually exclusive binding of proteins to a single genetic locus,
 we know a priori that there are exactly three distinct operating modes.
 In particular are $D$, $D.P_1$, and $D.P_2$ mutually exclusive such that \[X_{D}(t) + X_{D.P_1}(t) + X_{D.P_2}(t) = 1, \quad \forall t\geq 0\,.\]
@@ -339,7 +339,7 @@ We compute error bounds using a worst-case analysis based on reference solutions
 We observe a strong decrease in both upper bounds on the total absolute and maximal absolute error in the final iteration.
 Interestingly, the errors between different thresholds are very close in earlier iterations.
 This is mainly due to the usage of absolute errors which causes probabilities close to the mode dominate.
-\begin{figure}[htb]
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{gfx/gexpr_approx.pdf}
 	\caption[Approximate stationary distribution of the exclusive switch]{The approximate stationary distribution of the exclusive switch (\autoref{model:excl_switch}) obtained with $\epsilon=\e{1}{-4}$.}
