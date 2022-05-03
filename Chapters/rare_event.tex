@@ -19,7 +19,7 @@ Ideally, such an altered model should generate trajectories conditioned on the r
 At the same time, finding such a change of measure should be sufficiently convenient.
 
 A popular approach is found in \acsfont{dwSSA} \parencite{kuwahara2008efficient,daigle2011automated}.
-\marginpar{In \citet{cme-simulation-github}, we provide a \acsfont{dwSSA} implementation.}
+\marginpar{In \citet{cme-simulation-github}, we provide an implementation.}
 Therein each reaction rate is altered by some constant scalar factor.
 These biasing values are identified by using \ac{SSA} pilot runs and adjusting biases to according to a cross-entropy objective.
 We iterate on that approach by changing constant biases across fixed time-intervals.
@@ -59,7 +59,7 @@ In \autoref{ch:bridging}, we presented a solution to this shortcoming.
 Importance Sampling is  a popular variance reduction technique.
 \marginpar{This explanation follows \citet[Chapter~9.7]{kroese2013handbook}.}
 Typically it is applied for the Monte Carlo estimation of rare event probabilities.
-The main idea, is to sample from a different distribution, the \ac{IS} density, and adjust samples using the ratio between this and the original density.
+The main idea is to sample from a different distribution, the \ac{IS} density, and adjust samples using the likelihood ratio.
 Let $f$ be the original density and the goal is to estimate
 \[
     \E{\theta(X)} = \int \theta(x)f(x)\,dx\,.
@@ -125,12 +125,11 @@ Thus, we will compute and store backward probabilities for the aggregated system
 \]
 Using these approximate backwards probabilities we can compute approximate predilections for the aggregated system.
 
-In \autoref{fig:biases} we illustrate this scheme for a birth-death process (\autoref{model:bd}) with goal macro-state $[40,47]$ at $T=10$
-and $X_0=0$.
+In \autoref{fig:biases}, we illustrate this scheme for a birth-death process (\autoref{model:bd}) with goal macro-state $[24,31]$ at $T=10$ and $X_0=0$.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{gfx/biases.pdf}
-    \caption[Approximate biasing]{\label{fig:biases}The approximate dynamic biasing (cut to $[e^{-2}, e^{2}]$) illustrated for a birth death process with macro-state size $8$ and target state $[40, 47]$ at $T=10$ for $10$ time points.}
+    \caption[Approximate biasing]{\label{fig:biases}The approximate dynamic biasing (values cut to $[e^{-2}, e^{2}]$) illustrated for a birth death process with macro-state size $8$ and target state $[24, 31]$ at $T=10$ for $10$ time points.}
 \end{figure}
 \autoref{fig:biases} clearly illustrates how the biases increase towards the end increasing the push towards the goal state the farther time progresses.
 Since by the approximation assumption, all constituent states of a macro-state are treated as equivalent, the macro-state biases are transferred to the micro-states.
@@ -252,9 +251,8 @@ In \autoref{fig:bias_ssa}, we illustrate the algorithms result using the biases 
 	\subfloat[Piecewise constant rate function]
     {\label{fig:bias_ssa:pce}\includegraphics[width=.5\textwidth]{gfx/piecewise_c_exp.pdf}}
     \subfloat[Biased SSA simulations]
-    {\includegraphics[width=.5\textwidth]{gfx/biased_SSA.pdf}}
-    \caption[Bias interpolation \& biased \ac{SSA}]{\label{fig:bias_ssa}}
-    \caption[Importance Sampling using piecewise constant jump distributions]{Importance Sampling using piecewise constant jump distributions: (a) A piecewise constant rate function is induced by the biases changing at discrete time points. (b) We can simulate the system using piecewise constant biases.}
+    {\label{fig:bias_ssa}\includegraphics[width=.5\textwidth]{gfx/biased_SSA.pdf}}
+    \caption[Piecewise constant jump distributions \& biased SSA]{Importance Sampling using piecewise constant jump distributions: (a) A piecewise constant rate function is induced by the biases changing at discrete time points. (b) We can simulate the system using piecewise constant biases.}
 \end{figure}
 
 %\begin{figure}[htb]
@@ -263,11 +261,11 @@ In \autoref{fig:bias_ssa}, we illustrate the algorithms result using the biases 
     %\caption[Dynamic biasing for the Poisson process]{\label{fig:poisson_rare}The dynamic biasing of a Poisson process with rate 10 based on a lumping of \num{10} states.}
 %\end{figure}
 
-\begin{figure}[htb]
-    \centering
-    \includegraphics[width=\textwidth]{gfx/bd_is.pdf}
-    \caption[Dynamic biasing for the Poisson process]{\label{fig:bd_rare}The dynamic biasing of a birth-death process lumping of \num{10} states and the target event $X(10)=30$.}
-\end{figure}
+%\begin{figure}[htb]
+    %\centering
+    %\includegraphics[width=\textwidth]{gfx/bd_is.pdf}
+    %\caption[Dynamic biasing for the Poisson process]{\label{fig:bd_rare}The dynamic biasing of a birth-death process lumping of \num{10} states and the target event $X(10)=30$.}
+%\end{figure}
 \section{Case Studies}
 We implemented the methods in Python and evaluated the method on three case studies.
 The first two are rather simple, but have the advantage of a known analytical distribution.
