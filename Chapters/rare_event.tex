@@ -277,30 +277,32 @@ In \autoref{fig:bias_ssa}, we illustrate the algorithms result using the biases 
 %\begin{figure}[htb]
     %\centering
     %\includegraphics[width=\textwidth]{gfx/poisson_sims_and_biases.pdf}
-    %\caption[Dynamic biasing for the Poisson process]{\label{fig:poisson_rare}The dynamic biasing of a Poisson process with rate 10 based on a lumping of \num{10} states.}
+    %\caption[Dynamic biasing for the Poisson process]{\label{fig:poisson_rare}The dynamic biasing of a Poisson process with rate 10 based on a aggregation of \num{10} states.}
 %\end{figure}
 
 %\begin{figure}[htb]
     %\centering
     %\includegraphics[width=\textwidth]{gfx/bd_is.pdf}
-    %\caption[Dynamic biasing for the Poisson process]{\label{fig:bd_rare}The dynamic biasing of a birth-death process lumping of \num{10} states and the target event $X(10)=30$.}
+    %\caption[Dynamic biasing for the Poisson process]{\label{fig:bd_rare}The dynamic biasing of a birth-death process aggregation of \num{10} states and the target event $X(10)=30$.}
 %\end{figure}
 \section{Case Studies}
 We implemented the methods in Python and evaluated the method on three case studies.
 The first two are rather simple, but have the advantage of a known analytical distribution.
 Thus, we have a reference to compare the Monte Carlo results.
 In the second part, we take a look at a more challenging model -- the toggle switch.
-In this example, we face non-polynomial rate functions and a bi-modal behavior.
+In this example, we face non-polynomial rate functions and a bimodal behavior.
 \subsection{Two Simple Examples}
 For the Poisson process we look at the event of exceeding a threshold of \num{150} before a time-horizon of $T=10$.
-The lumping scheme groups \num{10} states together and records the approximate backward probabilities for \num{10} time points.
+The aggregation scheme groups \num{10} states together and records the approximate backward probabilities for \num{10} time points.
 In \autoref{fig:rare_estimates:poisson}, we summarize the estimates for different sample sizes.
 In this study, we observe no finite sample bias and a quick convergence to the analytical result.
 
 In case of the birth-death process, we focus on the event of being in state \num{30} at time $T=10$.
-The lumping scheme groups \num{10} states together and records the approximate backward probabilities for \num{10} time points.
+The aggregation scheme groups \num{10} states together and records the approximate backward probabilities for \num{10} time points.
 In \autoref{fig:rare_estimates:birth_death}, we summarize the estimates for different sample sizes.
 In this study observe no finite sample bias and a quick convergence to the analytical result.
+The switching between the two distinct meta-stable regions is of particular interest.
+At the same time, it is hard to analyze using standard Methods because this event typically is rare.
 %Here we also observe a quick convergence to the analytical result.
 \begin{figure}[htb]
     \centering
@@ -313,6 +315,8 @@ In this study observe no finite sample bias and a quick convergence to the analy
 \subsection{Toggle Switch}
 We return to the example of the toggle switch, known from \autoref{ch:bridging}.
 It notably includes two non-polynomial propensity functions.
+This model exhibits a bimodal behavior.
+Either mostly agents of type $A$ are produced while the counts of $B$-type agents remains low or vice versa.
 \begin{model}[Toggle Switch using Hill functions~\parencite{lipshtat2006genetic}]\label{model:hill_toggle_rare}
 We have population types $A$ and $B$ with the following reactions and reaction rates.
 $$ \varnothing \xrightarrow{\alpha_1(\cdot)} A\,,\quad \text{where}\quad \alpha_1(x) = \frac{\rho}{1 + k x_B},
@@ -323,6 +327,7 @@ The parameterization is $\rho=10$, $\lambda=0.1$, and $k=1.5$.
 \end{model}
 The sums of non-polynomial propensity functions have no simple analytical solution as the Faulhaber formulae.
 Instead, we approximate the discrete sums via an integral:
+\marginpar{This approximation is different from the previous version on page~\pageref{page:approx}, because we previously had $k=1$.}
 \[
 \begin{split}
     \bar{\alpha}_1(\bar{x})&\approx\int_{a-0.5}^{b+0.5} \frac{\rho}{1 + kx}\, dx\\
@@ -338,7 +343,7 @@ The biasing strength increases towards the time-horizon.
 \begin{figure}[htb]
     \centering
     \includegraphics[width=\textwidth]{gfx/hill_toggle_is.pdf}
-    \caption[Dynamic biasing for the toggle switch]{\label{fig:hill_rare}The dynamic biasing of a toggle switch based on a lumping of $10\times 10$ states.}
+    \caption[Dynamic biasing for the toggle switch]{\label{fig:hill_rare}The dynamic biasing of a toggle switch based on a aggregation of $10\times 10$ states.}
 \end{figure}
 
 In \autoref{fig:hill_estimates}, we provide estimates for this case study using the aggregation-based approach presented here and the popular \acsfont{dwSSA} method as a point of comparison.
@@ -396,7 +401,7 @@ Considering this baseline, it is clear, that both methods have only slowly appro
     %\item left: weights are closer together
     %\item conclusion: sampling true transition paths may require more than constant biasing
 %\end{itemize}
-In \autoref{fig:hill_paths_comp}, we compare sample paths using the technique presented here with a constant biasing scheme. 
+In \autoref{fig:hill_paths_comp}, we compare sample paths using the technique presented here with a constant biasing scheme.
 The constant biases are obtained using a cross-entropy optimization using $10^4$ \ac{SSA} simulations in each iteration until $0.1$ of the trajectories reach the rare event region.
 It is immediately clear, that the sampled trajectories differ in the paths that are sampled.
 %The theoretical optimal sampling would generate trajectories proportional to the original system dynamics conditioned on reaching reaching the rare event.
