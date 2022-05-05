@@ -378,6 +378,7 @@ There tend to be more samples with lower weight, which are compensated by few sa
 In other words, there seems to be a long tail towards to higher weights in most cases.
 The theoretical estimate is still unbiased.
 But the estimates which are much larger (``correcting'' the low estimates) are very infrequent.
+These long-tailed distributions are illustrated in \autoref{fig:rare:weights}.
 This issue is present regardless of the chosen method.
 The most clear difference is that the estimates using aggregation are spread less.
 This effect is likely due to the aggregation-based biasing steering the process with more detail.
@@ -421,7 +422,7 @@ Consequently, both methods tend to under-estimate in a majority of cases.
 \section{Conclusion}
 In this chapter, we presented a novel change of measure using approximate backward probabilities.
 This approach avoids the necessity of a significant number of pilot runs.
-In the last example, the number of these pilot runs often exceeded the number of runs used for the estimate.
+In the last example, the number of these pilot runs often exceeded the number of runs used for the actual estimation.
 Therefore, the approach presented is a feasible alternative for cases in which the state-space size allows for an approximate solution.
 
 We further showcased a challenge that is often emphasized too little.
