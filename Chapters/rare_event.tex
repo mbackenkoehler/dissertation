@@ -413,7 +413,8 @@ We further observe a far larger range of likelihood ratios in the constant biasi
     \caption[Comparison of biased sample paths]{\label{fig:hill_paths_comp}Biased sample paths of the toggle switch using (left) the aggregation based sampling and (right) a constant biasing, determined by cross-entropy optimization \parencite{daigle2011automated}. The constant bias vector is $\approx (0.873, 26.248, 2.751, 0.00159)^{\top}$. The path color represents the relative $\log$-weights of each trajectory (darker -- higher weight).}
 \end{figure}
 
-This case study showcases the major difficulty in finding an efficient change of measure that one can encounter.
+This case study illustrates how the finite sample behavior can significantly deviate from a normal distribution.
+The estimate distribution tends to be asymmetrical with a most samples being below the true mean, while few samples are larger.
 Ideally, sampled trajectories should follow the original process, conditioned on the rare event.
 As in this example, constant biases might not be enough to reliably alter the dynamics in this way.
 However, the approximate biasing scheme presented in this chapter, while being based on an approximation of the ideal biasing, seems to over-constrain the process and thus not explore the trajectory space sufficiently.
@@ -425,7 +426,7 @@ This approach avoids the necessity of a significant number of pilot runs.
 In the last example, the number of these pilot runs often exceeded the number of runs used for the actual estimation.
 Therefore, the approach presented is a feasible alternative for cases in which the state-space size allows for an approximate solution.
 
-We further showcased a challenge that is often emphasized too little.
+We further showcased a challenge that is often ignored.
 This is the issue of changes of measures, that steer the process to the target region along trajectories that are significantly less likely in the original system than the conditioned paths would be.
 This leads to a case where the estimate distribution is very different from a normal distribution.
 Consequently, the estimates are too low in most cases, and a lot too large in very few cases.
