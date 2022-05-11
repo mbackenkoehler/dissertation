@@ -46,6 +46,16 @@ often not even approximately fulfilled and may lead to high approximation errors
 Recently, equations expressing the moment dynamics have also been used as constraints for parameter
 estimation \parencite{backenkohler2018moment} and for computing moment bounds using semi-definite programming \parencite{dowdy2018dynamic,ghusinga2017exact}.
 
+Variance reduction techniques are an alternative to approaches that decrease the computational costs of each SSA run.
+Instead of focusing on making sample generation more efficient, most variance reduction methods modify the estimator.
+The modified estimate has the same expected value as the original one.
+However its variance is (hopefully) equal or lower than the original estimator's variance.
+This means, that ``better'' estimates with comparable confidence are possible at lower cost.
+For control variates this means, that the estimation of the expected value $\E{X}$ of some random variable $X$ is replaced.
+If another correlated random variable with $\E{Y}=0$, i.e.\ a control variate, is known we are in luck.
+Then, we can estimate $\E{X+bY}$ instead which is more efficient because the variance of $X+bY$ is lower when choosing $b$ wisely.
+By reducing the variance of the estimators, these methods need fewer runs to achieve high statistical accuracy.
+
 In this work, we propose a combination of such moment constraints with the \ac{SSA} approach.
 Specifically, we   interpret these constraints as random variables 
 that are correlated with the estimators of interest usually given as functions of chemical population variables.
@@ -151,7 +161,7 @@ We refer the reader to \textcite{beentjes2021a} for a recent survey of variance 
 
 
 \section{Moment Constraints}\label{sec:cv:moments}
-The time-evolution of $\E{f(X_t)}$ for some function $f$ is given by \eqref{eq:mom_ode}\turnto{eq:mom_ode}.
+The time-evolution of the expected value $\E{f(X_t)}$ of some function $f$ is given by \eqref{eq:mom_ode}\turnto{eq:mom_ode}.
 The integration of \eqref{eq:mom_ode} with such functions $f$ is well-known in the context of
 moment approximations of \ac{MPM}.
 For most models the arising \ac{ODE} system is infinitely large, because the time-derivative of
@@ -301,7 +311,9 @@ to overcompensate for this increased cost of a simulation run.
 \end{algorithm}
 
 \section{Control Variates}\label{sec:cv:var_red}
-Now, we are interested in the estimation of some quantity $\E{V}$
+Before using the moment constraints derived above, we now discuss control variates in general.
+To this end let $V$ be some random variable with finite moments.
+We are interested in the estimation of some quantity $\E{V}$
 by stochastic simulation.
 Let $V_1,\dots,V_n$ be independent samples of $V$.
 Then the sample mean 
@@ -1029,7 +1041,7 @@ We evaluated the algorithm both with and without resampling for these first two 
 The algorithm without resampling  leaves out lines~\ref{line:resampling:main_loop}--\ref{line:resampling:end_resampling} from \autoref{alg:splitting:lcv}.
 The evaluation without resampling provides a good point of comparison to our previous heuristics performance on these cases.
 In the case of dimerization we observe a variance reduction of $\approx 27.67$ compared to a best case reduction of $\approx 28.75$ in our previous work.
-This close performance however has to balance very different slowdown factors: With our new heuristic the slowdown is a factor of $\approx 1.34$ while in the previous case it was $\approx 1.95$.
+This close performance however has to balance very different slowdown factors. With our new heuristic the slowdown is a factor of $\approx 1.34$ while in the previous case it was $\approx 1.95$.
 Therefore the new method clearly outperforms in terms of efficiency ($\approx 20.5$ (new) versus $\approx 14.86$ (old)).
 This is mainly due to the higher number of covariates used by the simple threshold heuristic.
 In contrast the new method takes into account redundancies between covariances while still retaining good performance.
