@@ -16,7 +16,7 @@ Any model is an abstraction of reality.
 Often this abstraction aims to capture a few aspects of interest while ignoring others.
 Modeling often is a delicate balance of adequate representation and abstraction.
 The former is the goal to capture all the relevant behaviors and effects in a model.
-Usewful aBstractions benefit both explainability and analysis.
+Useful Abstractions benefit both explainability and analysis.
 This balance between faithfully capturing reality and enabling an analysis is at the core of all modeling efforts.
 %starts with a number of assumptions that simplify the model enough to reasonably try to draw conclusions.
 
@@ -25,6 +25,7 @@ In the natural sciences, we often deal with concentrations of different ``things
 This could be the amount of some substance or the number of agents waiting for some service.
 Traditionally, \aclp{ODE} are the most popular paradigm for dynamical models.
 \Aclp{ODE} have two inherent simplifications: Firstly, they impose a continuous state space and, secondly, they are deterministic.
+
 The first assumption is appropriate in many circumstances.
 For example, chemical concentrations can usually be treated as continuous if the number of molecules in a given volume is large.\marginpar{Think of mixing chemical substances, for example.}
 With large populations, the influence of discrete effects decreases.
@@ -35,6 +36,9 @@ In this case, the distinction between a low concentration and a zero concentrati
 If the predator, e.g.\ the foxes, die out the model's dynamic changes dramatically.
 Such an event can be missed by the deterministic model which instead gives a population size larger than zero but much smaller than a single individual.
 \Citeauthor{mollison1991dependence} calls this problem humorously the \emph{atto-fox} problem \parencite{mollison1991dependence}.
+%Another property that is lost when ignoring stochasticity is the dampened oscillation.
+%Due to the stochastic phase shifts the mean will usually converge to a fixed point (ignoring die-out).
+
 The second issue, i.e.\ the issue of determinism, is often closely connected to the first.
 While the issue of a deterministic vs.\ a stochastic world is more an issue of philosophy and physics, stochasticity undoubtedly provides an excellent abstraction for many phenomena.
 Staying in with the previous example, it makes sense to consider the dying out of the predatory species to be stochastic.
@@ -100,7 +104,7 @@ Many extensions of stochastic simulations and Monte Carlo estimation have been p
 In \autoref{ch:cvinsrns} we develop such an extension for variance reduction of stochastic estimates.
 This variance reduction exploits moment dynamics to derive constraints on population averages.
 These constraints are a correction to the estimate.
-The corrected estimator is unbiased and has a variance lower or equal to the uncorrected estimator's variance.
+The corrected estimator is unbiased and has a variance lower or equal to the one of the uncorrected estimator.
 
 We use similar moment constraints  --~in combination with general moment constraints~-- to formulate convex optimization problems.
 This way, we compute rigorous bounds on reaching probabilities and \aclp{MFPT}.
