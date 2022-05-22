@@ -15,7 +15,7 @@
 Any model is an abstraction of reality.
 Often this abstraction aims to capture a few aspects of interest while ignoring others.
 Modeling often is a delicate balance of adequate representation and abstraction.
-The former is the goal to capture all the relevant behaviors and effects in a model.
+The goal of the former is to capture all the relevant behaviors and effects in a model.
 Useful Abstractions benefit both explainability and analysis.
 This balance between faithfully capturing reality and enabling an analysis is at the core of all modeling efforts.
 %starts with a number of assumptions that simplify the model enough to reasonably try to draw conclusions.
@@ -27,13 +27,13 @@ Traditionally, \aclp{ODE} are the most popular paradigm for dynamical models.
 \Aclp{ODE} have two inherent simplifications: Firstly, they impose a continuous state space and, secondly, they are deterministic.
 
 The first assumption is appropriate in many circumstances.
-For example, chemical concentrations can usually be treated as continuous if the number of molecules in a given volume is large.\marginpar{Think of mixing chemical substances, for example.}
+For example, chemical concentrations can usually be treated as continuous if the number of molecules in a given volume is large.\marginpar{In many chemical experiments, for example, huge numbers of molecules are present.}
 With large populations, the influence of discrete effects decreases.
 In such cases, mean-field analyses are an adequate and efficient tool \parencite{bortolussi2013continuous}.
 However, this simplification fails if discrete effects are central to the model.
-Consider, for example, the die-out of a species in the classical Lotka-Volterra predator-prey model \parencite{lotka1925elements}.
+Consider, for example, the extinction of a species in the classical Lotka-Volterra predator-prey model \parencite{lotka1925elements}.
 In this case, the distinction between a low concentration and a zero concentration becomes relevant again:
-If the predator, e.g.\ the foxes, die out the model's dynamic changes dramatically.
+If the predator, e.g.\ the foxes, becomes extinct the model's dynamic changes dramatically.
 Such an event can be missed by the deterministic model which instead gives a population size larger than zero but much smaller than a single individual.
 \Citeauthor{mollison1991dependence} calls this problem humorously the \emph{atto-fox} problem \parencite{mollison1991dependence}.
 %Another property that is lost when ignoring stochasticity is the dampened oscillation.
@@ -41,9 +41,9 @@ Such an event can be missed by the deterministic model which instead gives a pop
 
 The second issue, i.e.\ the issue of determinism, is often closely connected to the first.
 While the issue of a deterministic vs.\ a stochastic world is more an issue of philosophy and physics, stochasticity undoubtedly provides an excellent abstraction for many phenomena.
-Staying in with the previous example, it makes sense to consider the dying out of the predatory species to be stochastic.
-That means, there is a non-zero probability for both, survival and die-out.
-And answering questions about such probabilities would be one of the central functions of such a model.
+Staying with the previous example, it makes sense to consider the dying out of the predatory species to be stochastic.
+That means, there is a non-zero probability for both, survival and extinction.
+Answering questions about such probabilities would be one of the central functions of such a model.
 
 The previous example falls in the realm of systems biology.
 There are numerous applications in systems biology that benefit from a discrete and stochastic description \parencite{wilkinson2018stochastic,BuchWolkenhauer}.
@@ -73,7 +73,7 @@ For example, consider determining the probability that a system stays in some su
 Mainly, we target these kinds of questions, but in \autoref{ch:bridging} we look at a closely related class of problems -- the bridging problem.
 In this problem, both the initial and the terminal distribution are fixed.
 \marginpar{This scenario is akin to the smoothing problem from stochastic filtering.}
-Such questions are of particular interest in multimodal models to determine the switching behavior from one to another attracting region.
+Such questions are of particular interest in multimodal models to determine the switching behavior between different attracting regions.
 A third area is the question of long-term behavior.
 In \emph{ergodic} models, the forward probabilities converge to a stable equilibrium distribution which is independent of the initial distribution.\turnto{sec:stationary_dist}
 %\section*{Main Research Questions}
@@ -97,7 +97,7 @@ The resulting sets can be much smaller.
 
 In \autoref{pt:moments} we focus on moment-based techniques.
 Methods to analyze such models without ignoring their inherent stochasticity received much attention in recent years.
-Facing state spaces too large to handle using the Kolmogorov equation directly, stochastic simulations \parencite{gillespie1977exact} provide an alternative path.
+When facing state spaces that are too large to handle using the Kolmogorov equation directly, stochastic simulations \parencite{gillespie1977exact} provide an alternative path.
 Such simulations have the advantage of providing an accurate approximation of the process.
 That is, they converge in the limit of simulation runs.
 Many extensions of stochastic simulations and Monte Carlo estimation have been proposed.
@@ -182,7 +182,7 @@ All contributions presented in this thesis are related to \aclp{MPM}.
 Therefore the background chapter, i.e.\ \autoref{ch:background} is relevant
 to all later parts of the thesis.
 In \autoref{pt:moments}, we present methods based on moment constraints.
-There is a connection between \autoref{ch:MFPT} and \autoref{ch:cvinsrns} in that they share the linear constraints on temporal moments.
+There is a connection between \autoref{ch:MFPT} and \autoref{ch:cvinsrns} in their shared linear constraints on temporal moments.
 The prerequisite for \autoref{ch:statagg} and \autoref{ch:bridging} is the aggregation
 technique presented in \autoref{ch:lumping}.
 The conceptual connection between the bridging problem (\autoref{ch:bridging}) and the rare event sampling (\autoref{ch:is}) lies in both, its setting and the utilization of backwards probabilities.
