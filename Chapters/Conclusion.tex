@@ -1,15 +1,23 @@
 \chapter{Conclusion}
-While \acfp{MPM} are a versatile modeling framework, their analysis --~especially wrt.\ their stochasticity~-- poses a significant challenge.
+While \aclp{MPM} are a versatile modeling framework, their analysis --~especially wrt.\ their stochasticity~-- poses a significant challenge.
 % Talk more about the stochasticity and give examples of model queries involving stochasticity.
+The most pressing issue is the large state space that needs to be considered.
+\marginpar{The large state-space is often exacerbated by the curse of dimensionality.}
 This thesis has proposed several techniques to tackle some parts of this challenge.
-All of these techniques use the uniform structure of the \acp{CTMC} underlying an \ac{MPM}.
+The main advantage of \acp{CTMC} underlying \acp{MPM} is their structured nature due to the typically simple propensity functions.
+All methods proposed in this thesis rely in some way on this induced structure.
+The first set of methods uses moment constraints which can be directly given in terms of stoichiometry and propensity functions.
+The second set of approaches is more heuristic in nature.
+\marginpar{In particular, polynomial propensity functions are often suited to this approach.}
+Here, we leverage the typically rather smooth structure of propensity functions to derive an aggregation scheme on the state-space.
+%All of these techniques use the uniform structure of the \acp{CTMC} underlying an \ac{MPM}.
 
 This structure enables us to derive moment equations that yield constraints that have shown to be useful in two contexts.
 In the context of mean first-passage time bounds, they formed linear constraints on the moments of the process and the exit location measure.
 Together with semi-definite constraints, this yields a hierarchy of convex optimization problems.
 This hierarchy yields convergent bounds on the reaching probability and the mean first-passage time in a wide class of problems.
-The other application of these moments constraints has been demonstrated in the context of Monte Carlo estimation:
-When used as \acfp{CV} such constraints yield an alternative unbiased estimator with lower variance.
+Another other application of moments constraints has been demonstrated in the context of Monte Carlo estimation.
+When used as \aclp{CV} such constraints yield an alternative unbiased estimator with lower variance.
 Using heuristics and sequential Monte Carlo methods, we demonstrated methods to construct efficient constraint.
 
 The aggregation approach takes advantage of the fact that often propensity functions result in a smooth ``landscape of transition rates'' across the state-space.
@@ -48,15 +56,20 @@ Keeping the algorithm flexible, while keeping the number of parameters low is di
 \paragraph{Aggregation}
 Similarly to the \aclp{CV}, the aggregation scheme offers quite a few possibilities for further experimentation.
 For example, a dynamic aggregation-disaggregation scheme could be used for forward analysis similar to dynamic truncations \parencite{andreychenko2011parameter}.
+Based on the approximate probability distribution states could be either aggregated or disaggregated.
+This splitting could be based on how how flat the distribution is locally, i.e.\ how close it is to a uniform distribution in some region.
 Another possible modification would be to define states more flexible than hyper cubes.
-Other shapes might be better suited for this kind of approximation.
+%Other shapes might be better suited for this kind of approximation.
+While this likely would make finding a closed-form expression of transition rates harder or impossible, it might be a useful trade.
+For both of these points the design space is quite large.
 
 %\paragraph{Technical}
 %\begin{itemize}
     %\item aggregation: Schemes more flexible than hyper-cubes (rectangles instead of cubes, other shapes altogether)
     %\item More throgough investigation / further development of sketched ideas (Lyapunov synthesis, Rare event sampling)
 %\end{itemize}
-\paragraph{General}
+%\paragraph{General}
+\vspace{1em}
 The main challenge in stochastic reaction networks today is the connection of methods to practitioners and their problems.
 A large area body of research is devoted to methods precisely analyzing \acp{SRN}.
 It is a danger that the practical value of proposed methods is a secondary concern.
