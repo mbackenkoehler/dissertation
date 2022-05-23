@@ -501,9 +501,10 @@ Other methods such as explicit state-space representations can give stronger gua
 
 \section{Moment Dynamics}\label{sec:moments_bg}
 Often times, the moments of a stochastic process provide sufficient information for its analysis.
-%Such is the case for the \emph{mean-field} analysis, where only the expectations \parencite{bortolussi2020fluid}
-% are considered, while covariances are assumed to be zero.
-\acp{ODE} for the expected values of an \ac{MPM} can be derived using its generator.\marginpar{This is called the \emph{drift} (see \autoref{sec:statagg:lyapunov}).}
+The \emph{mean-field} analysis \parencite{bortolussi2020fluid} can be considered an instance of a moment closure.
+In this analysis only means are considered while, while covariances are assumed to be zero.
+It is possible to derive the moment dynamics of population models.
+In particular, \acp{ODE} for the expected values of an \ac{MPM} can be derived using its generator.\marginpar{This is called the \emph{drift} (see \autoref{sec:statagg:lyapunov}).}
 We can apply $Q$ to a polynomial $f$ such that
 \begin{equation}\label{eq:Qf}
     Qf(x) = \sum_{j=1}^{n_R}\left(f(x+v_j) - f(x)\right)\alpha_j(x)\,.
