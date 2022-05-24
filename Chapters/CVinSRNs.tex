@@ -581,7 +581,7 @@ from some fixed distribution $\pi_{\lambda}$ (\autoref{line:lambda_sample}).
 %         eigenvalue of $Q$ \parencite{dowdy2018dynamic}.
 % \end{itemize}
 
-\section{Case Studies}\label{sec:cv:study}
+\subsection{Case Studies}\label{sec:cv:study}
 We first define a criterion of \emph{efficiency} in order to estimate
 whether the reduction in variance is worth the increased cost.
 A natural baseline of a variance reduction is, that it is more efficient to pay for
@@ -1033,9 +1033,11 @@ This selection is done, until some lower threshold $\epsilon$ is reached (\autor
 The resulting information enables an LCV estimation (\autoref{line:resampling:compute_lcv}).
 
 
-We applied the presented algorithm for an estimation using $n=\num{10000}$ simulations.
+\subsection{Case Studies}
+We executed the presented estimation algorithm for \num{1000} times using $n=\num{10000}$ simulations.
 Initially $n_{\lambda}=10$ samples for the time-weighting parameter were drawn from a standard normal distribution ($\pi_{\lambda} = N(0,1)$).
 Constraints corresponding to each first-order moment, i.e.\ the process' expectations were generated ($n_{\max}=1$).
+For this study we did not consider higher order moments because their inclusion led to worse results in most examples of our previous study (cf.\ \autoref{sec:cv:study}).
 The covariance estimation during resampling used $d=10$ samples.
 
 We evaluated the algorithm both with and without resampling for these first two case studies.
