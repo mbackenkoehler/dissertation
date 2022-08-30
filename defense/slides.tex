@@ -1,0 +1,129 @@
+\documentclass{beamer}
+\usetheme{default}
+
+
+\setbeamertemplate{footline}[frame number]
+
+\title{Analysis of Markovian Population Models}
+\subtitle{Dissertation Defense}
+\author{Michael Backenk\"{o}hler}
+\institute{Saarland Informatics Campus}
+\date{September 20, 2022}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{Motivation}
+    This is your first presentation!
+\end{frame}
+
+\begin{frame}{Markovian Population Models}{Semantics}
+  \begin{itemize}
+    \item counting agents / population size
+    \item continuous time
+    \item exponential jump times / CTMC dynamics
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Markovian Population Models}{Stationary Distribution}
+\end{frame}
+
+\begin{frame}{Markovian Population Models}{Moment Dynamics}
+  \begin{itemize}
+    \item Moment formula
+    \item Moment figure (distribution vs. Moments and SSA)
+    \item Analytic integration and resulting martingale process
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bounding Mean First-Passage Times}{Martingale Process and Linear Moment Constraints}
+  \begin{itemize}
+      \item expected occupation time and exit measures (in relation to expectation of the martingale)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bounding Mean First-Passage Times}{Moment Matrices and Semi-Definite Programs}
+  \begin{itemize}
+    \item semi-definite moment constraints (positive variance as example)
+    \item hint at localizing matrices
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bounding Mean First-Passage Times}{Results and Practical Issues}
+  \begin{itemize}
+    \item moment stiffness, re-scaling issue
+    \item some examples
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Bounding Mean First-Passage Times}{Hausdorff Constraints and Linear Programs}
+  \begin{itemize}
+    \item linear constraints possible if domains (time and space) are finite
+    \item 1D visualization of Hausdorff constraints
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Linear Control Variates}{Using Correlated RVs with Known Expected Value}
+  \begin{itemize}
+    \item segue: use the same martingale constraints to enhance MC estimation
+    \item use correlations between target RV and martingales (linear regression, i.e.\ control variates)
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Linear Control Variates}{Finding Efficient Sets of Control Variates}
+  \begin{itemize}
+    \item time-weighting has a large influence on the correlation
+    \item Infinitely many possibilities (cost needs to be controlled though)
+    \item variates can be highly redundant (correlated) and incur an additional cost
+    \item Alg.~1: Tighten an initial proposal set
+    \item Alg.~2: Re-sample promising candidates
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Linear Control Variates}{Results}
+  \begin{itemize}
+    \item best example?
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One}
+\end{frame}
+
+\begin{frame}{Stationary Distribution}{Finite-Space Projection}
+\end{frame}
+
+\begin{frame}{Stationary Distribution}{Iterative Refinement Algorithm}
+\end{frame}
+
+\begin{frame}{Bridging Problem}{Dynamical Analysis Under Initial \emph{and} Terminal Constraints}
+\end{frame}
+
+\begin{frame}{Conclusions and Future Directions}
+\end{frame}
+
+\begin{frame}{Bibliography}
+\end{frame}
+
+
+\begin{frame}{Foster-Lyapunov Functions}
+\end{frame}
+
+\begin{frame}{Local Augmentation of Foster-Lyapunov Functions}
+\end{frame}
+
+\begin{frame}{Control Variates in General}
+\end{frame}
+
+\begin{frame}{Control Variates Selection Algorithm 1}
+\end{frame}
+
+\begin{frame}{Control Variates Selection Algorithm 2}
+\end{frame}
+
+\begin{frame}{Semi-definite programming}
+\end{frame}
+
+\end{document}
