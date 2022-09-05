@@ -1,6 +1,25 @@
 \documentclass{beamer}
 \usetheme{default}
 
+\usepackage{graphicx}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\Var}{Var}
+\DeclareMathOperator*{\COV}{Cov}
+
+\newcommand{\expSym}{{E}}
+\newcommand{\E}[1]{\ensuremath{\expSym\left(#1\right)}}
+\newcommand{\prob}[1]{\ensuremath{\Pr\left(#1\right)}}
+\newcommand{\T}{T}
+\newcommand{\Cov}[2]{\ensuremath{\COV(#1, #2)}}
+
+\renewcommand{\vec}[1]{\ensuremath{#1}}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{multirow}
+\usepackage{mathtools}
 
 \setbeamertemplate{footline}[frame number]
 
@@ -17,7 +36,10 @@
 \end{frame}
 
 \begin{frame}{Motivation}
-    This is your first presentation!
+  \begin{itemize}
+    \item Example
+    \item list other applications: queueing, metabolic networks, switches etc.
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Markovian Population Models}{Semantics}
@@ -28,21 +50,58 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Markovian Population Models}{Stationary Distribution}
+\section{Markovian Population Models}
+\begin{frame}{Markovian Population Models}{Stationary Distribution -- Foster-Lyapunov Functions}
+    \begin{itemize}
+        \item ergodic chains converge to unique distribution
+        \item how does this distribution look like for infinite state-spaces?
+        \item use Foster-Lyapunov function to bound sets
+        \item locally augment functions for tighter sets / bounds
+    \end{itemize}
 \end{frame}
 
 \begin{frame}{Markovian Population Models}{Moment Dynamics}
   \begin{itemize}
+    \item alternative approach: look at moments instead of states
+    \item expected values, e.g. $\E{X}, \E{X^2}$
+    \begin{figure}
+        \centering
+    \includegraphics[scale=.4]{../gfx/momsandprobs.pdf}
+    \end{figure}
     \item Moment formula
-    \item Moment figure (distribution vs. Moments and SSA)
-    \item Analytic integration and resulting martingale process
+        \begin{equation*}
+            \frac{d}{dt}\E{f({\vec{ X}}_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
+            \vec{v}_j}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}
+        \end{equation*}
+    \item ODE system not closed
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Markovian Population Models}{Martingale Process}
+    \begin{itemize}
+    \item Analytic integration and resulting martingale process
+        \begin{equation*}
+            \begin{split}
+            Z_T\coloneqq&\,w(T)f(\vec X_T) - w(0)f(\vec X_{0}) -
+            \int_{0}^T\frac{dw(t)}{dt}f(\vec X_t)\,dt\\
+            &-\sum_{j=1}^{n_R}\int_{0}^Tw(t)
+                 (f(\vec X_t+\vec v_j) - f(\vec X_t))\alpha_j(\vec X_t)\,dt\,.
+         \end{split}
+        \end{equation*}
+    \item Crucially, $\E{Z_T}=0$, $\forall T\geq 0$.
+  \end{itemize}
+\end{frame}
+
+\section{Bounding Mean First-Passage Times}
 \begin{frame}{Bounding Mean First-Passage Times}{Martingale Process and Linear Moment Constraints}
   \begin{itemize}
       \item expected occupation time and exit measures (in relation to expectation of the martingale)
+      \item linear constraints connecting 3 measures (integrate moms and figure)
   \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[scale=.4]{../gfx/decomp1.pdf}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Bounding Mean First-Passage Times}{Moment Matrices and Semi-Definite Programs}
@@ -66,6 +125,7 @@
   \end{itemize}
 \end{frame}
 
+\section{Linear Control Variates}
 \begin{frame}{Linear Control Variates}{Using Correlated RVs with Known Expected Value}
   \begin{itemize}
     \item segue: use the same martingale constraints to enhance MC estimation
@@ -89,10 +149,57 @@
   \end{itemize}
 \end{frame}
 
+\section{State-Space Aggregation}
 \begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One}
+    \begin{columns}
+        \begin{column}{.4\textwidth}
+            \begin{figure}
+            \includegraphics[width=5cm]{../gfx/macro_states.pdf}
+            \end{figure}
+            \begin{figure}
+                \includegraphics[scale=.3]{../gfx/lumped_dist.pdf}
+            \end{figure}
+        \end{column}
+        \begin{column}{.6\textwidth}
+            \begin{itemize}
+                \item hyper-cube macro-states
+                \item \emph{assumption}: uniform dist.\ within
+                \item closed-form transition rates
+            \end{itemize}
+            \vspace{17mm}
+            \begin{itemize}
+                \item resulting distribution more ``flat''
+                \item locate main probability mass
+            \end{itemize}
+            \vspace{4mm}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Stationary Distribution}{Finite-Space Projection}
+    \begin{columns}
+        \begin{column}{.32\textwidth}
+            \begin{center}
+                original\\
+                \vspace{4mm}
+                \includegraphics[height=2cm]{../gfx/state_space_untrunc.pdf}
+            \end{center}
+        \end{column}
+        \begin{column}{.32\textwidth}
+            \begin{center}
+                sink state\\
+                \vspace{4mm}
+                \includegraphics[height=2cm]{../gfx/state_space_redirected.pdf}
+             \end{center}
+        \end{column}
+        \begin{column}{.32\textwidth}
+            \begin{center}
+                redirect\\
+                \vspace{4mm}
+                \includegraphics[height=2cm]{../gfx/state_space_reentry.pdf}
+            \end{center}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Stationary Distribution}{Iterative Refinement Algorithm}
@@ -101,6 +208,10 @@
 \begin{frame}{Bridging Problem}{Dynamical Analysis Under Initial \emph{and} Terminal Constraints}
 \end{frame}
 
+\begin{frame}{Importance Sampling}
+\end{frame}
+
+\section{Conclusion}
 \begin{frame}{Conclusions and Future Directions}
 \end{frame}
 
