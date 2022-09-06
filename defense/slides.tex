@@ -1,5 +1,12 @@
 \documentclass{beamer}
-\usetheme{default}
+%\usepackage[osf,sc]{mathpazo}
+\usepackage{eulervm}
+\usepackage[backend=biber,style=authoryear-comp,sorting=none]{biblatex}
+\addbibresource{../Bibliography.bib}
+\usetheme{boxes}
+\usecolortheme{rose}
+%\usefonttheme{serif}
+\setbeamertemplate{navigation symbols}{}
 
 \usepackage{graphicx}
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -47,6 +54,7 @@
     \item counting agents / population size
     \item continuous time
     \item exponential jump times / CTMC dynamics
+    \item example: birth-death process
   \end{itemize}
 \end{frame}
 
@@ -79,16 +87,17 @@
 
 \begin{frame}{Markovian Population Models}{Martingale Process}
     \begin{itemize}
-    \item Analytic integration and resulting martingale process
+    \item analytic integration and resulting martingale process
         \begin{equation*}
             \begin{split}
             Z_T\coloneqq&\,w(T)f(\vec X_T) - w(0)f(\vec X_{0}) -
             \int_{0}^T\frac{dw(t)}{dt}f(\vec X_t)\,dt\\
             &-\sum_{j=1}^{n_R}\int_{0}^Tw(t)
-                 (f(\vec X_t+\vec v_j) - f(\vec X_t))\alpha_j(\vec X_t)\,dt\,.
+                 (f(\vec X_t+\vec v_j) - f(\vec X_t))\alpha_j(\vec X_t)\,dt
          \end{split}
         \end{equation*}
-    \item Crucially, $\E{Z_T}=0$, $\forall T\geq 0$.
+    \item time-weighting: $w(t)=t^k$, $k\in\mathbb{N}$ or $w(t)=\exp(\lambda t)$
+    \item known expectation: $\E{Z_T}=0$, $\forall T\geq 0$
   \end{itemize}
 \end{frame}
 
@@ -96,12 +105,12 @@
 \begin{frame}{Bounding Mean First-Passage Times}{Martingale Process and Linear Moment Constraints}
   \begin{itemize}
       \item expected occupation time and exit measures (in relation to expectation of the martingale)
-      \item linear constraints connecting 3 measures (integrate moms and figure)
-  \end{itemize}
     \begin{figure}
         \centering
         \includegraphics[scale=.4]{../gfx/decomp1.pdf}
     \end{figure}
+    \item $0=\E{ Z_T }$ is a linear moment constraint constraint on $\nu_1$, $\nu_2$, and $\xi$ ($w(t)=t^k$) (TODO: integrate moms and figure)
+  \end{itemize}
 \end{frame}
 
 \begin{frame}{Bounding Mean First-Passage Times}{Moment Matrices and Semi-Definite Programs}
@@ -143,6 +152,9 @@
   \end{itemize}
 \end{frame}
 
+\begin{frame}{Linear Control Variates}{Selection Algorithms}
+\end{frame}
+
 \begin{frame}{Linear Control Variates}{Results}
   \begin{itemize}
     \item best example?
@@ -150,7 +162,7 @@
 \end{frame}
 
 \section{State-Space Aggregation}
-\begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One}
+\begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One \parencite{backenkohler2020analysis,backenkohler2021abstraction}}
     \begin{columns}
         \begin{column}{.4\textwidth}
             \begin{figure}
@@ -178,47 +190,94 @@
 
 \begin{frame}{Stationary Distribution}{Finite-Space Projection}
     \begin{columns}
-        \begin{column}{.32\textwidth}
-            \begin{center}
-                original\\
-                \vspace{4mm}
+        \begin{column}{.30\textwidth}
+            \begin{block}{Original}
+                \centering
+                \vspace{3mm}
                 \includegraphics[height=2cm]{../gfx/state_space_untrunc.pdf}
-            \end{center}
+                {\small
+                \begin{itemize}
+                    \item infinite
+                \end{itemize}
+                }
+            \end{block}
         \end{column}
-        \begin{column}{.32\textwidth}
-            \begin{center}
-                sink state\\
-                \vspace{4mm}
+        \begin{column}{.30\textwidth}
+            \begin{block}{Sink state}
+                \centering
+                \vspace{3mm}
                 \includegraphics[height=2cm]{../gfx/state_space_redirected.pdf}
-             \end{center}
+                {\small
+                \begin{itemize}
+                    \item transient analysis
+                    \item keep track of approx.\ error
+                \end{itemize}
+                }
+            \end{block}
         \end{column}
-        \begin{column}{.32\textwidth}
-            \begin{center}
-                redirect\\
-                \vspace{4mm}
+        \begin{column}{.30\textwidth}
+            \begin{block}{Redirection}
+                \centering
+                \vspace{3mm}
                 \includegraphics[height=2cm]{../gfx/state_space_reentry.pdf}
-            \end{center}
+                {\small
+                \begin{itemize}
+                    \item stationary dist.
+                    \item dependent on redirection
+                \end{itemize}
+                }
+            \end{block}
         \end{column}
     \end{columns}
 \end{frame}
 
 \begin{frame}{Stationary Distribution}{Iterative Refinement Algorithm}
+    A simple refinement based on approximate solutions:
+    \begin{enumerate}
+        \item start with macro-states of size $2^k$
+        \item\label{itm:approx} compute approximate distribution
+        \item remove states with low probability
+        \item split the remaining states
+        \item go to step \ref{itm:approx}
+    \end{enumerate}
+    \begin{figure}
+        \includegraphics[width=8cm]{../gfx/bd_truncs.pdf}
+    \end{figure}
 \end{frame}
 
 \begin{frame}{Bridging Problem}{Dynamical Analysis Under Initial \emph{and} Terminal Constraints}
+    \begin{figure}
+        \includegraphics[width=7cm]{../gfx/bridging_bd.pdf}
+    \end{figure}
+    \begin{block}{Forward Probabilities}
+        How the process evolves with time: $\Pr({X_t=x\mid X_0=0})$
+    \end{block}
+    \begin{block}{Backward Probabilities}
+        Probability of ending up in a given state: $\Pr(X_T=40 \mid X_t = x)$
+    \end{block}
+    \begin{block}{Bridging Probabilities}
+        In between: $\Pr (X_t=x\mid X_0=0, X_T=40)$
+    \end{block}
+\end{frame}
+
+\begin{frame}{Bridging Problem}{Refinement}
 \end{frame}
 
 \begin{frame}{Importance Sampling}
+    
 \end{frame}
 
 \section{Conclusion}
 \begin{frame}{Conclusions and Future Directions}
 \end{frame}
 
-\begin{frame}{Bibliography}
+\begin{frame}[allowframebreaks]
+    \frametitle{References}
+%        \bibliographystyle{amsalpha}
+    \printbibliography
 \end{frame}
 
-
+\iffalse
 \begin{frame}{Foster-Lyapunov Functions}
 \end{frame}
 
@@ -236,5 +295,6 @@
 
 \begin{frame}{Semi-definite programming}
 \end{frame}
+\fi
 
 \end{document}
