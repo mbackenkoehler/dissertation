@@ -1,6 +1,8 @@
 \documentclass{beamer}
 %\usepackage[osf,sc]{mathpazo}
 \usepackage{eulervm}
+\usepackage{tikz}
+\usetikzlibrary{arrows,shapes,backgrounds}
 \usepackage[backend=biber,style=authoryear-comp,sorting=none]{biblatex}
 \addbibresource{../Bibliography.bib}
 \usetheme{boxes}
@@ -19,6 +21,7 @@
 \newcommand{\prob}[1]{\ensuremath{\Pr\left(#1\right)}}
 \newcommand{\T}{T}
 \newcommand{\Cov}[2]{\ensuremath{\COV(#1, #2)}}
+\newcommand{\bottomcite}[1]{\vspace*{\fill} {\scriptsize \parencite{#1}}}
 
 \renewcommand{\vec}[1]{\ensuremath{#1}}
 
@@ -37,6 +40,9 @@
 \date{September 20, 2022}
 
 \begin{document}
+
+\tikzstyle{every picture}+=[remember picture]
+\tikzstyle{na} = [baseline=-.5ex]
 
 \begin{frame}
 \titlepage
@@ -87,6 +93,7 @@
 
 \begin{frame}{Markovian Population Models}{Martingale Process}
     \begin{itemize}
+    \item multiply time-weighting: $w(t)=t^k$, $k\in\mathbb{N}$ or $w(t)=\exp(\lambda t)$
     \item analytic integration and resulting martingale process
         \begin{equation*}
             \begin{split}
@@ -96,7 +103,6 @@
                  (f(\vec X_t+\vec v_j) - f(\vec X_t))\alpha_j(\vec X_t)\,dt
          \end{split}
         \end{equation*}
-    \item time-weighting: $w(t)=t^k$, $k\in\mathbb{N}$ or $w(t)=\exp(\lambda t)$
     \item known expectation: $\E{Z_T}=0$, $\forall T\geq 0$
   \end{itemize}
 \end{frame}
@@ -111,6 +117,8 @@
     \end{figure}
     \item $0=\E{ Z_T }$ is a linear moment constraint constraint on $\nu_1$, $\nu_2$, and $\xi$ ($w(t)=t^k$) (TODO: integrate moms and figure)
   \end{itemize}
+
+\bottomcite{backenkohler2019bounding}
 \end{frame}
 
 \begin{frame}{Bounding Mean First-Passage Times}{Moment Matrices and Semi-Definite Programs}
@@ -118,13 +126,16 @@
     \item semi-definite moment constraints (positive variance as example)
     \item hint at localizing matrices
   \end{itemize}
+\bottomcite{backenkohler2019bounding}
 \end{frame}
 
 \begin{frame}{Bounding Mean First-Passage Times}{Results and Practical Issues}
   \begin{itemize}
-    \item moment stiffness, re-scaling issue
+    \item moment problems are inherently stiff
+    \item 
     \item some examples
   \end{itemize}
+\bottomcite{backenkohler2019bounding}
 \end{frame}
 
 \begin{frame}{Bounding Mean First-Passage Times}{Hausdorff Constraints and Linear Programs}
@@ -136,10 +147,21 @@
 
 \section{Linear Control Variates}
 \begin{frame}{Linear Control Variates}{Using Correlated RVs with Known Expected Value}
-  \begin{itemize}
-    \item segue: use the same martingale constraints to enhance MC estimation
-    \item use correlations between target RV and martingales (linear regression, i.e.\ control variates)
-  \end{itemize}
+    \begin{columns}
+        \begin{column}{.6\textwidth}
+          \begin{itemize}
+            \item segue: use the same martingale constraints to enhance MC estimation
+            \item $\E{X_T}=\E{X_T}+b\E{Z_T}$
+            \item use correlations between target RV and martingales (linear regression, i.e.\ control variates)
+          \end{itemize}
+        \end{column}
+        \begin{column}{.38\textwidth}
+            \begin{figure}
+                \includegraphics[width=\textwidth]{../gfx/reduction.pdf}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    \bottomcite{backenkohler2019control}
 \end{frame}
 
 \begin{frame}{Linear Control Variates}{Finding Efficient Sets of Control Variates}
@@ -150,6 +172,7 @@
     \item Alg.~1: Tighten an initial proposal set
     \item Alg.~2: Re-sample promising candidates
   \end{itemize}
+    \bottomcite{backenkohler2019control,backenkohler2021variance}
 \end{frame}
 
 \begin{frame}{Linear Control Variates}{Selection Algorithms}
@@ -162,7 +185,7 @@
 \end{frame}
 
 \section{State-Space Aggregation}
-\begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One \parencite{backenkohler2020analysis,backenkohler2021abstraction}}
+\begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One}
     \begin{columns}
         \begin{column}{.4\textwidth}
             \begin{figure}
@@ -186,6 +209,7 @@
             \vspace{4mm}
         \end{column}
     \end{columns}
+    \bottomcite{backenkohler2020analysis,backenkohler2021abstraction}
 \end{frame}
 
 \begin{frame}{Stationary Distribution}{Finite-Space Projection}
@@ -243,6 +267,7 @@
     \begin{figure}
         \includegraphics[width=8cm]{../gfx/bd_truncs.pdf}
     \end{figure}
+    \bottomcite{backenkohler2020analysis,backenkohler2021abstraction}
 \end{frame}
 
 \begin{frame}{Bridging Problem}{Dynamical Analysis Under Initial \emph{and} Terminal Constraints}
@@ -258,9 +283,11 @@
     \begin{block}{Bridging Probabilities}
         In between: $\Pr (X_t=x\mid X_0=0, X_T=40)$
     \end{block}
+    \bottomcite{backenkohler2020analysis}
 \end{frame}
 
 \begin{frame}{Bridging Problem}{Refinement}
+    \bottomcite{backenkoehler2020analysis}
 \end{frame}
 
 \begin{frame}{Importance Sampling}
