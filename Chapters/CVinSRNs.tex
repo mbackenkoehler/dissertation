@@ -969,11 +969,11 @@ We discuss \autoref{alg:splitting:lcv} in more detail below.
      $P^*=\emptyset$\;
      \While{$\exists i:
         (m_i, \lambda_i)\in P_{\text{all}}\setminus P^*\land$\\
-        \hspace{4em}$\hat{\gamma}_{iv} \prod_{j=1;(m_j, \lambda_j)\notin P^*}^{\left|P_{\text{all}}\right|}
+        \hspace{4em}$\hat{\gamma}_{iv} \prod_{j=1;(m_j, \lambda_j)\in P^*}^{\left|P_{\text{all}}\right|}
         \hat{\gamma}_{ij}^{-1}
         >\epsilon$\tcc*[r]{selection}\label{line:resampling:selection_loop}}{
         $k \leftarrow \argmax_i \hat{\gamma}_{iv}
-        \prod_{j=1;(m_j, \lambda_j)\notin P^*}^{\left|P_{\text{all}}\right|}
+        \prod_{j=1;(m_j, \lambda_j)\in P^*}^{\left|P_{\text{all}}\right|}
         \hat{\gamma}_{ij}^{-1}$\label{line:resampling:selection}\;
         $P^*\leftarrow P^* \cup
             \{(m_k,\lambda_k)\}$\;
@@ -1023,7 +1023,7 @@ Therefore we choose the most promising candidate given a selection $P^{*}$ as
 \begin{equation}
 \argmax_{1\leq i \leq \left|P_{\text{all}}\right|}
 \hat{\gamma}_{iv}
-    \prod_{\substack{1\leq j\leq {\left|P_{\text{all}}\right|}\\(m_j, \lambda_j)\notin P^*}}
+    \prod_{\substack{1\leq j\leq {\left|P_{\text{all}}\right|}\\(m_j, \lambda_j)\in P^*}}
     \hat{\gamma}_{ij}^{-1}
 \end{equation}
 in \autoref{line:resampling:selection}.
