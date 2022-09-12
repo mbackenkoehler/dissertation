@@ -1,11 +1,25 @@
-\documentclass{beamer}
+\documentclass[10pt]{beamer}
 %\usepackage[osf,sc]{mathpazo}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{units}
+\usepackage{mathtools}
+\usepackage{xmpmulti}
+\usepackage{animate}
 \usepackage{eulervm}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,backgrounds}
-\usepackage[backend=biber,style=authoryear-comp,sorting=none]{biblatex}
+\usetikzlibrary{arrows,shapes,backgrounds,arrows.meta,calc}
+\tikzset{%
+  >={Latex[width=2mm,length=2mm]},
+  % Specifications for style of nodes:
+            base/.style = {rectangle, rounded corners, draw=black,
+                           minimum width=35mm, minimum height=5mm,
+                           text centered, font=\sffamily}
+                           }
+\usepackage[backend=biber,style=alphabetic,sorting=none]{biblatex}
 \addbibresource{../Bibliography.bib}
 \usetheme{boxes}
+\usefonttheme{professionalfonts}
 \usecolortheme{rose}
 %\usefonttheme{serif}
 \setbeamertemplate{navigation symbols}{}
@@ -23,7 +37,7 @@
 \newcommand{\Cov}[2]{\ensuremath{\COV(#1, #2)}}
 \newcommand{\bottomcite}[1]{\vspace*{\fill} {\scriptsize \parencite{#1}}}
 
-\renewcommand{\vec}[1]{\ensuremath{#1}}
+%\renewcommand{\vec}[1]{\ensuremath{#1}}
 
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -50,24 +64,56 @@
 
 \begin{frame}{Motivation}
   \begin{itemize}
-    \item Example
-    \item list other applications: queueing, metabolic networks, switches etc.
+    \item stochastic concentration changes
+    \item systems biology: switches, 
+    \item applications: queueing, metabolic networks, switches etc.
+    \item goal: do \emph{rigorous} analysis on such models
   \end{itemize}
 \end{frame}
 
 \begin{frame}{Markovian Population Models}{Semantics}
-  \begin{itemize}
-    \item counting agents / population size
-    \item continuous time
-    \item exponential jump times / CTMC dynamics
-    \item example: birth-death process
-  \end{itemize}
+    \begin{columns}
+        \begin{column}{.4\textwidth}
+            \centering
+            \includegraphics[width=3cm]{../gfx/populations.pdf}
+            \vspace{-5mm}
+            \[\underbrace{\quad\hspace{3cm}\quad}_{\textstyle (\,\underset{\includegraphics[width=2mm]{../gfx/square.pdf}}{4}, \underset{\includegraphics[width=3mm]{../gfx/triangle.pdf}}{5}\,)}\]
+            \includegraphics[width=3cm]{../gfx/reaction.pdf}
+        \end{column}
+        \begin{column}{.58\textwidth}
+            \begin{itemize}
+                \item state space $\sim$ population sizes
+                \item often huge to infinite
+            \end{itemize}
+            \vspace{3cm}
+            \begin{itemize}
+                \item continuous time
+                \item exponential jump times / CTMC dynamics
+            \end{itemize}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \section{Markovian Population Models}
 \begin{frame}{Markovian Population Models}{Stationary Distribution -- Foster-Lyapunov Functions}
     \begin{itemize}
-        \item ergodic chains converge to unique distribution
+        \item ergodic chains converge to unique distribution ($t\to\infty$)
+    \begin{figure}
+        \begin{exampleblock}{Example}
+        \begin{columns}
+            \begin{column}{.05\paperwidth}\end{column}
+            \begin{column}{.33\paperwidth}
+                \vspace{-5mm}
+                $$ {\scriptstyle X\xrightarrow{0.1\cdot \#X} \varnothing, \quad \alpha_1(x)=0.1 x } $$
+                $$ {\scriptstyle \varnothing\xrightarrow{10} X, \quad \alpha_2(x) = 10 } $$
+                \vfill
+            \end{column}
+            \begin{column}{.6\paperwidth}
+                \includegraphics[width=6cm]{../gfx/stationary_dist.pdf}
+            \end{column}
+        \end{columns}
+        \end{exampleblock}
+    \end{figure}
         \item how does this distribution look like for infinite state-spaces?
         \item use Foster-Lyapunov function to bound sets
         \item locally augment functions for tighter sets / bounds
@@ -75,21 +121,23 @@
 \end{frame}
 
 \begin{frame}{Markovian Population Models}{Moment Dynamics}
-  \begin{itemize}
-    \item alternative approach: look at moments instead of states
-    \item expected values, e.g. $\E{X}, \E{X^2}$
+  %\begin{itemize}
+    %\item expected values, e.g. $\E{X}, \E{X^2}$
     \begin{figure}
         \centering
-    \includegraphics[scale=.4]{../gfx/momsandprobs.pdf}
+    \includegraphics[scale=.45]{../gfx/momsandprobs.pdf}
     \end{figure}
-    \item Moment formula
+          \begin{block}{Moment formula}
+              Moments such as mean $\E{X_t}$ and variance $\E{X_t^2}-\E{X_t}^2$ are described by (often {linear}) ODEs.
         \begin{equation*}
             \frac{d}{dt}\E{f({\vec{ X}}_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
             \vec{v}_j}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}
         \end{equation*}
-    \item ODE system not closed
-  \end{itemize}
+          \end{block}
+    %\item ODE system usually not closed
+  %\end{itemize}
 \end{frame}
+% typically closed by MC, but can be forgone if not integration is desired
 
 \begin{frame}{Markovian Population Models}{Martingale Process}
     \begin{itemize}
@@ -108,74 +156,243 @@
 \end{frame}
 
 \section{Bounding Mean First-Passage Times}
-\begin{frame}{Bounding Mean First-Passage Times}{Martingale Process and Linear Moment Constraints}
-  \begin{itemize}
-      \item expected occupation time and exit measures (in relation to expectation of the martingale)
-    \begin{figure}
-        \centering
-        \includegraphics[scale=.4]{../gfx/decomp1.pdf}
-    \end{figure}
-    \item $0=\E{ Z_T }$ is a linear moment constraint constraint on $\nu_1$, $\nu_2$, and $\xi$ ($w(t)=t^k$) (TODO: integrate moms and figure)
-  \end{itemize}
+\begin{frame}{Bounding Mean First-Passage Times}{Linear Moment Constraints}
+    \begin{columns}
+        \begin{column}{.4\paperwidth}
+            \vspace{1cm}
+            \includegraphics[scale=.4]{../gfx/decomp1.pdf}
+        \end{column}
+        \begin{column}{.45\paperwidth}
+            \begin{itemize}
+                \item $\tau=\inf\{X_t \geq H \mid t\geq 0\}\land T$
+                \item exp.\ occupation measure $\xi$
+                \item exit location measures $\nu_1$, $\nu_2$
+            \end{itemize}
+        \end{column}
+    \end{columns}
 
+\begin{multline*}\label{eq:model_constraints}
+    0 = \E{Z_T} = T^k\overbrace{\E{X_{\tau}^m;\tau=T}}^{\nu_1} + H^m\overbrace{\E{{\tau}^k;\tau < T, X_{\tau}=H}}^{\nu_2}\\
+ 	- 0^kx_0^{m}
+ 	% - k \E{\int_{0}^{\tau} t^{k-1} \vec X_t^m\,dt}
+    + \sum_{i}c_i\underbrace{\E{\int_{0}^{\tau} t^{k_i}X_t^{m_i}\,dt}}_{\xi}
+\end{multline*}
+    %\begin{itemize}
+        %\item $0=\E{ Z_T }$ is a linear moment constraint constraint on $\nu_1$, $\nu_2$, and $\xi$ ($w(t)=t^k$) (TODO: integrate moms and figure)
+    %\end{itemize}
 \bottomcite{backenkohler2019bounding}
 \end{frame}
 
-\begin{frame}{Bounding Mean First-Passage Times}{Moment Matrices and Semi-Definite Programs}
+\begin{frame}{Bounding Mean First-Passage Times}{Moment Matrices}
+  %\begin{itemize}
+    %\item semi-definite moment constraints (positive variance as example)
+    %\item hint at localizing matrices
+  %\end{itemize}
+    \begin{block}{Moment Matrices}
+    The \emph{moment matrix} mus be \emph{positive semi-definite}.
+    \[
+        \E{\begin{matrix}
+            X^0 & X^1 & X^2 & \dots & X^n \\
+            X^1 & X^2 & \ddots & \ddots & \vdots \\
+            \vdots & \ddots & \ddots & \ddots & \vdots \\
+            X^n & X^{n+1} & \dots & \dots & X^{2n}
+        \end{matrix}}\succeq 0 \,,
+    \]
+        where $M\succeq 0$ iff.\ $\forall v \in \mathbb{R}^n. v^T M v\geq 0$.
+    \end{block}
+          \begin{exampleblock}{Example}
+              Let
+              $M=\left(\begin{matrix} 1 & \E{X} \\
+              \E{X} & \E{X^2} \end{matrix}\right)$. Then $\det M = \E{X^2}-\E{X}^2 = \sigma^2 \geq 0$.
+%By \emph{Sylvester's criterion} $M\succeq 0$ iff.\ $\det M \geq 0$. Clearly, $\det M = \E{X^2}-\E{X}^2 = \sigma^2 \geq 0$.
+          \end{exampleblock}
+\bottomcite{backenkohler2019bounding}
+\end{frame}
+
+\begin{frame}{Bounding Mean First-Passage Times}{Semi-Definite Program}
   \begin{itemize}
-    \item semi-definite moment constraints (positive variance as example)
-    \item hint at localizing matrices
+    \item measure support can be restricted using semi-definite constraints
+    \item resulting SDPs can be solved using off-the-shelf software.
+    \begin{block}{Semi-Definite Program (SDP)}
+        An optimization problem with
+        \begin{enumerate}
+            \item \emph{linear constraints} on moments and
+            \item \emph{positive semi-definite constraints} on certain matrices.
+        \end{enumerate}
+    \end{block}
+    \item alternative: linear \emph{Hausdorff constraints} instead of semi-definite constraints
+        \[\int_{[0,1]^{\vec n}}{\vec x}^{\vec\ell}{(1-\vec x)}^{\vec k}\,d\mu(\vec x)\geq 0\]
+  %\begin{itemize}
+    %\item linear constraints possible if domains (time and space) are finite
+    %\item 1D visualization of Hausdorff constraints
+  %\end{itemize}
   \end{itemize}
 \bottomcite{backenkohler2019bounding}
 \end{frame}
 
-\begin{frame}{Bounding Mean First-Passage Times}{Results and Practical Issues}
-  \begin{itemize}
-    \item moment problems are inherently stiff
-    \item 
-    \item some examples
-  \end{itemize}
+\begin{frame}{Bounding Mean First-Passage Times}{Results}
+    \begin{columns}
+        \begin{column}{.33\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/mfpt_bounds.pdf}
+        \end{column}
+        \begin{column}{.57\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/convergence.pdf}
+        \end{column}
+    \end{columns}
+    \vspace{2em}
+    \begin{itemize}
+        \item fast convergence of bounds with increasing order
+        \item numerically challenging (inherent stiffness)
+    \end{itemize}
 \bottomcite{backenkohler2019bounding}
-\end{frame}
-
-\begin{frame}{Bounding Mean First-Passage Times}{Hausdorff Constraints and Linear Programs}
-  \begin{itemize}
-    \item linear constraints possible if domains (time and space) are finite
-    \item 1D visualization of Hausdorff constraints
-  \end{itemize}
 \end{frame}
 
 \section{Linear Control Variates}
 \begin{frame}{Linear Control Variates}{Using Correlated RVs with Known Expected Value}
     \begin{columns}
-        \begin{column}{.6\textwidth}
-          \begin{itemize}
-            \item segue: use the same martingale constraints to enhance MC estimation
-            \item $\E{X_T}=\E{X_T}+b\E{Z_T}$
-            \item use correlations between target RV and martingales (linear regression, i.e.\ control variates)
-          \end{itemize}
+        \begin{column}{.45\paperwidth}
+            \centering
+                \includegraphics[width=.6\textwidth]{../gfx/correlation.pdf}
+                \includegraphics[width=.38\textwidth]{../gfx/reduction.pdf}
+        %\begin{column}{.6\textwidth}
+          %\begin{itemize}
+            %\item segue: use the same martingale constraints to enhance MC estimation
+            %\item $\E{X_T}=\E{X_T}+b\E{Z_T}$
+            %\item use correlations between target RV and martingales (linear regression, i.e.\ control variates)
+          %\end{itemize}
         \end{column}
-        \begin{column}{.38\textwidth}
-            \begin{figure}
-                \includegraphics[width=\textwidth]{../gfx/reduction.pdf}
-            \end{figure}
+        \begin{column}{.54\paperwidth}
+            \begin{itemize}
+                \item improve MC estimates using $Z_T$
+                \item use correlations between $Z_T$ and $X_T$
+                \item $\E{X_T + b Z_T}$ instead of $\E{X_T}$ (recall $\E{Z_T}=0$)
+            \end{itemize}
         \end{column}
     \end{columns}
+        \begin{block}{Linear Control Variates}
+            Given a control variate vector $\vec{Z}$, the estimator
+            \[\hat{V} -({\hat\Sigma_{ \vec{Z}}}^{-1}{\hat\Sigma}_{ \vec{Z} V})^{\T}{\hat{\vec{Z}}} \]
+            has lower or equal variance as $\hat{V}$.
+        \end{block}
     \bottomcite{backenkohler2019control}
 \end{frame}
 
-\begin{frame}{Linear Control Variates}{Finding Efficient Sets of Control Variates}
-  \begin{itemize}
-    \item time-weighting has a large influence on the correlation
-    \item Infinitely many possibilities (cost needs to be controlled though)
-    \item variates can be highly redundant (correlated) and incur an additional cost
-    \item Alg.~1: Tighten an initial proposal set
-    \item Alg.~2: Re-sample promising candidates
-  \end{itemize}
+\begin{frame}{Linear Control Variates}{Efficiency Trade-off}
+    \begin{columns}
+        \begin{column}{.5\textwidth}
+            \begin{block}{cost: slowdown}
+                \vspace{1ex}
+                \begin{center}
+                    \scalebox{1.7}{$ \nicefrac{c_{\text{old}}}{c_{\text{new}}} $}
+                \end{center}
+                \begin{itemize}
+                    \item computing $\int_{0}^T w(t)X_t^m\,dt$
+                    \item computing the estimate
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \begin{block}{benefit: variance reduction}
+                \vspace{1ex}
+                \begin{center}
+                    \scalebox{1.7}{$ \nicefrac{\sigma^2_{\text{new}}}{\sigma^2_{\text{old}}} $}
+                \end{center}
+                \begin{itemize}
+                    \item highly correlated variates
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+    \vspace{1em}
+        Approach: Assess correlations between $k$ candidates and the target RV $V$
+        \[
+\begin{bmatrix}
+1 & \dots & \rho_{1k} & \rho_{1v} \\
+\vdots & \ddots & \vdots & \vdots \\
+\rho_{k1} & \dots & 1 & \rho_{kv} \\
+\rho_{v1} & \dots & \rho_{vk} & 1
+\end{bmatrix}\,.
+        \]
+  %\begin{itemize}
+    %\item time-weighting has a large influence on the correlation
+    %\item Infinitely many possibilities (cost needs to be controlled though)
+    %\item variates can be highly redundant (correlated) and incur an additional cost
+    %\item Alg.~1: Tighten an initial proposal set
+    %\item Alg.~2: Re-sample promising candidates
+  %\end{itemize}
     \bottomcite{backenkohler2019control,backenkohler2021variance}
 \end{frame}
 
-\begin{frame}{Linear Control Variates}{Selection Algorithms}
+\begin{frame}{Linear Control Variates}{Selection by Filtering}
+    \begin{columns}
+       \begin{column}{.4\textwidth}
+            \begin{block}{Algorithm 1}
+                \begin{figure}
+                \begin{tikzpicture}[node distance=1.8cm,
+                every node/.style={fill=white, font=\sffamily}, align=center]
+                    \node (initial) [base]                    {\footnotesize  sample candidate set };
+                    \node (pilot)   [base, below of=initial]  {\footnotesize  perform pilot runs };
+                    \node (filter)  [base, below of=pilot]    {\footnotesize  filter candidates };
+                    \node (mc)      [base, below of=filter]   {\footnotesize  MC/LCV estimation};
+
+                    \draw[->]  (initial) -- (pilot);
+                    \draw[->]  (pilot)   to[out=315, in=60] (filter);
+                    \draw[->]  (filter)  to[out=135, in=240] (pilot);
+                    \draw[->]  (filter)  -- (mc);
+
+                    \draw[thick] ($(pilot.north west)+(-0.3,0.6)$)  rectangle ($(filter.south east)+(0.3,-0.6)$);
+
+                    %\node (label) [above of=pilot, xshift=.2, yshift=.5] { $k$ iterations };
+                \end{tikzpicture}
+                \end{figure}
+            \end{block}
+        \end{column}
+        \begin{column}{.55\textwidth}
+            Filter criteria:
+            \begin{enumerate}
+                \item low target correlation
+                    \[ \rho_{iv} < \max \left(0.1, \frac{\max_j \rho_{jv}}{k_{\min}}\right) \]
+                \item redundancy criterion
+            \end{enumerate}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Linear Control Variates}{Selection by Resampling}
+    \begin{columns}
+       \begin{column}{.4\textwidth}
+            \begin{block}{Algorithm 2}
+                \begin{figure}
+                \begin{tikzpicture}[node distance=1.3cm,
+                every node/.style={fill=white, font=\sffamily}, align=center]
+                    \node (initial) [base]                    {\footnotesize  sample candidate set };
+                    \node (pilot)   [base, below of=initial]  {\footnotesize  perform pilot runs };
+                    \node (filter)  [base, below of=pilot]    {\footnotesize  resample candidates };
+                    \node (greedy)  [base, below of=filter]   {\footnotesize  greedy selection };
+                    \node (mc)      [base, below of=greedy]   {\footnotesize  MC/LCV estimation};
+
+                    \draw[->]  (initial) -- (pilot);
+                    \draw[->]  (pilot)   to[out=315, in=60] (filter);
+                    \draw[->]  (filter)  to[out=135, in=240] (pilot);
+                    \draw[->]  (filter)  -- (greedy);
+                    \draw[->]  (greedy)  -- (mc);
+
+                    \draw[thick] ($(pilot.north west)+(-0.3,0.4)$)  rectangle ($(filter.south east)+(0.3,-0.4)$);
+
+                    %\node (label) [above of=pilot, xshift=.2, yshift=.5] { $k$ iterations };
+                \end{tikzpicture}
+                \end{figure}
+            \end{block}
+        \end{column}
+        \begin{column}{.55\textwidth}
+            Filter criteria:
+            \begin{enumerate}
+                \item low target correlation
+                    \[ \rho_{iv} < \max \left(0.1, \frac{\max_j \rho_{jv}}{k_{\min}}\right) \]
+                \item redundancy criterion
+            \end{enumerate}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \begin{frame}{Linear Control Variates}{Results}
@@ -185,34 +402,7 @@
 \end{frame}
 
 \section{State-Space Aggregation}
-\begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One}
-    \begin{columns}
-        \begin{column}{.4\textwidth}
-            \begin{figure}
-            \includegraphics[width=5cm]{../gfx/macro_states.pdf}
-            \end{figure}
-            \begin{figure}
-                \includegraphics[scale=.3]{../gfx/lumped_dist.pdf}
-            \end{figure}
-        \end{column}
-        \begin{column}{.6\textwidth}
-            \begin{itemize}
-                \item hyper-cube macro-states
-                \item \emph{assumption}: uniform dist.\ within
-                \item closed-form transition rates
-            \end{itemize}
-            \vspace{17mm}
-            \begin{itemize}
-                \item resulting distribution more ``flat''
-                \item locate main probability mass
-            \end{itemize}
-            \vspace{4mm}
-        \end{column}
-    \end{columns}
-    \bottomcite{backenkohler2020analysis,backenkohler2021abstraction}
-\end{frame}
-
-\begin{frame}{Stationary Distribution}{Finite-Space Projection}
+\begin{frame}{Finite-Space Projection}
     \begin{columns}
         \begin{column}{.30\textwidth}
             \begin{block}{Original}
@@ -255,6 +445,33 @@
     \end{columns}
 \end{frame}
 
+\begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One}
+    \begin{columns}
+        \begin{column}{.4\textwidth}
+            \begin{figure}
+            \includegraphics[width=5cm]{../gfx/macro_states.pdf}
+            \end{figure}
+            \begin{figure}
+                \includegraphics[width=50mm]{../gfx/lumpedvorig.pdf}
+            \end{figure}
+        \end{column}
+        \begin{column}{.6\textwidth}
+            \begin{itemize}
+                \item hyper-cube macro-states
+                \item \emph{assumption}: uniform dist.\ within
+                \item closed-form transition rates
+            \end{itemize}
+            \vspace{17mm}
+            \begin{itemize}
+                \item resulting distribution more ``flat''
+                \item locate main probability mass
+            \end{itemize}
+            \vspace{4mm}
+        \end{column}
+    \end{columns}
+    \bottomcite{backenkohler2020analysis,backenkohler2021abstraction}
+\end{frame}
+
 \begin{frame}{Stationary Distribution}{Iterative Refinement Algorithm}
     A simple refinement based on approximate solutions:
     \begin{enumerate}
@@ -287,7 +504,13 @@
 \end{frame}
 
 \begin{frame}{Bridging Problem}{Refinement}
-    \bottomcite{backenkoehler2020analysis}
+    \begin{itemize}
+        \item Show that bridge=forward*backwards
+    \end{itemize}
+
+        %\transduration<0-16>{0.1}
+        %\multiinclude[<+->][format=jpg, graphics={width=\textwidth}]{../gfx/bridge_anim/bridge}
+    %\noindent\animategraphics[loop,width=\textwidth,autoplay]{10}{../gfx/bridge_anim/bridge-}{0}{99}
 \end{frame}
 
 \begin{frame}{Importance Sampling}
@@ -295,7 +518,18 @@
 \end{frame}
 
 \section{Conclusion}
-\begin{frame}{Conclusions and Future Directions}
+\begin{frame}{Contributions}
+    \begin{itemize}
+        \item local augmentation of Foster-Lyapunov functions
+        \item bounding of mean first-passage times \parencite{backenkohler2019bounding}
+        \item variance reduction for MC estimation \parencite{backenkohler2019control,backenkohler2021variance}
+        \item state-space aggregation scheme
+            \begin{itemize}
+                \item stationary distribution \parencite{backenkohler2021abstraction}
+                \item bridging distribution \parencite{backenkohler2020analysis}
+                \item importance sampling
+            \end{itemize}
+    \end{itemize}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
