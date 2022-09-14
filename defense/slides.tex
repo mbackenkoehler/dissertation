@@ -352,12 +352,23 @@
             \begin{enumerate}
                 \item low target correlation
                     \[ \rho_{iv} < \max \left(0.1, \frac{\max_j \rho_{jv}}{k_{\min}}\right) \]
-                \item redundancy criterion
+                \item various redundancy heuristics
             \end{enumerate}
+            \vspace{2em}
+        \begin{columns}
+        \begin{column}{3cm}
+            \includegraphics[width=3cm]{../gfx/eff_landscape_order1.pdf}
+        \end{column}
+        \begin{column}{2cm}
+            \includegraphics[width=2cm]{../gfx/legend_1.pdf}
+            \includegraphics[width=2cm]{../gfx/legend_models.pdf}
+        \end{column}
+        \end{columns}
         \end{column}
     \end{columns}
 \end{frame}
 
+% less choices to be made; 1 parameter for selection part
 \begin{frame}{Linear Control Variates}{Selection by Resampling}
     \begin{columns}
        \begin{column}{.4\textwidth}
@@ -387,9 +398,15 @@
         \begin{column}{.55\textwidth}
             Filter criteria:
             \begin{enumerate}
-                \item low target correlation
-                    \[ \rho_{iv} < \max \left(0.1, \frac{\max_j \rho_{jv}}{k_{\min}}\right) \]
-                \item redundancy criterion
+                \item \emph{resampling} proportional to improvement % explained variance
+                    \[ \gamma_{kv} = (1 - \rho_{kv}^2)^{-1} \]
+                \item \emph{selection} by best improvement of one CV
+                    \[
+\argmax_{1\leq i \leq \left|P_{\text{all}}\right|}
+\hat{\gamma}_{iv}
+    \prod_{\substack{1\leq j\leq {\left|P_{\text{all}}\right|}\\(m_j, \lambda_j)\in P^*}}
+    \hat{\gamma}_{ij}^{-1}
+\]
             \end{enumerate}
         \end{column}
     \end{columns}
@@ -487,6 +504,29 @@
     \bottomcite{backenkohler2020analysis,backenkohler2021abstraction}
 \end{frame}
 
+\foreach \n in {2,...,7}{
+\begin{frame}{Stationary Distribution}{Examples}
+    \begin{figure}
+        \centering
+        \includegraphics[width=11cm]{../gfx/eswitch_ref_\n.pdf}
+        \vspace{1cm}
+        \def\svgwidth{5cm}
+        \input{../gfx/excl_switch_sketch.pdf_tex}
+    \end{figure}
+%\begin{gather*}
+	%D + P_1 \xrightarrow{\beta} D.P_1\,,\quad
+	%D.P1 \xrightarrow{\gamma_1} D + P_1  \,,\\
+	%D + P_2 \xrightarrow{\beta} D.P_2 \,,\quad
+	%D.P2 \xrightarrow{\gamma_2} D + P_2 \,,\\
+	%D.P_1 \xrightarrow{\rho_1} D.P_1 + P_1\,, \quad
+    %D.P_2 \xrightarrow{\rho_2} D.P_2 + P_2\,,\\
+	%D \xrightarrow{\rho_1} D + P_1\,,\quad
+	%D \xrightarrow{\rho_2} D + P_2\,,  \quad
+	%P_1 \xrightarrow{\lambda}\varnothing  \,,\quad
+    %P_2\xrightarrow{\lambda} \varnothing
+%\end{gather*}
+\end{frame}}
+
 \begin{frame}{Bridging Problem}{Dynamical Analysis Under Initial \emph{and} Terminal Constraints}
     \begin{figure}
         \includegraphics[width=7cm]{../gfx/bridging_bd.pdf}
@@ -506,6 +546,7 @@
 \begin{frame}{Bridging Problem}{Refinement}
     \begin{itemize}
         \item Show that bridge=forward*backwards
+        \item Record intermediary times
     \end{itemize}
 
         %\transduration<0-16>{0.1}
@@ -513,9 +554,11 @@
     %\noindent\animategraphics[loop,width=\textwidth,autoplay]{10}{../gfx/bridge_anim/bridge-}{0}{99}
 \end{frame}
 
-\begin{frame}{Importance Sampling}
-    
+\begin{frame}{Bridging Problem}{Examples}
 \end{frame}
+%\begin{frame}{Importance Sampling}
+    
+%\end{frame}
 
 \section{Conclusion}
 \begin{frame}{Contributions}
