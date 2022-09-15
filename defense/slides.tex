@@ -39,6 +39,28 @@
 
 %\renewcommand{\vec}[1]{\ensuremath{#1}}
 
+\newcounter{multipleslide}
+\makeatletter%
+\newcommand{\multipleframe}{%
+\setcounter{multipleslide}{\value{framenumber}}
+\stepcounter{multipleslide}
+\patchcmd{\beamer@@tmpl@footline}% <cmd>
+  {\insertframenumber}% <search>
+  {\themultipleslide}% <replace>
+  {}% <success>
+  {}% <failure>
+}
+\newcommand{\restoreframe}{%
+\patchcmd{\beamer@@tmpl@footline}% <cmd>
+  {\themultipleslide}% <search>
+  {\insertframenumber}% <replace>
+  {}% <success>
+  {}% <failure>
+\setcounter{framenumber}{\value{multipleslide}}%
+}
+\makeatother%
+
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
@@ -66,7 +88,7 @@
   \begin{itemize}
     \item stochastic concentration changes
     \item systems biology: switches, 
-    \item applications: queueing, metabolic networks, switches etc.
+    \item applications: queueing, metabolic networks, bio-switches, traffic etc.
     \item goal: do \emph{rigorous} analysis on such models
   \end{itemize}
 \end{frame}
@@ -153,6 +175,9 @@
         \end{equation*}
     \item known expectation: $\E{Z_T}=0$, $\forall T\geq 0$
   \end{itemize}
+    \begin{figure}
+        \includegraphics[scale=.5]{../gfx/martingales.pdf}
+    \end{figure}
 \end{frame}
 
 \section{Bounding Mean First-Passage Times}
@@ -242,7 +267,9 @@
     \vspace{2em}
     \begin{itemize}
         \item fast convergence of bounds with increasing order
+        \item SDPs are usually solved within seconds
         \item numerically challenging (inherent stiffness)
+        \item scaling state-space / model size is difficult
     \end{itemize}
 \bottomcite{backenkohler2019bounding}
 \end{frame}
@@ -331,9 +358,9 @@
                 \begin{tikzpicture}[node distance=1.8cm,
                 every node/.style={fill=white, font=\sffamily}, align=center]
                     \node (initial) [base]                    {\footnotesize  sample candidate set };
-                    \node (pilot)   [base, below of=initial]  {\footnotesize  perform pilot runs };
+                    \node (pilot)   [base, below of=initial]  {\footnotesize  perform $k$ runs };
                     \node (filter)  [base, below of=pilot]    {\footnotesize  filter candidates };
-                    \node (mc)      [base, below of=filter]   {\footnotesize  MC/LCV estimation};
+                    \node (mc)      [base, below of=filter]   {\footnotesize  MC/LCV estimate};
 
                     \draw[->]  (initial) -- (pilot);
                     \draw[->]  (pilot)   to[out=315, in=60] (filter);
@@ -366,6 +393,7 @@
         \end{columns}
         \end{column}
     \end{columns}
+    \bottomcite{backenkohler2019control}
 \end{frame}
 
 % less choices to be made; 1 parameter for selection part
@@ -380,7 +408,7 @@
                     \node (pilot)   [base, below of=initial]  {\footnotesize  perform pilot runs };
                     \node (filter)  [base, below of=pilot]    {\footnotesize  resample candidates };
                     \node (greedy)  [base, below of=filter]   {\footnotesize  greedy selection };
-                    \node (mc)      [base, below of=greedy]   {\footnotesize  MC/LCV estimation};
+                    \node (mc)      [base, below of=greedy]   {\footnotesize  simulations and\\ \footnotesize MC/LCV estimation};
 
                     \draw[->]  (initial) -- (pilot);
                     \draw[->]  (pilot)   to[out=315, in=60] (filter);
@@ -400,6 +428,7 @@
             \begin{enumerate}
                 \item \emph{resampling} proportional to improvement % explained variance
                     \[ \gamma_{kv} = (1 - \rho_{kv}^2)^{-1} \]
+                    \includegraphics[width=\textwidth]{../gfx/resampling.pdf}
                 \item \emph{selection} by best improvement of one CV
                     \[
 \argmax_{1\leq i \leq \left|P_{\text{all}}\right|}
@@ -410,6 +439,7 @@
             \end{enumerate}
         \end{column}
     \end{columns}
+    \bottomcite{backenkohler2021variance}
 \end{frame}
 
 \begin{frame}{Linear Control Variates}{Results}
@@ -486,7 +516,7 @@
             \vspace{4mm}
         \end{column}
     \end{columns}
-    \bottomcite{backenkohler2020analysis,backenkohler2021abstraction}
+    \bottomcite{backenkohler2021abstraction}
 \end{frame}
 
 \begin{frame}{Stationary Distribution}{Iterative Refinement Algorithm}
@@ -504,7 +534,8 @@
     \bottomcite{backenkohler2020analysis,backenkohler2021abstraction}
 \end{frame}
 
-\foreach \n in {2,...,7}{
+\multipleframe
+\foreach \n in {1,...,7}{
 \begin{frame}{Stationary Distribution}{Examples}
     \begin{figure}
         \centering
@@ -525,36 +556,67 @@
 	%P_1 \xrightarrow{\lambda}\varnothing  \,,\quad
     %P_2\xrightarrow{\lambda} \varnothing
 %\end{gather*}
+\bottomcite{backenkohler2021abstraction}
 \end{frame}}
+\restoreframe
 
 \begin{frame}{Bridging Problem}{Dynamical Analysis Under Initial \emph{and} Terminal Constraints}
     \begin{figure}
         \includegraphics[width=7cm]{../gfx/bridging_bd.pdf}
     \end{figure}
-    \begin{block}{Forward Probabilities}
+    \begin{block}{Forward Probabilities $\pi$}
         How the process evolves with time: $\Pr({X_t=x\mid X_0=0})$
     \end{block}
-    \begin{block}{Backward Probabilities}
+    \begin{block}{Backward Probabilities $\beta$}
         Probability of ending up in a given state: $\Pr(X_T=40 \mid X_t = x)$
     \end{block}
-    \begin{block}{Bridging Probabilities}
+    \begin{block}{Bridging Probabilities $\gamma$}
         In between: $\Pr (X_t=x\mid X_0=0, X_T=40)$
     \end{block}
     \bottomcite{backenkohler2020analysis}
 \end{frame}
 
 \begin{frame}{Bridging Problem}{Refinement}
+    \begin{figure}
+        \includegraphics[width=7cm]{../gfx/bridging_bd.pdf}
+    \end{figure}
     \begin{itemize}
-        \item Show that bridge=forward*backwards
-        \item Record intermediary times
+        \item bridging distribution: 
+            \[ 
+            \gamma(x_i, t) = \pi(x_i, t)\beta(x_i, t)/\pi(x_g, T) \]
+        \item record intermediary times
+        \item remove or split based on $\hat{\gamma}(x_i, t)$
     \end{itemize}
+    \begin{figure}
+        \includegraphics[width=10cm]{../gfx/refinement.png}
+    \end{figure}
 
         %\transduration<0-16>{0.1}
         %\multiinclude[<+->][format=jpg, graphics={width=\textwidth}]{../gfx/bridge_anim/bridge}
     %\noindent\animategraphics[loop,width=\textwidth,autoplay]{10}{../gfx/bridge_anim/bridge-}{0}{99}
+    \bottomcite{backenkohler2020analysis}
 \end{frame}
 
-\begin{frame}{Bridging Problem}{Examples}
+\begin{frame}{Bridging Problem}{Bayesian Filtering in an SEIR model}
+    \[ S+I \rightarrow E+I \qquad E\rightarrow I \qquad I\rightarrow R \]
+    We know:
+    \begin{itemize}
+        \item initial state
+        \item uncertain measurement of $I$ at $T=0.3$
+    \end{itemize}
+    We are interested in the posterior at $T$.
+    \begin{columns}
+        \begin{column}{.35\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/seir_prior_posterior.pdf}
+        \end{column}
+        \begin{column}{.35\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/posterior.pdf}
+        \end{column}
+        \begin{column}{.25\paperwidth}
+            \includegraphics[width=.8\textwidth]{../gfx/prior_posterior_vert.pdf}
+        \end{column}
+    \end{columns}
+    \bottomcite{backenkohler2020analysis}
 \end{frame}
 %\begin{frame}{Importance Sampling}
     
