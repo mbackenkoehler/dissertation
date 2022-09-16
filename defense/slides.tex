@@ -121,13 +121,13 @@
     \begin{itemize}
         \item ergodic chains converge to unique distribution ($t\to\infty$)
     \begin{figure}
-        \begin{exampleblock}{Example}
+        \begin{exampleblock}{Example (Birth-death process)}
         \begin{columns}
             \begin{column}{.05\paperwidth}\end{column}
             \begin{column}{.33\paperwidth}
                 \vspace{-5mm}
-                $$ {\scriptstyle X\xrightarrow{0.1\cdot \#X} \varnothing, \quad \alpha_1(x)=0.1 x } $$
-                $$ {\scriptstyle \varnothing\xrightarrow{10} X, \quad \alpha_2(x) = 10 } $$
+                $$ {\scriptstyle X\rightarrow \varnothing, \quad \alpha_1(x)=0.1 \cdot x } $$
+                $$ {\scriptstyle \varnothing\rightarrow X, \quad \alpha_2(x) = 10 } $$
                 \vfill
             \end{column}
             \begin{column}{.6\paperwidth}
@@ -175,9 +175,11 @@
         \end{equation*}
     \item known expectation: $\E{Z_T}=0$, $\forall T\geq 0$
   \end{itemize}
+    \vspace{-1em}
     \begin{figure}
         \includegraphics[scale=.5]{../gfx/martingales.pdf}
     \end{figure}
+    \vspace{-2em}
 \end{frame}
 
 \section{Bounding Mean First-Passage Times}
@@ -214,7 +216,7 @@
     %\item hint at localizing matrices
   %\end{itemize}
     \begin{block}{Moment Matrices}
-    The \emph{moment matrix} mus be \emph{positive semi-definite}.
+    The \emph{moment matrix} must be \emph{positive semi-definite}.
     \[
         \E{\begin{matrix}
             X^0 & X^1 & X^2 & \dots & X^n \\
@@ -379,18 +381,18 @@
             \begin{enumerate}
                 \item low target correlation
                     \[ \rho_{iv} < \max \left(0.1, \frac{\max_j \rho_{jv}}{k_{\min}}\right) \]
-                \item various redundancy heuristics
+                \item various redundancy heuristics:
+                    criteria based on $\rho_{ij}$ and $\rho_{iv}$
+                    \begin{columns}
+                        \begin{column}{.6\textwidth}
+                            \includegraphics[width=\textwidth]{../gfx/decision_funcs.pdf}
+                        \end{column}
+                        \begin{column}{.39\textwidth}
+                            \includegraphics[width=\textwidth]{../gfx/legend_1.pdf}
+                        \end{column}
+                    \end{columns}
             \end{enumerate}
             \vspace{2em}
-        \begin{columns}
-        \begin{column}{3cm}
-            \includegraphics[width=3cm]{../gfx/eff_landscape_order1.pdf}
-        \end{column}
-        \begin{column}{2cm}
-            \includegraphics[width=2cm]{../gfx/legend_1.pdf}
-            \includegraphics[width=2cm]{../gfx/legend_models.pdf}
-        \end{column}
-        \end{columns}
         \end{column}
     \end{columns}
     \bottomcite{backenkohler2019control}
@@ -411,7 +413,7 @@
                     \node (mc)      [base, below of=greedy]   {\footnotesize  simulations and\\ \footnotesize MC/LCV estimation};
 
                     \draw[->]  (initial) -- (pilot);
-                    \draw[->]  (pilot)   to[out=315, in=60] (filter);
+                    \draw[->]  (pilot)   to[out=315, in=60]  (filter);
                     \draw[->]  (filter)  to[out=135, in=240] (pilot);
                     \draw[->]  (filter)  -- (greedy);
                     \draw[->]  (greedy)  -- (mc);
@@ -443,9 +445,18 @@
 \end{frame}
 
 \begin{frame}{Linear Control Variates}{Results}
-  \begin{itemize}
-    \item best example?
-  \end{itemize}
+    \begin{columns}
+        \begin{column}{.05\paperwidth}\end{column}
+        \begin{column}{.5\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/sample_size.pdf}
+        \end{column}
+        \begin{column}{.1\paperwidth}\end{column}
+        \begin{column}{.4\paperwidth}
+            \includegraphics[width=4cm]{../gfx/eff_landscape_order1.pdf}\\
+            \includegraphics[width=27mm]{../gfx/legend_1.pdf}
+            \includegraphics[width=27mm]{../gfx/legend_models.pdf}
+        \end{column}
+    \end{columns}
 \end{frame}
 
 \section{State-Space Aggregation}
@@ -458,7 +469,8 @@
                 \includegraphics[height=2cm]{../gfx/state_space_untrunc.pdf}
                 {\small
                 \begin{itemize}
-                    \item infinite
+                    \item very large/infinite
+                    \item impossible to analyze
                 \end{itemize}
                 }
             \end{block}
