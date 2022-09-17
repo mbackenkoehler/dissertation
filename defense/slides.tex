@@ -1,4 +1,4 @@
-\documentclass[10pt]{beamer}
+\documentclass[9pt]{beamer}
 %\usepackage[osf,sc]{mathpazo}
 \usepackage{graphicx}
 \usepackage{amsmath}
@@ -93,7 +93,7 @@
   \end{itemize}
 \end{frame}
 
-\begin{frame}{Markovian Population Models}{Semantics}
+\begin{frame}{Markovian population models}{Framework}
     \begin{columns}
         \begin{column}{.4\textwidth}
             \centering
@@ -104,30 +104,30 @@
         \end{column}
         \begin{column}{.58\textwidth}
             \begin{itemize}
+                \item populations of identical agents
                 \item state space $\sim$ population sizes
                 \item often huge to infinite
             \end{itemize}
-            \vspace{3cm}
+            \vspace{1cm}
             \begin{itemize}
                 \item continuous time
                 \item exponential jump times / CTMC dynamics
+                \item Kolmogorov equation for probabilities: \[\frac{d}{dt}\pi(t)=\pi(t)Q\]
             \end{itemize}
         \end{column}
     \end{columns}
 \end{frame}
 
-\section{Markovian Population Models}
-\begin{frame}{Markovian Population Models}{Stationary Distribution -- Foster-Lyapunov Functions}
-    \begin{itemize}
-        \item ergodic chains converge to unique distribution ($t\to\infty$)
+\section{Markovian population models}
+\begin{frame}{Markovian population models}{How they behave}
     \begin{figure}
-        \begin{exampleblock}{Example (Birth-death process)}
+        \begin{exampleblock}{Example (birth-death process)}
         \begin{columns}
             \begin{column}{.05\paperwidth}\end{column}
             \begin{column}{.33\paperwidth}
                 \vspace{-5mm}
-                $$ {\scriptstyle X\rightarrow \varnothing, \quad \alpha_1(x)=0.1 \cdot x } $$
-                $$ {\scriptstyle \varnothing\rightarrow X, \quad \alpha_2(x) = 10 } $$
+                $$ {X\rightarrow \varnothing, \quad \alpha_1(x)=0.1 \cdot x } $$
+                $$ {\varnothing\rightarrow X, \quad \alpha_2(x) = 10 } $$
                 \vfill
             \end{column}
             \begin{column}{.6\paperwidth}
@@ -136,20 +136,23 @@
         \end{columns}
         \end{exampleblock}
     \end{figure}
-        \item how does this distribution look like for infinite state-spaces?
-        \item use Foster-Lyapunov function to bound sets
-        \item locally augment functions for tighter sets / bounds
+    \begin{itemize}
+        \item changes depend on current state only
+        \item ergodic chains converge to unique distribution ($t\to\infty$)
+        %\item problem: infinite state-spaces?
+        \item Foster-Lyapunov functions for bounds
+        %\item local augment functions for tighter bounds
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Markovian Population Models}{Moment Dynamics}
+\begin{frame}{Markovian population models}{Approaches to their analysis}
   %\begin{itemize}
     %\item expected values, e.g. $\E{X}, \E{X^2}$
     \begin{figure}
         \centering
     \includegraphics[scale=.45]{../gfx/momsandprobs.pdf}
     \end{figure}
-          \begin{block}{Moment formula}
+          \begin{block}{Moment equation}
               Moments such as mean $\E{X_t}$ and variance $\E{X_t^2}-\E{X_t}^2$ are described by (often {linear}) ODEs.
         \begin{equation*}
             \frac{d}{dt}\E{f({\vec{ X}}_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
@@ -161,10 +164,21 @@
 \end{frame}
 % typically closed by MC, but can be forgone if not integration is desired
 
-\begin{frame}{Markovian Population Models}{Martingale Process}
+\section{Moment-Based Methods}
+\begin{frame}
+  \vfill
+  \centering
+    \usebeamerfont{title}\insertsectionhead\par%
+    \vspace{1cm}
+    \includegraphics[width=5cm]{../gfx/momsandsims.pdf}
+  \vfill
+\end{frame}
+
+\begin{frame}{Markovian Population Models}{Martingale process}
     \begin{itemize}
+        \item start with the moment ODE
     \item multiply time-weighting: $w(t)=t^k$, $k\in\mathbb{N}$ or $w(t)=\exp(\lambda t)$
-    \item analytic integration and resulting martingale process
+    \item analytic integration results in a martingale 
         \begin{equation*}
             \begin{split}
             Z_T\coloneqq&\,w(T)f(\vec X_T) - w(0)f(\vec X_{0}) -
@@ -182,40 +196,44 @@
     \vspace{-2em}
 \end{frame}
 
-\section{Bounding Mean First-Passage Times}
-\begin{frame}{Bounding Mean First-Passage Times}{Linear Moment Constraints}
+\section{Bounding mean first-passage times}
+\begin{frame}{Bounding mean first-passage times}{Linear moment constraints}
     \begin{columns}
         \begin{column}{.4\paperwidth}
-            \vspace{1cm}
+            \vspace{5mm}
             \includegraphics[scale=.4]{../gfx/decomp1.pdf}
         \end{column}
         \begin{column}{.45\paperwidth}
             \begin{itemize}
                 \item $\tau=\inf\{X_t \geq H \mid t\geq 0\}\land T$
+                \item time weighting $w(t)=t^k$
                 \item exp.\ occupation measure $\xi$
                 \item exit location measures $\nu_1$, $\nu_2$
             \end{itemize}
         \end{column}
     \end{columns}
 
+    \begin{block}{Linear moment constraint}
+        \vspace{-3mm}
 \begin{multline*}\label{eq:model_constraints}
     0 = \E{Z_T} = T^k\overbrace{\E{X_{\tau}^m;\tau=T}}^{\nu_1} + H^m\overbrace{\E{{\tau}^k;\tau < T, X_{\tau}=H}}^{\nu_2}\\
  	- 0^kx_0^{m}
  	% - k \E{\int_{0}^{\tau} t^{k-1} \vec X_t^m\,dt}
     + \sum_{i}c_i\underbrace{\E{\int_{0}^{\tau} t^{k_i}X_t^{m_i}\,dt}}_{\xi}
 \end{multline*}
+    \end{block}
     %\begin{itemize}
         %\item $0=\E{ Z_T }$ is a linear moment constraint constraint on $\nu_1$, $\nu_2$, and $\xi$ ($w(t)=t^k$) (TODO: integrate moms and figure)
     %\end{itemize}
 \bottomcite{backenkohler2019bounding}
 \end{frame}
 
-\begin{frame}{Bounding Mean First-Passage Times}{Moment Matrices}
+\begin{frame}{Bounding mean first-passage times}{Moment matrices}
   %\begin{itemize}
     %\item semi-definite moment constraints (positive variance as example)
     %\item hint at localizing matrices
   %\end{itemize}
-    \begin{block}{Moment Matrices}
+    \begin{block}{Moment matrices}
     The \emph{moment matrix} must be \emph{positive semi-definite}.
     \[
         \E{\begin{matrix}
@@ -236,11 +254,11 @@
 \bottomcite{backenkohler2019bounding}
 \end{frame}
 
-\begin{frame}{Bounding Mean First-Passage Times}{Semi-Definite Program}
+\begin{frame}{Bounding mean first-passage times}{Semi-definite program}
   \begin{itemize}
     \item measure support can be restricted using semi-definite constraints
     \item resulting SDPs can be solved using off-the-shelf software.
-    \begin{block}{Semi-Definite Program (SDP)}
+    \begin{block}{Semi-definite program (SDP)}
         An optimization problem with
         \begin{enumerate}
             \item \emph{linear constraints} on moments and
@@ -257,7 +275,7 @@
 \bottomcite{backenkohler2019bounding}
 \end{frame}
 
-\begin{frame}{Bounding Mean First-Passage Times}{Results}
+\begin{frame}{Bounding mean first-passage times}{Results}
     \begin{columns}
         \begin{column}{.33\paperwidth}
             \includegraphics[width=\textwidth]{../gfx/mfpt_bounds.pdf}
@@ -276,43 +294,51 @@
 \bottomcite{backenkohler2019bounding}
 \end{frame}
 
-\section{Linear Control Variates}
-\begin{frame}{Linear Control Variates}{Using Correlated RVs with Known Expected Value}
+\section{Linear control variates}
+\begin{frame}{Linear control variates}{Using correlated RVs with known expected value}
     \begin{columns}
-        \begin{column}{.45\paperwidth}
-            \centering
-                \includegraphics[width=.6\textwidth]{../gfx/correlation.pdf}
-                \includegraphics[width=.38\textwidth]{../gfx/reduction.pdf}
-        %\begin{column}{.6\textwidth}
-          %\begin{itemize}
-            %\item segue: use the same martingale constraints to enhance MC estimation
-            %\item $\E{X_T}=\E{X_T}+b\E{Z_T}$
-            %\item use correlations between target RV and martingales (linear regression, i.e.\ control variates)
-          %\end{itemize}
+        \begin{column}{.03\paperwidth}
         \end{column}
-        \begin{column}{.54\paperwidth}
+        \begin{column}{.4\textwidth}
+            \includegraphics[width=.8\textwidth]{../gfx/correlation.pdf}
+        \end{column}
+        \begin{column}{.50\paperwidth}
             \begin{itemize}
                 \item improve MC estimates using $Z_T$
                 \item use correlations between $Z_T$ and $X_T$
-                \item $\E{X_T + b Z_T}$ instead of $\E{X_T}$ (recall $\E{Z_T}=0$)
+                \item $\E{X_T + b Z_T}$ instead of $\E{X_T}$\\ (recall $\E{Z_T}=0$)
+                \item time-weighting $w(t)=\exp(\lambda t)$
             \end{itemize}
         \end{column}
     \end{columns}
-        \begin{block}{Linear Control Variates}
-            Given a control variate vector $\vec{Z}$, the estimator
-            \[\hat{V} -({\hat\Sigma_{ \vec{Z}}}^{-1}{\hat\Sigma}_{ \vec{Z} V})^{\T}{\hat{\vec{Z}}} \]
-            has lower or equal variance as $\hat{V}$.
-        \end{block}
+    \begin{block}{Linear control variates}
+        \begin{columns}
+            %\begin{column}{.01\textwidth}
+            %\end{column}
+            \begin{column}{.6\textwidth}
+                Given a control variate vector $\vec{Z}$, the estimator
+                \[\hat{V} -({\hat\Sigma_{ \vec{Z}}}^{-1}{\hat\Sigma}_{ \vec{Z} V})^{\T}{\hat{\vec{Z}}} \]
+                has lower or equal variance as $\hat{V}$.
+            \end{column}
+            \begin{column}{.2\textwidth}
+                \includegraphics[width=20mm]{../gfx/adjustment_trans.pdf}
+            \end{column}
+        \end{columns}
+    \end{block}
     \bottomcite{backenkohler2019control}
 \end{frame}
 
-\begin{frame}{Linear Control Variates}{Efficiency Trade-off}
+\begin{frame}{Linear control variates}{Efficiency trade-off}
+    \begin{itemize}
+        \item infinite possible $Z$
+        \item different time-weighting $\lambda$ $\rightarrow$ different correlation
+        \item the trade-off:
     \begin{columns}
         \begin{column}{.5\textwidth}
             \begin{block}{cost: slowdown}
                 \vspace{1ex}
                 \begin{center}
-                    \scalebox{1.7}{$ \nicefrac{c_{\text{old}}}{c_{\text{new}}} $}
+                    \scalebox{1.7}{$ \nicefrac{{\text{cost}}_{\text{old}}}{{\text{cost}}_{\text{new}}} $}
                 \end{center}
                 \begin{itemize}
                     \item computing $\int_{0}^T w(t)X_t^m\,dt$
@@ -332,16 +358,17 @@
             \end{block}
         \end{column}
     \end{columns}
-    \vspace{1em}
-        Approach: Assess correlations between $k$ candidates and the target RV $V$
-        \[
-\begin{bmatrix}
-1 & \dots & \rho_{1k} & \rho_{1v} \\
-\vdots & \ddots & \vdots & \vdots \\
-\rho_{k1} & \dots & 1 & \rho_{kv} \\
-\rho_{v1} & \dots & \rho_{vk} & 1
-\end{bmatrix}\,.
-        \]
+            \vspace{1em}
+    \item approach: correlations between candidates and the target RV
+    \end{itemize}
+            %\[
+%\begin{bmatrix}
+%1 & \dots & \rho_{1k} & \rho_{1v} \\
+%\vdots & \ddots & \vdots & \vdots \\
+%\rho_{k1} & \dots & 1 & \rho_{kv} \\
+%\rho_{v1} & \dots & \rho_{vk} & 1
+%\end{bmatrix}\,.
+        %\]
   %\begin{itemize}
     %\item time-weighting has a large influence on the correlation
     %\item Infinitely many possibilities (cost needs to be controlled though)
@@ -352,7 +379,7 @@
     \bottomcite{backenkohler2019control,backenkohler2021variance}
 \end{frame}
 
-\begin{frame}{Linear Control Variates}{Selection by Filtering}
+\begin{frame}{Linear control variates}{Selection by filtering}
     \begin{columns}
        \begin{column}{.4\textwidth}
             \begin{block}{Algorithm 1}
@@ -377,29 +404,35 @@
             \end{block}
         \end{column}
         \begin{column}{.55\textwidth}
-            Filter criteria:
+            filter criteria:
             \begin{enumerate}
                 \item low target correlation
-                    \[ \rho_{iv} < \max \left(0.1, \frac{\max_j \rho_{jv}}{k_{\min}}\right) \]
-                \item various redundancy heuristics:
-                    criteria based on $\rho_{ij}$ and $\rho_{iv}$
+                    %\[ \rho_{iv} < \max \left(0.1, \frac{\max_j \rho_{jv}}{k_{\min}}\right) \]
+                \item various redundancy heuristics
+                    %criteria based on $\rho_{ij}$ and $\rho_{iv}$
+            \end{enumerate}
+            \vspace{2em}
                     \begin{columns}
+                        %\begin{column}{.6\textwidth}
+                            %\includegraphics[width=\textwidth]{../gfx/decision_funcs.pdf}
+                        %\end{column}
+                        %\begin{column}{.39\textwidth}
+                            %\includegraphics[width=\textwidth]{../gfx/legend_1.pdf}
+                        %\end{column}
                         \begin{column}{.6\textwidth}
-                            \includegraphics[width=\textwidth]{../gfx/decision_funcs.pdf}
+                            \includegraphics[width=\textwidth]{../gfx/eff_landscape_order1.pdf}\\
                         \end{column}
                         \begin{column}{.39\textwidth}
                             \includegraphics[width=\textwidth]{../gfx/legend_1.pdf}
+                            \includegraphics[width=\textwidth]{../gfx/legend_models.pdf}
                         \end{column}
                     \end{columns}
-            \end{enumerate}
-            \vspace{2em}
         \end{column}
     \end{columns}
     \bottomcite{backenkohler2019control}
 \end{frame}
-
 % less choices to be made; 1 parameter for selection part
-\begin{frame}{Linear Control Variates}{Selection by Resampling}
+\begin{frame}{Linear control variates}{Selection by resampling}
     \begin{columns}
        \begin{column}{.4\textwidth}
             \begin{block}{Algorithm 2}
@@ -426,41 +459,40 @@
             \end{block}
         \end{column}
         \begin{column}{.55\textwidth}
-            Filter criteria:
-            \begin{enumerate}
-                \item \emph{resampling} proportional to improvement % explained variance
-                    \[ \gamma_{kv} = (1 - \rho_{kv}^2)^{-1} \]
+            \begin{itemize}
+                \item \emph{resampling}: proportional to improvement % explained variance
+                    %\[ \gamma_{kv} = (1 - \rho_{kv}^2)^{-1} \]
                     \includegraphics[width=\textwidth]{../gfx/resampling.pdf}
-                \item \emph{selection} by best improvement of one CV
-                    \[
-\argmax_{1\leq i \leq \left|P_{\text{all}}\right|}
-\hat{\gamma}_{iv}
-    \prod_{\substack{1\leq j\leq {\left|P_{\text{all}}\right|}\\(m_j, \lambda_j)\in P^*}}
-    \hat{\gamma}_{ij}^{-1}
-\]
-            \end{enumerate}
+                \item \emph{selection}: greedy by improvement% of one CV
+                    %\[
+%\argmax_{1\leq i \leq \left|P_{\text{all}}\right|}
+%\hat{\gamma}_{iv}
+    %\prod_{\substack{1\leq j\leq {\left|P_{\text{all}}\right|}\\(m_j, \lambda_j)\in P^*}}
+    %\hat{\gamma}_{ij}^{-1}
+%\]
+            \end{itemize}
+            \vspace{2em}
+            \noindent
+            Results:
+            \begin{itemize}
+                \item performance equal/better than Alg.~1
+                \item less hyper-parameter headaches
+            \end{itemize}
         \end{column}
     \end{columns}
     \bottomcite{backenkohler2021variance}
 \end{frame}
-
-\begin{frame}{Linear Control Variates}{Results}
-    \begin{columns}
-        \begin{column}{.05\paperwidth}\end{column}
-        \begin{column}{.5\paperwidth}
-            \includegraphics[width=\textwidth]{../gfx/sample_size.pdf}
-        \end{column}
-        \begin{column}{.1\paperwidth}\end{column}
-        \begin{column}{.4\paperwidth}
-            \includegraphics[width=4cm]{../gfx/eff_landscape_order1.pdf}\\
-            \includegraphics[width=27mm]{../gfx/legend_1.pdf}
-            \includegraphics[width=27mm]{../gfx/legend_models.pdf}
-        \end{column}
-    \end{columns}
+\section{Aggregation {\&} refinement}
+\begin{frame}
+      \vfill
+  \centering
+    \usebeamerfont{title}\insertsectionhead\par%
+    \vspace{1cm}
+    \includegraphics[width=5cm]{../gfx/bd_dist.pdf}
+  \vfill
 \end{frame}
 
-\section{State-Space Aggregation}
-\begin{frame}{Finite-Space Projection}
+\begin{frame}{Finite-space projection}
     \begin{columns}
         \begin{column}{.30\textwidth}
             \begin{block}{Original}
@@ -504,7 +536,7 @@
     \end{columns}
 \end{frame}
 
-\begin{frame}{State-Space Aggregation}{Treating Hyper-Cubes of States as One}
+\begin{frame}{State-space aggregation}{Treating hyper-cubes of states as one}
     \begin{columns}
         \begin{column}{.4\textwidth}
             \begin{figure}
@@ -531,7 +563,11 @@
     \bottomcite{backenkohler2021abstraction}
 \end{frame}
 
-\begin{frame}{Stationary Distribution}{Iterative Refinement Algorithm}
+\begin{frame}{Stationary distribution}{Iterative refinement algorithm}
+    \begin{columns}
+        \begin{column}{.1\paperwidth}
+        \end{column}
+        \begin{column}{.85\paperwidth}
     A simple refinement based on approximate solutions:
     \begin{enumerate}
         \item start with macro-states of size $2^k$
@@ -540,6 +576,9 @@
         \item split the remaining states
         \item go to step \ref{itm:approx}
     \end{enumerate}
+        \end{column}
+    \end{columns}
+    \vspace{3mm}
     \begin{figure}
         \includegraphics[width=8cm]{../gfx/bd_truncs.pdf}
     \end{figure}
@@ -548,7 +587,7 @@
 
 \multipleframe
 \foreach \n in {1,...,7}{
-\begin{frame}{Stationary Distribution}{Examples}
+\begin{frame}{Stationary distribution}{Example}
     \begin{figure}
         \centering
         \includegraphics[width=11cm]{../gfx/eswitch_ref_\n.pdf}
@@ -572,23 +611,23 @@
 \end{frame}}
 \restoreframe
 
-\begin{frame}{Bridging Problem}{Dynamical Analysis Under Initial \emph{and} Terminal Constraints}
+\begin{frame}{Bridging problem}{Dynamical analysis under initial \emph{and} terminal constraints}
     \begin{figure}
         \includegraphics[width=7cm]{../gfx/bridging_bd.pdf}
     \end{figure}
-    \begin{block}{Forward Probabilities $\pi$}
+    \begin{block}{Forward probabilities $\pi$}
         How the process evolves with time: $\Pr({X_t=x\mid X_0=0})$
     \end{block}
-    \begin{block}{Backward Probabilities $\beta$}
+    \begin{block}{Backward probabilities $\beta$}
         Probability of ending up in a given state: $\Pr(X_T=40 \mid X_t = x)$
     \end{block}
-    \begin{block}{Bridging Probabilities $\gamma$}
+    \begin{block}{Bridging probabilities $\gamma$}
         In between: $\Pr (X_t=x\mid X_0=0, X_T=40)$
     \end{block}
     \bottomcite{backenkohler2020analysis}
 \end{frame}
 
-\begin{frame}{Bridging Problem}{Refinement}
+\begin{frame}{Bridging problem}{Refinement}
     \begin{figure}
         \includegraphics[width=7cm]{../gfx/bridging_bd.pdf}
     \end{figure}
@@ -609,7 +648,7 @@
     \bottomcite{backenkohler2020analysis}
 \end{frame}
 
-\begin{frame}{Bridging Problem}{Bayesian Filtering in an SEIR model}
+\begin{frame}{Bridging problem}{Bayesian filtering in an SEIR model}
     \[ S+I \rightarrow E+I \qquad E\rightarrow I \qquad I\rightarrow R \]
     We know:
     \begin{itemize}
@@ -654,6 +693,43 @@
 %        \bibliographystyle{amsalpha}
     \printbibliography
 \end{frame}
+
+\begin{frame}{Linear control variates}{Results}
+    \begin{columns}
+        \begin{column}{.05\paperwidth}\end{column}
+        \begin{column}{.5\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/sample_size.pdf}
+                    \begin{columns}
+                        \begin{column}{.6\textwidth}
+                            \includegraphics[width=\textwidth]{../gfx/decision_funcs.pdf}
+                        \end{column}
+                        \begin{column}{.39\textwidth}
+                            \includegraphics[width=\textwidth]{../gfx/legend_1.pdf}
+                        \end{column}
+                \end{columns}
+        \end{column}
+        \begin{column}{.1\paperwidth}\end{column}
+        \begin{column}{.4\paperwidth}
+            \includegraphics[width=4cm]{../gfx/eff_landscape_order1.pdf}\\
+            \includegraphics[width=27mm]{../gfx/legend_1.pdf}
+            \includegraphics[width=27mm]{../gfx/legend_models.pdf}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Linear control variates}{Results}
+    \begin{itemize}
+        \item SMC can improve variance reduction
+    \begin{figure}
+        \includegraphics[scale=.4]{../gfx/dim_improvement_numcv.pdf}
+        \includegraphics[scale=.4]{../gfx/dm_improvement_numcv.pdf}\\
+        \includegraphics[scale=.4]{../gfx/improvement_numcv_legend.pdf}
+    \end{figure}
+    \item less dependence on initial covariates
+    \item more consistent performance
+    \end{itemize}
+\end{frame}
+
 
 \iffalse
 \begin{frame}{Foster-Lyapunov Functions}
