@@ -164,7 +164,7 @@
 \end{frame}
 % typically closed by MC, but can be forgone if not integration is desired
 
-\section{Moment-Based Methods}
+\section{Moment-based Methods}
 \begin{frame}
   \vfill
   \centering
@@ -174,7 +174,7 @@
   \vfill
 \end{frame}
 
-\begin{frame}{Markovian Population Models}{Martingale process}
+\begin{frame}{Markovian population models}{Martingale process}
     \begin{itemize}
         \item start with the moment ODE
     \item multiply time-weighting: $w(t)=t^k$, $k\in\mathbb{N}$ or $w(t)=\exp(\lambda t)$
@@ -675,17 +675,44 @@
 
 \section{Conclusion}
 \begin{frame}{Contributions}
-    \begin{itemize}
-        \item local augmentation of Foster-Lyapunov functions
-        \item bounding of mean first-passage times \parencite{backenkohler2019bounding}
-        \item variance reduction for MC estimation \parencite{backenkohler2019control,backenkohler2021variance}
-        \item state-space aggregation scheme
-            \begin{itemize}
-                \item stationary distribution \parencite{backenkohler2021abstraction}
-                \item bridging distribution \parencite{backenkohler2020analysis}
-                \item importance sampling
-            \end{itemize}
-    \end{itemize}
+    \begin{columns}
+        \begin{column}{.45\paperwidth}
+            \begin{block}{Moment-based}
+                \begin{itemize}
+                    \item bounding of mean first-passage times \parencite{backenkohler2019bounding}
+                        \begin{figure}
+                            \includegraphics[width=.7\textwidth]{../gfx/decomp1.pdf}
+                        \end{figure}
+                    \item variance reduction for MC estimation \parencite{backenkohler2019control,backenkohler2021variance}
+                        \begin{figure}
+                            \includegraphics[width=.3\textwidth]{../gfx/adjustment_trans.pdf}
+                        \end{figure}
+                \end{itemize}
+            \end{block}
+        \end{column}
+        \begin{column}{.45\paperwidth}
+            \begin{block}{Aggregation \& refinement}
+                \begin{itemize}
+                    \item stationary distribution \parencite{backenkohler2021abstraction}
+                        \begin{figure}
+                            \includegraphics[width=4cm]{../gfx/bd_truncs.pdf}
+                        \end{figure}
+                    \item bridging distribution \parencite{backenkohler2020analysis}
+                        \begin{figure}
+                            \includegraphics[width=4cm]{../gfx/bridging_bd.pdf}
+                        \end{figure}
+                    \item importance sampling
+                        \begin{figure}
+                            \includegraphics[width=5cm]{../gfx/biases.pdf}
+                        \end{figure}
+                \end{itemize}
+            \end{block}
+        \end{column}
+    \end{columns}
+    %\begin{itemize}
+        %\item local augmentation of Foster-Lyapunov functions
+        %\item state-space aggregation scheme
+    %\end{itemize}
 \end{frame}
 
 \begin{frame}[allowframebreaks]
