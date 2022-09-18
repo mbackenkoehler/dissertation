@@ -87,6 +87,7 @@
 \begin{frame}{Motivation}
   \begin{itemize}
     \item stochastic concentration changes
+    \item examples: fish and angler
     \item systems biology: switches, 
     \item applications: queueing, metabolic networks, bio-switches, traffic etc.
     \item goal: do \emph{rigorous} analysis on such models
@@ -189,11 +190,13 @@
         \end{equation*}
     \item known expectation: $\E{Z_T}=0$, $\forall T\geq 0$
   \end{itemize}
+    \begin{example}
     \vspace{-1em}
     \begin{figure}
         \includegraphics[scale=.5]{../gfx/martingales.pdf}
     \end{figure}
-    \vspace{-2em}
+    \vspace{-1em}
+    \end{example}
 \end{frame}
 
 \section{Bounding mean first-passage times}
@@ -492,7 +495,7 @@
   \vfill
 \end{frame}
 
-\begin{frame}{Finite-space projection}
+\begin{frame}{State-space truncation}
     \begin{columns}
         \begin{column}{.30\textwidth}
             \begin{block}{Original}
@@ -542,9 +545,6 @@
             \begin{figure}
             \includegraphics[width=5cm]{../gfx/macro_states.pdf}
             \end{figure}
-            \begin{figure}
-                \includegraphics[width=50mm]{../gfx/lumpedvorig.pdf}
-            \end{figure}
         \end{column}
         \begin{column}{.6\textwidth}
             \begin{itemize}
@@ -552,14 +552,25 @@
                 \item \emph{assumption}: uniform dist.\ within
                 \item closed-form transition rates
             \end{itemize}
-            \vspace{17mm}
-            \begin{itemize}
-                \item resulting distribution more ``flat''
-                \item locate main probability mass
-            \end{itemize}
-            \vspace{4mm}
         \end{column}
     \end{columns}
+    \vspace{3mm}
+    \begin{exampleblock}{Example (birth-death process)}
+        \begin{columns}
+            \begin{column}{.4\textwidth}
+                \vspace{-2em}
+                \begin{figure}
+                    \includegraphics[width=50mm]{../gfx/lumpedvorig.pdf}
+                \end{figure}
+            \end{column}
+            \begin{column}{.5\textwidth}
+                \begin{itemize}
+                    \item resulting distribution more ``flat''
+                    \item  main probability masses coincide
+                \end{itemize}
+            \end{column}
+        \end{columns}
+    \end{exampleblock}
     \bottomcite{backenkohler2021abstraction}
 \end{frame}
 
@@ -579,9 +590,11 @@
         \end{column}
     \end{columns}
     \vspace{3mm}
+    \begin{exampleblock}{Example (birth-death process)}
     \begin{figure}
         \includegraphics[width=8cm]{../gfx/bd_truncs.pdf}
     \end{figure}
+    \end{exampleblock}
     \bottomcite{backenkohler2020analysis,backenkohler2021abstraction}
 \end{frame}
 
@@ -681,7 +694,7 @@
                 \begin{itemize}
                     \item bounding of mean first-passage times \parencite{backenkohler2019bounding}
                         \begin{figure}
-                            \includegraphics[width=.7\textwidth]{../gfx/decomp1.pdf}
+                            \includegraphics[width=.67\textwidth]{../gfx/decomp1.pdf}
                         \end{figure}
                     \item variance reduction for MC estimation \parencite{backenkohler2019control,backenkohler2021variance}
                         \begin{figure}
@@ -706,6 +719,9 @@
                             \includegraphics[width=5cm]{../gfx/biases.pdf}
                         \end{figure}
                 \end{itemize}
+            \end{block}
+            \begin{block}{Augmented Lyapunov functions}
+                local alteration of valid Lyapunov functions for tighter guarantees
             \end{block}
         \end{column}
     \end{columns}
