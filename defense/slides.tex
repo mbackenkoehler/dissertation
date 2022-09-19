@@ -84,13 +84,23 @@
 \titlepage
 \end{frame}
 
-\begin{frame}{Motivation}
+\begin{frame}{What are population models?}
+    \begin{columns}
+        \begin{column}{.3\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/population_wolf_rabbit.png}
+        \end{column}
+        \begin{column}{.3\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/expression.jpg}
+        \end{column}
+        \begin{column}{.3\paperwidth}
+            \includegraphics[width=\textwidth]{../gfx/biksharing.jpg}
+        \end{column}
+    \end{columns}
+    \vspace{1em}
   \begin{itemize}
-    \item stochastic concentration changes
-    \item examples: fish and angler
-    \item systems biology: switches, 
-    \item applications: queueing, metabolic networks, bio-switches, traffic etc.
-    \item goal: do \emph{rigorous} analysis on such models
+        \item discrete populations and stochastic changes
+        \item applications: queueing, traffic, gene regulatory networks etc.
+        \item goal: \emph{reliable} methods
   \end{itemize}
 \end{frame}
 
@@ -149,16 +159,45 @@
 \begin{frame}{Markovian population models}{Approaches to their analysis}
   %\begin{itemize}
     %\item expected values, e.g. $\E{X}, \E{X^2}$
-    \begin{figure}
-        \centering
-    \includegraphics[scale=.45]{../gfx/momsandprobs.pdf}
-    \end{figure}
-          \begin{block}{Moment equation}
-              Moments such as mean $\E{X_t}$ and variance $\E{X_t^2}-\E{X_t}^2$ are described by (often {linear}) ODEs.
-        \begin{equation*}
-            \frac{d}{dt}\E{f({\vec{ X}}_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
-            \vec{v}_j}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}
-        \end{equation*}
+    %\begin{figure}
+        %\centering
+    %\includegraphics[scale=.45]{../gfx/momsandprobs.pdf}
+    %\end{figure}
+          \begin{block}{Moment-based}
+              Moments such as mean $\E{X_t}$ and variance $\E{X_t^2}-\E{X_t}^2$ given by ODEs.
+              \vspace{1em}
+              \begin{columns}
+                  \begin{column}{.4\textwidth}
+                      \centering
+    \includegraphics[width=\textwidth]{../gfx/momsandsims.pdf}
+                  \end{column}
+                  \begin{column}{.45\textwidth}
+                      \vspace{-2em}
+                      \[
+                      \hspace{-4em}
+            \frac{d}{dt}\E{{{ X}}_t^m)} = \sum_{k=0}^{m+1} a_k \E{X^k}
+            %\vec{v}_j}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}
+        \]
+                  \end{column}
+              \end{columns}
+          \end{block}
+          \begin{block}{State-based}
+              Approximate state probabilities $\pi(x;t)$
+              \vspace{1em}
+              \begin{columns}
+                  \begin{column}{.4\textwidth}
+                      \centering
+    \includegraphics[width=\textwidth]{../gfx/bd_dist.pdf}
+                  \end{column}
+                  \begin{column}{.45\textwidth}
+                      \vspace{-2em}
+                      \[
+                      \hspace{-4em}
+                      \frac{d}{dt}\pi(x;t)= \sum_{y;y\to x}\pi(y;t)q_{y\to x} - \pi(x;t)q_{x\to y}
+            %\vec{v}_j}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}
+        \]
+                  \end{column}
+              \end{columns}
           \end{block}
     %\item ODE system usually not closed
   %\end{itemize}
@@ -181,12 +220,8 @@
     \item multiply time-weighting: $w(t)=t^k$, $k\in\mathbb{N}$ or $w(t)=\exp(\lambda t)$
     \item analytic integration results in a martingale 
         \begin{equation*}
-            \begin{split}
-            Z_T\coloneqq&\,w(T)f(\vec X_T) - w(0)f(\vec X_{0}) -
-            \int_{0}^T\frac{dw(t)}{dt}f(\vec X_t)\,dt\\
-            &-\sum_{j=1}^{n_R}\int_{0}^Tw(t)
-                 (f(\vec X_t+\vec v_j) - f(\vec X_t))\alpha_j(\vec X_t)\,dt
-         \end{split}
+            Z_T=w(T)f(\vec X_T) - w(0)f(\vec X_{0}) +
+            \sum_ic_i\int_{0}^T w(t)X^{m_i}\,dt
         \end{equation*}
     \item known expectation: $\E{Z_T}=0$, $\forall T\geq 0$
   \end{itemize}
@@ -737,6 +772,26 @@
     \printbibliography
 \end{frame}
 
+\begin{frame}{Moment equation / Martingale}
+          \begin{block}{Moment equation}
+              Moments such as mean $\E{X_t}$ and variance $\E{X_t^2}-\E{X_t}^2$ are described by (often {linear}) ODEs.
+        \begin{equation*}
+            \frac{d}{dt}\E{f({\vec{ X}}_t)} = \sum_{j=1}^{n_R}\E{\left(f({\vec X_t +
+            \vec{v}_j}) - f(\vec X_t)\right)\alpha_j(\vec X_t)}
+        \end{equation*}
+          \end{block}
+          \begin{block}{Martingale process}
+        \begin{equation*}
+            \begin{split}
+            Z_T\coloneqq&\,w(T)f(\vec X_T) - w(0)f(\vec X_{0}) -
+            \int_{0}^T\frac{dw(t)}{dt}f(\vec X_t)\,dt\\
+            &-\sum_{j=1}^{n_R}\int_{0}^Tw(t)
+                 (f(\vec X_t+\vec v_j) - f(\vec X_t))\alpha_j(\vec X_t)\,dt
+         \end{split}
+        \end{equation*}
+          \end{block}
+\end{frame}
+
 \begin{frame}{Linear control variates}{Results}
     \begin{columns}
         \begin{column}{.05\paperwidth}\end{column}
@@ -772,7 +827,6 @@
     \item more consistent performance
     \end{itemize}
 \end{frame}
-
 
 \iffalse
 \begin{frame}{Foster-Lyapunov Functions}
