@@ -70,7 +70,7 @@
 \setbeamertemplate{footline}[frame number]
 
 \title{Analysis of Markovian Population Models}
-\subtitle{Dissertation Defense}
+\subtitle{Phd Defense}
 \author{Michael Backenk\"{o}hler}
 \institute{Saarland Informatics Campus}
 \date{September 20, 2022}
@@ -164,7 +164,7 @@
     %\includegraphics[scale=.45]{../gfx/momsandprobs.pdf}
     %\end{figure}
           \begin{block}{Moment-based}
-              Moments such as mean $\E{X_t}$ and variance $\E{X_t^2}-\E{X_t}^2$ given by ODEs.
+              moments such as mean $\E{X_t}$ and variance $\E{X_t^2}-\E{X_t}^2$
               \vspace{1em}
               \begin{columns}
                   \begin{column}{.4\textwidth}
@@ -182,7 +182,7 @@
               \end{columns}
           \end{block}
           \begin{block}{State-based}
-              Approximate state probabilities $\pi(x;t)$
+              approximate state probabilities $\pi(x;t)$
               \vspace{1em}
               \begin{columns}
                   \begin{column}{.4\textwidth}
@@ -204,7 +204,7 @@
 \end{frame}
 % typically closed by MC, but can be forgone if not integration is desired
 
-\section{Moment-based Methods}
+\section{Moment-based methods}
 \begin{frame}
   \vfill
   \centering
@@ -355,7 +355,7 @@
             %\end{column}
             \begin{column}{.6\textwidth}
                 Given a control variate vector $\vec{Z}$, the estimator
-                \[\hat{V} -({\hat\Sigma_{ \vec{Z}}}^{-1}{\hat\Sigma}_{ \vec{Z} V})^{\T}{\hat{\vec{Z}}} \]
+                \[\hat{V} -({\Sigma_{ \vec{Z}}}^{-1}{\Sigma}_{ \vec{Z} V})^{\T}{\hat{\vec{Z}}} \]
                 has lower or equal variance as $\hat{V}$.
             \end{column}
             \begin{column}{.2\textwidth}
